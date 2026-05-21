@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e ' *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(dir \"C:\\\\Users\\\\rizqan\\\\Downloads\\\\Project-ICU\\\\ICUHelper v5\\\\assets\\\\img\\\\cairan\" /b)",
+      "Bash(findstr /i \"ca\")",
+      "Bash(ls \"C:\\\\Users\\\\rizqan\\\\Downloads\\\\Project-ICU\\\\ICUHelper v5\\\\\" && ls \"C:\\\\Users\\\\rizqan\\\\Downloads\\\\Project-ICU\\\\ICUHelper v5\\\\pages\\\\\" | head -40)",
+      "Bash(dir \"C:\\\\Users\\\\rizqan\\\\Downloads\\\\Project-ICU\\\\ICUHelper v5\" /b)",
+      "Bash(Select-String -Path \"C:\\\\Users\\\\rizqan\\\\Downloads\\\\Project-ICU\\\\ICUHelper v5\\\\pages\\\\kalkulator\\\\kalkulator-electro.html\" -Pattern \"na-onset|na-speed|ca-ph|calcMgCorr|Clinical Scenarios|calc-btn\")",
+      "Bash(Select-Object LineNumber, Line)",
+      "Bash(powershell -Command \"Get-Content 'C:\\\\Users\\\\rizqan\\\\Downloads\\\\Project-ICU\\\\ICUHelper v5\\\\assets\\\\css\\\\styles.css' | Select-String -Pattern 'cite-popup|cite-ref|cite-entry|ref-item|ref-num|ref-list|ref-detail|ref-summary|page-ref' -Context 0,0\")",
+      "PowerShell($content = Get-Content \"C:\\\\Users\\\\rizqan\\\\Downloads\\\\Project-ICU\\\\ICUHelper v5\\\\assets\\\\data\\\\drugs.js\" -Raw; $lines = $content -split \"`n\"; $total = $lines.Count; Write-Output \"Total lines: $total\"; $lines[\\($total-30\\)..\\($total-1\\)] | ForEach-Object { $_.TrimEnd\\(\\) })",
+      "PowerShell($file = \"C:\\\\Users\\\\rizqan\\\\Downloads\\\\Project-ICU\\\\ICUHelper v5\\\\assets\\\\data\\\\drugs.js\"; $lines = \\(Get-Content $file\\).Count; Write-Output \"Total lines: $lines\")",
+      "Bash(Get-Content \"C:\\\\Users\\\\rizqan\\\\Downloads\\\\Project-ICU\\\\ICUHelper v5\\\\assets\\\\data\\\\drugs.js\")",
+      "Bash(Select-Object -Last 15)",
+      "Bash(node --check \"C:/Users/rizqan/Downloads/Project-ICU/ICUHelper v5/assets/js/scripts-drugs.js\")",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(powershell -Command ' *)"
+    ]
+  }
+}

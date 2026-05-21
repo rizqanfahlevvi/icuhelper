@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RASS — Sedation Scale — Cheatsheet Ventilator Dewasa</title>
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<style>
+.sko-row{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:7px;border:.5px solid var(--border);margin-bottom:5px;background:var(--bg)}
+.sko-row .sp{flex:1;font-size:12px}.sko-row .sp strong{display:block;font-size:13px;margin-bottom:1px}
+.sko-row .sp small{color:var(--muted);font-size:11px}.sko-row .spts{font-weight:700;font-size:16px;min-width:26px;text-align:right}
+.spts-0{color:var(--green)}.spts-1{color:var(--blue)}.spts-2{color:var(--amber)}.spts-3{color:var(--coral)}.spts-4{color:var(--red)}
+.sko-row.row-skip{opacity:.55;border-style:dashed}
+.big-total{font-size:52px;font-weight:700;line-height:1;margin-bottom:4px}
+.rass-item{display:flex;align-items:flex-start;gap:12px;padding:10px 12px;border-radius:7px;border:.5px solid var(--border);cursor:pointer;transition:all .15s;margin-bottom:5px;background:var(--card)}
+.rass-item:hover{border-color:var(--blue);background:var(--blue-bg)}
+.rass-item.sel-pos{border-color:var(--red)!important;background:var(--red-bg)!important}
+.rass-item.sel-zero{border-color:var(--green)!important;background:var(--green-bg)!important}
+.rass-item.sel-neg{border-color:var(--teal)!important;background:var(--teal-bg)!important}
+.rass-num{font-size:18px;font-weight:700;min-width:34px;text-align:center;padding-top:1px}
+.rass-label{font-weight:600;font-size:13px;margin-bottom:2px}.rass-desc{font-size:12px;color:var(--muted)}
+.cfs-item{display:flex;align-items:flex-start;gap:12px;padding:11px 13px;border-radius:7px;border:.5px solid var(--border);cursor:pointer;transition:all .15s;margin-bottom:5px;background:var(--card)}
+.cfs-item:hover{border-color:var(--blue);background:var(--blue-bg)}.cfs-item.sel-cfs{border-color:var(--blue)!important;background:var(--blue-bg)!important}
+.cfs-num{font-size:20px;font-weight:700;min-width:30px;color:var(--blue);padding-top:1px}
+.cfs-label{font-weight:600;font-size:13px;margin-bottom:2px}.cfs-desc{font-size:12px;color:var(--muted)}
+.cam-feature{background:var(--card);border:.5px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px}
+.cam-flabel{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);margin-bottom:5px}
+.cam-fq{font-size:13px;font-weight:600;margin-bottom:8px;line-height:1.5}
+.cam-fdetail{font-size:12px;color:var(--muted);margin-bottom:10px;line-height:1.6;padding:8px 10px;background:var(--bg);border-radius:6px;border:.5px solid var(--border)}
+.yn-row{display:flex;gap:8px;flex-wrap:wrap}
+.yn-btn{padding:6px 16px;border-radius:5px;border:.5px solid var(--border2);background:var(--bg);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s;color:var(--muted)}
+.yn-btn.y-active{background:var(--green-bg)!important;border-color:var(--green)!important;color:var(--green)!important}
+.yn-btn.n-active{background:var(--red-bg)!important;border-color:var(--red)!important;color:var(--red)!important}
+.ap-sec{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);border-bottom:.5px solid var(--blue-bg);padding-bottom:6px;margin:14px 0 10px}
+.opt-tag{font-size:10px;background:var(--amber-bg);color:var(--amber);border-radius:3px;padding:1px 5px;margin-left:4px;vertical-align:middle}
+</style>
+<script>
+/* Anti-FOUC: apply saved theme before paint */
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn" href="../kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="../ekg.html">📈 EKG</a>
+  <a class="tab-btn" href="../teori.html">📖 Teori</a>
+  <a class="tab-btn active" href="skoring-sofa.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+
+<nav class="subtab-bar">
+  <a class="subtab-btn" href="skoring-sofa.html">🔴 SOFA</a>
+  <a class="subtab-btn" href="skoring-bfs.html">🧓 BFS/CFS</a>
+  <a class="subtab-btn" href="skoring-cpis.html">🫁 CPIS</a>
+  <a class="subtab-btn active" href="skoring-rass.html">😴 RASS</a>
+  <a class="subtab-btn" href="skoring-camicu.html">🧠 CAM-ICU</a>
+  <a class="subtab-btn" href="skoring-apache.html">⚕️ APACHE-II</a>
+  <a class="subtab-btn" href="skoring-candida.html">🍄 Candida</a>
+</nav>
+
+<div class="calc-box">
+    <div class="calc-title"><span>😴</span> RASS — Richmond Agitation-Sedation Scale</div>
+    <div class="info" style="font-size:12px;margin-bottom:14px">
+      <strong>📌 Cara Penilaian 3 Langkah:</strong>
+      <strong>①</strong> Observasi 30 detik → alert/gelisah → skor +1 s/d +4 |
+      <strong>②</strong> Panggil nama: kontak mata &gt;10 detik = -1; &lt;10 detik = -2; gerakan tanpa kontak = -3 |
+      <strong>③</strong> Stimulasi fisik: gerakan = -4; tidak ada respons = -5
+    </div>
+    <div id="rass-scale">
+      <div class="rass-item" onclick="selectRASS(4,this)"><div class="rass-num" style="color:var(--red)">+4</div><div><div class="rass-label">Combative — Agresif</div><div class="rass-desc">Agresif/kekerasan, bahaya langsung terhadap staf. Dapat mencabut infus, ETT.</div></div></div>
+      <div class="rass-item" onclick="selectRASS(3,this)"><div class="rass-num" style="color:var(--red)">+3</div><div><div class="rass-label">Very Agitated — Sangat Gelisah</div><div class="rass-desc">Menarik/mencabut tube/kateter; agresif terhadap staf.</div></div></div>
+      <div class="rass-item" onclick="selectRASS(2,this)"><div class="rass-num" style="color:var(--coral)">+2</div><div><div class="rass-label">Agitated — Gelisah</div><div class="rass-desc">Gerakan yang sering dan tidak bertujuan; melawan/fighting ventilator.</div></div></div>
+      <div class="rass-item" onclick="selectRASS(1,this)"><div class="rass-num" style="color:var(--amber)">+1</div><div><div class="rass-label">Restless — Tidak Tenang</div><div class="rass-desc">Cemas, apprehensif, namun gerakan tidak agresif atau kuat.</div></div></div>
+      <div class="rass-item" onclick="selectRASS(0,this)"><div class="rass-num" style="color:var(--green)">0</div><div><div class="rass-label">Alert and Calm ✓ TARGET</div><div class="rass-desc">Sadar dan tenang — TARGET SEDASI IDEAL (PADIS 2018 / eCASH).</div></div></div>
+      <div class="rass-item" onclick="selectRASS(-1,this)"><div class="rass-num" style="color:var(--teal)">-1</div><div><div class="rass-label">Drowsy — Mengantuk</div><div class="rass-desc">Tidak sepenuhnya alert; kontak mata bertahan &gt;10 detik saat dipanggil.</div></div></div>
+      <div class="rass-item" onclick="selectRASS(-2,this)"><div class="rass-num" style="color:var(--teal)">-2</div><div><div class="rass-label">Light Sedation — Sedasi Ringan</div><div class="rass-desc">Kontak mata singkat (&lt;10 detik) saat dipanggil namanya. Masih dapat dibangunkan.</div></div></div>
+      <div class="rass-item" onclick="selectRASS(-3,this)"><div class="rass-num" style="color:var(--blue)">-3</div><div><div class="rass-label">Moderate Sedation — Sedasi Sedang</div><div class="rass-desc">Ada gerakan atau buka mata saat dipanggil — tetapi tidak ada kontak mata bermakna.</div></div></div>
+      <div class="rass-item" onclick="selectRASS(-4,this)"><div class="rass-num" style="color:var(--purple)">-4</div><div><div class="rass-label">Deep Sedation — Sedasi Dalam</div><div class="rass-desc">Tidak respons suara; gerakan/buka mata ada dengan stimulasi fisik. CAM-ICU: UTA.</div></div></div>
+      <div class="rass-item" onclick="selectRASS(-5,this)"><div class="rass-num" style="color:var(--gray)">-5</div><div><div class="rass-label">Unarousable — Tidak Dapat Dibangunkan</div><div class="rass-desc">Tidak ada respons terhadap suara maupun stimulasi fisik. CAM-ICU: UTA.</div></div></div>
+    </div>
+    <div id="rass-result" class="hidden" style="margin-top:14px"><div id="rass-result-content"></div></div>
+  </div>
+  <div class="theory-dropdown">
+    <button class="theory-btn" onclick="toggleTheory('rass-t')">📖 Teori RASS & Target Sedasi ICU — PADIS Guidelines 2018 <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-rass-t">
+      <div class="subsec">Tentang RASS</div>
+      <p style="font-size:12px;margin-bottom:8px">RASS dikembangkan Sessler et al. (2002) sebagai alat penilaian tingkat sedasi di ICU. Validitas dan reliabilitas tinggi (κ=0.91 antar penilai). Diadopsi dalam panduan internasional SCCM PADIS 2018 sebagai skala sedasi utama.</p>
+      <div class="subsec">Target RASS Berdasarkan Kondisi Klinis</div>
+      <div class="table-wrapper">
+      <table>
+        <tr><th>Target RASS</th><th>Kondisi</th><th>Catatan</th></tr>
+        <tr><td>0 s/d -1</td><td>Standar ICU (eCASH / PADIS 2018)</td><td>Hindari sedasi berlebihan; SAT harian</td></tr>
+        <tr><td>-2 s/d -3</td><td>ARDS berat fase akut, prosedur nyeri</td><td>Re-evaluasi tiap 24 jam; targetkan pelonggaran</td></tr>
+        <tr><td>-4 s/d -5</td><td>HICP, status epileptikus, NMB</td><td>Monitor EEG/BIS; CAM-ICU tidak dapat dinilai</td></tr>
+      </table>
+      </div>
+      <div class="subsec">Prinsip eCASH (Vincent JL et al. Crit Care 2016)</div>
+      <ul>
+        <li><strong>e</strong>arly Comfort using <strong>A</strong>nalgesia, minimal <strong>S</strong>edatives, maximal <strong>H</strong>umane care</li>
+        <li>Analgesia first — CPOT/NRS sebelum pemberian sedatif</li>
+        <li>Hindari benzodiazepin rutin → gunakan Propofol atau Dexmedetomidine</li>
+        <li>SAT (Spontaneous Awakening Trial) harian + SBT = ABC Protocol</li>
+        <li>Dexmedetomidine: sedasi tanpa depresi napas → mobilisasi lebih awal, kurangi delirium</li>
+      </ul>
+      <sup class="cite-ref" data-refs="sessler2002,ely2003,devlin2018,vincent2016ecash,girard2008"></sup>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 5. CAM-ICU ====== -->
+
+<script src="../../assets/js/scripts-skoring.js"></script>
+<script src="../../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../../assets/js/feedback.js"></script>
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+  <script src="../../assets/data/references.js"></script>
+  <script src="../../assets/js/scripts-citations.js"></script>
+</body>
+</html>

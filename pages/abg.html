@@ -1,0 +1,495 @@
+﻿<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABG Interpreter — Cheatsheet Ventilator Dewasa</title>
+<link rel="stylesheet" href="../assets/css/styles.css">
+<script>
+/* Anti-FOUC: apply saved theme before paint */
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../index.html">🏠 Home</a>
+  <a class="tab-btn" href="kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn active" href="abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="ekg.html">📈 EKG</a>
+  <a class="tab-btn" href="teori.html">📖 Teori</a>
+  <a class="tab-btn" href="skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../referensi.html">📚 Referensi</a>
+</nav>
+
+<div class="calc-box">
+  <div class="calc-title"><span>🩸</span> ABG Interpreter Lengkap — 6 Langkah + Metabolik + Oksigenasi</div>
+  <div class="info" style="margin-bottom:12px">Masukkan seluruh parameter untuk interpretasi sistematis: asam-basa, kompensasi, anion gap, delta-delta, P/F ratio, OI, ROX index, klasifikasi gagal napas, dan saran klinis.</div>
+
+  <div class="grid2" style="gap:10px;margin-bottom:12px">
+    <div>
+      <div class="subsec">Parameter Dasar</div>
+      <div class="input-row"><label>pH</label><input type="number" id="abgPH" step="0.01" min="6.5" max="8.0" placeholder="7.35–7.45"></div>
+      <div class="input-row"><label>PaCO₂</label><div class="input-unit-wrap"><input type="number" id="abgCO2" step="1" min="10" max="150" placeholder="35–45"><button class="unit-toggle-btn" data-unit="paco2" onclick="toggleUnit('paco2')">mmHg</button></div></div>
+      <div class="input-row"><label>PaO₂ (mmHg)</label><input type="number" id="abgO2" step="1" min="10" max="600" placeholder="80–100"></div>
+      <div class="input-row"><label>HCO₃⁻</label><div class="input-unit-wrap"><input type="number" id="abgHCO3" step="0.1" min="5" max="60" placeholder="22–26"><button class="unit-toggle-btn" data-unit="hco3" onclick="toggleUnit('hco3')">mmol/L</button></div></div>
+      <div class="input-row"><label>BE (mEq/L)</label><input type="number" id="abgBE" step="0.1" min="-30" max="30" placeholder="-2 s/d +2"></div>
+    </div>
+    <div>
+      <div class="subsec">Parameter Oksigenasi & Elektrolit</div>
+      <div class="input-row">
+        <label>SpO₂ / SaO₂ (%)</label>
+        <div style="flex:1">
+          <div class="fio2-mode-bar">
+            <button class="fio2-mode-btn active" id="spo2BtnPulse" onclick="setSpo2Source('pulse')">💡 SpO₂ (Pulse Ox)</button>
+            <button class="fio2-mode-btn" id="spo2BtnABG" onclick="setSpo2Source('abg')">🔬 SaO₂ (ABG)</button>
+          </div>
+          <div class="spo2-source-note" id="spo2SourceNote">Pulse ox ±2–4% dari SaO₂; dipengaruhi perfusi perifer, methHb, COHb. Tidak akurat pada: peripheral vasoconstriction, methemoglobin, COHb tinggi, nail polish gelap (Jubran A, Crit Care 2015)</div>
+          <input type="number" id="abgSpO2" step="1" min="50" max="100" placeholder="94–99">
+        </div>
+      </div>
+      <div class="input-row">
+        <label>FiO₂</label>
+        <div style="flex:1">
+          <div class="fio2-mode-bar">
+            <button class="fio2-mode-btn active" id="fio2BtnDirect" onclick="setFiO2Mode('direct')">🔢 Direct Input</button>
+            <button class="fio2-mode-btn" id="fio2BtnLowflow" onclick="setFiO2Mode('lowflow')">💨 Low-Flow O₂</button>
+          </div>
+          <div id="fio2DirectWrap">
+            <input type="number" id="abgFiO2Direct" step="0.01" min="0.21" max="1.0" placeholder="0.21–1.0" oninput="syncFiO2Direct()">
+          </div>
+          <div id="fio2LowflowWrap" style="display:none">
+            <select id="abgO2Device" onchange="estimateFiO2()" class="abg-lowflow-input">
+              <option value="nasal">Nasal Cannula</option>
+              <option value="simple">Simple Mask</option>
+              <option value="nrm">Non-Rebreathing Mask</option>
+              <option value="venturi24">Venturi 24%</option>
+              <option value="venturi28">Venturi 28%</option>
+              <option value="venturi31">Venturi 31%</option>
+              <option value="venturi35">Venturi 35%</option>
+              <option value="venturi40">Venturi 40%</option>
+              <option value="venturi60">Venturi 60%</option>
+            </select>
+            <input type="number" id="abgO2Flow" placeholder="Flow (L/menit)" min="1" max="15" step="0.5" oninput="estimateFiO2()" class="abg-lowflow-input">
+            <div id="abgFiO2Est" class="abg-fio2-est"></div>
+          </div>
+          <input type="hidden" id="abgFiO2">
+        </div>
+      </div>
+      <div class="input-row"><label>MAP ventilator (cmH₂O)</label><input type="number" id="abgMAP" step="0.1" min="0" max="50" placeholder="opsional"></div>
+      <div class="input-row"><label>Na⁺</label><div class="input-unit-wrap"><input type="number" id="abgNa" step="1" min="100" max="180" placeholder="135–145"><button class="unit-toggle-btn" data-unit="na" onclick="toggleUnit('na')">mmol/L</button></div></div>
+      <div class="input-row"><label>Cl⁻</label><div class="input-unit-wrap"><input type="number" id="abgCl" step="1" min="70" max="130" placeholder="96–106"><button class="unit-toggle-btn" data-unit="cl" onclick="toggleUnit('cl')">mmol/L</button></div></div>
+      <div class="input-row"><label>Albumin</label><div class="input-unit-wrap"><input type="number" id="abgAlb" step="0.1" min="0" max="6" placeholder="3.5–5 (opsional)"><button class="unit-toggle-btn" data-unit="alb" onclick="toggleUnit('alb')">g/dL</button></div></div>
+      <div class="input-row"><label>Laktat (mmol/L)</label><input type="number" id="abgLaktat" step="0.1" min="0" max="30" placeholder="&lt;2 normal (opsional)"></div>
+      <div class="input-row"><label>RR spontan (/mnt)</label><input type="number" id="abgRR" step="1" min="0" max="60" placeholder="untuk ROX index"></div>
+      <div class="input-row"><label>Kondisi klinis</label>
+        <select id="abgKondisi">
+          <option value="umum">Umum / ICU</option>
+          <option value="ards">ARDS</option>
+          <option value="copd">PPOK</option>
+          <option value="asthma">Asma</option>
+          <option value="sepsis">Sepsis</option>
+          <option value="cardiac">Edema Paru Kardiogenik</option>
+          <option value="postop">Post-Operasi</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <button class="calc-btn" onclick="calcABG()">Interpretasi ABG</button>
+  <button class="calc-btn-sec" onclick="resetABG()">Reset</button>
+
+  <div id="abg-results" class="hidden" style="margin-top:16px">
+    <div id="abg-result-content"></div>
+  </div>
+</div>
+
+<!-- KALKULATOR KOREKSI ASAM-BASA -->
+<div class="calc-box" style="margin-top:12px">
+  <div class="calc-title"><span>🧮</span> Kalkulator Koreksi Asam-Basa</div>
+  <div class="calc-sub">Hitung dosis koreksi, formula kompensasi, dan analisis anion gap — mandiri atau import dari ABG Interpreter di atas.</div>
+
+  <div class="acbc-tab-bar">
+    <button class="acbc-tab active" id="acbc-t1" onclick="switchACBC(1)">💊 NaHCO₃<br><span style="font-weight:400;font-size:10px">Asidosis Met.</span></button>
+    <button class="acbc-tab" id="acbc-t2" onclick="switchACBC(2)">⚗️ KCl / HCl<br><span style="font-weight:400;font-size:10px">Alkalosis Met.</span></button>
+    <button class="acbc-tab" id="acbc-t3" onclick="switchACBC(3)">📐 Kompensasi<br><span style="font-weight:400;font-size:10px">6 Formula</span></button>
+    <button class="acbc-tab" id="acbc-t4" onclick="switchACBC(4)">🔬 AG + Δ/Δ<br><span style="font-weight:400;font-size:10px">Anion Gap</span></button>
+  </div>
+
+  <!-- Panel 1: NaHCO3 -->
+  <div class="acbc-panel active" id="acbc-p1">
+    <button class="acbc-import-btn" onclick="importFromABG(1)">⬇ Import dari ABG Interpreter — HCO₃⁻ aktual</button>
+    <div class="input-row"><label>Berat Badan Ideal (kg)</label><input type="number" id="acbc1-bb" placeholder="e.g. 60" min="1" max="200" step="0.1" oninput="calcBicarb()"></div>
+    <div class="input-row"><label>HCO₃⁻ Aktual (mEq/L)</label><input type="number" id="acbc1-hco3act" placeholder="e.g. 10" min="1" max="50" step="0.1" oninput="calcBicarb()"></div>
+    <div class="input-row"><label>Target HCO₃⁻ (mEq/L)</label><input type="number" id="acbc1-hco3tgt" placeholder="e.g. 18" min="1" max="30" step="0.1" value="18" oninput="calcBicarb()"></div>
+    <div class="input-row"><label>Jenis Asidosis</label>
+      <select id="acbc1-type" onchange="calcBicarb()">
+        <option value="met">Asidosis Metabolik</option>
+        <option value="dka">DKA (target HCO₃ 15)</option>
+        <option value="card">Cardiac Arrest (bolus)</option>
+      </select>
+    </div>
+    <div id="acbc1-result"></div>
+  </div>
+
+  <!-- Panel 2: KCl / HCl -->
+  <div class="acbc-panel" id="acbc-p2">
+    <button class="acbc-import-btn" onclick="importFromABG(2)">⬇ Import dari ABG Interpreter — HCO₃⁻, Cl⁻</button>
+    <div class="input-row"><label>Berat Badan (kg)</label><input type="number" id="acbc2-bb" placeholder="e.g. 60" min="1" max="200" step="0.1" oninput="calcAlk()"></div>
+    <div class="input-row"><label>HCO₃⁻ Aktual (mEq/L)</label><input type="number" id="acbc2-hco3" placeholder="e.g. 38" min="10" max="60" step="0.1" oninput="calcAlk()"></div>
+    <div class="input-row"><label>Kalium K⁺ Serum (mEq/L)</label><input type="number" id="acbc2-k" placeholder="e.g. 2.8" min="1" max="8" step="0.1" oninput="calcAlk()"></div>
+    <div class="input-row"><label>Klorida Cl⁻ Serum (mEq/L)</label><input type="number" id="acbc2-cl" placeholder="e.g. 88" min="50" max="130" step="0.1" oninput="calcAlk()"></div>
+    <div id="acbc2-result"></div>
+  </div>
+
+  <!-- Panel 3: Kompensasi -->
+  <div class="acbc-panel" id="acbc-p3">
+    <button class="acbc-import-btn" onclick="importFromABG(3)">⬇ Import dari ABG Interpreter — pH, PaCO₂, HCO₃⁻</button>
+    <div class="input-row"><label>pH</label><input type="number" id="acbc3-ph" placeholder="e.g. 7.28" step="0.001" oninput="calcKompensasi()"></div>
+    <div class="input-row"><label>PaCO₂ (mmHg)</label><input type="number" id="acbc3-pco2" placeholder="e.g. 28" step="0.1" oninput="calcKompensasi()"></div>
+    <div class="input-row"><label>HCO₃⁻ Aktual (mEq/L)</label><input type="number" id="acbc3-hco3" placeholder="e.g. 14" step="0.1" oninput="calcKompensasi()"></div>
+    <div class="input-row"><label>Gangguan Primer</label>
+      <select id="acbc3-disorder" onchange="updateKompLabel(); calcKompensasi()">
+        <option value="">— pilih —</option>
+        <option value="am">Asidosis Metabolik</option>
+        <option value="alm">Alkalosis Metabolik</option>
+        <option value="ar">Asidosis Respiratorik Akut</option>
+        <option value="arc">Asidosis Respiratorik Kronik</option>
+        <option value="alr">Alkalosis Respiratorik Akut</option>
+        <option value="alrc">Alkalosis Respiratorik Kronik</option>
+      </select>
+    </div>
+    <div id="acbc3-result"></div>
+  </div>
+
+  <!-- Panel 4: Anion Gap + Delta-Delta -->
+  <div class="acbc-panel" id="acbc-p4">
+    <button class="acbc-import-btn" onclick="importFromABG(4)">⬇ Import dari ABG Interpreter — Na⁺, Cl⁻, HCO₃⁻, Albumin</button>
+    <div class="input-row"><label>Na⁺ (mEq/L)</label><input type="number" id="acbc4-na" placeholder="e.g. 140" step="0.1" oninput="calcAGStandalone()"></div>
+    <div class="input-row"><label>Cl⁻ (mEq/L)</label><input type="number" id="acbc4-cl" placeholder="e.g. 104" step="0.1" oninput="calcAGStandalone()"></div>
+    <div class="input-row"><label>HCO₃⁻ (mEq/L)</label><input type="number" id="acbc4-hco3" placeholder="e.g. 24" step="0.1" oninput="calcAGStandalone()"></div>
+    <div class="input-row"><label>Albumin (g/dL)</label><input type="number" id="acbc4-alb" placeholder="e.g. 4.0" step="0.1" value="4.0" oninput="calcAGStandalone()"></div>
+    <div id="acbc4-result"></div>
+  </div>
+</div>
+
+<!-- DROPDOWN TEORI ABG -->
+<div class="sec">Teori & Referensi ABG</div>
+
+<div class="theory-dropdown">
+  <button class="theory-btn" onclick="toggleTheory('abg-normal')">📖 Nilai Normal ABG Dewasa & Fisiologi Henderson-Hasselbalch <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-abg-normal">
+    <div class="subsec">Nilai Normal ABG Dewasa</div>
+    <table>
+      <tr><th>Parameter</th><th>Nilai Normal</th><th>Satuan</th></tr>
+      <tr><td>pH</td><td>7.35–7.45</td><td>—</td></tr>
+      <tr><td>PaCO₂</td><td>35–45</td><td>mmHg</td></tr>
+      <tr><td>PaO₂</td><td>80–100</td><td>mmHg (menurun dengan usia)</td></tr>
+      <tr><td>HCO₃⁻</td><td>22–26</td><td>mEq/L</td></tr>
+      <tr><td>BE (Base Excess)</td><td>-2 s/d +2</td><td>mEq/L</td></tr>
+      <tr><td>SpO₂</td><td>95–100%</td><td>—</td></tr>
+      <tr><td>SaO₂</td><td>95–100%</td><td>—</td></tr>
+      <tr><td>Laktat</td><td>&lt;2.0</td><td>mmol/L</td></tr>
+      <tr><td>Anion Gap</td><td>8–12 (corrected 10–14)</td><td>mEq/L</td></tr>
+    </table>
+    <div class="subsec">Persamaan Henderson-Hasselbalch</div>
+    <p>pH = 6.1 + log([HCO₃⁻] / (0.0307 × PaCO₂))</p>
+    <p style="margin-top:6px">Sistem buffer bikarbonat adalah buffer ekstraseluler utama. CO₂ larut dalam darah sebagai H₂CO₃ (asam karbonat) yang dikontrol oleh paru, sedangkan HCO₃⁻ dikontrol oleh ginjal.</p>
+    <ul style="margin-top:6px">
+      <li><strong>Paru:</strong> Regulasi cepat (menit) — hiperventilasi turunkan PaCO₂ → ↑ pH</li>
+      <li><strong>Ginjal:</strong> Regulasi lambat (jam-hari) — retensi/ekskresi HCO₃⁻</li>
+      <li><strong>BE (Base Excess):</strong> Jumlah asam/basa (mEq/L) yang dibutuhkan untuk mengembalikan pH ke 7.4 pada kondisi standar. Mencerminkan komponen metabolik murni.</li>
+    </ul>
+    <span class="ref-tag">📚 Henderson LJ. Am J Physiol 1908 · Hasselbalch KA. Biochem Z 1916 · Severinghaus JW. J Appl Physiol 1966 · Siggaard-Andersen O. Scand J Clin Lab Invest 1963</span>
+  </div>
+</div>
+
+<div class="theory-dropdown" style="margin-top:6px">
+  <button class="theory-btn" onclick="toggleTheory('abg-kompensasi')">📖 Kompensasi Respiratorik & Metabolik — Formula Lengkap <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-abg-kompensasi">
+    <table>
+      <tr><th>Gangguan Primer</th><th>Formula Kompensasi</th><th>Batas Kompensasi</th></tr>
+      <tr><td>Asidosis Respiratorik Akut</td><td>ΔHCO₃⁻ = 0.1 × ΔPaCO₂ (±2)</td><td>HCO₃⁻ max ~30</td></tr>
+      <tr><td>Asidosis Respiratorik Kronik (≥3–5 hari)</td><td>ΔHCO₃⁻ = 0.35 × ΔPaCO₂ (±3)</td><td>HCO₃⁻ max ~45</td></tr>
+      <tr><td>Alkalosis Respiratorik Akut</td><td>ΔHCO₃⁻ = 0.2 × ΔPaCO₂ (±2.5)</td><td>HCO₃⁻ min ~18</td></tr>
+      <tr><td>Alkalosis Respiratorik Kronik</td><td>ΔHCO₃⁻ = 0.5 × ΔPaCO₂ (±2.5)</td><td>HCO₃⁻ min ~12–15</td></tr>
+      <tr><td>Asidosis Metabolik</td><td>Expected PaCO₂ = (1.5 × HCO₃⁻) + 8 ± 2 (Winter's)</td><td>PaCO₂ min ~8–10</td></tr>
+      <tr><td>Alkalosis Metabolik</td><td>Expected PaCO₂ = (0.7 × HCO₃⁻) + 21 ± 2</td><td>PaCO₂ max ~55–60</td></tr>
+    </table>
+    <ul style="margin-top:8px">
+      <li><strong>Interpretasi kompensasi:</strong> Jika actual berbeda dari expected → mixed disorder. Contoh: asidosis metabolik dengan PaCO₂ actual lebih tinggi dari expected Winter's → concurrent respiratory acidosis.</li>
+      <li><strong>Kompensasi tidak pernah melampaui normal:</strong> pH tidak kembali normal kecuali ada mixed disorder. Jika pH normal dengan HCO₃⁻ dan PaCO₂ abnormal → kemungkinan mixed disorder saling mengkompensasi.</li>
+      <li><strong>Akut vs Kronik:</strong> PPOK kronik dengan retensi CO₂ sudah terkompensasi (HCO₃⁻ tinggi, pH relatif normal). Jangan agresif normalisasi PaCO₂ — risiko alkalosis metabolik berat post-ventilasi.</li>
+    </ul>
+    <sup class="cite-ref" data-refs="winter1967,narins1980,feldman2015"></sup>
+  </div>
+</div>
+
+<div class="theory-dropdown" style="margin-top:6px">
+  <button class="theory-btn" onclick="toggleTheory('abg-ag')">📖 Anion Gap, Koreksi Albumin & Delta-Delta Ratio <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-abg-ag">
+    <div class="subsec">Anion Gap (AG)</div>
+    <p><strong>AG = Na⁺ − (Cl⁻ + HCO₃⁻)</strong> · Normal: 8–12 mEq/L (beberapa lab: 6–14)</p>
+    <p style="margin-top:6px"><strong>Koreksi Albumin:</strong> AG terkoreksi = AG + 2.5 × (4.0 − albumin g/dL). Hipoalbuminemia menyembunyikan AG tinggi — selalu koreksi pada pasien ICU kritis.</p>
+    <div class="subsec">Penyebab HAGMA (High AG Metabolic Acidosis) — MUDPILES</div>
+    <table>
+      <tr><th>M</th><td>Methanol poisoning</td></tr>
+      <tr><th>U</th><td>Uremia (gagal ginjal)</td></tr>
+      <tr><th>D</th><td>Diabetic ketoacidosis (DKA)</td></tr>
+      <tr><th>P</th><td>Propylene glycol, Paraldehyde</td></tr>
+      <tr><th>I</th><td>Isoniazid, Iron, Inborn errors of metabolism</td></tr>
+      <tr><th>L</th><td>Lactic acidosis (tipe A & B)</td></tr>
+      <tr><th>E</th><td>Ethylene glycol poisoning</td></tr>
+      <tr><th>S</th><td>Salicylate poisoning</td></tr>
+    </table>
+    <div class="subsec">Penyebab NAGMA (Normal AG Metabolic Acidosis) — HARDUPS</div>
+    <table>
+      <tr><th>H</th><td>Hyperalimentation (TPN)</td></tr>
+      <tr><th>A</th><td>Addison's disease / adrenal insufficiency</td></tr>
+      <tr><th>R</th><td>Renal tubular acidosis (tipe 1, 2, 4)</td></tr>
+      <tr><th>D</th><td>Diarrhea (kehilangan HCO₃⁻)</td></tr>
+      <tr><th>U</th><td>Ureterosigmoidostomy / fistula enterik</td></tr>
+      <tr><th>P</th><td>Pancreatic fistula</td></tr>
+      <tr><th>S</th><td>Saline (NaCl) berlebihan / dilutional acidosis</td></tr>
+    </table>
+    <div class="subsec">Delta-Delta Ratio (Δ-Δ)</div>
+    <p><strong>Δ-Δ = (AG − 12) / (24 − HCO₃⁻)</strong></p>
+    <table>
+      <tr><th>Nilai Δ-Δ</th><th>Interpretasi</th></tr>
+      <tr><td>&lt;0.4</td><td>Pure NAGMA (atau HAGMA minor + NAGMA dominan)</td></tr>
+      <tr><td>0.4–1.0</td><td>Mixed HAGMA + NAGMA concurrent</td></tr>
+      <tr><td>1.0–2.0</td><td>Pure HAGMA (AG tinggi, HCO₃⁻ turun proporsional)</td></tr>
+      <tr><td>&gt;2.0</td><td>HAGMA + Alkalosis metabolik concurrent (HCO₃⁻ lebih tinggi dari yang diharapkan)</td></tr>
+    </table>
+    <sup class="cite-ref" data-refs="gabow1980,kraut2007,narins1980"></sup>
+  </div>
+</div>
+
+<div class="theory-dropdown" style="margin-top:6px">
+  <button class="theory-btn" onclick="toggleTheory('abg-oksigenasi')">📖 P/F Ratio, A-a Gradient, OI & ROX Index <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-abg-oksigenasi">
+    <div class="subsec">P/F Ratio (PaO₂/FiO₂)</div>
+    <table>
+      <tr><th>P/F Ratio</th><th>Klasifikasi</th><th>Keterangan</th></tr>
+      <tr><td>≥400</td><td>Normal</td><td>Oksigenasi adekuat</td></tr>
+      <tr><td>300–400</td><td>Hipoksemia ringan</td><td>Waspada</td></tr>
+      <tr><td>200–300</td><td>ARDS Mild (Berlin)</td><td>PEEP ≥5 cmH₂O</td></tr>
+      <tr><td>100–200</td><td>ARDS Moderate</td><td>Lung-protective wajib</td></tr>
+      <tr><td>&lt;100</td><td>ARDS Severe</td><td>Prone, ECMO pertimbangkan</td></tr>
+    </table>
+    <div class="subsec">A-a Gradient (Alveolar-arterial O₂ Difference)</div>
+    <p><strong>PAO₂ = FiO₂ × (Patm − PH₂O) − PaCO₂/RQ</strong><br>
+    Pada udara ruang (FiO₂=0.21, Patm=760, PH₂O=47): PAO₂ = 150 − PaCO₂/0.8<br>
+    <strong>A-a gradient = PAO₂ − PaO₂</strong> · Normal: (Usia/4 + 4) atau ≤10 mmHg (muda), ≤(Usia+10)/4</p>
+    <table style="margin-top:6px">
+      <tr><th>A-a Gradient</th><th>PaCO₂</th><th>Interpretasi</th></tr>
+      <tr><td>Normal</td><td>Normal</td><td>Tidak ada gangguan pertukaran gas</td></tr>
+      <tr><td>Normal</td><td>Tinggi (↑PaCO₂)</td><td>Hipoventilasi murni (drive napas ↓, NMD)</td></tr>
+      <tr><td>Meningkat</td><td>Normal/Rendah</td><td>V/Q mismatch, shunt (pneumonia, ARDS, edema)</td></tr>
+      <tr><td>Meningkat</td><td>Tinggi</td><td>V/Q mismatch berat + hipoventilasi (PPOK berat)</td></tr>
+    </table>
+    <div class="subsec">Oxygenation Index (OI)</div>
+    <p><strong>OI = (MAP × FiO₂ × 100) / PaO₂</strong></p>
+    <table style="margin-top:4px">
+      <tr><th>OI</th><th>Derajat</th><th>Pertimbangan</th></tr>
+      <tr><td>&lt;5</td><td>Ringan</td><td>—</td></tr>
+      <tr><td>5–25</td><td>Moderate</td><td>Optimasi ventilator</td></tr>
+      <tr><td>25–40</td><td>Berat</td><td>Prone, iNO, recruitment</td></tr>
+      <tr><td>&gt;40</td><td>Sangat berat</td><td>Pertimbangkan ECMO (konsultasi)</td></tr>
+    </table>
+    <div class="subsec">ROX Index (untuk HFNC)</div>
+    <p><strong>ROX = (SpO₂/FiO₂) / RR spontan</strong></p>
+    <table style="margin-top:4px">
+      <tr><th>ROX</th><th>Interpretasi</th><th>Aksi</th></tr>
+      <tr><td>≥4.88</td><td>HFNC sukses (risiko rendah gagal)</td><td>Lanjutkan HFNC</td></tr>
+      <tr><td>3.85–4.88</td><td>Borderline</td><td>Evaluasi ketat tiap 2–6 jam</td></tr>
+      <tr><td>&lt;3.85</td><td>Risiko HFNC gagal tinggi</td><td>Pertimbangkan intubasi segera</td></tr>
+    </table>
+    <sup class="cite-ref" data-refs="ardsnet2000,berlin2012,roca2016"></sup>
+  </div>
+</div>
+
+<div class="theory-dropdown" style="margin-top:6px">
+  <button class="theory-btn" onclick="toggleTheory('abg-laktat')">📖 Laktat, Strong Ion Difference & Alpha-stat vs pH-stat <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-abg-laktat">
+    <div class="subsec">Laktat Tipe A vs Tipe B</div>
+    <table>
+      <tr><th>Tipe</th><th>Mekanisme</th><th>Contoh Klinis</th></tr>
+      <tr><td>Tipe A (Hipoksia)</td><td>DO₂ &lt; VO₂ → glikolisis anaerob → laktat ↑</td><td>Syok septik, kardiogenik, hipovolemik; cardiac arrest</td></tr>
+      <tr><td>Tipe B (Non-hipoksia)</td><td>Metabolisme abnormal tanpa defisit O₂</td><td>DKA, gagal hati berat, metformin toksisitas, keganasan, thiamine def</td></tr>
+    </table>
+    <ul style="margin-top:6px">
+      <li><strong>Laktat &gt;2 mmol/L:</strong> Hiperlaktatemia — waspada</li>
+      <li><strong>Laktat &gt;4 mmol/L:</strong> Laktat asidosis — mortalitas meningkat signifikan</li>
+      <li><strong>Laktat clearing:</strong> Target penurunan ≥10% per 2 jam (SSC 2021). Laktat normalisasi &lt;6 jam → prognosis lebih baik.</li>
+      <li><strong>Thiamine deficiency:</strong> Pertimbangkan pada alkoholism, malnutrisi — laktat tinggi refrakter tidak respons resusitasi.</li>
+    </ul>
+    <div class="subsec">Alpha-stat vs pH-stat (Konteks Hipotermia / Bypass)</div>
+    <table>
+      <tr><th>Metode</th><th>Prinsip</th><th>Digunakan Pada</th></tr>
+      <tr><td>Alpha-stat</td><td>Nilai ABG diukur pada 37°C. pH dipertahankan 7.40 pada 37°C (terlepas suhu aktual pasien)</td><td>CABG standar, hipotermia moderat</td></tr>
+      <tr><td>pH-stat</td><td>Nilai ABG dikoreksi ke suhu aktual pasien. pH dipertahankan 7.40 pada suhu pasien (tambah CO₂)</td><td>Neonatus cardiac surgery, hipotermia dalam DHCA</td></tr>
+    </table>
+    <sup class="cite-ref" data-refs="kellum2000,evans2021"></sup>
+  </div>
+</div>
+
+<!-- DROPDOWN 6: Patofisiologi & Penyebab Lengkap -->
+<div class="theory-dropdown" style="margin-top:6px">
+  <button class="theory-btn" onclick="toggleTheory('abg-patofis')">📖 Gangguan Asam-Basa — Patofisiologi &amp; Penyebab Lengkap <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-abg-patofis">
+    <div class="subsec">Asidosis Respiratorik</div>
+    <p><strong>Mekanisme:</strong> Retensi CO₂ akibat hipoventilasi alveolar → H₂CO₃ ↑ → pH ↓</p>
+    <table>
+      <tr><th>Kategori</th><th>Penyebab</th></tr>
+      <tr><td>Depresi sentral</td><td>Opioid, benzo, stroke batang otak, ensefalitis</td></tr>
+      <tr><td>Penyakit neuromuskular (NMD)</td><td>GBS, miastenia gravis, ALS, SCI servikal</td></tr>
+      <tr><td>Obstruksi jalan napas</td><td>PPOK eksaserbasi, asma berat, obstruksi atas</td></tr>
+      <tr><td>Dinding dada</td><td>Obesity hypoventilation, kifoskoliosis, flail chest</td></tr>
+      <tr><td>Parenkim paru</td><td>Pneumonia berat, ARDS, pneumothoraks</td></tr>
+    </table>
+    <ul style="margin-top:6px">
+      <li><strong>Akut:</strong> HCO₃⁻ naik ~1 mEq/L per 10 mmHg ↑PaCO₂ (kompensasi ginjal belum aktif)</li>
+      <li><strong>Kronik (≥3–5 hari):</strong> HCO₃⁻ naik ~3.5 mEq/L per 10 mmHg ↑PaCO₂</li>
+      <li><strong>Klinis:</strong> Somnolen, asteriksis (CO₂ narcosis), sakit kepala, hiperemia konjungtiva</li>
+    </ul>
+    <div class="subsec">Asidosis Metabolik</div>
+    <p><strong>HAGMA — MUDPILES:</strong> Methanol · Uremia · DKA · Propylene glycol · Isoniazid/Iron · Lactic acidosis · Ethylene glycol · Salicylate</p>
+    <p style="margin-top:4px"><strong>Patofisiologi HAGMA:</strong> Akumulasi asam organik → konsumsi HCO₃⁻ buffer → AG meningkat</p>
+    <p style="margin-top:4px"><strong>NAGMA — HARDUPS:</strong> Hyperalimentation · Addison's · RTA · Diarrhea · Ureterosigmoidostomy · Pancreatic fistula · Saline berlebihan</p>
+    <p style="margin-top:4px"><strong>Patofisiologi NAGMA:</strong> Kehilangan HCO₃⁻ (GI/renal) atau retensi Cl⁻ → AG normal, Cl⁻ ↑ (hyperchloremic acidosis)</p>
+    <div class="subsec">Alkalosis Respiratorik</div>
+    <table>
+      <tr><th>Penyebab</th><th>Mekanisme</th></tr>
+      <tr><td>Hipoksemia</td><td>Stimulasi kemoreseptor perifer → hiperventilasi</td></tr>
+      <tr><td>Nyeri / Anxiety</td><td>Stimulasi pusat napas</td></tr>
+      <tr><td>Sepsis awal</td><td>Mediator inflamasi → alkalosis resp mendahului asidosis laktat</td></tr>
+      <tr><td>Liver failure</td><td>Hiperammonemia → stimulasi napas, alkalosis resp persisten</td></tr>
+      <tr><td>Kehamilan</td><td>Progesteron ↑ drive napas → PaCO₂ 28–32 mmHg normal</td></tr>
+      <tr><td>Ventilator (iatrogenik)</td><td>Over-ventilasi — RR atau VT terlalu tinggi</td></tr>
+    </table>
+    <ul style="margin-top:6px"><li><strong>Klinis:</strong> Parestesia, karpopedal spasme, pusing, sinkop (vasokonstrisi serebral)</li></ul>
+    <div class="subsec">Alkalosis Metabolik</div>
+    <table>
+      <tr><th>Penyebab</th><th>Mekanisme</th></tr>
+      <tr><td>Muntah / NGT suction</td><td>Kehilangan HCl → HCO₃⁻ ↑ (chloride-responsive)</td></tr>
+      <tr><td>Diuretik loop/thiazide</td><td>Kehilangan Cl⁻, K⁺ → retensi HCO₃⁻ ginjal</td></tr>
+      <tr><td>Hiperaldosteronisme</td><td>Retensi Na⁺ + ekskresi K⁺ dan H⁺ oleh ginjal</td></tr>
+      <tr><td>Transfusi masif</td><td>Sitrat → dikonversi jadi HCO₃⁻ di hati</td></tr>
+      <tr><td>Milkali syndrome</td><td>Antasid kalsium berlebihan</td></tr>
+    </table>
+    <div class="subsec">Mixed Disorders — Pola Klinis Umum</div>
+    <table>
+      <tr><th>Pola</th><th>Contoh Klinis</th></tr>
+      <tr><td>Asidosis Resp + Asidosis Met</td><td>Cardiac arrest, overdosis opioid + asidosis laktat</td></tr>
+      <tr><td>Alkalosis Resp + Alkalosis Met</td><td>Liver failure + diuretik/muntah</td></tr>
+      <tr><td>Asidosis Met + Alkalosis Resp</td><td>Sepsis (laktat) + nyeri → hiperventilasi concurrent</td></tr>
+      <tr><td>HAGMA + Alkalosis Met (Δ-Δ &gt;2)</td><td>DKA + muntah berat sebelumnya</td></tr>
+    </table>
+    <sup class="cite-ref" data-refs="berend2014,seifter2023,adrogue1998"></sup>
+  </div>
+</div>
+
+<!-- DROPDOWN 7: ABG pada Kondisi Klinis Khusus -->
+<div class="theory-dropdown" style="margin-top:6px">
+  <button class="theory-btn" onclick="toggleTheory('abg-kondisi')">📖 ABG pada Kondisi Klinis Khusus <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-abg-kondisi">
+    <div class="subsec">PPOK — Chronic CO₂ Retention</div>
+    <ul>
+      <li><strong>Baseline hypercapnia:</strong> PaCO₂ kronik >45 mmHg dengan HCO₃⁻ kompensatorik tinggi dan pH relatif normal — ini NORMAL untuk pasien PPOK. Selalu bandingkan dengan baseline pasien.</li>
+      <li><strong>Target SpO₂:</strong> 88–92% (BUKAN 94–98%) — oksigen berlebihan → Haldane effect + hilangnya HPV → V/Q mismatch memburuk</li>
+      <li><strong>Mitos "hypoxic drive":</strong> Hiperkapnia pada oksigenasi berlebihan lebih disebabkan Haldane effect dan V/Q mismatch, bukan semata hilangnya hypoxic drive</li>
+      <li><strong>Manajemen:</strong> NIV (BiPAP) lini pertama pada eksaserbasi akut. HINDARI normalisasi agresif PaCO₂ — risiko alkalosis metabolik berat post-ventilasi</li>
+    </ul>
+    <div class="subsec">Kehamilan — Alkalosis Respiratorik Fisiologis</div>
+    <table>
+      <tr><th>Parameter</th><th>Normal Kehamilan</th><th>Non-Hamil</th></tr>
+      <tr><td>PaCO₂</td><td>28–32 mmHg</td><td>35–45 mmHg</td></tr>
+      <tr><td>HCO₃⁻</td><td>18–22 mEq/L</td><td>22–26 mEq/L</td></tr>
+      <tr><td>pH</td><td>7.40–7.47 (sedikit alkalotik)</td><td>7.35–7.45</td></tr>
+      <tr><td>PaO₂</td><td>100–105 mmHg</td><td>80–100 mmHg</td></tr>
+    </table>
+    <p style="margin-top:6px"><strong>Mekanisme:</strong> Progesteron ↑ sensitivitas kemoreseptor → RR dan TV meningkat. Ginjal mengkompensasi dengan ekskresi HCO₃⁻. pH 7.40–7.47 adalah NORMAL pada kehamilan — jangan over-interpret sebagai alkalosis patologis.</p>
+    <div class="subsec">Hipotermia — Koreksi Temperatur ABG</div>
+    <ul>
+      <li><strong>Efek suhu:</strong> Setiap 1°C ↓ suhu → PaO₂ turun ~5 mmHg, PaCO₂ turun ~2 mmHg secara artifaktual (gas darah lebih larut di suhu rendah)</li>
+      <li><strong>Alpha-stat:</strong> ABG diukur dan diinterpretasikan pada 37°C. Target pH 7.40 pada 37°C. Digunakan pada CABG standar — preservasi autoregulasi serebral lebih baik</li>
+      <li><strong>pH-stat:</strong> ABG dikoreksi ke suhu aktual pasien + CO₂ ditambahkan. Target pH 7.40 pada suhu pasien. Digunakan pada neonatus cardiac surgery dan DHCA — perfusi serebral lebih baik</li>
+    </ul>
+    <div class="subsec">Sepsis — Evolusi Pola ABG</div>
+    <ul>
+      <li><strong>Fase awal:</strong> Alkalosis respiratorik (tachypnea akibat mediator inflamasi) — PaCO₂ ↓, pH ↑</li>
+      <li><strong>Fase lanjut:</strong> Asidosis laktat menggantikan alkalosis → pH ↓, AG ↑</li>
+      <li><strong>Laktat prognostik:</strong> >4 mmol/L → mortalitas ↑ signifikan. Target clearance ≥10%/2 jam (SSC 2021)</li>
+      <li><strong>Mixed pattern:</strong> HAGMA + alkalosis resp concurrent — PaCO₂ di bawah Winter's expected menandakan kompensasi adekuat atau alkalosis resp concurrent</li>
+    </ul>
+    <div class="subsec">Neonatus vs Dewasa — Nilai Normal Berbeda</div>
+    <table>
+      <tr><th>Parameter</th><th>Dewasa</th><th>Neonatus (Term)</th></tr>
+      <tr><td>pH</td><td>7.35–7.45</td><td>7.30–7.40</td></tr>
+      <tr><td>PaCO₂</td><td>35–45 mmHg</td><td>35–45 mmHg</td></tr>
+      <tr><td>PaO₂</td><td>80–100 mmHg</td><td>50–80 mmHg</td></tr>
+      <tr><td>HCO₃⁻</td><td>22–26 mEq/L</td><td>19–22 mEq/L</td></tr>
+      <tr><td>BE</td><td>-2 s/d +2</td><td>-4 s/d +2</td></tr>
+    </table>
+    <sup class="cite-ref" data-refs="odriscoll2017,gold2024,lapinsky2015"></sup>
+  </div>
+</div>
+
+<!-- DROPDOWN 8: Tabel FiO₂ & Terapi Oksigen -->
+<div class="theory-dropdown" style="margin-top:6px">
+  <button class="theory-btn" onclick="toggleTheory('abg-fio2tabel')">📖 Tabel FiO₂ Estimasi &amp; Pilihan Terapi Oksigen <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-abg-fio2tabel">
+    <div class="subsec">Tabel Perangkat Oksigen, Flow &amp; Estimasi FiO₂</div>
+    <table>
+      <tr><th>Alat</th><th>Flow (L/mnt)</th><th>Est. FiO₂</th><th>Indikasi</th><th>Catatan</th></tr>
+      <tr><td>Nasal Cannula</td><td>1 / 2 / 3 / 4 / 5 / 6</td><td>24 / 28 / 32 / 36 / 40 / 44%</td><td>Hipoksemia ringan, rumatan</td><td>Tergantung pola napas; mulut terbuka ↓ FiO₂ efektif</td></tr>
+      <tr><td>Simple Mask</td><td>6–10</td><td>35–60%</td><td>Hipoksemia sedang</td><td>Min 6 L/mnt untuk cegah rebreathing CO₂</td></tr>
+      <tr><td>Non-Rebreathing Mask (NRM)</td><td>10–15</td><td>80–95%</td><td>Hipoksemia berat, emergensi</td><td>TIDAK untuk retensi CO₂ kronik (PPOK)</td></tr>
+      <tr><td>Venturi Mask</td><td>Fixed per warna</td><td>24 / 28 / 31 / 35 / 40 / 60%</td><td>PPOK, titrasi presisi</td><td>Fixed FiO₂ terlepas dari pola napas pasien</td></tr>
+      <tr><td>HFNC (High-Flow NC)</td><td>20–60</td><td>0.21–1.0 (setting)</td><td>Hipoksemia refrakter, post-ekstubasi</td><td>ROX index ≥4.88 → risiko gagal HFNC rendah</td></tr>
+      <tr><td>NIV (CPAP/BiPAP)</td><td>—</td><td>Sesuai setting FiO₂</td><td>Edema paru, PPOK eksaserbasi</td><td>CPAP: preload ↓; BiPAP: support ventilasi + oksigenasi</td></tr>
+      <tr><td>Invasive MV</td><td>—</td><td>0.21–1.0 presisi</td><td>Gagal napas berat, intubasi</td><td>Target FiO₂ ≤0.6 jika SpO₂ tercapai (cegah O₂ toksisitas)</td></tr>
+    </table>
+    <div class="subsec">Formula Estimasi FiO₂ Nasal Cannula</div>
+    <p><strong>FiO₂ ≈ 0.21 + (0.04 × flow L/mnt)</strong> — hanya estimasi. Asumsi: pasien bernapas melalui hidung, TV normal ~500 mL, RR 12–20/mnt. Mulut terbuka, TV besar, atau RR tinggi akan menurunkan FiO₂ efektif secara signifikan.</p>
+    <div class="subsec">Target SpO₂ Berdasarkan Kondisi</div>
+    <table>
+      <tr><th>Kondisi</th><th>Target SpO₂</th><th>Catatan</th></tr>
+      <tr><td>Dewasa umum / ICU</td><td>94–98%</td><td>Hindari hiperoksemia (O₂ toksisitas, vasokonstrisi)</td></tr>
+      <tr><td>PPOK / retensi CO₂</td><td>88–92%</td><td>BTS O₂ Guidelines 2017 · GOLD 2024</td></tr>
+      <tr><td>MI akut / stroke</td><td>94–98% (hindari &gt;98% jika tidak hipoksik)</td><td>Hiperoksemia → ↑ mortalitas MI (AVOID trial)</td></tr>
+      <tr><td>Neonatus</td><td>91–95%</td><td>Hiperoksemia → risiko ROP (retinopathy of prematurity)</td></tr>
+      <tr><td>Kehamilan</td><td>≥95%</td><td>Cadangan O₂ janin rendah — hipoksemia ibu berdampak cepat</td></tr>
+    </table>
+    <sup class="cite-ref" data-refs="odriscoll2017,rochwerg2019hfnc"></sup>
+  </div>
+</div>
+
+<script src="../assets/js/scripts-abg.js"></script>
+<script src="../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../assets/js/feedback.js"></script>
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+  <script src="../assets/data/references.js"></script>
+  <script src="../assets/js/scripts-citations.js"></script>
+</body>
+</html>
+

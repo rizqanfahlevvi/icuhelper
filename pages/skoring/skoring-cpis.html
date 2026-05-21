@@ -1,0 +1,206 @@
+﻿<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CPIS — VAP Score — Cheatsheet Ventilator Dewasa</title>
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<style>
+.sko-row{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:7px;border:.5px solid var(--border);margin-bottom:5px;background:var(--bg)}
+.sko-row .sp{flex:1;font-size:12px}.sko-row .sp strong{display:block;font-size:13px;margin-bottom:1px}
+.sko-row .sp small{color:var(--muted);font-size:11px}.sko-row .spts{font-weight:700;font-size:16px;min-width:26px;text-align:right}
+.spts-0{color:var(--green)}.spts-1{color:var(--blue)}.spts-2{color:var(--amber)}.spts-3{color:var(--coral)}.spts-4{color:var(--red)}
+.sko-row.row-skip{opacity:.55;border-style:dashed}
+.big-total{font-size:52px;font-weight:700;line-height:1;margin-bottom:4px}
+.rass-item{display:flex;align-items:flex-start;gap:12px;padding:10px 12px;border-radius:7px;border:.5px solid var(--border);cursor:pointer;transition:all .15s;margin-bottom:5px;background:var(--card)}
+.rass-item:hover{border-color:var(--blue);background:var(--blue-bg)}
+.rass-item.sel-pos{border-color:var(--red)!important;background:var(--red-bg)!important}
+.rass-item.sel-zero{border-color:var(--green)!important;background:var(--green-bg)!important}
+.rass-item.sel-neg{border-color:var(--teal)!important;background:var(--teal-bg)!important}
+.rass-num{font-size:18px;font-weight:700;min-width:34px;text-align:center;padding-top:1px}
+.rass-label{font-weight:600;font-size:13px;margin-bottom:2px}.rass-desc{font-size:12px;color:var(--muted)}
+.cfs-item{display:flex;align-items:flex-start;gap:12px;padding:11px 13px;border-radius:7px;border:.5px solid var(--border);cursor:pointer;transition:all .15s;margin-bottom:5px;background:var(--card)}
+.cfs-item:hover{border-color:var(--blue);background:var(--blue-bg)}.cfs-item.sel-cfs{border-color:var(--blue)!important;background:var(--blue-bg)!important}
+.cfs-num{font-size:20px;font-weight:700;min-width:30px;color:var(--blue);padding-top:1px}
+.cfs-label{font-weight:600;font-size:13px;margin-bottom:2px}.cfs-desc{font-size:12px;color:var(--muted)}
+.cam-feature{background:var(--card);border:.5px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px}
+.cam-flabel{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);margin-bottom:5px}
+.cam-fq{font-size:13px;font-weight:600;margin-bottom:8px;line-height:1.5}
+.cam-fdetail{font-size:12px;color:var(--muted);margin-bottom:10px;line-height:1.6;padding:8px 10px;background:var(--bg);border-radius:6px;border:.5px solid var(--border)}
+.yn-row{display:flex;gap:8px;flex-wrap:wrap}
+.yn-btn{padding:6px 16px;border-radius:5px;border:.5px solid var(--border2);background:var(--bg);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s;color:var(--muted)}
+.yn-btn.y-active{background:var(--green-bg)!important;border-color:var(--green)!important;color:var(--green)!important}
+.yn-btn.n-active{background:var(--red-bg)!important;border-color:var(--red)!important;color:var(--red)!important}
+.ap-sec{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);border-bottom:.5px solid var(--blue-bg);padding-bottom:6px;margin:14px 0 10px}
+.opt-tag{font-size:10px;background:var(--amber-bg);color:var(--amber);border-radius:3px;padding:1px 5px;margin-left:4px;vertical-align:middle}
+</style>
+<script>
+/* Anti-FOUC: apply saved theme before paint */
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn" href="../kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="../ekg.html">📈 EKG</a>
+  <a class="tab-btn" href="../teori.html">📖 Teori</a>
+  <a class="tab-btn active" href="skoring-sofa.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+
+<nav class="subtab-bar">
+  <a class="subtab-btn" href="skoring-sofa.html">🔴 SOFA</a>
+  <a class="subtab-btn" href="skoring-bfs.html">🧓 BFS/CFS</a>
+  <a class="subtab-btn active" href="skoring-cpis.html">🫁 CPIS</a>
+  <a class="subtab-btn" href="skoring-rass.html">😴 RASS</a>
+  <a class="subtab-btn" href="skoring-camicu.html">🧠 CAM-ICU</a>
+  <a class="subtab-btn" href="skoring-apache.html">⚕️ APACHE-II</a>
+  <a class="subtab-btn" href="skoring-candida.html">🍄 Candida</a>
+</nav>
+
+<div class="calc-box">
+    <div class="calc-title"><span>🫁</span> CPIS — Clinical Pulmonary Infection Score (VAP)</div>
+    <div class="info" style="font-size:12px;margin-bottom:14px">
+      <strong>📌 Indikasi:</strong> Diagnosis Ventilator-Associated Pneumonia (VAP) + panduan de-eskalasi antibiotik (Protokol Singh). Kultur trakeal bersifat opsional jika belum tersedia.
+    </div>
+    <div class="grid2" style="gap:16px">
+      <div>
+        <div class="subsec">🌡️ Temperatur & Leukosit</div>
+        <div class="input-row"><label>Suhu (°C)</label><input type="number" id="cpis-temp" placeholder="cth: 38.5" step="0.1" min="34" max="42"></div>
+        <div class="input-row"><label>WBC (sel/mm³)</label><input type="number" id="cpis-wbc" placeholder="cth: 13000" min="0" max="60000"></div>
+        <div class="input-row"><label>Band forms ≥50%?</label>
+          <select id="cpis-band"><option value="no">Tidak</option><option value="yes">Ya (≥50%)</option></select>
+        </div>
+        <div class="subsec" style="margin-top:14px">💧 Sekret Trakeal</div>
+        <div class="input-row"><label>Jumlah / karakter</label>
+          <select id="cpis-sec">
+            <option value="0">0 — Tidak ada / sangat sedikit</option>
+            <option value="1">1 — Sedikit / non-purulen</option>
+            <option value="2">2 — Banyak / purulen</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <div class="subsec">🫁 Oksigenasi</div>
+        <div class="input-row"><label>PaO₂ (mmHg)</label><input type="number" id="cpis-pao2" placeholder="Opsional" min="20" max="600"><span class="opt-tag">opsional</span></div>
+        <div class="input-row" style="align-items:flex-start">
+          <label style="padding-top:6px">FiO₂ <span class="opt-tag">opsional</span></label>
+          <div style="flex:1">
+            <div class="fio2-mode-bar">
+              <button class="fio2-mode-btn active" id="cpis-fio2-btn-direct" onclick="setFiO2ModeFor('cpis','direct')">🔢 Direct Input</button>
+              <button class="fio2-mode-btn" id="cpis-fio2-btn-lowflow" onclick="setFiO2ModeFor('cpis','lowflow')">💨 Low-Flow O₂</button>
+            </div>
+            <div id="cpis-fio2-direct-wrap">
+              <input type="number" id="cpis-fio2-direct" step="0.01" min="0.21" max="1.0" placeholder="0.21–1.0" oninput="syncFiO2DirectFor('cpis')" style="width:100%">
+            </div>
+            <div id="cpis-fio2-lowflow-wrap" style="display:none">
+              <select id="cpis-o2-device" onchange="estimateFiO2For('cpis')" class="abg-lowflow-input">
+                <option value="nasal">Nasal Cannula (1–6 L/mnt)</option>
+                <option value="simple">Simple Mask (5–10 L/mnt)</option>
+                <option value="nrm">Non-Rebreathing Mask (10–15 L/mnt)</option>
+                <option value="venturi24">Venturi 24%</option>
+                <option value="venturi28">Venturi 28%</option>
+                <option value="venturi31">Venturi 31%</option>
+                <option value="venturi35">Venturi 35%</option>
+                <option value="venturi40">Venturi 40%</option>
+                <option value="venturi60">Venturi 60%</option>
+              </select>
+              <input type="number" id="cpis-o2-flow" placeholder="Flow (L/menit)" min="1" max="15" step="0.5" oninput="estimateFiO2For('cpis')" class="abg-lowflow-input">
+              <div id="cpis-fio2-est" class="abg-fio2-est"></div>
+            </div>
+            <input type="hidden" id="cpis-fio2">
+          </div>
+        </div>
+        <div class="input-row"><label>ARDS?</label><select id="cpis-ards"><option value="no">Tidak</option><option value="yes">Ya (ARDS)</option></select></div>
+        <div class="subsec" style="margin-top:14px">📷 Rontgen Thorax</div>
+        <div class="input-row"><label>Infiltrat</label>
+          <select id="cpis-xray">
+            <option value="0">0 — Tidak ada infiltrat</option>
+            <option value="1">1 — Difus / patchy</option>
+            <option value="2">2 — Lokal / segmental</option>
+          </select>
+        </div>
+        <div class="subsec" style="margin-top:14px">🔬 Kultur Trakeal</div>
+        <div class="input-row"><label>Hasil kultur</label>
+          <select id="cpis-culture">
+            <option value="">Lewati (belum ada)</option>
+            <option value="0">0 — Tidak ada kuman patogen</option>
+            <option value="1">1 — Kuman patogen ditemukan</option>
+            <option value="2">2 — Kuman + Pewarnaan Gram sesuai</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <button class="calc-btn" style="margin-top:12px" onclick="calcCPIS()">🫁 Hitung CPIS Score</button>
+    <div id="cpis-results" class="hidden" style="margin-top:16px"><div id="cpis-result-content"></div></div>
+  </div>
+  <div class="theory-dropdown">
+    <button class="theory-btn" onclick="toggleTheory('cpis-t')">📖 Teori CPIS — VAP Diagnosis & Protokol De-eskalasi Singh <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-cpis-t">
+      <div class="subsec">Latar Belakang</div>
+      <p style="font-size:12px;margin-bottom:8px">CPIS pertama dipublikasikan Pugin et al. (1991). Modified CPIS (Singh et al. 2000) digunakan dalam protokol de-eskalasi: pasien VAP empiris dievaluasi pada hari ke-3 — jika CPIS ≤6 dan kultur negatif, antibiotik dapat dihentikan. Panduan ATS/IDSA 2016 merekomendasikan diagnosis VAP berdasarkan klinis + kultur kuantitatif.</p>
+      <div class="subsec">Tabel Penilaian CPIS (Modified Singh 2000)</div>
+      <div class="table-wrapper">
+      <table>
+        <tr><th>Parameter</th><th>0 poin</th><th>1 poin</th><th>2 poin</th></tr>
+        <tr><td>Suhu (°C)</td><td>36.5–38.4</td><td>38.5–38.9</td><td>≤36.0 atau ≥39.0</td></tr>
+        <tr><td>Leukosit</td><td>4.000–11.000</td><td>&lt;4.000 atau &gt;11.000</td><td>+1 jika Band ≥50%</td></tr>
+        <tr><td>Sekret trakeal</td><td>Tidak ada</td><td>Sedikit/non-purulen</td><td>Banyak/purulen</td></tr>
+        <tr><td>PaO₂/FiO₂</td><td>&gt;240 atau ARDS</td><td>—</td><td>≤240, bukan ARDS</td></tr>
+        <tr><td>Rontgen Thorax</td><td>Tidak ada infiltrat</td><td>Difus/patchy</td><td>Lokal/segmental</td></tr>
+        <tr><td>Kultur trakeal</td><td>Tidak ada patogen</td><td>Kuman patogen</td><td>+1 jika sesuai Gram stain</td></tr>
+      </table>
+      </div>
+      <div class="subsec">Interpretasi</div>
+      <div class="table-wrapper">
+      <table>
+        <tr><th>CPIS</th><th>Interpretasi</th><th>Tindakan</th></tr>
+        <tr><td>≤6</td><td>VAP tidak mungkin</td><td>Pertimbangkan hentikan antibiotik (Protokol Singh hari ke-3); evaluasi ulang</td></tr>
+        <tr><td>&gt;6</td><td>VAP kemungkinan besar</td><td>Lanjutkan antibiotik VAP; de-eskalasi berdasarkan kultur; evaluasi 48–72 jam</td></tr>
+      </table>
+      </div>
+      <div class="subsec">Keterbatasan CPIS</div>
+      <ul>
+        <li>Sensitivitas 65–72%, spesifisitas 51–84% — tidak cukup untuk diagnosis tunggal VAP</li>
+        <li>Lebih berguna sebagai alat <strong>de-eskalasi</strong> daripada diagnosis (Protokol Singh hari ke-3)</li>
+        <li>Panduan ATS/IDSA 2016: diagnosis VAP = klinis + kultur kuantitatif, bukan hanya CPIS</li>
+        <li><strong>ERS/ESICM/ESCMID/ALAT HAP/VAP Guidelines 2022 (Torres A et al. Eur Respir J 2022):</strong> CPIS bukan alat diagnosis primer VAP. Diagnosis berbasis klinis + kultur kuantitatif (BAL ≥10⁴ CFU/mL atau mini-BAL ≥10³ CFU/mL). CPIS berguna hanya untuk de-eskalasi antibiotik (Protokol Singh hari ke-3), bukan sebagai kriteria diagnosis tunggal.</li>
+        <li><strong>VAE (Ventilator-Associated Events) — CDC 2023:</strong> Untuk keperluan surveillance mutu ICU, CPIS digantikan oleh sistem VAE: VAC (Ventilator-Associated Condition) → IVAC (Infection-related VAC) → possible/probable VAP. VAE tidak digunakan untuk keputusan terapi individual.</li>
+      </ul>
+      <sup class="cite-ref" data-refs="pugin1991,singh2000,kalil2016,klompas2017,torres2022"></sup>
+    </div>
+  </div>
+</div>
+<!-- ====== 4. RASS ====== -->
+
+<script src="../../assets/js/scripts-fio2-utils.js"></script>
+<script src="../../assets/js/scripts-skoring.js"></script>
+<script src="../../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../../assets/js/feedback.js"></script>
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+  <script src="../../assets/data/references.js"></script>
+  <script src="../../assets/js/scripts-citations.js"></script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+﻿<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Impending Gagal Napas — Cheatsheet Ventilator Dewasa</title>
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<script>
+/* Anti-FOUC: apply saved theme before paint */
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn" href="../kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="../ekg.html">📈 EKG</a>
+  <a class="tab-btn active" href="teori-impending.html">📖 Teori</a>
+  <a class="tab-btn" href="../skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+
+<nav class="subtab-bar">
+  <a class="subtab-btn active" href="teori-impending.html">⚠️ Impending Gagal Napas</a>
+  <a class="subtab-btn" href="teori-gagalnapas.html">🫁 Gagal Napas</a>
+  <a class="subtab-btn" href="teori-fisiologi.html">🔬 Fisiologi Ventilasi</a>
+  <a class="subtab-btn" href="teori-sepsis.html">🦠 Sepsis</a>
+  <a class="subtab-btn" href="teori-b1b6.html">📋 B1–B6</a>
+</nav>
+
+<div class="sec">Impending Respiratory Failure — Pengenalan Dini</div>
+
+  <div class="cc red">
+    <div class="ct">Definisi & Kriteria Impending Gagal Napas</div>
+    <p>Impending respiratory failure adalah kondisi di mana pasien berisiko tinggi mengalami gagal napas dalam waktu dekat jika tidak diintervensi. <strong>Jendela kritis: 30–60 menit</strong> sebelum dekompensasi total.</p>
+    <div class="grid2" style="margin-top:10px">
+      <div>
+        <p><strong>Tanda Klinis Utama:</strong></p>
+        <ul>
+          <li>RR &gt;30 x/mnt atau &lt;8 x/mnt</li>
+          <li>Penggunaan otot aksesori (SCM, interkostal, subkostal)</li>
+          <li>Paradoxal abdominal breathing (diafragma fatigue)</li>
+          <li>Retraksi suprasternal dan supraklavikula</li>
+          <li>Tripod position, tidak bisa bicara kalimat lengkap</li>
+          <li>Sianosis sentral (oksigenasi berat)</li>
+        </ul>
+      </div>
+      <div>
+        <p><strong>Tanda Neurologis/Sistemik:</strong></p>
+        <ul>
+          <li>Agitasi, kebingungan, penurunan kesadaran</li>
+          <li>Diaforesis berat</li>
+          <li>Takikardia kompensatorik (HR &gt;120)</li>
+          <li>Paradoxal pulse (pulsus paradoksus &gt;10 mmHg) → asma berat</li>
+          <li>SpO₂ &lt;90% meski dengan O₂ tinggi</li>
+          <li>Pola napas Cheyne-Stokes atau Kussmaul</li>
+        </ul>
+      </div>
+    </div>
+    <p style="margin-top:8px;font-size:12px"><em>📚 Roussos C, Koutsoukou A. Respiratory failure. Eur Respir J Suppl 2003;47:3s–14s · Tobin MJ. Respiratory monitoring. JAMA 1990;264:244 · GINA 2024 · GOLD 2024</em></p>
+  </div>
+
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('hacor-theory')">📖 HACOR Score — Prediksi Kegagalan NIV <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-hacor-theory">
+      <p>HACOR score memprediksi kegagalan NIV dalam 1 jam pertama penggunaan. Skor ≥5 → kemungkinan gagal NIV tinggi → pertimbangkan intubasi awal. <strong>AUC 0.88</strong> (validasi multisenter).</p>
+      <table>
+        <tr><th>Parameter</th><th>Nilai</th><th>Skor</th></tr>
+        <tr><td rowspan="3">Heart Rate (/mnt)</td><td>≤120</td><td>0</td></tr>
+        <tr><td>121–150</td><td>1</td></tr>
+        <tr><td>&gt;150</td><td>2</td></tr>
+        <tr><td rowspan="3">Acidosis (pH)</td><td>≥7.35</td><td>0</td></tr>
+        <tr><td>7.25–7.34</td><td>2</td></tr>
+        <tr><td>&lt;7.25</td><td>4</td></tr>
+        <tr><td rowspan="3">Consciousness (GCS)</td><td>15</td><td>0</td></tr>
+        <tr><td>13–14</td><td>2</td></tr>
+        <tr><td>≤12</td><td>4</td></tr>
+        <tr><td rowspan="3">Oxygenation (P/F ratio)</td><td>≥200</td><td>0</td></tr>
+        <tr><td>101–200</td><td>3</td></tr>
+        <tr><td>≤100</td><td>5</td></tr>
+        <tr><td rowspan="3">Respiratory Rate (/mnt)</td><td>≤30</td><td>0</td></tr>
+        <tr><td>31–40</td><td>1</td></tr>
+        <tr><td>&gt;40</td><td>2</td></tr>
+      </table>
+      <p style="margin-top:6px"><strong>Interpretasi:</strong> Skor 0–4: NIV kemungkinan berhasil · Skor ≥5: Risiko gagal NIV tinggi → intubasi</p>
+      <p style="margin-top:6px"><strong>Update 2024:</strong> HACOR divalidasi juga untuk prediksi kegagalan HFNC pada pneumonia dan COVID-19 (sensitifitas 83%, spesifisitas 74%).</p>
+      <sup class="cite-ref" data-refs="demoule2016,antonelli1998"></sup>
+    </div>
+  </div>
+
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('rox-theory')">📖 ROX Index — Prediksi Kegagalan HFNC <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-rox-theory">
+      <p><strong>ROX Index = (SpO₂/FiO₂) / RR spontan</strong></p>
+      <p>Dikembangkan untuk memprediksi kebutuhan intubasi pada pasien yang mendapat HFNC. Dihitung pada jam ke-2, 6, dan 12 setelah mulai HFNC.</p>
+      <table>
+        <tr><th>ROX Index</th><th>Interpretasi</th><th>Tindakan</th></tr>
+        <tr><td>≥4.88</td><td><span class="badge bg">Risiko rendah gagal HFNC</span></td><td>Lanjutkan HFNC, monitor tiap 4–6 jam</td></tr>
+        <tr><td>3.85–4.87</td><td><span class="badge ba">Intermediate</span></td><td>Evaluasi ulang ketat tiap 2 jam</td></tr>
+        <tr><td>2.85–3.84</td><td><span class="badge br">Risiko tinggi</span></td><td>Pertimbangkan eskalasi ke NIV/intubasi</td></tr>
+        <tr><td>&lt;2.85 pada jam 12</td><td><span class="badge br">Intubasi sangat mungkin</span></td><td>Spesifisitas 91.4% untuk intubasi dalam 24 jam</td></tr>
+      </table>
+      <ul style="margin-top:6px">
+        <li><strong>ROX-HR (2021):</strong> ROX + Heart Rate → ROX-HR = ROX / HR × 100. Meningkatkan akurasi prediksi pada sepsis + hipoksemia. Cut-off &lt;4.6 pada jam 2.</li>
+        <li><strong>Keterbatasan:</strong> Tidak valid untuk pasien PPOK (RR rendah kronik), kardiogenik edema paru murni, atau immunocompromised berat</li>
+        <li><strong>FLORALI trial update (2023):</strong> HFNC superior vs O₂ masker dan NIV pada hipoksemia akut non-PPOK; benefit lebih besar pada P/F &lt;200</li>
+      </ul>
+      <sup class="cite-ref" data-refs="roca2019,roca2016,frat2015"></sup>
+    </div>
+  </div>
+
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('niv-theory')">📖 Algoritma NIV vs HFNC vs Intubasi Segera <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-niv-theory">
+      <div class="subsec">Indikasi NIV (Non-Invasive Ventilation)</div>
+      <ul>
+        <li><strong>Terbaik untuk:</strong> PPOK eksaserbasi (pH 7.25–7.35, PaCO₂ &gt;45), edema paru kardiogenik akut, immunocompromised (hindari intubasi), post-ekstubasi risiko tinggi</li>
+        <li><strong>Kontraindikasi relatif NIV:</strong> Kesadaran sangat menurun (GCS &lt;10), ketidakmampuan proteksi jalan napas, sekresi masif, hemodinamik tidak stabil, facial injury</li>
+        <li><strong>Setting awal PPOK:</strong> IPAP 12–20 cmH₂O, EPAP 4–8 cmH₂O, backup RR 12/mnt, FiO₂ titrasi ke SpO₂ 88–92%</li>
+        <li><strong>Setting awal edema paru kardiogenik:</strong> CPAP 8–12 cmH₂O atau BiPAP IPAP 14–18 / EPAP 5–8</li>
+        <li><strong>Interface:</strong> Full-face mask (paling efektif), helmet CPAP (lebih nyaman, lebih baik untuk ARDS ringan), nasal mask (PPOK kronik)</li>
+      </ul>
+      <div class="subsec">Indikasi HFNC (High Flow Nasal Cannula)</div>
+      <ul>
+        <li><strong>Terbaik untuk:</strong> Hipoksemia akut non-hiperkapnik (pneumonia, post-op, immunocompromised), post-ekstubasi preventif, bridging sebelum NIV/intubasi</li>
+        <li><strong>Mekanisme:</strong> Flow tinggi (20–60 L/mnt) → flush dead space anatomis → PEEP ~1 cmH₂O per 10 L/mnt flow → FiO₂ lebih tepat dan stabil</li>
+        <li><strong>Setting awal:</strong> Flow 40–60 L/mnt, FiO₂ titrasi ke SpO₂ 92–96%, suhu 37°C</li>
+        <li><strong>HFNC pada PPOK:</strong> Aman jika dipantau ketat (awasi retensi CO₂). Target SpO₂ 88–92%.</li>
+      </ul>
+      <div class="subsec">Intubasi Segera — Indikasi Mutlak</div>
+      <ul>
+        <li>Henti napas atau apnea</li>
+        <li>GCS ≤8 atau tidak dapat proteksi jalan napas</li>
+        <li>Syok berat disertai gagal napas (perlu sedasi dalam)</li>
+        <li>SpO₂ &lt;85% meski FiO₂ 1.0 via HFNC/NIV</li>
+        <li>HACOR Score ≥5 setelah 1 jam NIV</li>
+        <li>ROX &lt;3.85 setelah 12 jam HFNC (atau &lt;2.85 pada jam 12)</li>
+        <li>Agitasi ekstrem, tidak kooperatif dengan NIV/HFNC</li>
+        <li>Perburukan klinis progresif meski terapi optimal</li>
+      </ul>
+      <sup class="cite-ref" data-refs="rochwerg2017,nava2009,hernandez2016,plant2000,grieco2020"></sup>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SUB: GAGAL NAPAS ===== -->
+
+<script src="../../assets/js/scripts-teori.js"></script>
+<script src="../../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../../assets/js/feedback.js"></script>
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+  <script src="../../assets/data/references.js"></script>
+  <script src="../../assets/js/scripts-citations.js"></script>
+</body>
+</html>

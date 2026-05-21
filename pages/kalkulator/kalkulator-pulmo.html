@@ -1,0 +1,399 @@
+﻿<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pulmo — CURB-65, PSI, A-a Gradient — Cheatsheet Ventilator Dewasa</title>
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<script>
+/* Anti-FOUC: apply saved theme before paint */
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn active" href="kalkulator-ibw.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="../ekg.html">📈 EKG</a>
+  <a class="tab-btn" href="../teori.html">📖 Teori</a>
+  <a class="tab-btn" href="../skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+
+<nav class="subtab-bar">
+  <a class="subtab-btn" href="kalkulator-ibw.html">⚖️ IBW & Parameter</a>
+  <a class="subtab-btn" href="kalkulator-drug.html">💊 Sedasi & Paralitik</a>
+  <a class="subtab-btn" href="kalkulator-pump.html">🔬 Syringe Pump</a>
+  <a class="subtab-btn" href="kalkulator-pf.html">📈 P/F & OI</a>
+  <a class="subtab-btn" href="kalkulator-renal.html">🫘 Renal</a>
+  <a class="subtab-btn active" href="kalkulator-pulmo.html">🫁 Pulmo</a>
+  <a class="subtab-btn" href="kalkulator-electro.html">⚡ ElektroCorr</a>
+  <a class="subtab-btn" href="kalkulator-nlr.html">🧫 NLR</a>
+  <a class="subtab-btn" href="kalkulator-transfusi.html">🩸 Transfusi</a>
+</nav>
+
+<!-- Mini Ureum converter -->
+  <div class="calc-box">
+    <div class="calc-title"><span>🔄</span> Konversi Ureum — Threshold CURB-65 &amp; PSI</div>
+    <div class="grid2" style="gap:10px;align-items:start">
+      <div>
+        <div class="input-row">
+          <label>Ureum serum</label>
+          <input type="number" id="pulmo-ureum" placeholder="cth: 45" step="0.1" min="0" oninput="convertPulmoUreum()">
+          <span class="unit">mg/dL</span>
+        </div>
+        <div class="formula-note" style="margin-top:4px;font-size:11px">
+          CURB-65 U: &gt;42 mg/dL = &gt;7 mmol/L = BUN &gt;19.6<br>
+          PSI BUN: &gt;64 mg/dL = &gt;10.7 mmol/L = BUN &gt;30
+        </div>
+      </div>
+      <div id="pulmo-ureum-result-box" style="display:none">
+        <div class="result-grid" style="grid-template-columns:1fr 1fr;gap:6px;margin-top:0">
+          <div class="result-card">
+            <div class="result-label">Ureum (mmol/L)</div>
+            <div class="result-value" id="pulmo-res-mmol" style="font-size:16px">—</div>
+          </div>
+          <div class="result-card">
+            <div class="result-label">BUN (mg/dL)</div>
+            <div class="result-value" id="pulmo-res-bun" style="font-size:16px">—</div>
+          </div>
+        </div>
+        <div id="pulmo-ureum-result" style="margin-top:6px"></div>
+      </div>
+      <div id="pulmo-ureum-placeholder" class="formula-note" style="color:var(--muted);font-size:12px;display:flex;align-items:center;gap:6px">
+        <span style="font-size:16px">←</span> Masukkan Ureum untuk melihat konversi &amp; status threshold
+      </div>
+    </div>
+  </div>
+
+  <!-- CURB-65 -->
+  <div class="calc-box">
+    <div class="calc-title"><span>📊</span> CURB-65 — Community-Acquired Pneumonia Severity</div>
+    <div class="grid2" style="gap:10px">
+      <div>
+        <div class="subsec">5 Kriteria CURB-65</div>
+        <div class="input-row"><label>C — Confusion (baru)</label>
+          <select id="curb-c"><option value="0">Tidak (0 poin)</option><option value="1">Ya (1 poin)</option></select>
+        </div>
+        <div class="input-row" style="flex-wrap:wrap">
+          <label>U — Ureum serum<br><span style="font-size:10px;color:var(--muted)">Threshold: &gt;42 mg/dL = &gt;7 mmol/L</span></label>
+          <input type="number" id="curb-ureum" placeholder="Ureum (mg/dL)" step="0.1" min="0" oninput="syncCurbUreum()">
+          <span class="unit">mg/dL</span>
+        </div>
+        <div id="curb-ureum-note" style="font-size:11px;color:var(--muted);margin-bottom:8px;margin-left:4px;margin-top:-4px"></div>
+        <div class="input-row"><label>R — Respiratory Rate</label><input type="number" id="curb-rr" placeholder="cth: 28"><span class="unit">/mnt</span></div>
+        <div class="input-row"><label>B — Sistolik BP</label><input type="number" id="curb-sbp" placeholder="cth: 100"><span class="unit">mmHg</span></div>
+        <div class="input-row"><label>B — Diastolik BP</label><input type="number" id="curb-dbp" placeholder="cth: 65"><span class="unit">mmHg</span></div>
+        <div class="input-row"><label>65 — Usia pasien</label><input type="number" id="curb-age" placeholder="cth: 68"><span class="unit">tahun</span></div>
+      </div>
+      <div>
+        <div class="info" style="margin-top:4px;font-size:12px">
+          <strong>Interpretasi CURB-65:</strong><br>
+          <span style="color:var(--green)">●</span> Skor 0–1: Risiko rendah — rawat jalan, mortalitas ~1.5%<br>
+          <span style="color:var(--amber)">●</span> Skor 2: Risiko sedang — rawat inap, mortalitas ~9.2%<br>
+          <span style="color:var(--red)">●</span> Skor 3–5: Risiko tinggi — pertimbangkan ICU, mortalitas ~22–57%<br><br>
+          <strong>U-criterion:</strong><br>
+          Ureum &gt;42 mg/dL = &gt;7 mmol/L = BUN &gt;19.6 mg/dL<br>
+          Gunakan konverter di atas untuk cek threshold
+          <sup class="cite-ref" data-refs="lim2003,mandell2007"></sup>
+        </div>
+      </div>
+    </div>
+    <button class="calc-btn" onclick="calcCURB65()">Hitung CURB-65</button>
+    <div id="curb-results" class="hidden" style="margin-top:12px"><div id="curb-result-content"></div></div>
+  </div>
+
+  <!-- PSI/PORT -->
+  <div class="calc-box">
+    <div class="calc-title"><span>📋</span> PSI / PORT Score — Pneumonia Severity Index</div>
+    <div class="info" style="font-size:12px;margin-bottom:12px">
+      20 variabel · Lebih akurat dari CURB-65. <strong>BUN &gt;30 mg/dL = Ureum &gt;64 mg/dL = Ureum &gt;10.7 mmol/L</strong> → gunakan konverter di atas.
+      <sup class="cite-ref" data-refs="fine1997"></sup>
+    </div>
+    <div class="grid2" style="gap:16px">
+      <div>
+        <div class="subsec">Demografi &amp; Komorbid</div>
+        <div class="input-row"><label>Jenis kelamin</label>
+          <select id="psi-sex"><option value="m">Laki-laki</option><option value="f">Perempuan (−10 poin)</option></select>
+        </div>
+        <div class="input-row"><label>Usia</label><input type="number" id="psi-age" placeholder="cth: 70"><span class="unit">tahun</span></div>
+        <div class="input-row"><label>Penghuni panti jompo</label>
+          <select id="psi-nursing"><option value="0">Tidak</option><option value="10">Ya (+10)</option></select></div>
+        <div class="input-row"><label>Keganasan aktif</label>
+          <select id="psi-neo"><option value="0">Tidak</option><option value="30">Ya (+30)</option></select></div>
+        <div class="input-row"><label>Penyakit hepar</label>
+          <select id="psi-liver"><option value="0">Tidak</option><option value="20">Ya (+20)</option></select></div>
+        <div class="input-row"><label>Gagal jantung (CHF)</label>
+          <select id="psi-chf"><option value="0">Tidak</option><option value="10">Ya (+10)</option></select></div>
+        <div class="input-row"><label>Penyakit serebrovaskular</label>
+          <select id="psi-cva"><option value="0">Tidak</option><option value="10">Ya (+10)</option></select></div>
+        <div class="input-row"><label>Penyakit ginjal kronik</label>
+          <select id="psi-renal"><option value="0">Tidak</option><option value="10">Ya (+10)</option></select></div>
+        <div class="subsec" style="margin-top:10px">Pemeriksaan Fisik</div>
+        <div class="input-row"><label>Gangguan kesadaran</label>
+          <select id="psi-ms"><option value="0">Tidak</option><option value="20">Ya (+20)</option></select></div>
+        <div class="input-row"><label>RR</label><input type="number" id="psi-rr" placeholder="cth: 28"><span class="unit">/mnt</span></div>
+        <div class="input-row"><label>Sistolik BP</label><input type="number" id="psi-sbp" placeholder="cth: 100"><span class="unit">mmHg</span></div>
+        <div class="input-row"><label>Suhu</label><input type="number" id="psi-temp" placeholder="cth: 38.5" step="0.1"><span class="unit">°C</span></div>
+        <div class="input-row"><label>Nadi</label><input type="number" id="psi-hr" placeholder="cth: 115"><span class="unit">/mnt</span></div>
+      </div>
+      <div>
+        <div class="subsec">Lab &amp; Radiologi</div>
+        <div class="input-row"><label>pH arteri</label><input type="number" id="psi-ph" placeholder="cth: 7.32" step="0.01"></div>
+        <div class="input-row"><label>Ureum serum</label><input type="number" id="psi-ureum" placeholder="cth: 68" step="0.1" oninput="syncPsiUreum()"><span class="unit">mg/dL</span></div>
+        <div id="psi-ureum-note" style="font-size:11px;color:var(--muted);margin-bottom:8px;margin-left:4px;margin-top:-4px">Threshold: &gt;64 mg/dL = BUN &gt;30 mg/dL = &gt;10.7 mmol/L</div>
+        <div class="input-row"><label>Na serum</label><input type="number" id="psi-na" placeholder="cth: 128"><span class="unit">mEq/L</span></div>
+        <div class="input-row"><label>Glukosa</label><input type="number" id="psi-glu" placeholder="cth: 270"><span class="unit">mg/dL</span></div>
+        <div class="input-row"><label>Hematokrit</label><input type="number" id="psi-hct" placeholder="cth: 28" step="0.1"><span class="unit">%</span></div>
+        <div class="input-row"><label>PaO₂</label><input type="number" id="psi-pao2" placeholder="opsional"><span class="unit">mmHg</span></div>
+        <div class="input-row"><label>SpO₂ <span style="font-size:10px;color:var(--muted)">(jika tdk ada PaO₂)</span></label><input type="number" id="psi-spo2" placeholder="opsional"><span class="unit">%</span></div>
+        <div class="input-row"><label>Efusi pleura (Ro toraks)</label>
+          <select id="psi-effusion"><option value="0">Tidak ada</option><option value="10">Ada (+10)</option></select></div>
+        <div class="info" style="font-size:12px;margin-top:10px">
+          <strong>Kelas Risiko PSI:</strong><br>
+          II ≤70 poin: Rawat jalan, mortalitas 0.6%<br>
+          III 71–90: Observasi singkat, mortalitas 0.9%<br>
+          IV 91–130: Rawat inap, mortalitas 9.3%<br>
+          V &gt;130: ICU, mortalitas 27%
+        </div>
+      </div>
+    </div>
+    <button class="calc-btn" onclick="calcPSI()">Hitung PSI Score</button>
+    <div id="psi-results" class="hidden" style="margin-top:12px"><div id="psi-result-content"></div></div>
+  </div>
+
+  <!-- SMART-COP -->
+  <div class="calc-box">
+    <div class="calc-title"><span>🧠</span> SMART-COP Score — Prediksi Kebutuhan Vasopressor / Ventilasi Mekanik</div>
+    <div class="grid2" style="gap:10px">
+      <div>
+        <div class="input-row"><label>Usia pasien</label><input type="number" id="sc-age" placeholder="cth: 55"><span class="unit">tahun</span></div>
+        <div class="subsec" style="margin-top:6px">8 Kriteria SMART-COP</div>
+        <div class="input-row"><label>S — Sistolik BP &lt;90</label>
+          <select id="sc-s"><option value="0">Tidak (0)</option><option value="2">Ya (+2)</option></select>
+        </div>
+        <div class="input-row"><label>M — Multilob X-ray</label>
+          <select id="sc-m"><option value="0">Tidak (0)</option><option value="1">Ya (+1)</option></select>
+        </div>
+        <div class="input-row"><label>A — Albumin &lt;3.5 g/dL</label>
+          <select id="sc-a"><option value="0">Tidak / tidak ada (0)</option><option value="1">Ya (+1)</option></select>
+        </div>
+        <div class="input-row"><label>R — RR (age-adjusted)</label>
+          <select id="sc-r"><option value="0">Normal (0)</option><option value="1">Ya (+1)</option></select>
+        </div>
+        <div style="font-size:11px;color:var(--muted);margin:-6px 0 8px 4px">≥25/mnt jika usia &lt;50; ≥30/mnt jika usia ≥50</div>
+        <div class="input-row"><label>T — Takikardia ≥125/mnt</label>
+          <select id="sc-t"><option value="0">Tidak (0)</option><option value="1">Ya (+1)</option></select>
+        </div>
+        <div class="input-row"><label>C — Confusion baru</label>
+          <select id="sc-c"><option value="0">Tidak (0)</option><option value="1">Ya (+1)</option></select>
+        </div>
+        <div class="input-row"><label>O — Oksigenasi rendah</label>
+          <select id="sc-o"><option value="0">Normal (0)</option><option value="2">Ya (+2)</option></select>
+        </div>
+        <div style="font-size:11px;color:var(--muted);margin:-6px 0 8px 4px">PaO₂ &lt;70 (usia &lt;50) / &lt;60 (≥50) · SpO₂ ≤93% (usia &lt;50) / ≤90% (≥50)</div>
+        <div class="input-row"><label>P — pH arteri &lt;7.35</label>
+          <select id="sc-p"><option value="0">Tidak / tidak ada (0)</option><option value="2">Ya (+2)</option></select>
+        </div>
+      </div>
+      <div>
+        <div class="info" style="margin-top:4px;font-size:12px">
+          <strong>Interpretasi SMART-COP (total max 11):</strong><br>
+          <span style="color:var(--teal)">●</span> 0–2: Risiko rendah — perawatan biasa<br>
+          <span style="color:var(--amber)">●</span> 3–4: Risiko sedang — ~1 dari 8<br>
+          <span style="color:var(--red)">●</span> 5–6: Risiko tinggi — ~1 dari 3<br>
+          <span style="color:var(--red)">●</span> ≥7: Risiko sangat tinggi — ~2 dari 3<br><br>
+          <strong>Endpoint: PIIT</strong> (Prolonged Intensive Inpatient Treatment) —<br>
+          kebutuhan vasopressor atau ventilasi mekanik invasif<br><br>
+          <strong>Lebih sensitif dari CURB-65</strong> untuk prediksi kebutuhan ICU-level care<br>
+          <sup class="cite-ref" data-refs="charles2008"></sup>
+        </div>
+      </div>
+    </div>
+    <button class="calc-btn" onclick="calcSMARTCOP()">Hitung SMART-COP</button>
+    <div id="sc-results" class="hidden" style="margin-top:12px"><div id="sc-result-content"></div></div>
+  </div>
+
+  <!-- ATS/IDSA Severe CAP Criteria — Interactive -->
+  <style>
+  .ats-check-card {
+    display:flex; align-items:flex-start; gap:10px;
+    padding:9px 12px; border:1px solid var(--border); border-radius:8px;
+    background:var(--bg); cursor:pointer;
+    transition:background 0.12s, border-color 0.12s;
+    font-size:12px; color:var(--text); line-height:1.45; user-select:none;
+  }
+  .ats-check-card:hover { background:var(--bg2); border-color:var(--border-hi); }
+  .ats-check-card.checked { border-color:var(--red); background:rgba(255,59,92,0.07); }
+  .ats-check-card.major.checked { background:rgba(255,59,92,0.11); }
+  .ats-check-card input[type="checkbox"] {
+    margin-top:2px; flex-shrink:0; width:15px; height:15px;
+    accent-color:var(--red); cursor:pointer;
+  }
+  .ats-minor-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+  @media(max-width:500px){ .ats-minor-grid { grid-template-columns:1fr; } }
+  .ats-result-badge {
+    display:flex; align-items:center; gap:8px;
+    padding:12px 14px; border-radius:10px;
+    font-size:13px; font-weight:700;
+    border:1.5px solid var(--border); color:var(--muted); background:var(--bg2);
+    line-height:1.4;
+  }
+  .ats-result-badge.severe { border-color:var(--red); background:rgba(255,59,92,0.08); color:var(--red); }
+  .ats-result-badge.ok    { border-color:var(--teal); background:rgba(0,255,136,0.07); color:var(--teal); }
+  .ats-cat-label {
+    font-size:10px; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; margin-bottom:6px;
+  }
+  </style>
+
+  <div class="calc-box">
+    <div class="calc-title"><span>🏥</span> ATS/IDSA 2007 — Kriteria Severe CAP &amp; Indikasi Admisi ICU</div>
+    <div class="info" style="font-size:12px;margin-bottom:14px">
+      <strong>Severe CAP = 1 Kriteria Mayor</strong> (langsung ICU) <strong>ATAU ≥3 Kriteria Minor</strong> dari 9 yang tersedia.
+    </div>
+
+    <div class="grid2" style="gap:18px">
+
+      <!-- LEFT: Referensi tabel -->
+      <div>
+        <div class="subsec">Referensi Kriteria</div>
+
+        <div class="ats-cat-label" style="color:var(--red);margin-top:10px">Kriteria Mayor — 1 = Severe CAP</div>
+        <table style="font-size:12px;width:100%">
+          <tr><th style="text-align:left;padding:5px 8px">#</th><th style="text-align:left;padding:5px 8px">Kriteria</th></tr>
+          <tr><td style="padding:5px 8px;color:var(--muted)">M1</td><td style="padding:5px 8px">Membutuhkan ventilasi mekanik invasif</td></tr>
+          <tr><td style="padding:5px 8px;color:var(--muted)">M2</td><td style="padding:5px 8px">Syok septik yang membutuhkan vasopressor</td></tr>
+        </table>
+
+        <div class="ats-cat-label" style="color:var(--amber);margin-top:12px">Kriteria Minor — ≥3 dari 9 = Severe CAP</div>
+        <table style="font-size:12px;width:100%">
+          <tr><th style="text-align:left;padding:5px 8px">#</th><th style="text-align:left;padding:5px 8px">Kriteria</th><th style="text-align:left;padding:5px 8px">Threshold</th></tr>
+          <tr><td style="padding:5px 8px;color:var(--muted)">1</td><td style="padding:5px 8px">Frekuensi napas</td><td style="padding:5px 8px"><strong>≥30/mnt</strong></td></tr>
+          <tr><td style="padding:5px 8px;color:var(--muted)">2</td><td style="padding:5px 8px">PaO₂/FiO₂ Ratio</td><td style="padding:5px 8px"><strong>≤250</strong></td></tr>
+          <tr><td style="padding:5px 8px;color:var(--muted)">3</td><td style="padding:5px 8px">Infiltrat multilobar</td><td style="padding:5px 8px"><strong>Bilateral/&gt;1 lobus</strong></td></tr>
+          <tr><td style="padding:5px 8px;color:var(--muted)">4</td><td style="padding:5px 8px">Konfusi/Disorientasi baru</td><td style="padding:5px 8px"><strong>Ya</strong></td></tr>
+          <tr><td style="padding:5px 8px;color:var(--muted)">5</td><td style="padding:5px 8px">Uremia (BUN)</td><td style="padding:5px 8px"><strong>≥20 mg/dL</strong></td></tr>
+          <tr><td style="padding:5px 8px;color:var(--muted)">6</td><td style="padding:5px 8px">Leukopenia</td><td style="padding:5px 8px"><strong>WBC &lt;4.000/mm³</strong></td></tr>
+          <tr><td style="padding:5px 8px;color:var(--muted)">7</td><td style="padding:5px 8px">Trombositopenia</td><td style="padding:5px 8px"><strong>Plt &lt;100.000/mm³</strong></td></tr>
+          <tr><td style="padding:5px 8px;color:var(--muted)">8</td><td style="padding:5px 8px">Hipotermia (suhu inti)</td><td style="padding:5px 8px"><strong>&lt;36°C</strong></td></tr>
+          <tr><td style="padding:5px 8px;color:var(--muted)">9</td><td style="padding:5px 8px">Hipotensi + resusitasi agresif</td><td style="padding:5px 8px"><strong>Ya</strong></td></tr>
+        </table>
+
+        <sup class="cite-ref" data-refs="mandell2007" style="margin-top:10px;display:block"></sup>
+      </div>
+
+      <!-- RIGHT: Checklist interaktif -->
+      <div>
+        <div class="subsec">Checklist Interaktif</div>
+
+        <!-- Major -->
+        <div class="ats-cat-label" style="color:var(--red);margin-top:10px">⛔ Kriteria Mayor — salah satu = Severe CAP</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <label class="ats-check-card major" id="ats-maj-card-1">
+            <input type="checkbox" id="ats-maj-1" onchange="updateATSCheck()">
+            <span><strong>M1</strong> — Membutuhkan ventilasi mekanik invasif</span>
+          </label>
+          <label class="ats-check-card major" id="ats-maj-card-2">
+            <input type="checkbox" id="ats-maj-2" onchange="updateATSCheck()">
+            <span><strong>M2</strong> — Syok septik membutuhkan vasopressor</span>
+          </label>
+        </div>
+
+        <!-- Minor -->
+        <div class="ats-cat-label" style="color:var(--amber);margin-top:14px">⚠ Kriteria Minor — ≥3 dari 9</div>
+        <div class="ats-minor-grid">
+          <label class="ats-check-card" id="ats-min-card-1"><input type="checkbox" id="ats-min-1" onchange="updateATSCheck()"><span><strong>1</strong> — RR ≥30/mnt</span></label>
+          <label class="ats-check-card" id="ats-min-card-2"><input type="checkbox" id="ats-min-2" onchange="updateATSCheck()"><span><strong>2</strong> — P/F Ratio ≤250</span></label>
+          <label class="ats-check-card" id="ats-min-card-3"><input type="checkbox" id="ats-min-3" onchange="updateATSCheck()"><span><strong>3</strong> — Infiltrat multilobar</span></label>
+          <label class="ats-check-card" id="ats-min-card-4"><input type="checkbox" id="ats-min-4" onchange="updateATSCheck()"><span><strong>4</strong> — Konfusi/disorientasi</span></label>
+          <label class="ats-check-card" id="ats-min-card-5"><input type="checkbox" id="ats-min-5" onchange="updateATSCheck()"><span><strong>5</strong> — BUN ≥20 mg/dL</span></label>
+          <label class="ats-check-card" id="ats-min-card-6"><input type="checkbox" id="ats-min-6" onchange="updateATSCheck()"><span><strong>6</strong> — WBC &lt;4.000/mm³</span></label>
+          <label class="ats-check-card" id="ats-min-card-7"><input type="checkbox" id="ats-min-7" onchange="updateATSCheck()"><span><strong>7</strong> — Plt &lt;100.000/mm³</span></label>
+          <label class="ats-check-card" id="ats-min-card-8"><input type="checkbox" id="ats-min-8" onchange="updateATSCheck()"><span><strong>8</strong> — Suhu inti &lt;36°C</span></label>
+          <label class="ats-check-card" id="ats-min-card-9"><input type="checkbox" id="ats-min-9" onchange="updateATSCheck()"><span><strong>9</strong> — Hipotensi + resus agresif</span></label>
+        </div>
+
+        <!-- Result badge -->
+        <div id="ats-result-badge" class="ats-result-badge" style="margin-top:14px">
+          Pilih kriteria untuk melihat klasifikasi
+        </div>
+
+        <!-- Counter + Reset -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;gap:8px">
+          <span id="ats-minor-count" style="font-size:12px;color:var(--muted)">0 dari 9 kriteria minor terpenuhi</span>
+          <button onclick="resetATSCheck()"
+            style="font-size:11px;padding:4px 14px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-family:inherit;flex-shrink:0;transition:border-color 0.12s,color 0.12s"
+            onmouseover="this.style.borderColor='var(--border-hi)';this.style.color='var(--text)'"
+            onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
+            ↺ Reset
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- A-a Gradient -->
+  <div class="calc-box">
+    <div class="calc-title"><span>💨</span> A-a Gradient — Analisis Hipoksemia</div>
+    <div class="grid2" style="gap:10px">
+      <div>
+        <div class="input-row"><label>FiO₂ (0.21–1.0)</label><input type="number" id="aa-fio2" placeholder="cth: 0.21" step="0.01" min="0.21" max="1.0"></div>
+        <div class="input-row"><label>PaCO₂</label><input type="number" id="aa-paco2" placeholder="cth: 40" min="10" max="120"><span class="unit">mmHg</span></div>
+        <div class="input-row"><label>PaO₂</label><input type="number" id="aa-pao2" placeholder="cth: 70" min="20" max="600"><span class="unit">mmHg</span></div>
+        <div class="input-row"><label>Usia pasien <span style="font-size:10px;color:var(--muted)">(utk nilai normal)</span></label><input type="number" id="aa-age" placeholder="cth: 55"><span class="unit">tahun</span></div>
+        <div class="input-row"><label>Tekanan atm</label><input type="number" id="aa-patm" placeholder="760" value="760" min="500" max="800"><span class="unit">mmHg</span></div>
+      </div>
+      <div>
+        <div class="info" style="margin-top:4px;font-size:12px">
+          <strong>Formula:</strong><br>
+          PAO₂ = FiO₂ × (Patm − 47) − PaCO₂/0.8<br>
+          A-a Gradient = PAO₂ − PaO₂<br>
+          Normal ≈ Usia/4 + 4 mmHg (udara ruang)<br><br>
+          <strong>Interpretasi:</strong><br>
+          A-a normal → hipoksemia karena hipoventilasi<br>
+          A-a ↑ → V/Q mismatch, shunt, gangguan difusi<br>
+          A-a sangat ↑ (&gt;350 pada FiO₂ 1.0) → shunt berat
+          <span style="font-size:11px;color:var(--muted);display:block;margin-top:4px">West JB. Respiratory Physiology. 9th ed. 2012</span>
+        </div>
+      </div>
+    </div>
+    <button class="calc-btn" onclick="calcAAGradient()">Hitung A-a Gradient</button>
+    <div id="aa-results" class="hidden" style="margin-top:12px"><div id="aa-result-content"></div></div>
+  </div>
+</div>
+
+<!-- =========================================================== -->
+<!-- SUB: ELECTRO -->
+<!-- =========================================================== -->
+
+<script src="../../assets/js/scripts-kalkulator-pulmo.js"></script>
+<script src="../../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../../assets/js/feedback.js"></script>
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+  <script src="../../assets/data/references.js"></script>
+  <script src="../../assets/js/scripts-citations.js"></script>
+</body>
+</html>

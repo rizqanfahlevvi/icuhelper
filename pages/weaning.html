@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weaning — Cheatsheet Ventilator Dewasa</title>
+<link rel="stylesheet" href="../assets/css/styles.css">
+<script>
+/* Anti-FOUC: apply saved theme before paint */
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../index.html">🏠 Home</a>
+  <a class="tab-btn" href="kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="abg.html">🩸 ABG</a>
+  <a class="tab-btn active" href="weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="ekg.html">📈 EKG</a>
+  <a class="tab-btn" href="teori.html">📖 Teori</a>
+  <a class="tab-btn" href="skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../referensi.html">📚 Referensi</a>
+</nav>
+
+<div class="calc-box">
+  <div class="calc-title"><span>📏</span> Kalkulator RSBI, MIP & Readiness to Wean (Dewasa)</div>
+  <div class="info" style="margin-bottom:12px">
+    <strong>RSBI (Rapid Shallow Breathing Index)</strong> = RR spontan / VT (L). Diukur saat SBT minimal (PEEP 5, PS ≤5 cmH₂O atau T-piece, selama 1–3 menit spontan breathing).
+  </div>
+  <div class="grid2" style="gap:10px">
+    <div>
+      <div class="input-row"><label>RR Spontan (/mnt)</label><input type="number" id="rsbRR" step="1" min="1" max="60" placeholder="cth: 18"></div>
+      <div class="input-row"><label>VT Spontan (mL)</label><input type="number" id="rsbVT" step="1" min="50" max="2000" placeholder="cth: 400"></div>
+      <div class="input-row"><label>BB / IBW (kg)</label><input type="number" id="rsbBB" step="0.5" min="20" max="200" placeholder="cth: 65"></div>
+      <div class="input-row"><label>MV (Menit Volume, L/mnt)</label><input type="number" id="rsbMV" step="0.1" min="1" max="30" placeholder="cth: 7.2"></div>
+    </div>
+    <div>
+      <div class="input-row"><label>MIP / NIF (cmH₂O)</label><input type="number" id="rsbMIP" step="1" min="-120" max="0" placeholder="misal -35 (opsional)"></div>
+      <div class="input-row"><label>MEP (cmH₂O)</label><input type="number" id="rsbMEP" step="1" min="0" max="200" placeholder="normal &gt;60 (opsional)"></div>
+      <div class="input-row"><label>PEEP saat ini (cmH₂O)</label><input type="number" id="rsbPEEP" step="1" min="0" max="30" placeholder="cth: 5"></div>
+      <div class="input-row"><label>PS saat ini (cmH₂O)</label><input type="number" id="rsbPS" step="1" min="0" max="30" placeholder="cth: 8"></div>
+    </div>
+  </div>
+  <button class="calc-btn" style="margin-top:8px" onclick="calcRSBI()">Evaluasi Weaning</button>
+  <div id="rsbi-results" class="hidden" style="margin-top:14px">
+    <div id="rsbi-result-content"></div>
+  </div>
+</div>
+
+<div class="sec">Readiness to Wean — Checklist Lengkap</div>
+<div class="card">
+  <div class="grid2">
+    <div>
+      <h3>Kriteria Klinis</h3>
+      <div class="check-item"><input type="checkbox"><div><div class="check-label">Penyebab gagal napas terkontrol/membaik</div></div></div>
+      <div class="check-item"><input type="checkbox"><div><div class="check-label">FiO₂ ≤0.40 dengan SpO₂ ≥90% (atau P/F ≥150)</div></div></div>
+      <div class="check-item"><input type="checkbox"><div><div class="check-label">PEEP ≤8 cmH₂O</div></div></div>
+      <div class="check-item"><input type="checkbox"><div><div class="check-label">Hemodinamik stabil (tanpa vasopressor atau dosis rendah)</div></div></div>
+      <div class="check-item"><input type="checkbox"><div><div class="check-label">pH ≥7.25</div></div></div>
+      <div class="check-item"><input type="checkbox"><div><div class="check-label">Sadar cukup (RASS -1 s/d +1)</div></div></div>
+      <div class="check-item"><input type="checkbox"><div><div class="check-label">Tidak dalam NMB aktif</div></div></div>
+    </div>
+    <div>
+      <h3>Kriteria Kekuatan Napas</h3>
+      <div class="check-item"><input type="checkbox"><div><div class="check-label">RSBI &lt;80 breaths/mnt/L</div></div></div>
+      <div class="check-item"><input type="checkbox"><div><div class="check-label">VT spontan ≥5 mL/kg IBW</div></div></div>
+      <div class="check-item"><input type="checkbox"><div><div class="check-label">MIP/NIF ≤ −25 cmH₂O (idealnya ≤ −30)</div></div></div>
+      <div class="check-item"><input type="checkbox"><div><div class="check-label">MEP ≥40 cmH₂O (GBS/MG: ≥60)</div></div></div>
+      <div class="check-item"><input type="checkbox"><div><div class="check-label">Batuk efektif (sekret dapat dikeluarkan)</div></div></div>
+      <div class="check-item"><input type="checkbox"><div><div class="check-label">Cuff leak test positif (stridor risiko post-ekstubasi)</div></div></div>
+      <div class="check-item"><input type="checkbox"><div><div class="check-label">CAM-ICU negatif (tidak delirium aktif)</div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="sec">SBT Protocol, Ekstubasi & Post-Ekstubasi</div>
+<div class="grid3">
+  <div class="card">
+    <h3>1. SBT (Spontaneous Breathing Trial)</h3>
+    <div class="step"><div class="snum">1</div><div><div class="stitle">Pilih Metode SBT</div><div class="sdesc">T-piece (tidak ada support) ATAU PSV 5–8 cmH₂O + PEEP 5. Durasi: 30–120 menit.</div></div></div>
+    <div class="step"><div class="snum">2</div><div><div class="stitle">Monitor Selama SBT</div><div class="sdesc">RR, SpO₂, HR, TD, work of breathing, agitasi. Evaluasi tiap 15–30 mnt.</div></div></div>
+    <div class="step"><div class="snum">3</div><div><div class="stitle">Kriteria Lulus SBT</div><div class="sdesc">SpO₂ ≥90%, RR &lt;35/mnt, HR ±20% baseline, TD ±20%, tidak ada distress napas berat.</div></div></div>
+    <div class="step"><div class="snum">4</div><div><div class="stitle">Gagal SBT</div><div class="sdesc">Kembalikan ke ventilator dengan support sebelumnya. Identifikasi penyebab. Ulangi SAT esok hari.</div></div></div>
+    <p style="font-size:11px;margin-top:8px;color:var(--muted)">📚 Ely EW. NEJM 1996 (SBT)</p>
+  </div>
+  <div class="card">
+    <h3>2. Prosedur Ekstubasi</h3>
+    <div class="step"><div class="snum">1</div><div><div class="stitle">Persiapan</div><div class="sdesc">Posisikan head up 30-45°. Siapkan suction, spuit 10cc, sungkup oksigen, ambu bag, & kit intubasi darurat (plan B).</div></div></div>
+    <div class="step"><div class="snum">2</div><div><div class="stitle">Premedikasi & Suction</div><div class="sdesc">Suction ETT, subglotis, & oral. Jika risiko laryngeal edema (cuff leak negatif): berikan Dexamethasone 5 mg IV.</div></div></div>
+    <div class="step"><div class="snum">3</div><div><div class="stitle">Pelepasan ETT</div><div class="sdesc">Kempiskan cuff ETT (deflasi total). Instruksikan pasien tarik napas dalam (atau berikan napas positif), cabut ETT perlahan di akhir inspirasi.</div></div></div>
+    <div class="step"><div class="snum">4</div><div><div class="stitle">Stridor / Bronkospasme</div><div class="sdesc">Bila terjadi stridor: nebul Epinefrin (1 mg + 3 cc NaCl) atau Salbutamol nebulizer. Monitor jalan napas.</div></div></div>
+    <p style="font-size:11px;margin-top:8px;color:var(--muted)">📚 Epinefrin nebulizer terbukti efektif mengurangi laryngeal edema pasca-ekstubasi.</p>
+  </div>
+  <div class="card">
+    <h3>3. Post-Ekstubasi Management</h3>
+    <div class="step"><div class="snum">1</div><div><div class="stitle">HFNC Preventif</div><div class="sdesc">Pasien risiko tinggi (lansia, obesitas, PPOK, hiperkapnia): HFNC 40–60 L/mnt segera setelah ekstubasi.</div></div></div>
+    <div class="step"><div class="snum">2</div><div><div class="stitle">NIV Post-Ekstubasi</div><div class="sdesc">PPOK: NIV (BiPAP) profilaksis menurunkan re-intubasi. IPAP 14–16, EPAP 5–8.</div></div></div>
+    <div class="step"><div class="snum">3</div><div><div class="stitle" style="color:var(--red)">⚠ Tanda Gagal Ekstubasi</div><div class="sdesc">Tachypnea menetap, retraksi, stridor berat refrakter, asidosis respiratorik memburuk → re-intubasi segera.</div></div></div>
+    <p style="font-size:11px;margin-top:8px;color:var(--muted)">📚 Hernandez G. JAMA 2016 (HFNC) · Nava S. Lancet 2001 (NIV)</p>
+  </div>
+</div>
+
+<div class="theory-dropdown" style="margin-top:6px">
+  <button class="theory-btn" onclick="toggleTheory('rsbi-theory')">📖 Teori RSBI, MIP/NIF & Prediksi Weaning Sukses <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-rsbi-theory">
+    <div class="subsec">RSBI (Rapid Shallow Breathing Index)</div>
+    <table>
+      <tr><th>Nilai RSBI</th><th>Interpretasi</th><th>Aksi</th></tr>
+      <tr><td>&lt;80 bpm/L</td><td><span class="badge bg">Baik</span></td><td>Pertimbangkan ekstubasi jika kriteria lain terpenuhi</td></tr>
+      <tr><td>80–105 bpm/L</td><td><span class="badge ba">Borderline</span></td><td>SBT lebih panjang; evaluasi faktor penghambat</td></tr>
+      <tr><td>&gt;105 bpm/L</td><td><span class="badge br">Buruk</span></td><td>Weaning kemungkinan gagal; optimalkan kondisi</td></tr>
+    </table>
+    <div class="subsec">MIP/NIF (Maximal Inspiratory Pressure)</div>
+    <ul>
+      <li><strong>Pengukuran:</strong> Oklusi sirkuit napas selama 20 detik → pasien menarik napas maksimal → baca tekanan negatif maksimum.</li>
+      <li>MIP ≤ −30 cmH₂O: Kekuatan otot napas adekuat untuk ekstubasi</li>
+      <li>MIP −20 s/d −30 cmH₂O: Borderline — evaluasi faktor lain</li>
+      <li>MIP &gt; −20 cmH₂O (mis. -10): Lemah → risiko gagal ekstubasi tinggi</li>
+      <li><strong>Pada GBS/MG:</strong> Target MIP ≤ −30 (rule of 20-30-40)</li>
+    </ul>
+    <div class="subsec">Faktor Penghambat Weaning</div>
+    <ul>
+      <li>Kardiovaskular: gagal jantung kiri tersembunyi (periksa echo, BNP)</li>
+      <li>Psikologis: ketergantungan ventilator, anxietas, ICU-acquired weakness</li>
+      <li>Metabolik: hipofosfatemia, hipomagnesemia, hipotiroid (↓ kekuatan otot napas)</li>
+      <li>Neuromuskuler: VIDD (diaphragm dysfunction), polineuropati ICU</li>
+      <li>Sekret berlebihan: suction tidak adekuat, bronkospasme</li>
+      <li>Delirium: CAM-ICU positif → tunda ekstubasi, atasi delirium</li>
+    </ul>
+    <sup class="cite-ref" data-refs="yang1991,boles2007,meade2001"></sup>
+  </div>
+</div>
+
+<script src="../assets/js/scripts-weaning.js"></script>
+<script src="../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../assets/js/feedback.js"></script>
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+  <script src="../assets/data/references.js"></script>
+  <script src="../assets/js/scripts-citations.js"></script>
+</body>
+</html>
+

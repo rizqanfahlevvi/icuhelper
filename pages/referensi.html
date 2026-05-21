@@ -1,0 +1,582 @@
+﻿<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Referensi — ICU/ER Helper</title>
+<link rel="stylesheet" href="../assets/css/styles.css">
+<script>
+/* Anti-FOUC: apply saved theme before paint */
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../index.html">🏠 Home</a>
+  <a class="tab-btn" href="../pages/kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../pages/setting.html">⚙️ Setting</a>
+  <a class="tab-btn" href="../pages/monitoring.html">📈 Monitoring</a>
+  <a class="tab-btn" href="../pages/abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../pages/weaning.html">🌬️ Weaning</a>
+  <a class="tab-btn" href="../pages/ekg.html">🫀 EKG</a>
+  <a class="tab-btn" href="../pages/teori.html">📖 Teori</a>
+  <a class="tab-btn" href="../pages/skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../pages/cairan.html">💧 Cairan</a>
+  <a class="tab-btn active" href="referensi.html">📚 Referensi</a>
+</nav>
+
+<div class="sec" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+  <span>🔥 Pembaruan Panduan &amp; Studi Kunci 2022–2025</span>
+  <span style="font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:700;background:var(--accent-dim2);padding:3px 8px;border-radius:6px;">NEW</span>
+</div>
+<div class="card">
+  <table>
+    <tr><th style="width:32%">Publikasi / Panduan</th><th style="width:16%">Topik</th><th>Update Kunci</th></tr>
+    <tr>
+      <td><strong>Evans L et al. SSC 2024. Intensive Care Med 2024;50:744</strong><sup class="cite-ref" data-refs="evans2024"></sup></td>
+      <td>Sepsis — SSC Update</td>
+      <td>Update SSC 2021: perkenalkan resusitasi berbasis perfusi (CRT vs laktat), de-eskalasi antibiotik dipandu PCT, rekomendasi kuat balanced crystalloid.</td>
+    </tr>
+    <tr>
+      <td><strong>ESICM ARDS Guidelines 2023. Intensive Care Med 2023;49:727</strong><sup class="cite-ref" data-refs="esicm2023ards"></sup></td>
+      <td>ARDS — Guidelines</td>
+      <td>Definisi ARDS baru (Global 2023): HFNC =30 L/mnt + SpO2/FiO2 =315 masuk kriteria. Phenotyping hypoinflammatory vs hyperinflammatory. Driving pressure sebagai target utama.</td>
+    </tr>
+    <tr>
+      <td><strong>Devlin JW et al. SCCM PADIS 2025. Crit Care Med 2025;53:e711</strong><sup class="cite-ref" data-refs="padis2025"></sup></td>
+      <td>Sedasi ICU — PADIS</td>
+      <td>Update 2025: dexmedetomidine lebih diutamakan dari propofol untuk sedasi ringan. Penguatan ABCDEF bundle. Targeted light sedation (RASS -1 s/d 0) sebagai standar.</td>
+    </tr>
+    <tr>
+      <td><strong>Bhatt DL et al. MENDS-2. NEJM 2024;390:307</strong><sup class="cite-ref" data-refs="bhatt2024"></sup></td>
+      <td>RSI — Induksi</td>
+      <td>RCT 686 pasien ICU: etomidate vs ketamine untuk intubasi emergensi — tidak ada perbedaan mortalitas, ventilator-free days, atau vasopressor. Etomidate aman pada sepsis.</td>
+    </tr>
+    <tr>
+      <td><strong>Brown CA et al. NEJM 2023;389:1943</strong><sup class="cite-ref" data-refs="brown2023"></sup></td>
+      <td>RSI — Teknik</td>
+      <td>First-pass success rate =95% dikaitkan ? mortalitas in-hospital. Video laryngoscopy sebagai first-line standard di setting emergensi.</td>
+    </tr>
+    <tr>
+      <td><strong>Torres A et al. ERS/ESICM HAP/VAP 2022. Eur Respir J 2022;60:2200</strong><sup class="cite-ref" data-refs="torres2022"></sup></td>
+      <td>VAP — Guidelines</td>
+      <td>Update 2022: CPIS bukan alat diagnosis utama VAP. Kultur kuantitatif (BAL =104 CFU/mL). De-eskalasi 48–72 jam berbasis kultur. Durasi terapi 7–8 hari untuk sebagian besar VAP.</td>
+    </tr>
+    <tr>
+      <td><strong>Cornely OA et al. ESCMID/ECMM 2023. Clin Microbiol Infect 2023</strong><sup class="cite-ref" data-refs="cornely2023"></sup></td>
+      <td>Kandidiasis Invasif</td>
+      <td>Echinocandin (anidulafungin/caspofungin) utama ICU. ß-D-glucan =80 pg/mL sebagai biomarker diagnostik. De-eskalasi ke flukonazol hanya bila pasien stabil + isolat sensitif + klinis membaik.</td>
+    </tr>
+    <tr>
+      <td><strong>Gaudry S et al. AKIKI-2. Lancet 2021;397:1293</strong><sup class="cite-ref" data-refs="gaudry2021"></sup></td>
+      <td>RRT — Timing</td>
+      <td>Delayed strategy RRT lebih unggul: mortalitas serupa namun 40% pasien terhindar dari RRT. Bukti kuat menunda RRT jika tidak ada indikasi urgensi absolut.</td>
+    </tr>
+    <tr>
+      <td><strong>STARRT-AKI Investigators. NEJM 2020;383:240</strong><sup class="cite-ref" data-refs="startaki2020"></sup></td>
+      <td>RRT — Timing</td>
+      <td>3.019 pasien AKI berat: accelerated vs standard RRT — tidak ada perbedaan mortalitas 90-hari. 38,5% kelompok standard tidak butuh RRT sama sekali.</td>
+    </tr>
+    <tr>
+      <td><strong>Hernández G et al. ANDROMEDA-SHOCK-2. JAMA 2023;329:1224</strong><sup class="cite-ref" data-refs="hernandez2023"></sup></td>
+      <td>Sepsis — Resusitasi</td>
+      <td>CRT-guided vs laktat-guided resusitasi: mortalitas 28-hari setara. CRT =3 detik sebagai target alternatif valid — berguna di sumber daya terbatas tanpa akses laktat cepat.</td>
+    </tr>
+    <tr>
+      <td><strong>Hjortrup PB et al. CLASSIC. NEJM 2022;386:2459</strong><sup class="cite-ref" data-refs="hjortrup2022"></sup></td>
+      <td>Sepsis — Cairan Restriktif</td>
+      <td>Restrictive fluid strategy (stop cairan setelah 1 L post-stabilisasi) vs liberal: mortalitas serupa. Mendukung pendekatan deresusitasi aktif dan target cairan minimal.</td>
+    </tr>
+    <tr>
+      <td><strong>Lamontagne F et al. LOVIT. NEJM 2022;386:2387</strong><sup class="cite-ref" data-refs="lamontagne2022"></sup></td>
+      <td>Vitamin C — Sepsis</td>
+      <td>Vitamin C IV dosis tinggi (66,7 mg/kg/6 jam × 96 jam) pada sepsis: tidak ada manfaat mortalitas — bahkan cenderung lebih buruk. Tidak direkomendasikan rutin.</td>
+    </tr>
+    <tr>
+      <td><strong>Fujii T et al. VITAMINS. JAMA 2020;323:423</strong><sup class="cite-ref" data-refs="fujii2020"></sup></td>
+      <td>Vit C+Hc+Thiamin</td>
+      <td>Triple therapy (vitamin C + hidrokortison + tiamin) vs hidrokortison saja: tidak ada perbedaan vasopressor-free days. Kombinasi triple tidak direkomendasikan.</td>
+    </tr>
+    <tr>
+      <td><strong>Singer P et al. ESPEN 2023. Clin Nutr 2023;42:1671</strong><sup class="cite-ref" data-refs="singer2023"></sup></td>
+      <td>Nutrisi ICU</td>
+      <td>Update ESPEN 2023: target protein 1,3 g/kgBB/hari fase akut, naik bertahap ke 1,5–2,0 g/kgBB/hari. EN dini dalam 24–48 jam. Hindari overfeeding awal (hypocaloric feeding fase akut).</td>
+    </tr>
+    <tr>
+      <td><strong>Taylor BE et al. ASPEN/SCCM 2022. JPEN 2022;46:12</strong><sup class="cite-ref" data-refs="aspen2022"></sup></td>
+      <td>Nutrisi ICU</td>
+      <td>ASPEN/SCCM update: EN dalam 24–48 jam, protein 1,2–2,0 g/kgBB/hari, indirect calorimetry gold standard. GRV tidak direkomendasikan sebagai alat monitor EN rutin.</td>
+    </tr>
+    <tr>
+      <td><strong>Pun BT et al. ABCDEF Bundle. Crit Care Med 2019;47:3</strong><sup class="cite-ref" data-refs="pun2021"></sup></td>
+      <td>ABCDEF Bundle</td>
+      <td>15.226 pasien ICU: adherence ABCDEF bundle lebih tinggi ? ? delirium 28%, ? koma, ? mortalitas 30-hari, ? lama rawat ICU, ? restraint fisik. Setiap elemen berkontribusi independen.</td>
+    </tr>
+    <tr>
+      <td><strong>Flaatten H et al. Ann Intensive Care 2021;11:22</strong><sup class="cite-ref" data-refs="flaatten2024"></sup></td>
+      <td>Frailty — CFS ICU</td>
+      <td>Validasi CFS di ICU usia lanjut: inter-rater reliability kappa 0,78–0,91. CFS =5 ? ? mortalitas dan ? functional recovery pada 6 bulan, independen dari diagnosis primer.</td>
+    </tr>
+    <tr>
+      <td><strong>GOLD 2024 Guidelines</strong><sup class="cite-ref" data-refs="gold2024"></sup></td>
+      <td>PPOK — Panduan</td>
+      <td>Reklasifikasi PPOK: GOLD A/B/E (menggantikan C/D). Penekanan pada personalisasi terapi. NIV pada eksaserbasi berat pH 7,25–7,35 tetap standar. Permissive hypercapnia pada ventilasi invasif.</td>
+    </tr>
+  </table>
+</div>
+
+<div class="sec">Referensi Internasional — Ventilasi Mekanik & ARDS</div>
+<div class="card">
+  <table>
+    <tr><th style="width:32%">Publikasi / Panduan</th><th style="width:18%">Topik</th><th>Kesimpulan Kunci</th></tr>
+    <tr><td><strong>ARDSNet. NEJM 2000;342:1301</strong></td><td>VT rendah ARDS</td><td>VT 6 vs 12 mL/kg IBW ? mortalitas ? dari 39.8% ? 31%. Landasan lung-protective ventilation.</td></tr>
+    <tr><td><strong>Guérin C (PROSEVA). NEJM 2013;368:2159</strong></td><td>Prone position</td><td>Prone 16 jam/hari pada P/F &lt;150 ? mortalitas ? 32.8% ? 16%. NNT = 6.</td></tr>
+    <tr><td><strong>Amato MB. NEJM 2015;372:747</strong></td><td>Driving pressure</td><td>Driving pressure (Pplat-PEEP) prediktor mortalitas terkuat. ?1 cmH2O DP ? ?4–7% mortalitas.</td></tr>
+    <tr><td><strong>Berlin Definition. JAMA 2012;307:2526</strong></td><td>Definisi ARDS</td><td>Klasifikasi mild/moderate/severe berdasar P/F + PEEP =5. Menggantikan AECC 1994.</td></tr>
+    <tr><td><strong>Writing Group ARDS Task Force. JAMA 2024</strong></td><td>Global ARDS Definisi</td><td>Revisi 2023: HFNC (SpO2/FiO2 &lt;315, flow =30 L/mnt) dan NIV masuk sebagai kriteria oksigenasi.</td></tr>
+    <tr><td><strong>Papazian (ACURASYS). NEJM 2010;363:1107</strong></td><td>NMB ARDS</td><td>Cisatrakurium 48 jam pada P/F &lt;120 ? ? barotrauma & mortalitas. ROSE 2019: tidak konfirmasi pada P/F =120.</td></tr>
+    <tr><td><strong>Frat JP (FLORALI). NEJM 2015;372:2185</strong></td><td>HFNC vs NIV</td><td>HFNC superior untuk hipoksemia akut (non-PPOK): mortalitas 90-hari 35% vs 53% (NIV).</td></tr>
+    <tr><td><strong>Ferreyro BL. JAMA 2020;324:57</strong></td><td>NIV meta-analisis</td><td>NIV helmet superior vs face mask NIV dan HFNC untuk mortalitas pada hipoksemia akut.</td></tr>
+    <tr><td><strong>Roca O. AJRCCM 2019;199:1368</strong></td><td>ROX Index</td><td>ROX &lt;3.85 pada jam 2 ? risiko intubasi tinggi. Validasi prospektif multisenter.</td></tr>
+    <tr><td><strong>Talmor D. NEJM 2008;359:2095</strong></td><td>Esophageal PEEP</td><td>PEEP guided transpulmonary pressure ? perbaikan oksigenasi & compliance vs ARDSNet table.</td></tr>
+    <tr><td><strong>Meade MO (LOV). JAMA 2008;299:637</strong></td><td>High PEEP ARDS</td><td>High PEEP tidak ? mortalitas signifikan vs ARDSNet, tapi ? refractory hypoxemia.</td></tr>
+    <tr><td><strong>Hernandez G. JAMA 2016;316:1565</strong></td><td>HFNC post-ekstubasi</td><td>HFNC superior vs O2 konvensional untuk risiko tinggi re-intubasi dalam 72 jam.</td></tr>
+    <tr><td><strong>Lawn ND. Neurology 2001;56:1181</strong></td><td>GBS — Rule 20-30-40</td><td>VC &lt;20 mL/kg, MIP &lt;-30, MEP &lt;40 ? intubasi profilaktik.</td></tr>
+    <tr><td><strong>Rochwerg B. Eur Respir J 2017;50:1602426</strong></td><td>NIV ERS/ATS</td><td>NIV direkomendasikan pada PPOK eksaserbasi berat, edema paru kardiogenik, imunokompromis.</td></tr>
+    <tr><td><strong>GOLD Guidelines 2024</strong></td><td>PPOK</td><td>NIV pada PPOK eksaserbasi pH 7.25–7.35. Permissive hypercapnia pada ventilasi invasif.</td></tr>
+    <tr><td><strong>Girard TD (ABC protocol). Lancet 2008;371:126</strong></td><td>SAT + SBT</td><td>Paired SAT+SBT ? waktu ventilasi, ICU LOS, dan mortalitas 1 tahun.</td></tr>
+    <tr><td><strong>Yang KL, Tobin MJ. NEJM 1991;324:1445</strong></td><td>RSBI</td><td>RSBI &lt;80 ? prediksi weaning sukses. Sensitivity 97%, spesifisitas 64%.</td></tr>
+    <tr><td><strong>Demoule A. Eur Respir J 2016;47:521</strong></td><td>HACOR Score</td><td>HACOR =5 pada jam 1 NIV ? prediksi gagal NIV, AUC 0.88.</td></tr>
+  </table>
+</div>
+
+<div class="sec">Referensi — Induksi Intubasi & Farmakologi RSI</div>
+<div class="card">
+  <table>
+    <tr><th style="width:32%">Publikasi / Panduan</th><th style="width:18%">Topik</th><th>Kesimpulan Kunci</th></tr>
+    <tr><td><strong>Walls RM et al. Manual of Emergency Airway Management. 5th ed. 2022</strong></td><td>RSI — Algoritma</td><td>Standar referensi 7P RSI. Panduan komprehensif airway emergensi termasuk DSI dan failed airway management.</td></tr>
+    <tr><td><strong>Brown CA. NEJM 2023;389:1943</strong></td><td>RSI — Review</td><td>Update komprehensif RSI 2023: teknik, pilihan obat, monitoring pasca intubasi.</td></tr>
+    <tr><td><strong>Sorensen MK. Cochrane Database Syst Rev 2022;5:CD002788</strong></td><td>Sux vs Rocuronium RSI</td><td>Rocuronium 1.2 mg/kg non-inferior to succinylcholine untuk intubating conditions. Kualitas evidence: moderate.</td></tr>
+    <tr><td><strong>Tran DT. Can J Anaesth 2015;62:843</strong></td><td>Rocuronium RSI</td><td>Meta-analisis: rocuronium 1.2 mg/kg setara suksinilkolin untuk kondisi intubasi optimal.</td></tr>
+    <tr><td><strong>Perry JJ. Acad Emerg Med 2023;30:441</strong></td><td>NMB RSI emergensi</td><td>Rocuronium vs suksinilkolin pada RSI emergensi — tidak ada perbedaan bermakna pada first-pass success rate.</td></tr>
+    <tr><td><strong>Bhatt DL et al. MENDS-2. NEJM 2024;390:307</strong></td><td>Etomidate vs Ketamine</td><td>RCT 686 pasien ICU: etomidate vs ketamine tidak berbeda bermakna dalam ventilator-free days, mortalitas, atau vasopressor. Etomidate aman pada sepsis.</td></tr>
+    <tr><td><strong>Jabre P. Lancet 2009;374:293</strong></td><td>Etomidate — adrenal</td><td>Etomidate vs ketamine: supresi adrenal nyata namun mortalitas tidak berbeda pada studi pre-hospital.</td></tr>
+    <tr><td><strong>Zeiler FA. J Neurosurg Anesthesiol 2020;32:12</strong></td><td>Ketamine & TIK</td><td>Review sistematis: ketamine tidak meningkatkan TIK pada pasien berventilasi mekanik. Mitos terbantahkan.</td></tr>
+    <tr><td><strong>Cohen L. Emerg Med J 2015;32:145</strong></td><td>Ketamine emergensi</td><td>Ketamine aman dan efektif untuk RSI di setting emergensi, termasuk cedera kepala.</td></tr>
+    <tr><td><strong>Weingart SD. Ann Emerg Med 2015;65:349</strong></td><td>DSI</td><td>Delayed Sequence Intubation: ketamine 1–1.5 mg/kg memungkinkan pre-oksigenasi optimal pada pasien agitasi.</td></tr>
+    <tr><td><strong>STRIVE Hi Trial. Anaesthesia 2021;76:460</strong></td><td>Sugammadex rescue</td><td>Sugammadex 16 mg/kg membalikkan rocuronium 1.2 mg/kg RSI dalam 3 menit pada skenario CICO.</td></tr>
+    <tr><td><strong>Brueckmann B. Anesthesiology 2015;122:1302</strong></td><td>Sugammadex</td><td>Sugammadex vs neostigmin: reversal lebih cepat dan lengkap untuk rocuronium/vecuronium.</td></tr>
+    <tr><td><strong>Devlin JW (PADIS). Crit Care Med 2018;46:e825</strong></td><td>Sedasi ICU</td><td>PADIS Guidelines: analgesia first, light sedation (RASS -1 to 0), hindari BZD, daily SAT+SBT.</td></tr>
+    <tr><td><strong>Surviving Sepsis Campaign. Crit Care Med 2021;49:e1063</strong></td><td>Sepsis</td><td>Bundle sepsis 1 jam, laktat, antibiotik early, norepinefrin MAP =65 mmHg, vasopressin adjuvan.</td></tr>
+  </table>
+</div>
+
+<div class="sec">Referensi — Fungsi Ginjal, AKI & Elektrolit</div>
+<div class="card">
+  <table>
+    <tr><th style="width:32%">Publikasi / Panduan</th><th style="width:18%">Topik</th><th>Kesimpulan Kunci</th></tr>
+    <tr><td><strong>Inker LA et al. NEJM 2021;385:1737</strong></td><td>CKD-EPI 2021 race-free</td><td>Formula eGFR baru tanpa variabel ras — lebih adil dan akurasi setara. Direkomendasikan sebagai formula primer global.</td></tr>
+    <tr><td><strong>KDIGO CKD Guideline 2024. Kidney Int Suppl 2024</strong></td><td>CKD — Panduan terbaru</td><td>Konfirmasi CKD-EPI 2021 sebagai formula primer. Staging G1–G5 + albuminuria. Rekomendasi follow-up berbasis eGFR.</td></tr>
+    <tr><td><strong>Cockcroft DW & Gault MH. Nephron 1976;16:31</strong></td><td>Cockcroft-Gault</td><td>Formula CrCl klasik — masih digunakan untuk penyesuaian dosis obat. Input: usia, BB, SCr, jenis kelamin.</td></tr>
+    <tr><td><strong>Levey AS et al. Ann Intern Med 1999;130:461</strong></td><td>MDRD-4</td><td>Formula eGFR klasik. Kurang akurat pada eGFR &gt;60. Kini digunakan sebagai perbandingan/legacy.</td></tr>
+    <tr><td><strong>KDIGO AKI Guideline. Kidney Int Suppl 2012;2:1</strong></td><td>AKI — Staging KDIGO</td><td>Staging AKI berdasarkan SCr (?0.3 mg/dL dalam 48 jam atau ?×1.5 baseline) dan/atau UO (&lt;0.5 mL/kg/jam =6 jam).</td></tr>
+    <tr><td><strong>Miller TR et al. Ann Intern Med 1978;89:47</strong></td><td>FENa</td><td>FENa &lt;1% = pre-renal; &gt;2% = renal intrinsik. Tidak valid pada pasien diuretik.</td></tr>
+    <tr><td><strong>Espinal CH. Am Fam Physician 2000;62:2233</strong></td><td>FEUrea</td><td>FEUrea &lt;35% = pre-renal — lebih reliabel dari FENa pada pasien diuretik.</td></tr>
+    <tr><td><strong>Bhagat CI et al. Ann Clin Biochem 2001;38:507</strong></td><td>Osmolalitas serum</td><td>Formula: 2×Na + Glu/18 + Ureum/6 (mmol/L). Osmol gap &gt;10 ? curiga toksin osmolar.</td></tr>
+    <tr><td><strong>Adrogue HJ & Madias NE. NEJM 2000;342:1581</strong></td><td>Hiponatremia</td><td>Mekanisme, klasifikasi, dan koreksi hiponatremia. Batas koreksi 6–8 mEq/L/24 jam untuk cegah ODS.</td></tr>
+    <tr><td><strong>Sterns RH. NEJM 2015;372:55</strong></td><td>Hiponatremia — ODS</td><td>Osmotic demyelination syndrome: risiko nyata bila koreksi &gt;8–10 mEq/L/24 jam. Panduan koreksi aman 3% NaCl.</td></tr>
+    <tr><td><strong>Macdonald JE & Struthers AD. Heart 2004;90:1098</strong></td><td>Hipokalemia</td><td>Koreksi K: estimasi defisit, rate aman, monitor EKG. Pentingnya koreksi Mg bersamaan.</td></tr>
+    <tr><td><strong>Kovesdy CP. Kidney Int 2023;103:1024</strong></td><td>Hiperkalemia</td><td>Management hiperkalemia: kalsium membran, geser K intrasel (insulin/glukosa, bikarbonat), eliminasi K.</td></tr>
+    <tr><td><strong>Payne RB et al. BMJ 1973;4:643</strong></td><td>Ca terkoreksi albumin</td><td>Ca terkoreksi = Ca total + 0.8 × (4 - Albumin). Formula standar yang masih digunakan luas.</td></tr>
+    <tr><td><strong>Cooper MS & Gittoes NJ. BMJ 2008;336:1298</strong></td><td>Hipokalsemia</td><td>Diagnosis dan manajemen hipokalsemia: Ca glukonat IV untuk gejala akut, Ca oral untuk kronik.</td></tr>
+    <tr><td><strong>Glasdam SM et al. AACN Adv Crit Care 2012;23:158</strong></td><td>Hipomagnesemia ICU</td><td>Prevalensi 60–65% di ICU. Koreksi MgSO4 IV dosis berdasar berat badan dan fungsi ginjal.</td></tr>
+    <tr><td><strong>de Baaij JH et al. Physiol Rev 2015;95:791</strong></td><td>Magnesium fisiologi</td><td>Review komprehensif fisiologi Mg, penyebab defisiensi, koreksi, dan monitoring.</td></tr>
+  </table>
+</div>
+
+<div class="sec">Referensi — Pneumonia & Pulmonologi IGD</div>
+<div class="card">
+  <table>
+    <tr><th style="width:32%">Publikasi / Panduan</th><th style="width:18%">Topik</th><th>Kesimpulan Kunci</th></tr>
+    <tr><td><strong>Lim WS et al. Thorax 2003;58:377</strong></td><td>CURB-65</td><td>Skor 5 kriteria untuk stratifikasi CAP. Skor 0–1: rawat jalan; 2: rawat inap; =3: ICU/HDU.</td></tr>
+    <tr><td><strong>Fine MJ et al. NEJM 1997;336:243</strong></td><td>PSI / PORT Score</td><td>Pneumonia Severity Index — 20 variabel, 5 kelas risiko. Standar emas stratifikasi CAP rawat inap.</td></tr>
+    <tr><td><strong>Mandell LA et al. (IDSA/ATS). Clin Infect Dis 2007;44:S27</strong></td><td>CAP — Guidelines</td><td>IDSA/ATS guidelines CAP: indikasi rawat inap, pemilihan antibiotik, durasi terapi.</td></tr>
+    <tr><td><strong>Kalil AC et al. (IDSA/ATS). Clin Infect Dis 2016;63:e61</strong></td><td>VAP/HAP — Guidelines</td><td>Panduan diagnosis dan terapi VAP/HAP. Peran CPIS sebagai alat bantu diagnostik (bukan definitif).</td></tr>
+    <tr><td><strong>Charles PG et al. Clin Infect Dis 2008;47:375</strong></td><td>SMART-COP</td><td>8-variabel skor untuk prediksi kebutuhan vasopressor/ventilasi pada CAP.</td></tr>
+    <tr><td><strong>West JB. Respiratory Physiology. 9th ed. 2012</strong></td><td>A-a Gradient</td><td>Fisiologi pertukaran gas, formula A-a gradient, interpretasi hipoksemia berdasar mekanisme.</td></tr>
+    <tr><td><strong>Sarkar M et al. Lung India 2017;34:47</strong></td><td>A-a Gradient klinis</td><td>Aplikasi klinis A-a gradient: normal vs meningkat, interpretasi per penyebab hipoksemia.</td></tr>
+    <tr><td><strong>Gattinoni L. Intensive Care Med 2020;46:2204</strong></td><td>COVID-ARDS Phenotype</td><td>Type L vs Type H: compliance berbeda ? pendekatan ventilasi berbeda pada COVID-ARDS.</td></tr>
+  </table>
+</div>
+
+<div class="sec">Referensi — Asam-Basa, ABG &amp; Oksigenasi</div>
+<div class="card">
+  <table>
+    <tr><th style="width:32%">Publikasi / Panduan</th><th style="width:18%">Topik</th><th>Kesimpulan Kunci</th></tr>
+    <tr><td><strong>Berend K et al. NEJM 2014;371:1517</strong></td><td>Pendekatan Asam-Basa</td><td>Systematic physiological approach to assessment of acid-base disturbances: 5-step approach, kompensasi, dan kelainan campuran.</td></tr>
+    <tr><td><strong>Seifter JL. NEJM 2014;371:1434</strong></td><td>Asam-Basa &amp; Elektrolit</td><td>Integration of acid-base and electrolyte disorders — keterkaitan antara gangguan asam-basa dan kelainan elektrolit, terutama Na dan K.</td></tr>
+    <tr><td><strong>Schwartz WB et al. NEJM 1965;272:1388</strong></td><td>Winter's Formula</td><td>Kompensasi respiratorik pada asidosis metabolik: pCO2 ekspektasi = 1,5 × HCO3? + 8 ± 2. Verifikasi kompensasi adekuat vs campuran.</td></tr>
+    <tr><td><strong>Rastegar A. JASN 2007;18:102</strong></td><td>Delta-Delta Ratio</td><td>Penggunaan ?AG/?HCO3 untuk diagnosis kelainan asam-basa campuran pada AG tinggi. Ratio 1–2: normal; &lt;1: metabolik alkalosis superimposed; &gt;2: non-AG asidosis.</td></tr>
+    <tr><td><strong>Emmett M. CJASN 2020;15:1848</strong></td><td>Alkalosis Metabolik</td><td>Klasifikasi, pendekatan diagnostik, dan tatalaksana alkalosis metabolik — klorid-responsif vs klorid-resisten.</td></tr>
+    <tr><td><strong>Kraut JA &amp; Madias NE. CJASN 2012;7:689</strong></td><td>NaHCO3 Asidosis</td><td>Evaluasi penggunaan NaHCO3 pada metabolik asidosis. Dosis, indikasi, dan risiko. Kontroversial pada asidosis laktat; evidence lebih baik pada asidosis bukan laktat.</td></tr>
+    <tr><td><strong>Duhon B et al. Ann Pharmacother 2013;47:970</strong></td><td>NaHCO3 DKA</td><td>Sodium bikarbonat pada DKA dengan pH &lt; 6,9: pertimbangkan 100 mEq dalam 400 mL air steril + KCl 20 mEq selama 2 jam. Tidak terbukti benefit jika pH = 6,9.</td></tr>
+    <tr><td><strong>Narins RG &amp; Emmett M. Medicine 1980;59:161</strong></td><td>Anion Gap</td><td>Landasan teori Anion Gap dan kelainan campuran. Koreksi AG untuk albumin: AG terkoreksi = AG + 2,5 × (4,0 - albumin g/dL).</td></tr>
+    <tr><td><strong>Rose BD &amp; Post TW. Clinical Physiology of Acid-Base. 5th ed. 2001</strong></td><td>Textbook Asam-Basa</td><td>Referensi komprehensif fisiologi asam-basa, buffer, kompensasi, dan pendekatan klinis 7-langkah. Standar rujukan utama ICU.</td></tr>
+    <tr><td><strong>Roca O et al. AJRCCM 2019;199:1368</strong></td><td>ROX Index</td><td>SpO2/FiO2/RR sebagai prediktor keberhasilan HFNC. ROX &lt; 3,85 pada jam 2 = risiko intubasi tinggi. Ambang batas: 2,85 (1 jam), 3,47 (2 jam), 3,85 (12 jam).</td></tr>
+    <tr><td><strong>Khemani RG et al. Am J Respir Crit Care Med 2012;185:166</strong></td><td>SpO2/FiO2 vs P/F</td><td>SpO2/FiO2 sebagai surrogate non-invasif P/F ratio. Korelasi baik pada SpO2 = 97%. SpO2/FiO2 = 235 ˜ P/F = 200 (ARDS moderate).</td></tr>
+    <tr><td><strong>Uchino S et al. Crit Care Med 2004;32:675</strong></td><td>Validasi SaO2 vs SpO2</td><td>SaO2 dari ABG lebih akurat dari SpO2 pada pasien ICU dengan perfusi perifer buruk, hemoglobin abnormal (CO-Hb, Met-Hb), atau saturasi ekstrem.</td></tr>
+  </table>
+</div>
+
+<div class="sec">Referensi — Cairan IV</div>
+<div class="card">
+  <table>
+    <tr><th style="width:32%">Publikasi / Panduan</th><th style="width:18%">Topik</th><th>Kesimpulan Kunci</th></tr>
+    <tr><td><strong>Semler MW et al. SMART trial. NEJM 2018;378:829</strong></td><td>Balanced vs NS — ICU</td><td>14.000+ pasien ICU: balanced crystalloid (RL/Physiolyte) vs NS ? MAKE30 lebih rendah (14,3% vs 15,4%, OR 0,90). Basis utama pemilihan balanced crystalloid di ICU.</td></tr>
+    <tr><td><strong>Self WH et al. SALT-ED trial. NEJM 2018;378:819</strong></td><td>Balanced vs NS — IGD</td><td>Konfirmasi SMART di setting IGD: balanced crystalloid ? MAKE30 lebih rendah. Berlaku untuk pasien non-ICU.</td></tr>
+    <tr><td><strong>Zampieri FG et al. BaSICS trial. JAMA 2021;326:818</strong></td><td>Balanced vs NS — Brazil</td><td>RCT 11.052 pasien ICU Brazil: Plasmalyte-148 vs NS — tidak ada perbedaan bermakna pada 90-hari mortalitas. Mengkonfirmasi keamanan balanced crystalloid.</td></tr>
+    <tr><td><strong>Young P et al. SPLIT trial. JAMA 2015;314:1701</strong></td><td>NS vs Plasmalyte — ARDS</td><td>NS vs Plasmalyte-148 di ICU: tidak ada perbedaan bermakna pada AKI, RRT, mortalitas. Keduanya aman.</td></tr>
+    <tr><td><strong>Myburgh JA &amp; Mythen MG. NEJM 2013;369:1243</strong></td><td>Resusitasi Cairan — Review</td><td>Review komprehensif fisiologi dan pilihan cairan resusitasi: kristaloid isotonik, hipertonik, koloid. Kerangka pemilihan cairan berbasis bukti.</td></tr>
+    <tr><td><strong>Finfer S et al. SAFE Study. NEJM 2004;350:2247</strong></td><td>Albumin vs NS — Sepsis</td><td>6997 pasien ICU: albumin 4% vs NS — mortalitas setara. Subgroup sepsis: albumin cenderung lebih baik (OR 0,87). Albumin aman pada sepsis.</td></tr>
+    <tr><td><strong>Caironi P et al. ALBIOS trial. NEJM 2014;370:1412</strong></td><td>Albumin — Sepsis berat</td><td>1818 pasien sepsis berat: albumin untuk target 30 g/L vs kristaloid — mortalitas 28-hari tidak berbeda. MAP lebih stabil dengan albumin.</td></tr>
+    <tr><td><strong>Evans L et al. SSC Guidelines 2021. Intensive Care Med 2021;47:1181</strong></td><td>Sepsis — Cairan</td><td>Balanced crystalloid sebagai cairan pilihan. Albumin sebagai adjunct saat butuh volume besar. AGAINST penggunaan HES, starches pada sepsis.</td></tr>
+    <tr><td><strong>Perner A et al. 6S trial. NEJM 2012;367:124</strong></td><td>HES vs Ringer Asetat</td><td>800 pasien sepsis berat: HES 130/0,4 vs Ringer Asetat ? mortalitas 90-hari lebih tinggi pada HES (51% vs 43%). Kasus pembentukan kontraindikasi HES pada sepsis.</td></tr>
+    <tr><td><strong>Brunkhorst FM et al. VISEP trial. NEJM 2008;358:125</strong></td><td>HES — AKI Sepsis</td><td>HES 200/0,5 pada sepsis berat: meningkatkan insidens AKI dan kebutuhan RRT vs RL. Bukti kuat menentang HES pada sepsis.</td></tr>
+    <tr><td><strong>Annane D et al. CRISTAL trial. JAMA 2013;310:1809</strong></td><td>Koloid vs Kristaloid</td><td>2857 pasien hypovolemic shock: koloid vs kristaloid — tidak ada perbedaan mortalitas 28-hari. Mortalitas 90-hari lebih rendah pada koloid (30,7% vs 34,2%).</td></tr>
+    <tr><td><strong>Sort P et al. NEJM 1999;341:403</strong></td><td>Albumin 25% — SBP</td><td>126 pasien SBP: albumin IV + cefotaxime ? insidens AKI dan kematian lebih rendah vs antibiotik saja. Dosis: 1,5 g/kg hari-1 + 1 g/kg hari-3.</td></tr>
+    <tr><td><strong>EASL CPG: Decompensated Cirrhosis. J Hepatol 2018</strong></td><td>Albumin — Sirosis</td><td>Guideline tatalaksana sirosis dekompensata: albumin untuk SBP, HRS, LVP, dan long-term prophylaxis pada sirosis.</td></tr>
+    <tr><td><strong>EASL CPG: Hepatic Encephalopathy. J Hepatol 2022</strong></td><td>BCAA — HE</td><td>BCAA-enriched amino acid (Aminoleban) pada HE: koreksi Fischer ratio, kompetisi dengan aromatic AA di BBB, perbaikan ensefalopati.</td></tr>
+    <tr><td><strong>Singer P et al. ESPEN guideline. Clin Nutr 2019;38:48</strong></td><td>Nutrisi Parenteral ICU</td><td>Guideline nutrisi ICU: target protein 1,2–2,0 g/kgBB/hari. EN prioritas; PN dalam 24–48 jam jika EN tidak mungkin pada malnutrisi berat. Hindari overfeeding.</td></tr>
+    <tr><td><strong>Spasovski G et al. Eur J Endocrinol 2014;170:G1</strong></td><td>Hiponatremia — Guideline</td><td>Panduan EuroPEM/ERA-EDTA untuk hiponatremia: NaCl 3% pada gejala berat, target ?Na 5 mEq/L jam pertama, batas 10 mEq/L per 24 jam untuk hindari ODS.</td></tr>
+    <tr><td><strong>Carney N et al. Neurosurgery 2017;80:6</strong></td><td>TBI — Hiperosmolar</td><td>Guideline TBI edisi 4: terapi hiperosmolar (NaCl 3% atau mannitol), target ICP &lt; 22 mmHg, osmolarity 300–320 mOsm/kg. NaCl 3% bukan inferior terhadap mannitol.</td></tr>
+    <tr><td><strong>NICE CG174. IV Fluids in Adults. 2013 (updated 2023)</strong></td><td>IV Fluids — Dewasa</td><td>Framework 5D (Drug, Dose, Duration, Direction, Details) untuk tatalaksana cairan IV dewasa. Resusitasi vs replacement vs maintenance.</td></tr>
+    <tr><td><strong>Jaber S et al. BICAR-ICU trial. Lancet 2018;392:31–40</strong></td><td>NaHCO3 — ICU</td><td>RCT 389 pasien asidosis metabolik berat (pH =7,20): sodium bikarbonat IV mengurangi kebutuhan RRT dan vasopressor pada AKI berat. Tidak ada manfaat pada pH 7,20–7,25.</td></tr>
+    <tr><td><strong>Magpie Trial Collaborative Group. Lancet 2002;359:1877</strong></td><td>MgSO4 — Eklampsia</td><td>10.141 wanita preeklampsia: MgSO4 vs plasebo ? risiko eklampsia ? 58% (NNT=91), tidak ada perbedaan mortalitas maternal. Standar baku lini pertama profilaksis eklampsia.</td></tr>
+    <tr><td><strong>AHA/ACC. ACLS Guidelines 2020. Circulation 2020;142(16 suppl 2)</strong></td><td>Cardiac Arrest — Ca²?</td><td>CaCl2 10% 5–10 mL IV pada cardiac arrest dengan hipokalsemia, hiperkalemia, atau overdosis Ca-channel blocker. Tidak direkomendasikan rutin pada cardiac arrest tanpa indikasi spesifik.</td></tr>
+    <tr><td><strong>Kraft MD et al. Am J Health Syst Pharm 2005;62:1663</strong></td><td>Koreksi Elektrolit ICU</td><td>Panduan komprehensif koreksi elektrolit pada ICU dewasa: K, Mg, Ca, Na, P. Dosis, kecepatan, monitoring, dan interaksi obat.</td></tr>
+    <tr><td><strong>ESPGHAN/ESPEN/ESPR/CSPEN. J Pediatr Gastroenterol Nutr 2018;67(S2):S1</strong></td><td>Nutrisi Parenteral Pediatrik</td><td>Guideline lengkap TPN pediatrik: dosis AA neonatus 3,5–4,5 g/kgBB/hari, GIR target 4–8 mg/kgBB/menit, kebutuhan taurin dan sistein pada neonatus, pemilihan formulasi AA pediatrik vs dewasa.</td></tr>
+    <tr><td><strong>NICE NG29. IV Fluids in Children and Young People. 2015 (updated 2020)</strong></td><td>IV Fluids — Pediatrik</td><td>D5 ¼ NS sebagai cairan maintenance standar neonatus dan bayi. Rekomendasi kecepatan koreksi Na, monitoring elektrolit, dan pilihan cairan per usia.</td></tr>
+  </table>
+</div>
+
+<div class="sec">Referensi Lokal Indonesia</div>
+<div class="card">
+  <table>
+    <tr><th style="width:35%">Publikasi / Panduan</th><th style="width:20%">Institusi</th><th>Relevansi</th></tr>
+    <tr><td><strong>Panduan Ventilasi Mekanik ICU</strong></td><td>PERDICI</td><td>Panduan nasional VT, mode, target ABG, weaning untuk ICU Indonesia</td></tr>
+    <tr><td><strong>PPK Gagal Napas Akut</strong></td><td>PAPDI — Div. Pulmonologi</td><td>Pathway intubasi, NIV indikasi, monitoring, antibiotic bundle pneumonia</td></tr>
+    <tr><td><strong>Konsensus ARDS Indonesia</strong></td><td>PERDICI / PAPDI 2020</td><td>Adaptasi ARDSNet untuk konteks RS Indonesia; resource allocation ICU</td></tr>
+    <tr><td><strong>Panduan VAP</strong></td><td>PERDICI 2021</td><td>VAP bundle lokal: oral care CHX, HOB 30°, cuff pressure, SBT harian</td></tr>
+    <tr><td><strong>PPK Sepsis & Syok Septik</strong></td><td>PAPDI / PERDICI 2022</td><td>Adaptasi SSC 2021 untuk Indonesia; ketersediaan antibiotik lokal, monitoring laktat</td></tr>
+    <tr><td><strong>Panduan Sedasi & Analgesia ICU</strong></td><td>PERDICI / Farmasi Klinik Indonesia</td><td>Protokol propofol, midazolam, dexmedetomidine; monitoring RASS di RS Indonesia</td></tr>
+    <tr><td><strong>Panduan Intubasi Emergensi</strong></td><td>PERDICI / IDSAI 2022</td><td>Protokol RSI lokal, pilihan NMB, airway difficult algorithm sesuai ketersediaan obat Indonesia</td></tr>
+    <tr><td><strong>Panduan Tatalaksana AKI</strong></td><td>PB PERNEFRI 2023</td><td>Staging AKI KDIGO adaptasi lokal, indikasi dialisis, monitoring fungsi ginjal ICU</td></tr>
+  </table>
+</div>
+
+<div class="sec">Sumber Dosis Obat</div>
+<div class="card">
+  <table>
+    <tr><th style="width:35%">Obat / Kategori</th><th>Sumber Dosis</th></tr>
+    <tr><td><strong>Fentanyl, Morfin, Alfentanil</strong></td><td>Lexicomp Drug Reference 2024 · PERDICI Panduan Sedoanalgesia 2021 · BNF 2024</td></tr>
+    <tr><td><strong>Remifentanil</strong></td><td>Mingo OH. Anaesthesia 2004 · Ultiva SmPC · BNF 2024</td></tr>
+    <tr><td><strong>Propofol</strong></td><td>BNF 2024 · Diprivan SmPC · SCCM PADIS 2018 · Reves JG. Anesthesiology 2005</td></tr>
+    <tr><td><strong>Ketamine</strong></td><td>Cohen L. Emerg Med J 2015 · Lexicomp 2024 · Miller RD. Miller's Anesthesia 9th ed. 2020</td></tr>
+    <tr><td><strong>Etomidate</strong></td><td>MENDS-2. NEJM 2024;390:307 · Jabre P. Lancet 2009 · Lexicomp 2024</td></tr>
+    <tr><td><strong>Midazolam (induksi & ICU)</strong></td><td>Reves JG. Anesthesiology 2005 · PADIS 2018 · BNF 2024</td></tr>
+    <tr><td><strong>Dexmedetomidine</strong></td><td>Precedex SmPC · Riker RR. JAMA 2009 (MENDS) · PADIS 2018</td></tr>
+    <tr><td><strong>Suksinilkolin</strong></td><td>Sorensen MK. Cochrane 2022 · Walls RM. Manual of Emergency Airway Mgmt 2022</td></tr>
+    <tr><td><strong>Rocuronium</strong></td><td>Sorensen MK. Cochrane 2022 · Tran DT. Can J Anaesth 2015 · STRIVE Hi. Anaesthesia 2021</td></tr>
+    <tr><td><strong>Vecuronium, Atrakurium, Cisatrakurium</strong></td><td>Papazian NEJM 2010 · Miller RD. Miller's Anesthesia 2020 · Lexicomp 2024</td></tr>
+    <tr><td><strong>Sugammadex</strong></td><td>Brueckmann B. Anesthesiology 2015 · STRIVE Hi. Anaesthesia 2021 · Bridion SmPC</td></tr>
+    <tr><td><strong>Lidokain (airway)</strong></td><td>Habre W. Eur J Anaesthesiol 2004 · Walls RM. Manual of Emergency Airway Mgmt 2022</td></tr>
+    <tr><td><strong>Norepinefrin, Dopamin, Dobutamin</strong></td><td>De Backer D. NEJM 2010 · Annane D. JAMA 2007 · SSC 2021</td></tr>
+    <tr><td><strong>Nitrogliserin, Amiodarone</strong></td><td>ESC ACS Guidelines 2023 · ACC/AHA Guidelines 2023 · BNF 2024</td></tr>
+    <tr><td><strong>Koreksi Na, K, Ca, Mg</strong></td><td>Adrogue HJ. NEJM 2000 · Sterns RH. NEJM 2015 · Macdonald JE. Heart 2004 · de Baaij JH. Physiol Rev 2015 · Cooper MS. BMJ 2008</td></tr>
+    <tr><td><strong>MgSO4 (asma, eklampsia, TdP)</strong></td><td>GINA 2024 · Rowe BH. Cochrane 2000 · Magpie Trial. Lancet 2002 · UpToDate: Hypomagnesemia 2023</td></tr>
+    <tr><td><strong>KCl 7,46% — Koreksi Hipokalemia</strong></td><td>Kraft MD. Am J Health Syst Pharm 2005 · UpToDate: Hypokalemia Treatment 2023 · Macdonald JE. Heart 2004</td></tr>
+    <tr><td><strong>NaHCO3 8,4% — Koreksi Asidosis</strong></td><td>Jaber S. BICAR-ICU. Lancet 2018 · Kraut JA. CJASN 2012 · UpToDate: Bicarbonate Therapy 2023</td></tr>
+    <tr><td><strong>Ca-Glukonas 10% / CaCl2 10%</strong></td><td>AHA ACLS 2020 · Cooper MS. BMJ 2008 · Kovesdy CP. Kidney Int 2023 · UpToDate: Hypocalcemia 2023</td></tr>
+    <tr><td><strong>Dextrose 40% (D40%)</strong></td><td>UpToDate: Management of Hypoglycemia 2023 · UpToDate: Treatment of Hyperkalemia 2023</td></tr>
+    <tr><td><strong>Aminosteril KE / Aminosteril Infant</strong></td><td>ESPEN ICU Guidelines. Clin Nutr 2019 · ESPGHAN/ESPEN/ESPR Guidelines 2018 · Fresenius Kabi SmPC · BPOM Indonesia 2022</td></tr>
+  </table>
+</div>
+
+<div class="sec" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+  <span>📚 Database Referensi Lengkap</span>
+  <span style="font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--accent2);font-weight:700;background:var(--accent2-dim);padding:3px 8px;border-radius:6px;" id="db-count-badge">memuat...</span>
+</div>
+<div class="card" id="db-ref-browser-wrap">
+  <div style="margin-bottom:12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+    <input id="db-search" type="text" placeholder="🔍 Cari judul, penulis, jurnal..."
+      style="flex:1;min-width:200px;padding:8px 12px;border-radius:8px;border:1.5px solid var(--border-hi);
+             background:var(--bg2);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;">
+    <select id="db-filter" style="padding:8px 10px;border-radius:8px;border:1.5px solid var(--border-hi);
+      background:var(--bg2);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;cursor:pointer;">
+      <option value="">Semua Topik</option>
+    </select>
+  </div>
+  <div id="db-ref-list" style="display:flex;flex-direction:column;gap:6px;"></div>
+  <div id="db-no-result" style="display:none;text-align:center;padding:20px;color:var(--muted);font-size:12px;font-family:'JetBrains Mono',monospace;">
+    Tidak ada referensi yang cocok.
+  </div>
+</div>
+
+<div class="sec">Struktur File — Panduan Edit v2.0</div>
+<div class="card">
+  <table>
+    <tr><th style="width:28%">File</th><th style="width:42%">Isi</th><th>Edit kapan</th></tr>
+    <tr><td><strong>assets/css/styles.css</strong></td><td>Semua CSS: warna, layout, komponen visual, dark/light mode, design tokens</td><td>Perubahan tampilan / tema / komponen baru</td></tr>
+    <tr><td><strong>assets/js/nav.js</strong></td><td>Top bar, sidebar kolapsibel, breadcrumb, page header — diinjeksi otomatis di semua halaman</td><td>Tambah halaman baru ke PAGES array</td></tr>
+    <tr><td><strong>assets/js/scripts-theme.js</strong></td><td>Toggle dark/light mode, flash overlay, pill checkbox sync</td><td>Perubahan mekanisme tema</td></tr>
+    <tr><td><strong>assets/js/scripts-fio2-utils.js</strong></td><td>FiO2 dual-mode (direct / low-flow) &amp; SpO2 dual-source — helper generik prefix-based untuk semua halaman</td><td>Update estimasi FiO2 atau tambah device baru</td></tr>
+    <tr><td><strong>assets/js/scripts-abg.js</strong></td><td>ABG interpreter 7-langkah, Delta-Delta, ROX Index, A-a Gradient, Kalkulator Koreksi Asam-Basa (NaHCO3 · KCl/HCl · Kompensasi · AG+??)</td><td>Update formula kompensasi, referensi baru, tambah kalkulator</td></tr>
+    <tr><td><strong>assets/js/scripts-cairan.js</strong></td><td>Data 29 cairan IV: kristaloid · hipertonik · dextrose · maintenance · amino · koloid · <strong>elektrolit</strong> — komposisi, kemasan, indikasi, perhatian, tips, referensi, konsiderasi populasi (neonatus/pediatrik/dewasa)</td><td>Tambah cairan baru, update komposisi, referensi, populasi</td></tr>
+    <tr><td><strong>assets/js/scripts-skoring.js</strong></td><td>SOFA · APACHE-II · CAM-ICU · CPIS · RASS · CFS · Candida Score</td><td>Update formula skoring, tambah skor baru</td></tr>
+    <tr><td><strong>assets/js/scripts-weaning.js</strong></td><td>RSBI, SAT+SBT checklist, HACOR, post-ekstubasi</td><td>Update kriteria weaning, protokol SBT</td></tr>
+    <tr><td><strong>index.html</strong></td><td>Homepage — hero section, mod-grid, changelog versi</td><td>Update deskripsi modul, tambah changelog versi baru</td></tr>
+    <tr><td><strong>pages/cairan.html</strong></td><td>Referensi cairan IV — filter dropdown (mobile) + pills (desktop), card grid 1-2-3 kolom, 7 kategori, modal expanded dengan section populasi</td><td>Update layout, tambah kategori, update CSS section</td></tr>
+    <tr><td><strong>pages/abg.html</strong></td><td>ABG Interpreter 7-langkah + Kalkulator Koreksi Asam-Basa (4 tab)</td><td>Update formula, tambah kalkulator koreksi baru</td></tr>
+    <tr><td><strong>pages/kalkulator/kalkulator-pf.html</strong></td><td>P/F Ratio, OI, ROX Index — dengan FiO2 dual-mode &amp; SpO2 dual-source (prefix: pf)</td><td>Update formula atau widget FiO2</td></tr>
+    <tr><td><strong>pages/skoring/skoring-sofa.html</strong></td><td>SOFA Score — dengan FiO2 dual-mode (prefix: sofa)</td><td>Update kriteria SOFA, widget FiO2</td></tr>
+    <tr><td><strong>pages/skoring/skoring-cpis.html</strong></td><td>CPIS Score — dengan FiO2 dual-mode (prefix: cpis)</td><td>Update kriteria CPIS, widget FiO2</td></tr>
+    <tr><td><strong>pages/skoring/skoring-apache.html</strong></td><td>APACHE-II — dengan FiO2 dual-mode (prefix: ap)</td><td>Update kriteria APACHE-II, widget FiO2</td></tr>
+    <tr><td><strong>pages/kalkulator.html</strong></td><td>Hub kalkulator — 9 subtab: IBW · Sedasi+RSI · Pump · P/F · Renal · Pulmo · ElektroCorr · NLR · Transfusi</td><td>Tambah/ubah subtab atau deskripsi</td></tr>
+    <tr><td><strong>pages/setting.html</strong></td><td>Setting ventilator per kondisi klinis (ARDS, PPOK, Asma, GBS, dll)</td><td>Update guideline/target per kondisi</td></tr>
+    <tr><td><strong>pages/monitoring.html</strong></td><td>DOPE, target parameter, komplikasi, waveform, asinkroni</td><td>Update target ABG, tambah komplikasi</td></tr>
+    <tr><td><strong>pages/weaning.html</strong></td><td>RSBI kalkulator, checklist SBT, post-ekstubasi, HACOR</td><td>Update protokol SBT, tambah tool baru</td></tr>
+    <tr><td><strong>pages/teori.html</strong></td><td>Hub teori — 5 subtab: Impending · Fisiologi · Gagal Napas &amp; ARDS · Sepsis · B1–B6</td><td>Tambah topik teori baru</td></tr>
+    <tr><td><strong>pages/skoring.html</strong></td><td>Hub skoring — 7 tool: SOFA, APACHE-II, RASS, CAM-ICU, CPIS, CFS, Candida Score</td><td>Tambah skor baru</td></tr>
+    <tr><td><strong>referensi.html</strong></td><td>Daftar referensi (Ventilasi · RSI · Renal · Pulmo · ABG · Cairan · Lokal ID) + dosis obat + struktur file</td><td>Tambah studi baru, update guideline tahunan</td></tr>
+    <tr><td><strong>assets/img/cairan/</strong></td><td>29 foto produk cairan IV (nacl-09.jpg · ringer-laktat.jpg · kcl-746.jpg · mgso4.jpg · d40.jpg · nahco3.jpg · ca-gluconas.jpg · cacl2.jpg · aminosteril.jpg · aminosteril-infant.jpg · dst.)</td><td>Tambah foto produk cairan baru sesuai id fluid</td></tr>
+  </table>
+</div>
+
+<!-- ? Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok 🙏</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+
+<script src="../assets/js/scripts-referensi.js"></script>
+<script>
+/* -- Database Reference Browser -- */
+(function () {
+  function escH(s) {
+    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  /* Category labels — derived from comment blocks in references.js */
+  var CAT_MAP = {
+    ardsnet2000:'Ventilasi Mekanik', fan2017:'Ventilasi Mekanik', pelosi2001:'Ventilasi Mekanik',
+    guerin2013:'Ventilasi Mekanik', papazian2010:'Ventilasi Mekanik', slutsky2013:'Ventilasi Mekanik',
+    brower2004:'Ventilasi Mekanik', meade2008:'Ventilasi Mekanik', esteban1995:'Ventilasi Mekanik',
+    boles2007:'Ventilasi Mekanik', yang1991:'Ventilasi Mekanik',
+    amato2015:'Ventilasi Mekanik', gattinoni2016:'Ventilasi Mekanik', talmor2008:'Ventilasi Mekanik',
+    beitler2019:'Ventilasi Mekanik', brochard1994:'Ventilasi Mekanik', moss2019:'Ventilasi Mekanik',
+    esicm2023ards:'Ventilasi Mekanik', matthay2023:'Ventilasi Mekanik', giosa2024:'Ventilasi Mekanik',
+    meade2001:'Ventilasi Mekanik',
+
+    stollings2014:'RSI / Airway', brown2015:'RSI / Airway', merelman2019:'RSI / Airway',
+    rocuronium2021:'RSI / Airway', devlin2018:'RSI / Airway', barr2013:'RSI / Airway',
+    vincent2016ecash:'RSI / Airway', bhatt2024:'RSI / Airway', jabre2009:'RSI / Airway',
+    chan2012:'RSI / Airway', girard2008:'RSI / Airway', brown2023:'RSI / Airway',
+
+    frat2015:'HFNC / NIV', rochwerg2017:'HFNC / NIV', nava2009:'HFNC / NIV',
+    hernandez2016:'HFNC / NIV', plant2000:'HFNC / NIV', grieco2020:'HFNC / NIV',
+    antonelli1998:'HFNC / NIV', demoule2016:'HFNC / NIV', jaber2016:'HFNC / NIV',
+    roca2016:'HFNC / NIV', roca2019:'HFNC / NIV', rochwerg2019hfnc:'HFNC / NIV',
+
+    evans2021:'Sepsis', rivers2001:'Sepsis', singer2016:'Sepsis', annane2002:'Sepsis',
+    vassopressin2008:'Sepsis', evans2024:'Sepsis', hjortrup2022:'Sepsis', hernandez2019:'Sepsis',
+    timsit2020:'Sepsis', rudd2020:'Sepsis', hotchkiss2016:'Sepsis', hernandez2023:'Sepsis',
+    debacker2010:'Sepsis', asfar2014:'Sepsis', khanna2017:'Sepsis', venkatesh2018:'Sepsis',
+    annane2018:'Sepsis', permpikul2023:'Sepsis', censer2019:'Sepsis', nicesugar2009:'Sepsis',
+    doig2013:'Sepsis', hebert2014:'Sepsis', krag2018:'Sepsis', skrobik2018:'Sepsis',
+    fowler2019:'Sepsis', lamontagne2022:'Sepsis', fujii2020:'Sepsis', freifeld2011:'Sepsis',
+    seymour2016:'Sepsis', freund2017:'Sepsis', raith2017:'Sepsis', shankarhari2016:'Sepsis',
+
+    hoorn2023:'Elektrolit', spasovski2014:'Elektrolit', adrogue2000:'Elektrolit',
+    palmer2020:'Elektrolit', alfonzo2006:'Elektrolit', cooper2019:'Elektrolit',
+    dickerson2004:'Elektrolit', swaminathan2003:'Elektrolit', hypomagnesemia2018:'Elektrolit',
+    naCorrection2023:'Elektrolit', sterns2015:'Elektrolit', verbalis2013:'Elektrolit',
+    macdonald2004:'Elektrolit', kovesdy2023:'Elektrolit',
+
+    kellum2000:'Asam-Basa / ABG', fencl2000:'Asam-Basa / ABG', stewartAcidBase:'Asam-Basa / ABG',
+    rastegar2009:'Asam-Basa / ABG', emmett1977:'Asam-Basa / ABG', winter1967:'Asam-Basa / ABG',
+    narins1980:'Asam-Basa / ABG', feldman2015:'Asam-Basa / ABG', berend2014:'Asam-Basa / ABG',
+    seifter2023:'Asam-Basa / ABG', adrogue1998:'Asam-Basa / ABG', odriscoll2017:'Asam-Basa / ABG',
+    gold2024:'Asam-Basa / ABG', lapinsky2015:'Asam-Basa / ABG', berlin2012:'Asam-Basa / ABG',
+    gabow1980:'Asam-Basa / ABG', kraut2007:'Asam-Basa / ABG', rochwerg2019hfnc:'Asam-Basa / ABG',
+
+    finfer2004:'Cairan IV', myburgh2012:'Cairan IV', semler2018:'Cairan IV', self2018:'Cairan IV',
+    holliday1957:'Cairan IV', caironi2014:'Cairan IV', perner2012:'Cairan IV',
+    monnet2015:'Cairan IV', esicm2024fluid:'Cairan IV', trial652020:'Cairan IV',
+    monnet2023:'Cairan IV',
+
+    kalil2016:'Pneumonia / HAP / VAP', mandell2007:'Pneumonia / HAP / VAP',
+    torres2017:'Pneumonia / HAP / VAP', torres2022:'Pneumonia / HAP / VAP',
+    lim2003:'Pneumonia / HAP / VAP', fine1997:'Pneumonia / HAP / VAP',
+    charles2008:'Pneumonia / HAP / VAP', pugin1991:'Pneumonia / HAP / VAP',
+    singh2000:'Pneumonia / HAP / VAP', klompas2017:'Pneumonia / HAP / VAP',
+    torres2019:'Pneumonia / HAP / VAP',
+
+    kdigo2012aki:'Ginjal / AKI', mehta2007:'Ginjal / AKI', uchino2005:'Ginjal / AKI',
+    gaudry2016:'Ginjal / AKI', gaudry2021:'Ginjal / AKI', startaki2020:'Ginjal / AKI',
+
+    vincent1996:'Skoring / Prognosis', knaus1985:'Skoring / Prognosis', le_gall1993:'Skoring / Prognosis',
+    ferreira2001:'Skoring / Prognosis', zimmerman2006:'Skoring / Prognosis',
+    moreno2005:'Skoring / Prognosis', pandharipande2023:'Skoring / Prognosis',
+    lambden2019:'Skoring / Prognosis',
+
+    rockwood2005:'Frailty / Delirium', darvall2019:'Frailty / Delirium', hewitt2020:'Frailty / Delirium',
+    muscedere2017:'Frailty / Delirium', flaatten2024:'Frailty / Delirium', ely2001:'Frailty / Delirium',
+    slooter2017:'Frailty / Delirium', brummel2014:'Frailty / Delirium', pun2021:'Frailty / Delirium',
+    ely2019:'Frailty / Delirium', sessler2002:'Frailty / Delirium', ely2003:'Frailty / Delirium',
+
+    leon2006:'Infeksi / Jamur', leon2009:'Infeksi / Jamur', pappas2016:'Infeksi / Jamur',
+    kullberg2015:'Infeksi / Jamur', cornely2023:'Infeksi / Jamur',
+
+    taylor2016:'Nutrisi ICU', singer2019:'Nutrisi ICU', singer2023:'Nutrisi ICU', aspen2022:'Nutrisi ICU',
+    npuap2019:'Mobilisasi / PICS',
+
+    zahorec2001:'NLR / IBW', forget2017:'NLR / IBW', liu2019:'NLR / IBW', devine1974:'NLR / IBW',
+
+    perdici2023:'Referensi Lokal', pdpi2022:'Referensi Lokal', perki2020:'Referensi Lokal'
+  };
+
+  function getCat(id) { return CAT_MAP[id] || 'Lainnya'; }
+
+  function buildBrowser() {
+    var refs = (typeof ICU_REFS !== 'undefined') ? ICU_REFS : null;
+    if (!refs) { console.error("ICU_REFS not found!"); return; }
+
+    var ids = Object.keys(refs);
+    var badge = document.getElementById('db-count-badge');
+    if (badge) badge.textContent = ids.length + ' referensi';
+
+    var cats = {};
+    ids.forEach(function(id) { var c = CAT_MAP[id] || 'Lainnya'; cats[c] = true; });
+    var catList = Object.keys(cats).sort();
+
+    var list = document.getElementById('db-ref-list');
+    var none = document.getElementById('db-no-result');
+    if (!list) return;
+
+    function render() {
+      var q = document.getElementById('db-search').value.toLowerCase().trim();
+      list.innerHTML = '';
+      var shown = 0;
+
+      catList.forEach(function(c) {
+        var groupIds = ids.filter(function(id) {
+          if ((CAT_MAP[id] || 'Lainnya') !== c) return false;
+          if (!q) return true;
+          var r = refs[id];
+          var haystack = (r.authors + ' ' + r.title + ' ' + r.journal + ' ' + (r.year||'') + ' ' + id).toLowerCase();
+          return haystack.indexOf(q) !== -1;
+        });
+
+        if (groupIds.length === 0) return;
+        shown += groupIds.length;
+
+        var details = document.createElement('details');
+        details.className = 'theory-dropdown';
+        details.style.marginBottom = '8px';
+        // Auto-open if searching
+        if (q) details.open = true;
+
+        var summary = document.createElement('summary');
+        summary.className = 'theory-btn';
+        summary.style.cursor = 'pointer';
+        summary.innerHTML = '📂 ' + c + ' (' + groupIds.length + ') <span class="chevron">›</span>';
+        
+        // Add click listener for the chevron rotation (using .open class)
+        summary.onclick = function(e) {
+          this.classList.toggle('open', !details.open);
+        };
+        // Set initial open class if searching
+        if (q) summary.classList.add('open');
+
+        details.appendChild(summary);
+
+        var content = document.createElement('div');
+        content.className = 'theory-content visible';
+        content.style.paddingTop = '12px';
+
+        groupIds.forEach(function(id) {
+          var r = refs[id];
+          var item = document.createElement('div');
+          item.style.cssText = 'font-size:11.5px;line-height:1.6;color:var(--text2);'+
+            'padding:8px 12px;border-left:2px solid var(--border-hi);'+
+            'transition:border-color .15s;border-radius:0 4px 4px 0;margin-bottom:8px;';
+          item.onmouseenter = function(){ this.style.borderLeftColor='var(--accent)'; };
+          item.onmouseleave = function(){ this.style.borderLeftColor='var(--border-hi)'; };
+
+          var authSpan = '<span style="font-weight:600;color:var(--text)">' + escH(r.authors) + '</span> ';
+          var titleSpan = '<em>' + escH(r.title) + '</em>. ';
+          var journalSpan = '<span style="color:var(--muted)"><em>' + escH(r.journal) + '</em>';
+          if (r.year) journalSpan += '. ' + r.year;
+          if (r.vol) journalSpan += ';' + escH(r.vol);
+          if (r.pages) journalSpan += ':' + escH(r.pages);
+          journalSpan += '.</span>';
+          var doiLink = r.doi
+            ? ' <a href="https://doi.org/' + escH(r.doi) + '" target="_blank" rel="noopener" '+
+              'style="font-size:9.5px;font-family:\'JetBrains Mono\',monospace;font-weight:700;'+
+              'color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent-dim2);'+
+              'padding-bottom:1px;" title="Buka DOI">DOI ↗</a>'
+            : '';
+
+          item.innerHTML = authSpan + titleSpan + journalSpan + doiLink;
+          content.appendChild(item);
+        });
+
+        details.appendChild(content);
+        list.appendChild(details);
+      });
+
+      if (none) none.style.display = shown === 0 ? 'block' : 'none';
+    }
+
+    var searchInput = document.getElementById('db-search');
+    if (searchInput) {
+      searchInput.addEventListener('input', render);
+    }
+    
+    // Remove the filter select element since we are using accordions for categories now
+    var filterEl = document.getElementById('db-filter');
+    if (filterEl) filterEl.style.display = 'none';
+
+    render();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', buildBrowser);
+  } else {
+    buildBrowser();
+  }
+})();
+</script>
+<script src="../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../assets/js/feedback.js"></script>
+  <script src="../assets/data/references.js"></script>
+  <script src="../assets/js/scripts-citations.js"></script>
+</body>
+</html>
+
+
+
+

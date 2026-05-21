@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Setting Ventilator — Cheatsheet Ventilator Dewasa</title>
+<link rel="stylesheet" href="../assets/css/styles.css">
+<script>
+/* Anti-FOUC: apply saved theme before paint */
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../assets/js/scripts-theme.js"></script>
+<style>
+/* ── Apple HID Glassmorphism Settings Card ── */
+.st-card {
+  background: var(--card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+  transition: transform .25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow .25s ease, border-color .2s ease;
+  position: relative;
+  overflow: hidden;
+}
+.st-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--border-hi);
+}
+.st-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+  background: var(--accent);
+  transition: width .2s ease;
+  z-index: 1;
+}
+.st-card.blue::before { background: #3b82f6; }
+.st-card.purple::before { background: #8b5cf6; }
+.st-card.amber::before { background: #f59e0b; }
+.st-card.red::before { background: #ef4444; }
+
+.st-title {
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.st-card ul {
+  padding-left: 18px;
+  margin: 0;
+  color: var(--text2);
+  line-height: 1.6;
+}
+.st-card li {
+  margin-bottom: 8px;
+}
+.st-card strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.st-card table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  font-size: 12px;
+}
+.st-card th {
+  background: var(--bg2);
+  color: var(--text);
+  font-weight: 600;
+  padding: 8px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.st-card td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text2);
+}
+.st-card tr:last-child td {
+  border-bottom: none;
+}
+</style>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../index.html">🏠 Home</a>
+  <a class="tab-btn" href="kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn active" href="setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="ekg.html">📈 EKG</a>
+  <a class="tab-btn" href="teori.html">📖 Teori</a>
+  <a class="tab-btn" href="skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../referensi.html">📚 Referensi</a>
+</nav>
+
+<div class="jump-nav">
+  <span class="jump-nav-label">Lompat ke:</span>
+  <a class="jump-link" href="#hfnc_niv">💨 HFNC/NIV</a>
+  <a class="jump-link" href="#ards">🫁 ARDS</a>
+  <a class="jump-link" href="#ppok">💨 PPOK</a>
+  <a class="jump-link" href="#asma">🌬️ Asma</a>
+  <a class="jump-link" href="#cap">🦠 CAP/HAP</a>
+  <a class="jump-link" href="#sepsis">🔴 Sepsis</a>
+  <a class="jump-link" href="#epk">❤️ Kardiogenik</a>
+  <a class="jump-link" href="#postop">🏥 Post-Op</a>
+  <a class="jump-link" href="#neuro">🧠 GBS/MG</a>
+</div>
+
+<div class="info" style="margin-bottom:14px"><strong>Catatan:</strong> Semua VT berbasis IBW (Ideal Body Weight). Gunakan kalkulator IBW di tab Kalkulator. Parameter ini adalah panduan awal — sesuaikan dengan respons klinis dan ABG.</div>
+
+<div class="sec" id="hfnc_niv">Terapi Oksigen Non-Invasif (HFNC & NIV)</div>
+<div class="grid2" style="margin-bottom:16px;">
+  <div class="st-card blue">
+    <div class="st-title">High-Flow Nasal Cannula (HFNC)</div>
+    <ul>
+      <li><strong>Indikasi Utama:</strong> Gagal napas hipoksemik akut (Tipe I), post-ekstubasi profilaksis, pre-oksigenasi intubasi.</li>
+      <li><strong>Kontraindikasi:</strong> Henti napas, tidak mampu melindungi jalan napas, trauma wajah berat.</li>
+      <li><strong>Setting Awal:</strong>
+        <ul style="margin-top:4px">
+          <li><strong>Flow:</strong> 40–60 L/mnt (sesuaikan dengan work of breathing)</li>
+          <li><strong>FiO₂:</strong> Titrasi ke target SpO₂ 92–96%</li>
+          <li><strong>Suhu:</strong> 37°C (turunkan ke 34°C jika intoleran)</li>
+        </ul>
+      </li>
+      <li><strong>Monitoring (ROX Index):</strong> (SpO₂ / FiO₂) / RR.<br>Diukur jam ke-2, 6, 12. ROX &lt; 3.85 indikasi intubasi tinggi.</li>
+    </ul>
+    <p style="font-size:11px;margin-top:8px;color:var(--muted)">📚 Roca O. Am J Respir Crit Care Med 2019 (ROX Index)</p>
+  </div>
+  <div class="st-card purple">
+    <div class="st-title">Non-Invasive Ventilation (NIV / BiPAP)</div>
+    <ul>
+      <li><strong>Indikasi Utama:</strong> Eksaserbasi PPOK (Tipe II hiperkapnik), Edema Paru Kardiogenik akut.</li>
+      <li><strong>Kontraindikasi:</strong> Apnea, syok/hemodinamik tidak stabil, sekresi napas banyak, operasi wajah/GI atas, kesadaran menurun (kecuali koma PPOK murni).</li>
+      <li><strong>Setting Awal (BiPAP):</strong>
+        <ul style="margin-top:4px">
+          <li><strong>IPAP:</strong> 10–12 cmH₂O (titrasi naik bertahap s/d VT 6-8 mL/kg & WOB turun)</li>
+          <li><strong>EPAP:</strong> 5–8 cmH₂O (cegah atelektasis, atasi auto-PEEP)</li>
+          <li><strong>FiO₂:</strong> Titrasi ke target (88-92% pada PPOK)</li>
+        </ul>
+      </li>
+      <li><strong>Evaluasi:</strong> Jika gagal dalam 1–2 jam (WOB menetap, asidosis memburuk) → Segera Intubasi.</li>
+    </ul>
+    <p style="font-size:11px;margin-top:8px;color:var(--muted)">📚 BTS/ICS Guidelines for Ventilatory Management 2016</p>
+  </div>
+</div>
+
+<div class="sec" id="ards">1. ARDS — Lung Protective Ventilation</div>
+<div class="st-card blue">
+  <div class="st-title">ARDS (Berlin 2012) — ARDSNet Protocol</div>
+  <table><tr><th>Parameter</th><th>Mild (P/F 200–300)</th><th>Moderate (P/F 100–200)</th><th>Severe (P/F &lt;100)</th></tr>
+  <tr><td>Mode</td><td colspan="3">VC-AC (Volume Control) atau PC-AC. VC lebih terkontrol untuk VT.</td></tr>
+  <tr><td>VT</td><td>6 mL/kg IBW</td><td>4–6 mL/kg IBW</td><td>4–6 mL/kg IBW</td></tr>
+  <tr><td>RR</td><td>14–20 bpm</td><td>18–25 bpm</td><td>20–30 bpm</td></tr>
+  <tr><td>PEEP</td><td>5–8 cmH₂O</td><td>8–13 cmH₂O</td><td>13–18 cmH₂O</td></tr>
+  <tr><td>Pplat</td><td colspan="3">≤30 cmH₂O MUTLAK · Target ≤28</td></tr>
+  <tr><td>Driving Pressure</td><td colspan="3">Pplat − PEEP ≤15 cmH₂O (target ≤13)</td></tr>
+  <tr><td>FiO₂</td><td>≤0.40</td><td>0.40–0.70</td><td>0.70–1.0</td></tr>
+  <tr><td>PaCO₂ target</td><td>35–50 mmHg</td><td>40–55 (permissive)</td><td>45–65 (permissive)</td></tr>
+  <tr><td>SpO₂ target</td><td colspan="3">88–95% (hindari hiperoksia)</td></tr>
+  <tr><td>pH minimal</td><td colspan="3">&gt;7.20 (terima permissive hypercapnia)</td></tr>
+  </table>
+  <div class="warn" style="margin-top:10px;margin-bottom:6px"><strong>⚠ ARDS Severe — Prone Position</strong>Indikasi: P/F &lt;150 mmHg dengan FiO₂ ≥0.6 selama &gt;12 jam. Prone 16 jam/hari (PROSEVA protocol). Mortalitas ↓ dari 32.8% → 16% (Guérin NEJM 2013).</div>
+  <div class="warn" style="margin-bottom:0"><strong>⚠ NMB (Neuromuscular Blockade)</strong>Cisatrakurium 48 jam pada P/F &lt;120 — menurunkan barotrauma (ACURASYS). Namun ROSE trial (2019) tidak konfirmasi manfaat mortalitas; pertimbangkan kasus per kasus.</div>
+  <p style="font-size:11px;margin-top:8px;color:var(--muted)">📚 ARDSNet NEJM 2000 · Guérin NEJM 2013 (PROSEVA) · Papazian NEJM 2010 (ACURASYS) · Berlin Definition JAMA 2012</p>
+</div>
+
+<div class="theory-dropdown" style="margin-bottom:14px">
+  <button class="theory-btn" onclick="toggleTheory('ards-theory')">📖 Patofisiologi ARDS & Strategi Lung-Protective <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-ards-theory">
+    <ul>
+      <li><strong>Definisi:</strong> Onset akut &lt;1 minggu, bilateral infiltrat, bukan karena gagal jantung/overload cairan, P/F &lt;300 dengan PEEP ≥5 cmH₂O (Berlin 2012).</li>
+      <li><strong>Patofisiologi:</strong> Kerusakan epitel alveolar + endotel kapiler → kebocoran protein → edema alveolar eksudatif → atelektasis + kolaps alveolar → shunt intrapulmoner → hipoksemia refrakter.</li>
+      <li><strong>Baby lung concept (Gattinoni):</strong> Paru ARDS bukan kaku merata — hanya ~30% alveoli terbuka ("baby lung"). VT normal mengisi baby lung saja → overdistensi regional → VILI (Ventilator Induced Lung Injury).</li>
+      <li><strong>Mekanisme VILI:</strong> Volutrauma (overdistensi), barotrauma (Pplat tinggi), atelectrauma (buka-tutup siklik), biotrauma (mediator inflamasi sistemik).</li>
+      <li><strong>Driving pressure:</strong> Amato et al. NEJM 2015 menunjukkan driving pressure (Pplat−PEEP) adalah prediktor mortalitas terkuat — setiap 1 cmH₂O kenaikan DP → ↑ mortalitas 4–7%.<sup class="cite-ref" data-refs="amato2015"></sup></li>
+      <li><strong>PEEP optimal:</strong> Titrasi dengan FiO₂/PEEP table ARDSNet atau esophageal balloon (transpulmonary pressure). High-PEEP strategy tidak konsisten menunjukkan manfaat mortalitas (LOV trial).</li>
+    </ul>
+    <sup class="cite-ref" data-refs="gattinoni2016,amato2015,fan2017,slutsky2013"></sup>
+  </div>
+</div>
+
+<div class="sec" id="ppok">2. PPOK Eksaserbasi Berat</div>
+<div class="st-card amber">
+  <div class="st-title">PPOK Eksaserbasi Berat — Ventilasi Invasif</div>
+  <table><tr><th>Parameter</th><th>Nilai Awal</th><th>Keterangan</th></tr>
+  <tr><td>Mode</td><td>VC-AC atau PC-AC</td><td>VC lebih mudah monitor VT & Pplat</td></tr>
+  <tr><td>VT</td><td>6–8 mL/kg IBW</td><td>Lebih tinggi dari ARDS — paru obstruktif</td></tr>
+  <tr><td>RR</td><td>10–14 bpm</td><td>RENDAH — waktu ekspirasi panjang</td></tr>
+  <tr><td>I:E ratio</td><td>1:3 sampai 1:5</td><td>Ekspirasi panjang → cegah air trapping</td></tr>
+  <tr><td>PEEP</td><td>5–8 cmH₂O</td><td>PEEP eksternal ≈ 75–85% auto-PEEP terukur</td></tr>
+  <tr><td>FiO₂</td><td>Titrasi ke SpO₂ 88–92%</td><td>JANGAN normalisasi SpO₂ → drive napas hilang</td></tr>
+  <tr><td>PaCO₂ target</td><td>Baseline pasien</td><td>Koreksi bertahap! Alkalosis post-hiperkap bahaya</td></tr>
+  <tr><td>Flow rate</td><td>60–80 L/mnt</td><td>Flow tinggi → I:E lebih baik; kurangi WOB</td></tr>
+  </table>
+  <div class="warn" style="margin-top:10px;margin-bottom:0"><strong>⚠ Auto-PEEP / Dynamic Hyperinflation</strong>Ukur dengan ekspiratory hold. Auto-PEEP &gt;10 cmH₂O → risiko hemodinamik (↓ preload, PJP). Kurangi RR, perpanjang ekspirasi. Bronkodilator inhalasi via nebulisasi inline.</div>
+  <p style="font-size:11px;margin-top:8px;color:var(--muted)">📚 GOLD Guidelines 2024 · Appendini L. AJRCCM 1994 · Rossi A. Eur Respir J 2000</p>
+</div>
+
+<div class="sec" id="asma">3. Asma Berat / Status Asmatikus</div>
+<div class="st-card orange-c">
+  <div class="st-title">Status Asmatikus — Controlled Hypoventilation</div>
+  <table><tr><th>Parameter</th><th>Nilai</th><th>Keterangan</th></tr>
+  <tr><td>Mode</td><td>VC-AC</td><td>Kontrol VT; PC sulit karena resistensi berubah</td></tr>
+  <tr><td>VT</td><td>6–8 mL/kg IBW</td><td>Monitor Pplat &lt;30 cmH₂O</td></tr>
+  <tr><td>RR</td><td>8–12 bpm</td><td>SANGAT LAMBAT — ekspirasi panjang wajib</td></tr>
+  <tr><td>I:E ratio</td><td>1:4 sampai 1:5</td><td>Ekspirasi minimal 4–5 detik</td></tr>
+  <tr><td>PEEP</td><td>0–5 cmH₂O</td><td>PEEP rendah/0 — auto-PEEP sudah ada</td></tr>
+  <tr><td>FiO₂</td><td>1.0 awal → titrasi</td><td>Target SpO₂ 94–98%</td></tr>
+  <tr><td>PaCO₂</td><td>45–70 mmHg</td><td>Permissive hypercapnia — pH &gt;7.20</td></tr>
+  <tr><td>Sedasi</td><td>Ketamin 1–2 mg/kg/jam</td><td>Bronkodilator + sedasi; hindari histamin-releaser</td></tr>
+  </table>
+  <div class="warn" style="margin-top:10px;margin-bottom:6px"><strong>⚠ Dynamic Hyperinflation Asma</strong>Lebih berat dari PPOK. Cek: grafik flow tidak kembali baseline, suara napas menurun, TD drop, JVP meningkat. Emergency: lepas dari ventilator, tekan dada manual (chest compression untuk ekspirasi paksa).</div>
+  <div class="info" style="margin-bottom:0"><strong>Adjuvant Bronkodilator:</strong> Salbutamol inline nebulisasi · Ipratropium · MgSO₄ 2g IV 20 mnt · Aminofilin (bila tersedia) · Helioks He:O₂ 70:30 (↓ turbulensi, ↓ WOB)</div>
+  <p style="font-size:11px;margin-top:8px;color:var(--muted)">📚 GINA 2024 · Oddo M. Intensive Care Med 2006 · Leatherman JW. Crit Care Med 2018</p>
+</div>
+
+<div class="sec" id="cap">4. Pneumonia Berat & CAP/HAP</div>
+<div class="st-card teal">
+  <div class="st-title">Pneumonia Berat — Ventilasi Standar</div>
+  <table><tr><th>Parameter</th><th>Nilai</th><th>Keterangan</th></tr>
+  <tr><td>Mode</td><td>VC-AC atau PC-AC</td><td>Sesuai preferensi klinisi</td></tr>
+  <tr><td>VT</td><td>6–8 mL/kg IBW</td><td>Lung-protective; lebih ketat jika P/F &lt;200</td></tr>
+  <tr><td>PEEP</td><td>5–10 cmH₂O</td><td>Titrasi SpO₂; hindari overdistensi</td></tr>
+  <tr><td>RR</td><td>16–22 bpm</td><td>Sesuai kebutuhan ventilasiasidosis</td></tr>
+  <tr><td>FiO₂</td><td>Titrasi ke SpO₂ 92–96%</td><td>Target SpO₂ 92–96%; hindari hiperoksia</td></tr>
+  <tr><td>Pplat</td><td>&lt;30 cmH₂O</td><td>Monitor ketat; jika ARDS concurrent turunkan VT</td></tr>
+  </table>
+  <div class="subsec">VAP Bundle (Pencegahan VAP)</div>
+  <ul>
+    <li>Head of bed 30–45° (jika tidak kontraindikasi)</li>
+    <li>Oral hygiene dengan klorheksidin 0.12% setiap 6–8 jam</li>
+    <li>Daily SAT + SBT (ABC protocol)</li>
+    <li>Cuff pressure ETT 20–30 cmH₂O (monitor tiap shift)</li>
+    <li>Subglottic suction ETT (jika tersedia)</li>
+    <li>DVT + stress ulcer profilaksis</li>
+  </ul>
+  <p style="font-size:11px;margin-top:8px;color:var(--muted)">📚 IDSA/ATS CAP Guidelines 2019 · IDSA HAP/VAP Guidelines 2016 · PERDICI Panduan VAP 2021 · Klompas M. NEJM 2014</p>
+</div>
+
+<div class="sec" id="sepsis">5. Syok Septik + Gagal Napas</div>
+<div class="st-card red">
+  <div class="st-title">Sepsis-Associated Respiratory Failure</div>
+  <div class="grid2">
+    <div>
+      <h3>Timing Intubasi</h3>
+      <ul>
+        <li>Jangan tunggu apnea — intubasi saat perburukan progresif</li>
+        <li>RR &gt;35, SpO₂ &lt;90% dengan FiO₂ tinggi, use of accessory muscles, altered mental status</li>
+        <li>Ketamin 1–1.5 mg/kg IV sebagai induksi pilihan (stabilkan hemodinamik)</li>
+        <li>Persiapkan norepinefrin sebelum intubasi — RSI dapat drop TD 30–40%</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Setting Awal</h3>
+      <ul>
+        <li>VT 6 mL/kg IBW (ARDS protocol jika P/F &lt;300)</li>
+        <li>PEEP 8–12 cmH₂O (titrasi)</li>
+        <li>FiO₂ 1.0 → titrasi ke SpO₂ 92–96%</li>
+        <li>RR 20–25 bpm</li>
+        <li>Hindari alkalosis respiratorik → vasodilasi perifer</li>
+      </ul>
+    </div>
+  </div>
+  <div class="warn" style="margin-top:10px;margin-bottom:0"><strong>⚠ Interaksi Hemodinamik-Ventilator</strong>PEEP tinggi → ↓ preload → ↓ CO pada pasien hipovolemia. Resusitasi cairan DULU sebelum naikkan PEEP. Monitor: CVP, MAP, ScvO₂, laktat serial. Pertimbangkan vasopressor sebelum dinaikkan PEEP agresif.</div>
+  <p style="font-size:11px;margin-top:8px;color:var(--muted)">📚 SSC Guidelines 2021 · Surviving Sepsis Campaign 2016 · Jaber S. Lancet Respir Med 2018</p>
+</div>
+
+<div class="sec" id="epk">6. Edema Paru Kardiogenik</div>
+<div class="st-card purple">
+  <div class="st-title">Edema Paru Kardiogenik — NIV First, Lalu Invasif</div>
+  <table><tr><th>Tahap</th><th>Parameter</th><th>Keterangan</th></tr>
+  <tr><td><span class="badge bp">NIV Dulu</span></td><td>CPAP 8–10 cmH₂O atau BiPAP (IPAP 14–18/EPAP 6–8)</td><td>Menurunkan preload + afterload. Mortalitas ↓. 3CPAP trial: tidak lebih baik dari BiPAP tapi keduanya baik vs standard O₂.</td></tr>
+  <tr><td><span class="badge br">Intubasi</span></td><td>VT 6–8 mL/kg IBW; PEEP 8–12</td><td>Jika NIV gagal, aritmia, penurunan kesadaran, syok kardiogenik</td></tr>
+  <tr><td>FiO₂</td><td>Titrasi ke SpO₂ 92–96%</td><td>Hiperoksia → ↑ afterload, vasokonstriksi koroner</td></tr>
+  <tr><td>RR</td><td>16–20 bpm</td><td>Normocapnia kecuali ada komorbid</td></tr>
+  </table>
+  <div class="info" style="margin-top:8px;margin-bottom:0"><strong>Pertimbangan PEEP pada Kardiogenik:</strong> PEEP ↑ afterload LV (beneficial) tetapi ↓ preload (harmful jika hipovolemia concurrent). Titrasi hati-hati; monitor CO/SV jika tersedia Swan-Ganz atau Echo.</div>
+  <p style="font-size:11px;margin-top:8px;color:var(--muted)">📚 Gray A. NEJM 2008 (3CPO) · Vital FM. Cochrane 2013 · ESC Guidelines HF 2021</p>
+</div>
+
+<div class="sec" id="postop">7. Post-Operasi / Post-Cardiac Surgery</div>
+<div class="st-card green">
+  <div class="st-title">Post-Op & Fast-Track Weaning</div>
+  <table><tr><th>Parameter</th><th>Nilai</th><th>Keterangan</th></tr>
+  <tr><td>Mode</td><td>SIMV-VC + PSV atau PC-AC</td><td>Transisi ke PSV untuk weaning bertahap</td></tr>
+  <tr><td>VT</td><td>6–8 mL/kg IBW</td><td>Lung-protective meski paru normal</td></tr>
+  <tr><td>PEEP</td><td>5–8 cmH₂O</td><td>Cegah atelektasis post-anestesi</td></tr>
+  <tr><td>RR</td><td>12–16 bpm</td><td>Kurangi bertahap saat PS ↑</td></tr>
+  <tr><td>Rekruitmen</td><td>Staircase maneuver 20/30/40 cmH₂O × 30 det</td><td>Pada atelektasis masif post-op</td></tr>
+  <tr><td>Target ekstubasi</td><td>4–8 jam post-op kardiak elektif</td><td>Fast-track: hemat ICU stay, ventilasi &lt;6 jam</td></tr>
+  </table>
+  <p style="font-size:11px;margin-top:8px;color:var(--muted)">📚 Chaney MA. J Cardiothorac Vasc Anesth 2006 · Naughton MT. AJRCCM 1995</p>
+</div>
+
+<div class="sec" id="neuro">8. Gagal Napas Neuromuskular (GBS, MG)</div>
+<div class="st-card gray-c">
+  <div class="st-title">GBS / Myasthenia Gravis — Monitoring & Timing Intubasi</div>
+  <div class="grid2">
+    <div>
+      <h3>Indikasi Intubasi (Rule of 20-30-40)</h3>
+      <ul>
+        <li>VC (Vital Capacity) &lt;20 mL/kg → intubasi</li>
+        <li>MIP/NIF &lt; −30 cmH₂O → waspada</li>
+        <li>MEP (Max Expiratory Pressure) &lt;40 cmH₂O</li>
+        <li>Jangan tunggu desaturasi — profilaktik intubasi lebih aman</li>
+        <li>Bulbar involvement: aspirasi → intubasi segera</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Setting Ventilator</h3>
+      <ul>
+        <li>Mode: VC-AC atau SIMV-VC + PSV</li>
+        <li>VT 10–12 mL/kg IBW (paru normal, butuh lebih)</li>
+        <li>RR 12–16 bpm; PEEP 5 cmH₂O</li>
+        <li>FiO₂ titrasi — SpO₂ ≥95%</li>
+        <li>Weaning sangat lambat — monitor VC serial</li>
+        <li>Pertimbangkan trakeostomi dini (GBS berat)</li>
+      </ul>
+    </div>
+  </div>
+  <p style="font-size:11px;margin-top:8px;color:var(--muted)">📚 Lawn ND. Neurology 2001 (rule of 20-30-40) · Andersen PM. Eur J Neurol 2012 · Wijdicks EF. Mayo Clin Proc 2006</p>
+</div>
+
+<script src="../assets/js/scripts-setting.js"></script>
+<script src="../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../assets/js/feedback.js"></script>
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+  <script src="../assets/data/references.js"></script>
+  <script src="../assets/js/scripts-citations.js"></script>
+</body>
+</html>
+

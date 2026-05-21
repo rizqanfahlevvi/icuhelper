@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICU Helper — Cheatsheet Ventilator Dewasa ICU/IGD</title>
+<link rel="stylesheet" href="assets/css/styles.css">
+<style>
+/* ---- Changelog (index-only) ---- */
+.cl-wrap { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; margin-bottom: 4px; }
+.cl-toggle {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; background: var(--card); border: none; padding: 12px 16px;
+  font-size: 13px; font-weight: 600; color: var(--text); cursor: pointer;
+  font-family: inherit; text-align: left; transition: background 0.15s;
+}
+.cl-toggle:hover { background: var(--bg2); }
+.cl-toggle .chev { font-family: 'JetBrains Mono', monospace; font-size: 10px; transition: transform 0.15s; color: var(--muted); }
+.cl-toggle.open .chev { transform: rotate(180deg); }
+.cl-body { display: none; border-top: 1px solid var(--border); }
+.cl-body.visible { display: block; }
+.cl-row { display: flex; gap: 0; border-bottom: 1px solid var(--border); }
+.cl-row:last-child { border-bottom: none; }
+.cl-ver {
+  min-width: 52px; padding: 11px 12px; font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 700; border-right: 1px solid var(--border);
+  display: flex; align-items: flex-start; justify-content: center; letter-spacing: 0.03em;
+}
+.cl-ver.v-major { color: var(--purple); background: var(--purple-bg); font-size: 10px; letter-spacing: 0.05em; }
+.cl-ver.v3 { color: var(--teal);  background: var(--teal-bg); }
+.cl-ver.v2 { color: var(--blue);  background: var(--blue-bg); }
+.cl-ver.v1 { color: var(--gray);  background: var(--gray-bg); }
+
+
+.cl-content { padding: 10px 14px; flex: 1; }
+.cl-date { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); margin-bottom: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+.cl-line { font-size: 12px; color: var(--text); line-height: 1.8; }
+.cl-badge { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 1px 6px; border-radius: 3px; font-weight: 700; margin-right: 5px; vertical-align: middle; }
+.cb-new  { background: var(--green-bg);  color: var(--green); }
+.cb-fix  { background: var(--blue-bg);   color: var(--blue); }
+.cb-struct { background: var(--purple-bg); color: var(--purple); }
+.cb-base { background: var(--gray-bg);   color: var(--gray); }
+</style>
+<script>
+/* Anti-FOUC: apply saved theme before first paint */
+(function(){
+  var t = localStorage.getItem('vent-theme');
+  if (!t) t = window.matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<script src="assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<!-- Legacy nav — hidden by CSS; nav.js removes them after load -->
+<div class="hbar"></div>
+<nav class="tab-bar">
+  <a class="tab-btn active" href="index.html">🏠 Home</a>
+  <a class="tab-btn" href="pages/kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="pages/setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="pages/monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="pages/abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="pages/weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="pages/ekg.html">📈 EKG</a>
+  <a class="tab-btn" href="pages/teori.html">📖 Teori</a>
+  <a class="tab-btn" href="pages/skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="pages/cairan.html">💧 Cairan</a>
+  <a class="tab-btn" href="referensi.html">📚 Referensi</a>
+</nav>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero-section">
+  <div class="hero-bg-glow"></div>
+  <div class="hero-bg-glow2"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <div class="badge-dot"></div>
+      Ur daily ER &amp; Critical Care companion :)
+    </div>
+
+    <h1 class="hero-title">
+      <span class="ht-brand">ICU/ER</span> <span class="ht-helper">Helper</span>
+    </h1>
+    <p class="hero-sub">
+      Untuk panduan klinis · bukan pengganti penilaian klinis
+    </p>
+    <a href="https://www.linkedin.com/in/rizqanfahlevvi" target="_blank" class="hero-linkedin">
+      <span class="linkedin-logo">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="white"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </span>
+      Made by Rizqanfahlevvi
+    </a>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-val">9</div>
+      <div class="stat-lbl">Modul</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">10+</div>
+      <div class="stat-lbl">Kalkulator</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">v2.0</div>
+      <div class="stat-lbl">Versi</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">2026</div>
+      <div class="stat-lbl">Updated</div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ALERT BARS ==================== -->
+<div class="alert-bar info">
+  <span class="alert-icon">◈</span>
+  v2.0 NEW: Unit toggle lab · Osmolalitas + Volume Status · BUN:Cr ratio · Kalkulator Cairan ICU · Cairan IV 36 jenis
+</div>
+<div class="alert-bar warn">
+  <span class="alert-icon">▲</span>
+  Basis bukti: KDIGO 2024 · SSC 2024 · Global ARDS 2023 · ESCMID 2023 · MENDS-2 2024
+</div>
+
+<!-- ==================== MODULE GRID ==================== -->
+<div class="section-header" style="display:flex; justify-content:space-between; align-items:center;">
+  <div style="display:flex; align-items:center; gap:8px; width:100%;">
+    <span class="section-label">// Navigasi Cepat — Semua Halaman</span>
+    <div class="section-line" style="flex:1;"></div>
+    
+    <!-- View Toggle Slider -->
+    <div class="view-mode-toggle">
+      <button class="view-mode-btn active" id="btnViewGrid" title="Tampilan Grid">
+        <svg class="view-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+      </button>
+      <button class="view-mode-btn" id="btnViewCarousel" title="Tampilan Carousel">
+        <svg class="view-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"></rect></svg>
+      </button>
+      <div class="view-mode-slider" id="viewModeSlider"></div>
+    </div>
+  </div>
+</div>
+
+<div id="homeViewContainer" class="home-view-container grid-view">
+  <div class="carousel-track mod-grid" id="homeCarouselTrack">
+
+  <!-- ☕ Variant C — Support Card -->
+  <a class="mod-card saweria-card" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">
+    <span class="mod-card-icon">💡</span>
+    <div class="mod-card-title">Dukung Proyek Ini</div>
+    <div class="mod-card-desc">Dibuat oleh dokter, untuk dokter dan tenaga ICU/IGD. Bermanfaat di bedside? Dukung pengembangan fitur baru.</div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ saweria.co</span>
+      <span class="mod-card-meta">100% sukarela · gratis</span>
+    </div>
+  </a>
+
+  <a class="mod-card" href="pages/teori.html">
+    <span class="mod-card-icon">📖</span>
+    <div class="mod-card-title">Teori</div>
+    <div class="mod-card-desc">Fisiologi gagal napas, mekanik paru, mode ventilasi, VILI, prinsip lung-protective — dengan referensi terbaru</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-b">Fisiologi</span>
+      <span class="tag tag-g">ARDS</span>
+      <span class="tag tag-r">Sepsis</span>
+      <span class="tag tag-g">VILI</span>
+      <span class="tag tag-b">Mode Ventilasi</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">inline citation</span>
+    </div>
+  </a>
+
+  <a class="mod-card" href="pages/kalkulator.html">
+    <span class="mod-card-icon">🧮</span>
+    <div class="mod-card-title">Kalkulator</div>
+    <div class="mod-card-desc">IBW &amp; ventilator · Sedasi ICU &amp; Induksi Intubasi RSI · Syringe pump · P/F &amp; OI · eGFR multi-formula · AKI KDIGO · CURB-65 · PSI · Koreksi elektrolit</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-g">IBW</span>
+      <span class="tag tag-b">Induksi RSI</span>
+      <span class="tag tag-b">Renal</span>
+      <span class="tag tag-o">Pulmo</span>
+      <span class="tag tag-g">ElektroCorr</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">5 kalkulator baru</span>
+    </div>
+  </a>
+
+  <a class="mod-card" href="pages/drug-reference.html">
+    <span class="mod-card-icon">💊</span>
+    <div class="mod-card-title">Drug Reference</div>
+    <div class="mod-card-desc">~70 obat ICU dewasa — dosis, eGFR adjustment, kehamilan, high-alert, evidence. Vasopressor · Antibiotik · Sedasi · NMB</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-r">Vasopressor</span>
+      <span class="tag tag-g">Antibiotik</span>
+      <span class="tag tag-o">eGFR Mode</span>
+      <span class="tag tag-b">High-Alert</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">~70 obat ICU</span>
+    </div>
+  </a>
+
+  <a class="mod-card" href="pages/cairan.html">
+    <span class="mod-card-icon">💧</span>
+    <div class="mod-card-title">Cairan IV</div>
+    <div class="mod-card-desc">Kristaloid · Hipertonik · Dextrose · Maintenance · Amino · Koloid · <strong>Elektrolit/Koreksi</strong> — komposisi, kemasan, indikasi, konsiderasi neonatus/pediatrik/dewasa</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-b">Kristaloid</span>
+      <span class="tag tag-g">Balanced</span>
+      <span class="tag tag-o">Elektrolit</span>
+      <span class="tag tag-g">Amino</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">36 cairan · 8 kategori</span>
+    </div>
+  </a>
+
+  <a class="mod-card" href="pages/abg.html">
+    <span class="mod-card-icon">🩸</span>
+    <div class="mod-card-title">ABG Interpreter</div>
+    <div class="mod-card-desc">Analisis gas darah 6-langkah sistematis, Delta-Delta ratio, Winter's formula, ROX Index, A-a gradient</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-g">6 Langkah</span>
+      <span class="tag tag-b">Delta-Delta</span>
+      <span class="tag tag-o">ROX Index</span>
+      <span class="tag tag-b">A-a Gradient</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">winter's formula</span>
+    </div>
+  </a>
+
+  <a class="mod-card" href="pages/skoring.html">
+    <span class="mod-card-icon">📋</span>
+    <div class="mod-card-title">Skoring ICU</div>
+    <div class="mod-card-desc">SOFA, APACHE-II, RASS, CAM-ICU, CPIS, Bedside Frailty Scale (CFS), Candida Score — versi terbaru + referensi</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-r">SOFA</span>
+      <span class="tag tag-r">APACHE-II</span>
+      <span class="tag tag-g">CAM-ICU</span>
+      <span class="tag tag-o">CPIS</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">7 scoring tools</span>
+    </div>
+  </a>
+
+  <a class="mod-card" href="pages/weaning.html">
+    <span class="mod-card-icon">🔽</span>
+    <div class="mod-card-title">Weaning</div>
+    <div class="mod-card-desc">Protokol SAT+SBT, kriteria dan teknik ekstubasi, RSBI, HACOR score, manajemen post-ekstubasi (HFNC/NIV)</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-g">SAT+SBT</span>
+      <span class="tag tag-b">RSBI</span>
+      <span class="tag tag-b">HACOR</span>
+      <span class="tag tag-o">HFNC</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">protokol lengkap</span>
+    </div>
+  </a>
+
+  <a class="mod-card" href="pages/monitoring.html">
+    <span class="mod-card-icon">📊</span>
+    <div class="mod-card-title">Monitoring</div>
+    <div class="mod-card-desc">Checklist alarm ventilator, interpretasi waveform &amp; loop P-V/F-V, troubleshooting asinkroni pasien-ventilator</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-o">Alarm</span>
+      <span class="tag tag-g">Waveform</span>
+      <span class="tag tag-b">Loop P-V</span>
+      <span class="tag tag-b">Asinkroni</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">checklist lengkap</span>
+    </div>
+  </a>
+
+  <a class="mod-card" href="pages/setting.html">
+    <span class="mod-card-icon">🫁</span>
+    <div class="mod-card-title">Setting Ventilator</div>
+    <div class="mod-card-desc">Parameter per kondisi klinis: ARDS, PPOK, Asma berat, Neuromuskular (GBS/MG), post-operasi, kardiogenik, dan lainnya</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-r">ARDS</span>
+      <span class="tag tag-g">PPOK</span>
+      <span class="tag tag-o">Asma</span>
+      <span class="tag tag-b">GBS/MG</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">8 kondisi klinis</span>
+    </div>
+  </a>
+
+  <a class="mod-card" href="referensi.html">
+    <span class="mod-card-icon">📚</span>
+    <div class="mod-card-title">Referensi</div>
+    <div class="mod-card-desc">Daftar pustaka internasional &amp; lokal Indonesia, guideline terkini, basis bukti dosis obat ICU/IGD</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-b">Internasional</span>
+      <span class="tag tag-g">Lokal ID</span>
+      <span class="tag tag-o">Guidelines</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">basis bukti</span>
+    </div>
+  </a>
+
+  </div> <!-- /carousel-track (mod-grid) -->
+  
+  <button class="carousel-arrow prev" id="carouselPrev" aria-label="Previous">❮</button>
+  <button class="carousel-arrow next" id="carouselNext" aria-label="Next">❯</button>
+  <div class="carousel-dots" id="carouselDots"></div>
+  
+</div> <!-- /homeViewContainer -->
+
+<!-- ==================== CHANGELOG ==================== -->
+<div class="section-header" style="margin-top:8px">
+  <span class="section-label">// Riwayat Versi</span>
+  <div class="section-line"></div>
+</div>
+
+<div class="cl-wrap">
+  <button class="cl-toggle" onclick="toggleCL(this)">
+    📋 Riwayat versi (perbaikan & pembaruan)
+    <span class="chev">▼</span>
+  </button>
+  <div class="cl-body">
+
+    <div class="cl-row">
+      <div class="cl-ver v-major">V2.0</div>
+      <div class="cl-content">
+        <div class="cl-date">2026 — Terbaru</div>
+        <div class="cl-line">
+          <span class="cl-badge cb-new">NEW</span><strong>Unit Toggle Fleksibel — 12 field</strong> di ElektroCorr, Renal, Transfusi: Glukosa <code>mg/dL ↔ mmol/L</code> · Kalsium &amp; Magnesium <code>mg/dL ↔ mmol/L</code> · Kreatinin serum &amp; urin <code>mg/dL ↔ µmol/L</code> · Fibrinogen <code>mg/dL ↔ g/L</code> — nilai dikonversi in-place, pilihan tersimpan di localStorage<br>
+          <span class="cl-badge cb-new">NEW</span><strong>ElektroCorr — Osmolalitas Plasma &amp; Status Volume</strong> — Osmolalitas terhitung (2Na + Glu/18 + BUN/2.8) · Osmolalitas efektif/tonisitas · Osmol gap (curiga toksik alkohol jika >10) · Chips volume status (Hipo/Eu/Hiper) · Interpretasi UNa &amp; UOSM · Tabel diagnostik cepat kombinasi osmolalitas × volume status · Referensi Bhave CJASN 2017 · Sterns NEJM 2015<br>
+          <span class="cl-badge cb-new">NEW</span><strong>Renal — Rasio BUN : Kreatinin</strong> — Klasifikasi >20 (pre-renal) / 10–20 (normal/ATN) / &lt;10 (gagal hati/malnutrisi) · Flag spesifisitas ~97% untuk perdarahan GI atas jika rasio >36 · Tabel diferensial 9 kondisi · Input Ureum → BUN auto-konversi ÷2.14 · Referensi Srygley Ann Intern Med 2012 · Witting Ann Emerg Med 2004<br>
+          <span class="cl-badge cb-new">NEW</span><strong>Kalkulator Kebutuhan Cairan Harian ICU</strong> — Restriksi rasional 20–30 mL/kg/hari · ROSE framework (Resuscitation/Optimization/Stabilization/Evacuation) · Koreksi IWL &amp; demam · Target balans harian + balans kumulatif · Fluid overload % · Popup iframe langsung dari halaman Cairan IV<br>
+          <span class="cl-badge cb-struct">UI</span><strong>Popup Kalkulator via iframe</strong> — Kalkulator Cairan &amp; Syringe Pump terbuka sebagai overlay popup dalam halaman tanpa navigasi keluar · Sidebar/topbar otomatis disembunyikan dalam iframe · Tombol close circular (×)<br>
+          <span class="cl-badge cb-new">NEW</span><strong>Cairan IV — 36 cairan · 8 kategori</strong> — ditambah kategori <strong>Elektrolit/Koreksi</strong>: KCl 7,46% · MgSO₄ 20/40% · D40% · NaHCO₃ 8,4% · Ca-Glukonas 10% · CaCl₂ 10% · D20% · Aminosteril KE 10% · Aminosteril Infant<br>
+          <span class="cl-badge cb-new">NEW</span><strong>Konsiderasi Populasi</strong> — setiap cairan kini memiliki panduan klinis spesifik untuk Neonatus · Pediatrik · Dewasa (dosis, kecepatan, kontraindikasi per usia)<br>
+          <span class="cl-badge cb-new">NEW</span><strong>Kemasan per produk</strong> — komposisi per kemasan beredar (100 mL / 250 mL / 500 mL / 1000 mL) + referensi kemasan resmi BPOM Indonesia<br>
+          <span class="cl-badge cb-struct">UI</span>Filter: dropdown pada mobile/tablet · pills pada desktop · search bar tetap di satu baris · grid 1-2-3 kolom responsive<br>
+          <span class="cl-badge cb-struct">UI</span>Card expanded: section populasi 3-kolom · section label dengan left-accent border · spacing lebih lapang · sticky close button<br>
+          <span class="cl-badge cb-struct">DESIGN</span><strong>AMOLED Clinical Design System</strong> — Redesign total UI: true black AMOLED dark (#080808) · accent green (#00ff88) · light mode (#f4f6f8 / #00994d)<br>
+          <span class="cl-badge cb-struct">DESIGN</span>Tipografi: <strong>JetBrains Mono</strong> (data &amp; UI) + <strong>DM Sans</strong> (narasi) · Sidebar navigasi kolapsibel + topbar sticky dengan backdrop-filter blur<br>
+          <span class="cl-badge cb-new">NEW</span>Brand-dot heartbeat animation · Pill toggle Light/Dark · Transition flash overlay saat ganti tema<br>
+          <span class="cl-badge cb-new">NEW</span>Homepage: hero section redesign — <strong>ICU/ER</strong> dominant · Helper sebagai subtitle · stat cards + alert bars + mod-grid<br>
+          <span class="cl-badge cb-fix">UPD</span>Referensi baru: BICAR-ICU 2018 · Magpie Trial 2002 · AHA ACLS 2020 · ESPGHAN/ESPEN 2018 · UpToDate 2023 (elektrolit) · Malbrain 2018 (ROSE) · Bhave CJASN 2017 · Srygley Ann Intern Med 2012
+        </div>
+      </div>
+    </div>
+
+    <div class="cl-row">
+      <div class="cl-ver v3" style="color:var(--teal);background:var(--teal-bg)">V1.3</div>
+      <div class="cl-content">
+        <div class="cl-date">2026</div>
+        <div class="cl-line">
+          <span class="cl-badge cb-new">NEW</span><strong>Renal Function</strong> — eGFR multi-formula (CKD-EPI 2021 race-free ★, Cockcroft-Gault, MDRD-4, CKD-EPI Cys-C) · Converter Ureum↔BUN live · AKI staging KDIGO · FENa &amp; FEUrea · Osmolalitas &amp; Osmol Gap<br>
+          <span class="cl-badge cb-new">NEW</span><strong>Pulmo Calc</strong> — CURB-65 · PSI/PORT Score (20 variabel) · A-a Gradient · Konverter Ureum otomatis dengan threshold CURB/PSI<br>
+          <span class="cl-badge cb-new">NEW</span><strong>ElektroCorr</strong> — Koreksi Na (hipo/hiper + ODS safeguard) · Koreksi K (hipo/hiper + alur hiperkalemia) · Ca terkoreksi albumin · Koreksi Mg (dengan penyesuaian gagal ginjal)<br>
+          <span class="cl-badge cb-new">NEW</span><strong>Induksi Intubasi RSI</strong> — 10 obat baru: Remifentanil, Alfentanil, Ketamine, Etomidate, Suksinilkolin, Rocuronium, Vecuronium + Lidokain, Atropin · Dosis loading + maintenance + volume syringe otomatis<br>
+          <span class="cl-badge cb-fix">UPD</span>Referensi diperbarui: KDIGO 2024, CKD-EPI 2021, MENDS-2 NEJM 2024, STRIVE Hi 2021, Cochrane NMB 2022, BTS CAP 2023, IDSA/ATS CAP 2019
+        </div>
+      </div>
+    </div>
+
+    <div class="cl-row">
+      <div class="cl-ver v3">V1.2</div>
+      <div class="cl-content">
+        <div class="cl-date">2026</div>
+        <div class="cl-line">
+          <span class="cl-badge cb-struct">STRUCT</span>Homepage dipisah dari kalkulator — <code>index.html</code> kini murni halaman depan<br>
+          <span class="cl-badge cb-struct">STRUCT</span><code>kalkulator.html</code> sebagai halaman mandiri tersendiri<br>
+          <span class="cl-badge cb-struct">STRUCT</span>Script modular — <code>scripts.js</code> dipecah menjadi 9 file terpisah<br>
+          <span class="cl-badge cb-new">NEW</span>Navigasi seragam di semua halaman · Inline citation di tiap teori &amp; scoring<br>
+          <span class="cl-badge cb-fix">UPD</span>Kalkulasi skoring diperbarui — SOFA, CAM-ICU, CPIS, Candida Score
+        </div>
+      </div>
+    </div>
+
+    <div class="cl-row">
+      <div class="cl-ver v2">V1.1</div>
+      <div class="cl-content">
+        <div class="cl-date">2026</div>
+        <div class="cl-line">
+          <span class="cl-badge cb-struct">STRUCT</span>Modular split — satu file besar dipecah menjadi 8 halaman terpisah<br>
+          <span class="cl-badge cb-new">NEW</span>ABG Interpreter 6-langkah · ROX Index · Skoring ICU (SOFA, APACHE-II, CAM-ICU, dll)<br>
+          <span class="cl-badge cb-new">NEW</span>Syringe pump 12 obat · Kalkulator sedasi/analgesik/paralitik PADIS 2018
+        </div>
+      </div>
+    </div>
+
+    <div class="cl-row">
+      <div class="cl-ver v1">V1.0</div>
+      <div class="cl-content">
+        <div class="cl-date">2025 — Versi Awal</div>
+        <div class="cl-line">
+          <span class="cl-badge cb-base">BASE</span>Single-page · IBW kalkulator dasar · Setting ARDS &amp; PPOK · Weaning dasar · Referensi internasional utama
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== FOOTER ==================== -->
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+
+<script>
+function toggleCL(btn) {
+  btn.classList.toggle('open');
+  var body = btn.nextElementSibling;
+  body.classList.toggle('visible');
+}
+</script>
+<script src="assets/js/scripts-index.js"></script>
+<script src="assets/js/scripts-home.js"></script>
+<script src="assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="assets/js/feedback.js"></script>
+  <script src="assets/data/references.js"></script>
+  <script src="assets/js/scripts-citations.js"></script>
+</body>
+</html>

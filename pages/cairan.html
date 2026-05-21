@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cairan IV — ICU Helper</title>
+<link rel="stylesheet" href="../assets/css/styles.css">
+<style>
+/* ============================================================
+   CAIRAN PAGE — page-specific styles
+   Semua warna via CSS variables dari styles.css
+   ============================================================ */
+
+/* ── TOP BAR: pills + search in one row ── */
+.cf-topbar {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  margin-top: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+/* ── FILTER DROPDOWN (mobile/tablet only) ── */
+/* Default: dropdown visible, pills hidden */
+.cf-filter-drop {
+  position: relative;
+  flex-shrink: 0;
+}
+.cf-filter-row { display: none; }
+.cf-drop-btn {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  padding: .38rem .8rem;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text2);
+  cursor: pointer;
+  white-space: nowrap;
+  letter-spacing: .03em;
+  min-width: 130px;
+  justify-content: space-between;
+  transition: border-color .15s, color .15s;
+}
+.cf-drop-btn:hover { color: var(--text); border-color: var(--border-hi); }
+.cf-drop-arrow {
+  font-size: 8px;
+  opacity: .55;
+  transition: transform .18s ease;
+  margin-left: .15rem;
+}
+.cf-filter-drop.open .cf-drop-arrow { transform: rotate(180deg); }
+.cf-drop-lhs { display: flex; align-items: center; gap: .38rem; }
+/* Colored dot next to label */
+.cf-drop-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--border-hi);
+}
+.cf-drop-dot.kristaloid { background: var(--accent2); }
+.cf-drop-dot.hipertonik { background: var(--danger); }
+.cf-drop-dot.dextrose   { background: var(--warn); }
+.cf-drop-dot.maintenance{ background: var(--accent); }
+.cf-drop-dot.amino      { background: var(--purple); }
+.cf-drop-dot.koloid     { background: var(--coral); }
+.cf-drop-dot.elektrolit { background: #2dd4bf; }
+.cf-drop-dot.osmotik    { background: #60a5fa; }
+/* Dropdown menu */
+.cf-drop-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(0,0,0,.35);
+  z-index: 60;
+  min-width: 155px;
+  padding: .3rem;
+  overflow: hidden;
+}
+.cf-filter-drop.open .cf-drop-menu { display: block; }
+.cf-drop-item {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  width: 100%;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  padding: .42rem .7rem;
+  border-radius: 7px;
+  border: none;
+  background: none;
+  color: var(--text2);
+  cursor: pointer;
+  text-align: left;
+  box-sizing: border-box;
+  transition: background .12s, color .12s;
+}
+.cf-drop-item:hover { background: var(--bg2); color: var(--text); }
+.cf-drop-item.active { background: var(--bg); color: var(--text); font-weight: 700; }
+
+/* Desktop (≥768px): pills visible, dropdown hidden */
+@media (min-width: 768px) {
+  .cf-filter-drop  { display: none; }
+  .cf-filter-row   {
+    display: flex;
+    gap: .4rem;
+    overflow-x: auto;
+    flex: 1;
+    padding-bottom: .2rem;
+    scrollbar-width: none;
+    margin: 0;
+  }
+  .cf-filter-row::-webkit-scrollbar { display: none; }
+  /* Search: fixed width, expands leftward on focus */
+  .cf-search-wrap {
+    flex: 0 0 130px;
+    max-width: none;
+    transition: width .22s ease;
+  }
+  .cf-search-wrap:focus-within { width: 210px; flex-basis: 210px; }
+}
+
+/* ── FILTER PILLS (desktop) ── */
+.cf-pill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  padding: .4rem 1rem;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text2);
+  cursor: pointer;
+  white-space: nowrap;
+  letter-spacing: .03em;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.cf-pill:hover { color: var(--text); border-color: var(--border-hi); }
+.cf-pill.active { border-color: transparent; }
+.cf-pill[data-cat="semua"].active      { background: var(--border-hi); color: var(--text); }
+.cf-pill[data-cat="kristaloid"].active { background: var(--accent2); color: #000; }
+.cf-pill[data-cat="hipertonik"].active { background: var(--danger); color: #fff; }
+.cf-pill[data-cat="dextrose"].active   { background: var(--warn); color: #000; }
+.cf-pill[data-cat="maintenance"].active{ background: var(--accent); color: #000; }
+.cf-pill[data-cat="amino"].active      { background: var(--purple); color: #fff; }
+.cf-pill[data-cat="koloid"].active     { background: var(--coral); color: #fff; }
+.cf-pill[data-cat="elektrolit"].active { background: #2dd4bf; color: #000; }
+.cf-pill[data-cat="osmotik"].active    { background: #60a5fa; color: #000; }
+
+/* ── SEARCH ── */
+.cf-search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 90px;
+  max-width: 220px;
+}
+.cf-search-icon {
+  position: absolute;
+  left: .6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text3);
+  font-size: 11px;
+  pointer-events: none;
+  line-height: 1;
+}
+.cf-search {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: .38rem .65rem .38rem 1.9rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text);
+  outline: none;
+  transition: border-color .15s, background .15s;
+}
+.cf-search:focus {
+  border-color: var(--accent2);
+  background: var(--bg2);
+}
+.cf-search::placeholder { color: var(--text3); }
+.cf-search-clear {
+  position: absolute;
+  right: .5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text3);
+  cursor: pointer;
+  font-size: 11px;
+  padding: .1rem .25rem;
+  line-height: 1;
+  transition: color .15s;
+}
+.cf-search-clear:hover { color: var(--text); }
+
+/* ── MODERN CARD GRID ── */
+.cf-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  padding: 16px;
+}
+
+/* ── CARD BASE ── */
+.cf-card {
+  background: var(--card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform .25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow .25s ease, border-color .2s ease;
+}
+.cf-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+  background: var(--accent);
+  transition: width .2s ease;
+  z-index: 1;
+}
+.cf-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--border-hi);
+}
+.cf-card:hover::before { width: 8px; }
+.cf-card.cf-deprecated { opacity: .72; }
+
+/* ── COLLAPSED: horizontal row ── */
+.cf-coll {
+  display: flex;
+  align-items: flex-start;
+  gap: .55rem;
+  padding: .6rem .65rem;
+}
+
+/* Card thumbnail */
+.cf-img {
+  flex-shrink: 0;
+  width: 72px;
+  height: 96px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cf-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cf-img-ph  { opacity: .18; color: var(--text); width: 70%; height: 70%; }
+
+/* Card body (collapsed) */
+.cf-body { padding: 0; flex: 1; min-width: 0; }
+
+/* Name + badge inline row */
+.cf-name-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .3rem;
+  margin-bottom: .25rem;
+  min-width: 0;
+}
+.cf-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0;
+}
+
+.cf-badge {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  padding: .1rem .48rem;
+  border-radius: 3px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin-bottom: .3rem;
+}
+.cf-badge-kristaloid { background: var(--accent2-dim); color: var(--accent2); border: 1px solid rgba(0,229,255,.15); }
+.cf-badge-hipertonik { background: var(--danger-dim);  color: var(--danger);  border: 1px solid rgba(255,59,92,.15); }
+.cf-badge-dextrose   { background: var(--warn-dim);    color: var(--warn);    border: 1px solid rgba(255,159,67,.15); }
+.cf-badge-maintenance{ background: var(--accent-dim);  color: var(--accent);  border: 1px solid var(--accent-dim2); }
+.cf-badge-amino      { background: var(--purple-bg);   color: var(--purple);  border: 1px solid rgba(176,138,255,.15); }
+.cf-badge-koloid     { background: var(--coral-bg);    color: var(--coral);   border: 1px solid rgba(255,107,107,.15); }
+.cf-badge-elektrolit { background: rgba(45,212,191,.12); color: #2dd4bf;       border: 1px solid rgba(45,212,191,.18); }
+.cf-badge-osmotik    { background: rgba(96,165,250,.12);  color: #60a5fa;       border: 1px solid rgba(96,165,250,.18); }
+.cf-badge-lipid      { background: rgba(251,191,36,.12);  color: #fbbf24;       border: 1px solid rgba(251,191,36,.18); }
+/* Konsentrat & Alkali badges inside elektrolit category */
+.cf-badge-konsentrat { background: rgba(251,146,60,.12); color: #fb923c;       border: 1px solid rgba(251,146,60,.18); }
+.cf-badge-alkali     { background: rgba(129,140,248,.12); color: #818cf8;      border: 1px solid rgba(129,140,248,.18); }
+
+.cf-osm {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--text3);
+  margin-top: .15rem;
+  margin-bottom: .25rem;
+}
+
+/* Key comp chips */
+.cf-key-comp {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .2rem;
+  margin-bottom: .25rem;
+}
+.cf-kc {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--text3);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: .05rem .28rem;
+  white-space: nowrap;
+}
+.cf-kc b { color: var(--accent2); font-weight: 700; }
+
+/* Key ind & warn */
+.cf-key-ind,
+.cf-key-warn {
+  font-size: 9.5px;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: .1rem;
+}
+.cf-key-ind  { color: var(--text3); }
+.cf-key-warn { color: var(--warn); }
+.cf-key-warn.danger { color: var(--danger); }
+.cf-tag-dep {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; font-weight: 700;
+  padding: .1rem .4rem;
+  border-radius: 3px;
+  background: var(--danger-dim); color: var(--danger);
+  border: 1px solid rgba(255,59,92,.15);
+  margin-top: .3rem;
+  width: fit-content;
+}
+.cf-tag-pend {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; font-weight: 700;
+  padding: .1rem .4rem;
+  border-radius: 3px;
+  background: var(--warn-dim); color: var(--warn);
+  border: 1px solid rgba(255,159,67,.15);
+  margin-top: .3rem;
+  width: fit-content;
+}
+
+/* Expanded header — sticky */
+.cf-exp-head {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 1.1rem 1.35rem 1rem;
+  display: grid;
+  grid-template-columns: 78px 1fr auto;
+  gap: 1rem;
+  align-items: start;
+}
+.cf-exp-photo-box {
+  width: 78px;
+  aspect-ratio: 2 / 3;
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+  background: var(--card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cf-exp-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.25;
+  margin-bottom: .4rem;
+}
+.cf-exp-alias {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text3);
+  margin-top: .28rem;
+  line-height: 1.5;
+}
+/* Action buttons (theme toggle + close) */
+.cf-exp-actions {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  flex-shrink: 0;
+}
+.cf-btn-close,
+.cf-btn-theme {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  padding: .35rem .75rem;
+  border-radius: var(--r);
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text2);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all .15s;
+}
+.cf-btn-close:hover,
+.cf-btn-theme:hover { color: var(--text); border-color: var(--border-hi); }
+.cf-btn-theme {
+  font-size: 13px;
+  padding: .3rem .6rem;
+  line-height: 1;
+}
+
+/* Expanded body */
+.cf-exp-body { padding: 1.1rem 1.35rem 2rem; }
+
+/* Kemasan pills */
+.cf-pkg-chips { display: flex; flex-wrap: wrap; gap: .35rem; }
+.cf-pkg-chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  padding: .22rem .75rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--text2);
+}
+/* Per-package label */
+.cf-pkg-per {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--accent2);
+  margin: .75rem 0 .4rem;
+}
+
+.cf-alert-dep {
+  background: var(--danger-dim);
+  border: 1px solid rgba(255,59,92,.2);
+  border-radius: var(--r);
+  padding: .65rem .9rem;
+  margin-bottom: .9rem;
+  font-size: 12.5px;
+  color: var(--danger);
+  line-height: 1.55;
+}
+.cf-alert-pend {
+  background: var(--warn-dim);
+  border: 1px solid rgba(255,159,67,.2);
+  border-radius: var(--r);
+  padding: .65rem .9rem;
+  margin-bottom: .9rem;
+  font-size: 12.5px;
+  color: var(--warn);
+  line-height: 1.55;
+}
+
+/* Section label */
+.cf-sec-lbl {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--accent2);
+  margin-bottom: .65rem;
+  padding-left: .6rem;
+  border-left: 2px solid var(--accent2);
+  display: block;
+  line-height: 1.3;
+}
+
+/* Composition chips */
+.cf-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+}
+.cf-chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  padding: .3rem .7rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text2);
+}
+.cf-chip b { color: var(--accent2); font-weight: 700; }
+
+/* Two-column layout on wider screens */
+@media (min-width: 560px) {
+  .cf-two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+}
+
+/* Bullet lists */
+.cf-blist {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .45rem;
+}
+.cf-blist li {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.6;
+  padding-left: 1.6rem;
+  position: relative;
+}
+.cf-blist li::before {
+  content: attr(data-i);
+  position: absolute;
+  left: 0;
+  font-size: 11px;
+  top: .14rem;
+}
+
+/* Tips list */
+.cf-tips {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .45rem;
+}
+.cf-tips li {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.6;
+  padding-left: 1.6rem;
+  position: relative;
+}
+.cf-tips li::before {
+  content: '💡';
+  position: absolute;
+  left: 0;
+  font-size: 10px;
+  top: .2rem;
+}
+
+/* References */
+.cf-refs {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .45rem;
+}
+.cf-refs li {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  color: var(--text3);
+  line-height: 1.65;
+  padding-left: 1.2rem;
+  position: relative;
+}
+.cf-refs li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
+.cf-refs b { color: var(--text2); }
+
+.cf-div {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 1.25rem 0;
+}
+.cf-sec { margin-bottom: 1.1rem; }
+
+/* Population considerations grid */
+.cf-pop-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .75rem;
+}
+@media (max-width: 600px) {
+  .cf-pop-grid { grid-template-columns: 1fr; gap: .5rem; }
+}
+.cf-pop-item {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: .7rem .85rem;
+}
+.cf-pop-grp {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--text3);
+  margin-bottom: .35rem;
+}
+.cf-pop-note {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.55;
+}
+
+/* Empty state */
+.cf-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text3);
+}
+</style>
+
+<!-- Anti-FOUC: apply saved theme before first paint -->
+<script>
+(function(){
+  var t = localStorage.getItem('vent-theme');
+  if (!t) t = window.matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<script src="../assets/js/scripts-theme.js"></script>
+</head>
+
+<body>
+
+<!-- Legacy nav — hidden immediately and removed by nav.js -->
+<div class="hbar"></div>
+<nav class="tab-bar">
+  <a class="tab-btn" href="../index.html">🏠 Home</a>
+  <a class="tab-btn" href="kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="ekg.html">📈 EKG</a>
+  <a class="tab-btn" href="teori.html">📖 Teori</a>
+  <a class="tab-btn" href="skoring.html">📋 Skoring</a>
+  <a class="tab-btn active" href="cairan.html">💧 Cairan</a>
+  <a class="tab-btn" href="../referensi.html">📚 Referensi</a>
+</nav>
+
+<!-- ============================================================
+     CONTENT
+     nav.js inject: topbar · sidebar · page-header · breadcrumb
+     di atas elemen pertama body. Konten di bawah ini.
+============================================================ -->
+
+<div class="alert-bar info">
+  <span class="alert-icon">◈</span>
+  36 cairan IV · 8 kategori · Referensi: SMART 2018 · BaSICS 2021 · SSC 2021 · ESPEN 2019 · ESPGHAN 2018 · ACLS 2020
+</div>
+
+<!-- Shortcut: Kalkulator Kebutuhan Cairan -->
+<script>
+function openCairanKalkulator() {
+  var overlay = document.getElementById('cairan-kal-overlay');
+  var iframe  = document.getElementById('cairan-kal-iframe');
+  if (!overlay || !iframe) return;
+  iframe.src = 'kalkulator/kalkulator-cairan.html';
+  overlay.style.display = 'flex';
+  overlay.style.opacity = '1';
+  overlay.style.pointerEvents = 'all';
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeCairanKalkulator() {
+  var overlay = document.getElementById('cairan-kal-overlay');
+  var iframe  = document.getElementById('cairan-kal-iframe');
+  if (overlay) {
+    overlay.classList.remove('open');
+    overlay.style.display = '';
+    overlay.style.opacity = '';
+    overlay.style.pointerEvents = '';
+  }
+  if (iframe) iframe.src = '';
+  document.body.style.overflow = '';
+}
+</script>
+<div style="padding:0 16px;max-width:1200px;margin:16px auto 16px">
+  <button onclick="openCairanKalkulator()" style="
+    display:flex;align-items:center;gap:10px;width:100%;
+    padding:10px 14px;border-radius:10px;
+    border:1px solid var(--accent-dim2);background:var(--accent-dim);
+    cursor:pointer;text-align:left;transition:border-color .15s,background .15s;
+  " onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--accent-dim2)'">
+    <span style="font-size:18px">🧮</span>
+    <span style="flex:1">
+      <span style="display:block;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--accent)">
+        Kalkulator Kebutuhan Cairan Harian ICU
+      </span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text2)">
+        Restriksi Rasional · ROSE · Target Balans Harian &amp; Kumulatif · Fluid Overload
+      </span>
+    </span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);font-weight:700">Buka ↗</span>
+  </button>
+</div>
+
+<!-- Top bar: dropdown (mobile/tablet) + pills (desktop) + search -->
+<div class="cf-topbar">
+  <!-- Pills: desktop only (hidden on mobile/tablet via CSS) -->
+  <div class="cf-filter-row">
+    <button class="cf-pill active" data-cat="semua">Semua</button>
+    <button class="cf-pill" data-cat="kristaloid">Kristaloid</button>
+    <button class="cf-pill" data-cat="hipertonik">Hipertonik</button>
+    <button class="cf-pill" data-cat="dextrose">Dextrose</button>
+    <button class="cf-pill" data-cat="maintenance">Maintenance</button>
+    <button class="cf-pill" data-cat="amino">Amino</button>
+    <button class="cf-pill" data-cat="koloid">Koloid</button>
+    <button class="cf-pill" data-cat="elektrolit">Elektrolit</button>
+    <button class="cf-pill" data-cat="osmotik">Osmotik</button>
+  </div>
+  <!-- Dropdown: mobile/tablet only (hidden on desktop via CSS) -->
+  <div class="cf-filter-drop" id="cf-filter-drop">
+    <button class="cf-drop-btn" id="cf-drop-btn" type="button">
+      <span class="cf-drop-lhs">
+        <span class="cf-drop-dot semua" id="cf-drop-dot"></span>
+        <span id="cf-drop-label">Semua</span>
+      </span>
+      <span class="cf-drop-arrow">▾</span>
+    </button>
+    <div class="cf-drop-menu" id="cf-drop-menu">
+      <button class="cf-drop-item active" data-cat="semua" type="button">
+        <span class="cf-drop-dot semua"></span>Semua
+      </button>
+      <button class="cf-drop-item" data-cat="kristaloid" type="button">
+        <span class="cf-drop-dot kristaloid"></span>Kristaloid
+      </button>
+      <button class="cf-drop-item" data-cat="hipertonik" type="button">
+        <span class="cf-drop-dot hipertonik"></span>Hipertonik
+      </button>
+      <button class="cf-drop-item" data-cat="dextrose" type="button">
+        <span class="cf-drop-dot dextrose"></span>Dextrose
+      </button>
+      <button class="cf-drop-item" data-cat="maintenance" type="button">
+        <span class="cf-drop-dot maintenance"></span>Maintenance
+      </button>
+      <button class="cf-drop-item" data-cat="amino" type="button">
+        <span class="cf-drop-dot amino"></span>Amino
+      </button>
+      <button class="cf-drop-item" data-cat="koloid" type="button">
+        <span class="cf-drop-dot koloid"></span>Koloid
+      </button>
+      <button class="cf-drop-item" data-cat="elektrolit" type="button">
+        <span class="cf-drop-dot elektrolit"></span>Elektrolit
+      </button>
+      <button class="cf-drop-item" data-cat="osmotik" type="button">
+        <span class="cf-drop-dot osmotik"></span>Osmotik
+      </button>
+    </div>
+  </div>
+  <div class="cf-search-wrap">
+    <span class="cf-search-icon">🔍</span>
+    <input type="text" id="cf-search" class="cf-search" placeholder="Cari cairan..." autocomplete="off" spellcheck="false">
+    <button class="cf-search-clear" id="cf-search-clear" style="display:none">✕</button>
+  </div>
+</div>
+
+<!-- Card grid — populated by scripts-cairan.js -->
+<div id="cf-grid" class="cf-grid"></div>
+
+<script src="../assets/js/scripts-cairan.js"></script>
+<script src="../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../assets/js/feedback.js"></script>
+  <script src="../assets/data/references.js"></script>
+  <script src="../assets/js/scripts-citations.js"></script>
+
+<!-- ── Kalkulator Cairan Popup ───────────────────────────── -->
+<div id="cairan-kal-overlay" class="pump-overlay" onclick="if(event.target===this)closeCairanKalkulator()">
+  <div class="pump-popup">
+    <div class="pump-popup-head">
+      <span class="pump-popup-title">🧮 Kalkulator Kebutuhan Cairan Harian ICU</span>
+      <button class="pump-close" onclick="closeCairanKalkulator()" title="Tutup">✕</button>
+    </div>
+    <iframe id="cairan-kal-iframe" class="pump-iframe" src="" title="Kalkulator Cairan Harian ICU"></iframe>
+  </div>
+</div>
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+</body>
+</html>

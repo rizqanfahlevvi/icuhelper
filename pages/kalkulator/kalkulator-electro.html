@@ -1,0 +1,504 @@
+﻿<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ElektroCorr — Koreksi Elektrolit — Cheatsheet Ventilator Dewasa</title>
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<script>
+/* Anti-FOUC: apply saved theme before paint */
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+<style>
+/* Osmolalitas volume status chips */
+.osm-vol-chip {
+  padding: .3rem .75rem; border-radius: 20px;
+  border: 1.5px solid var(--border); background: var(--card);
+  color: var(--text2); font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 600; cursor: pointer;
+  transition: all .15s; white-space: nowrap;
+}
+.osm-vol-chip:hover { border-color: var(--border-hi); color: var(--text); }
+.osm-vol-chip.active[data-vol="hipo"] { background:#ef4444; border-color:#ef4444; color:#fff; }
+.osm-vol-chip.active[data-vol="eu"]   { background:#22c55e; border-color:#22c55e; color:#fff; }
+.osm-vol-chip.active[data-vol="hiper"]{ background:#3b82f6; border-color:#3b82f6; color:#fff; }
+
+/* Na form — 3 kolom di desktop, stack di mobile */
+.na-grid3 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+@media (min-width: 640px) {
+  .na-grid3 { grid-template-columns: 1fr 1fr; }
+}
+@media (min-width: 960px) {
+  .na-grid3 { grid-template-columns: 1fr 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn active" href="kalkulator-ibw.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="../ekg.html">📈 EKG</a>
+  <a class="tab-btn" href="../teori.html">📖 Teori</a>
+  <a class="tab-btn" href="../skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+
+<nav class="subtab-bar">
+  <a class="subtab-btn" href="kalkulator-ibw.html">⚖️ IBW & Parameter</a>
+  <a class="subtab-btn" href="kalkulator-drug.html">💊 Sedasi & Paralitik</a>
+  <a class="subtab-btn" href="kalkulator-pump.html">🔬 Syringe Pump</a>
+  <a class="subtab-btn" href="kalkulator-pf.html">📈 P/F & OI</a>
+  <a class="subtab-btn" href="kalkulator-renal.html">🫘 Renal</a>
+  <a class="subtab-btn" href="kalkulator-pulmo.html">🫁 Pulmo</a>
+  <a class="subtab-btn active" href="kalkulator-electro.html">⚡ ElektroCorr</a>
+  <a class="subtab-btn" href="kalkulator-nlr.html">🧫 NLR</a>
+  <a class="subtab-btn" href="kalkulator-transfusi.html">🩸 Transfusi</a>
+</nav>
+
+<!-- Natrium -->
+  <div class="calc-box">
+    <div class="calc-title"><span>🧂</span> Koreksi Natrium — Hipo/Hipernatremia</div>
+    <div class="na-grid3">
+      <!-- Kolom 1: input utama -->
+      <div>
+        <div class="input-row"><label>Na serum</label><input type="number" id="na-val" placeholder="cth: 118"><span class="unit">mEq/L</span></div>
+        <div class="input-row"><label>Jenis kelamin</label>
+          <select id="na-sex"><option value="m">Laki-laki (TBW 60%)</option><option value="f">Perempuan (TBW 50%)</option></select>
+        </div>
+        <div class="input-row"><label>Berat badan</label><input type="number" id="na-bw" placeholder="cth: 65"><span class="unit">kg</span></div>
+        <div class="input-row"><label>Glukosa <span style="font-size:10px;color:var(--muted)">(Na corr)</span></label><div class="input-unit-wrap"><input type="number" id="na-glu" placeholder="opsional"><button class="unit-toggle-btn" data-unit="na-glu" onclick="toggleKalcUnit('na-glu')">mg/dL</button></div></div>
+      </div>
+      <!-- Kolom 2: onset + kecepatan -->
+      <div>
+        <label style="font-size:12px;color:var(--text2);font-family:'JetBrains Mono',monospace;font-weight:600;display:block;margin-bottom:6px">Onset Hiponatremia</label>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px">
+          <label style="display:flex;align-items:center;gap:5px;padding:5px 12px;border:1.5px solid var(--border-hi);border-radius:20px;cursor:pointer;font-size:11px;font-family:'JetBrains Mono',monospace;background:var(--card);color:var(--text2)">
+            <input type="radio" name="na-onset" id="na-onset-kronik" value="kronik" checked style="accent-color:var(--accent)"> Kronik (≥48 jam / tidak diketahui)
+          </label>
+          <label style="display:flex;align-items:center;gap:5px;padding:5px 12px;border:1.5px solid var(--border-hi);border-radius:20px;cursor:pointer;font-size:11px;font-family:'JetBrains Mono',monospace;background:var(--card);color:var(--text2)">
+            <input type="radio" name="na-onset" id="na-onset-akut" value="akut" style="accent-color:var(--accent)"> Akut (&lt;48 jam)
+          </label>
+        </div>
+        <div class="input-row" style="margin-top:0">
+          <label>Kecepatan koreksi</label>
+          <select id="na-speed">
+            <option value="standard">0.5–1 mEq/L per jam (standar)</option>
+            <option value="emergency">2 mEq/L per jam (emergensi — kejang/herniasi)</option>
+          </select>
+        </div>
+      </div>
+      <!-- Kolom 3: info -->
+      <div>
+        <div class="warn" style="margin-top:0;font-size:12px">
+          <strong>⚠ Batas Koreksi Aman</strong>
+          Hiponatremia: maks ↑6–8 mEq/L per 24 jam<br>
+          → risiko ODS jika &gt;8–10 mEq/L/24 jam<br>
+          Hipernatremia: maks ↓0.5 mEq/L per jam<br>
+          → risiko edema serebral jika terlalu cepat
+        </div>
+        <div class="formula-note">
+          Na terkoreksi hiperglikemia:<br>
+          +1.6 mEq/L per 100 mg/dL glukosa di atas 100
+          <br><span style="color:var(--muted)">Adrogue HJ. NEJM 2000;342:1581 · Sterns RH. NEJM 2015;372:55</span>
+        </div>
+      </div>
+    </div>
+    <button class="calc-btn" onclick="calcNaCorr()" style="margin-top:14px">Hitung Koreksi Na</button>
+    <div id="na-results" class="hidden" style="margin-top:12px"><div id="na-result-content"></div></div>
+  </div>
+
+<!-- Theory: Na Klasifikasi -->
+<div class="theory-dropdown" style="margin-top:6px">
+  <button class="theory-btn" onclick="toggleTheory('na-classif')">📖 Klasifikasi Hiponatremia — Osmolalitas & Status Volume + Risiko ODS <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-na-classif">
+    <div class="subsec">Langkah Diagnostik Hiponatremia</div>
+    <p style="font-size:12px">Osmolalitas plasma = 2×Na + Glukosa/18 + BUN/2.8 &nbsp;·&nbsp; Normal: 280–295 mOsm/kg</p>
+    <table>
+      <tr><th>Osmolalitas Plasma</th><th>Etiologi Utama</th><th>Interpretasi</th></tr>
+      <tr><td><strong>Hipotonik (&lt;280)</strong></td><td>Mayoritas kasus hiponatremia klinis</td><td>→ Lanjut evaluasi status volume</td></tr>
+      <tr><td><strong>Isotonik (280–295)</strong></td><td>Pseudohiponatremia: hiperlipidemia, hiperproteinemia</td><td>Na sebenarnya normal — artefak laboratorium</td></tr>
+      <tr><td><strong>Hipertonik (&gt;295)</strong></td><td>Hiperglikemia, mannitol, kontras yodium</td><td>Na turun 1.6–2.4 mEq/L per 100 mg/dL glukosa di atas 100</td></tr>
+    </table>
+
+    <div class="subsec" style="margin-top:12px">Klasifikasi Hiponatremia Hipotonik — Status Volume</div>
+    <table>
+      <tr><th>Status Volume</th><th>Etiologi</th><th>UOSM / UNa</th><th>Tata Laksana</th></tr>
+      <tr>
+        <td><strong>Hipovolemik</strong><br><small style="color:var(--muted)">Kehilangan Na &gt; Air</small></td>
+        <td>Kehilangan GI (muntah, diare), diuretik berlebih, insufisiensi adrenal, cerebral salt wasting</td>
+        <td>UNa &lt;20 (ekstra-renal) atau &gt;20 (renal)</td>
+        <td>NaCl 0.9% untuk restorasi volume, atasi penyebab</td>
+      </tr>
+      <tr>
+        <td><strong>Euvolemik</strong><br><small style="color:var(--muted)">Retensi air</small></td>
+        <td>SIADH (paling umum), hipotiroid, insufisiensi adrenal, polidipsia psikogenik</td>
+        <td>UOSM &gt;100, UNa &gt;20 (SIADH)</td>
+        <td>Restriksi cairan 1–1.2 L/hari; Vaptans (tolvaptan) pada SIADH refrakter</td>
+      </tr>
+      <tr>
+        <td><strong>Hipervolemik</strong><br><small style="color:var(--muted)">Retensi Na + Air</small></td>
+        <td>Gagal jantung, sirosis hati, sindrom nefrotik, AKI/CKD</td>
+        <td>UNa &lt;20 (GJ/Sirosis) atau &gt;20 (CKD)</td>
+        <td>Restriksi cairan + Na; Diuretik; Atasi penyakit dasar</td>
+      </tr>
+    </table>
+
+    <div class="subsec" style="margin-top:12px">⚠ Osmotic Demyelination Syndrome (ODS) — Risiko Koreksi Terlalu Cepat</div>
+    <div class="warn" style="font-size:12px">
+      <strong>Batas aman koreksi Na pada hiponatremia:</strong><br>
+      <ul style="margin-top:6px">
+        <li>Max <strong>6–8 mEq/L per 24 jam</strong> (aman untuk semua pasien)</li>
+        <li>Max <strong>10–12 mEq/L per 24 jam</strong> (batas absolut — jangan dilampui)</li>
+        <li>Jika sudah terkoreksi &gt;10 mEq/L dalam 24 jam: <strong>Rescue dengan D5W atau DDAVP</strong> untuk memperlambat koreksi</li>
+      </ul>
+      <strong>Faktor risiko tinggi ODS (target lebih ketat: ≤8 mEq/24 jam):</strong><br>
+      Hiponatremia kronik (&gt;48 jam) · Malnutrisi berat · Alkoholisme · Penyakit hepar berat · Hipokalemia
+    </div>
+    <div class="subsec" style="margin-top:10px">Kriteria SIADH (Euvolemic Hyponatremia)</div>
+    <table>
+      <tr><th>Kriteria Esensial</th><th>Nilai</th></tr>
+      <tr><td>Osmolalitas plasma efektif</td><td>&lt;275 mOsm/kg</td></tr>
+      <tr><td>Osmolalitas urin</td><td>&gt;100 mOsm/kg (biasanya &gt;300)</td></tr>
+      <tr><td>Status volume klinis</td><td>Euvolemik</td></tr>
+      <tr><td>UNa (urin Na spontan)</td><td>&gt;30 mEq/L pada intake Na dan air normal</td></tr>
+      <tr><td>Fungsi tiroid dan adrenal</td><td>Normal (eksklusi)</td></tr>
+      <tr><td>Tidak ada diuretik baru</td><td>(Eksklusi tiazid/loop)</td></tr>
+    </table>
+    <sup class="cite-ref" data-refs="sterns2015,adrogue2000,spasovski2014,verbalis2013"></sup>
+  </div>
+</div>
+
+<!-- Osmolalitas & Status Volume -->
+<div class="calc-box" style="margin-top:16px">
+  <div class="calc-title"><span>🧪</span> Osmolalitas Plasma &amp; Status Volume Pasien</div>
+
+  <!-- Grid 2 kolom -->
+  <div class="grid2" style="gap:12px;margin-bottom:12px">
+
+    <!-- Kolom kiri: input lab -->
+    <div>
+      <div style="font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Lab Serum</div>
+      <div class="input-row"><label>Na serum</label><input type="number" id="osm-na" placeholder="cth: 125"><span class="unit">mEq/L</span></div>
+      <div class="input-row"><label>Glukosa</label><div class="input-unit-wrap"><input type="number" id="osm-glu" placeholder="cth: 180"><button class="unit-toggle-btn" data-unit="osm-glu" onclick="toggleKalcUnit('osm-glu')">mg/dL</button></div></div>
+      <div class="input-row">
+        <label>BUN <span style="font-size:10px;color:var(--muted)">(atau Urea)</span></label>
+        <input type="number" id="osm-bun" placeholder="cth: 28"><span class="unit">mg/dL</span>
+      </div>
+      <div class="input-row" style="margin-top:4px">
+        <label style="display:flex;align-items:center;gap:4px">
+          Input sebagai
+          <select id="osm-bun-unit" style="font-size:10px;padding:2px 6px;margin-left:4px">
+            <option value="bun">BUN (mg/dL) ÷ 2.8</option>
+            <option value="urea">Urea (mg/dL) ÷ 6</option>
+            <option value="mmol">Urea (mmol/L)</option>
+          </select>
+        </label>
+      </div>
+      <div class="input-row" style="margin-top:8px"><label>Osm terukur <span style="font-size:10px;color:var(--muted)">(opsional)</span></label><input type="number" id="osm-measured" placeholder="lab"><span class="unit">mOsm/kg</span></div>
+    </div>
+
+    <!-- Kolom kanan: status volume + urin -->
+    <div>
+      <div style="font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Status Volume Klinis</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px" id="osm-vol-chips">
+        <button type="button" class="osm-vol-chip" data-vol="hipo" onclick="selectVolStatus('hipo')">📉 Hipovolemik</button>
+        <button type="button" class="osm-vol-chip" data-vol="eu"   onclick="selectVolStatus('eu')">⚖️ Euvolemik</button>
+        <button type="button" class="osm-vol-chip" data-vol="hiper" onclick="selectVolStatus('hiper')">💧 Hipervolemik</button>
+      </div>
+
+      <div style="font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">Lab Urin <span style="font-weight:400;font-size:10px;color:var(--muted)">(opsional — tingkatkan akurasi)</span></div>
+      <div class="input-row"><label>UNa (urin Na)</label><input type="number" id="osm-una" placeholder="cth: 18"><span class="unit">mEq/L</span></div>
+      <div class="input-row"><label>Urin Osmolalitas</label><input type="number" id="osm-uosm" placeholder="cth: 450"><span class="unit">mOsm/kg</span></div>
+      <div class="input-row"><label>BUN / Kreatinin</label>
+        <input type="number" id="osm-bun2" placeholder="BUN" style="width:60px"> /
+        <input type="number" id="osm-cr" placeholder="Cr" step="0.1" style="width:60px">
+        <span class="unit">mg/dL</span>
+      </div>
+    </div>
+  </div>
+
+  <button class="calc-btn" onclick="calcOsmolalitas()">Hitung Osmolalitas &amp; Status Volume</button>
+  <div id="osm-results" class="hidden" style="margin-top:12px"><div id="osm-result-content"></div></div>
+
+  <!-- Info singkat -->
+  <div class="formula-note" style="margin-top:10px">
+    Osm terhitung = 2×Na + Glukosa/18 + BUN/2.8 &nbsp;·&nbsp; Osm efektif = 2×Na + Glukosa/18 (tonisitas)<br>
+    Normal plasma: 280–295 mOsm/kg &nbsp;·&nbsp; Osmol gap normal: &lt;10 mOsm/kg<br>
+    <span style="color:var(--muted)">Bhave G. CJASN 2017 · Sterns RH. NEJM 2015 · Adrogue HJ. NEJM 2000</span>
+  </div>
+</div>
+
+  <!-- Kalium -->
+  <div class="calc-box" style="margin-top:16px">
+    <div class="calc-title"><span>🫀</span> Koreksi Kalium — Hipo/Hiperkalemia</div>
+    <div class="grid2" style="gap:10px">
+      <div>
+        <div class="input-row"><label>K serum</label><input type="number" id="k-val" placeholder="cth: 2.8" step="0.1"><span class="unit">mEq/L</span></div>
+        <div class="input-row"><label>Berat badan</label><input type="number" id="k-bw" placeholder="cth: 65"><span class="unit">kg</span></div>
+        <div class="input-row"><label>pH arteri <span style="font-size:10px;color:var(--muted)">(opsional)</span></label><input type="number" id="k-ph" placeholder="opsional" step="0.01"></div>
+        <div class="input-row"><label>Akses vena</label>
+          <select id="k-access">
+            <option value="perifer">Perifer (max 10 mEq/jam)</option>
+            <option value="central">Sentral (max 20 mEq/jam + EKG)</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <div class="warn" style="margin-top:4px;font-size:12px">
+          <strong>⚠ Aritmia Fatal</strong>
+          K &lt;2.5 atau &gt;6.0 mEq/L → monitor EKG kontinyu wajib
+        </div>
+        <div class="info" style="font-size:12px">
+          <strong>Estimasi defisit K total:</strong><br>
+          Setiap ↓0.1 mEq/L K serum ≈ 100–200 mEq defisit<br><br>
+          Efek pH: asidosis ↑K serum ~0.6/0.1 unit pH<br>
+          Koreksi asidosis → K masuk sel → K turun
+          <sup class="cite-ref" data-refs="macdonald2004,kovesdy2023,palmer2020"></sup>
+        </div>
+      </div>
+    </div>
+    <button class="calc-btn" onclick="calcKCorr()">Hitung Koreksi K</button>
+    <div id="k-results" class="hidden" style="margin-top:12px"><div id="k-result-content"></div></div>
+  </div>
+
+<!-- Theory: K Koreksi -->
+<div class="theory-dropdown" style="margin-top:6px">
+  <button class="theory-btn" onclick="toggleTheory('k-detail')">📖 Tabel Defisit K, Rate Infus, Pilihan Oral/IV & Monitoring EKG <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-k-detail">
+
+    <div class="subsec">Tabel Estimasi Defisit K Total</div>
+    <table>
+      <tr><th>K Serum (mEq/L)</th><th>Estimasi Defisit Total</th><th>Kecepatan Penggantian</th></tr>
+      <tr><td>3.0 – 3.5</td><td>150–200 mEq</td><td>Lambat — oral atau IV perifer</td></tr>
+      <tr><td>2.5 – 3.0</td><td>200–400 mEq</td><td>IV, monitor ketat, EKG jika ada gejala</td></tr>
+      <tr><td>2.0 – 2.5</td><td>400–600 mEq</td><td>IV wajib, monitor EKG kontinyu</td></tr>
+      <tr><td>&lt;2.0</td><td>&gt;600 mEq</td><td>ICU, vena sentral, EKG kontinyu, koreksi Mg</td></tr>
+    </table>
+    <p style="font-size:11px;color:var(--muted);margin-top:4px">Defisit bervariasi luas — ini estimasi kasar. Setiap 0.1 mEq/L ↓ ≈ 100–200 mEq defisit. Cek ulang setiap 20–40 mEq KCl yang diberikan.</p>
+
+    <div class="subsec" style="margin-top:12px">Rate Infus & Konsentrasi KCl Intravena</div>
+    <table>
+      <tr><th>Akses Vena</th><th>Rate Maksimum</th><th>Konsentrasi Maks</th><th>Catatan</th></tr>
+      <tr><td>Perifer</td><td><strong>10 mEq/jam</strong></td><td>40 mEq / 100 mL</td><td>Nyeri di vena; hindari phlebitis</td></tr>
+      <tr><td>Sentral (rutin)</td><td><strong>20 mEq/jam</strong></td><td>80 mEq / 100 mL</td><td>Monitor EKG kontinyu</td></tr>
+      <tr><td>Sentral (emergensi, ICU)</td><td><strong>40 mEq/jam</strong></td><td>100 mEq / 100 mL</td><td>EKG + nurse 1:1, jarang diperlukan</td></tr>
+    </table>
+    <div class="warn" style="font-size:12px;margin-top:6px">
+      ⚠ <strong>Jangan bolus KCl langsung IV</strong> — dapat menyebabkan henti jantung. Selalu encerkan dan infus lambat.<br>
+      Jika K &lt;2.5 atau ada perubahan EKG → monitor EKG kontinyu wajib.
+    </div>
+
+    <div class="subsec" style="margin-top:12px">Pilihan Oral vs Intravena</div>
+    <table>
+      <tr><th>K Serum</th><th>Pilihan Utama</th><th>Dosis Oral (jika dipilih)</th></tr>
+      <tr><td>3.0 – 3.5 mEq/L</td><td>Oral (lebih aman, lebih murah)</td><td>KCl slow release 600 mg (8 mEq) 2–4× sehari; atau suplemen diet (pisang, alpukat)</td></tr>
+      <tr><td>2.5 – 3.0 mEq/L</td><td>Oral + IV kombinasi</td><td>Oral + KCl 20–40 mEq IV dalam 2–4 jam (perifer)</td></tr>
+      <tr><td>&lt;2.5 mEq/L atau gejala</td><td>IV wajib</td><td>—</td></tr>
+      <tr><td>K normal post-ICU</td><td>Maintainance oral / diet</td><td>KCl 20–40 mEq/hari oral atau tingkatkan asupan diet K</td></tr>
+    </table>
+
+    <div class="subsec" style="margin-top:12px">💡 Mg Reminder — Hipokalemia Refrakter</div>
+    <div class="info" style="font-size:12px">
+      Jika K tidak naik meski sudah dikoreksi adekuat → <strong>periksa Mg serum</strong>.<br>
+      Hipomagnesemia menyebabkan kebocoran K dari sel tubulus ginjal → hipokalemia refrakter.<br>
+      <strong>Koreksi Mg terlebih dahulu:</strong> MgSO₄ 2g IV dalam 100 mL NaCl 0.9% selama 20–30 menit.<br>
+      Gunakan kalkulator Mg di bawah untuk dosis lengkap.
+    </div>
+
+    <div class="subsec" style="margin-top:12px">Perubahan EKG pada Gangguan Kalium</div>
+    <table>
+      <tr><th>Kondisi</th><th>Perubahan EKG (urutan progresif)</th></tr>
+      <tr><td><strong>Hipokalemia</strong></td><td>Gelombang T mendatar/terbalik → Gelombang U prominen → QT memanjang → Depresi ST → Ektopi (PVC) → VT/VF</td></tr>
+      <tr><td><strong>Hiperkalemia</strong></td><td>T lancip (peaked T) → PR memanjang → QRS melebar → P menghilang → Pola sine wave → VF / Asistol</td></tr>
+    </table>
+    <p style="font-size:11px;color:var(--muted);margin-top:4px">EKG harus segera dilakukan pada K &lt;2.5 atau &gt;6.0 mEq/L. Perubahan EKG tidak selalu berkorelasi linear dengan kadar K — bisa terjadi aritmia pada nilai yang "tidak terlalu ekstrem" jika disertai faktor lain (digitalis, hipokalsemia, asidosis).</p>
+    <sup class="cite-ref" data-refs="macdonald2004,kovesdy2023,palmer2020"></sup>
+  </div>
+</div>
+
+  <!-- Kalsium -->
+  <div class="calc-box" style="margin-top:16px">
+    <div class="calc-title"><span>🦴</span> Kalsium Terkoreksi &amp; Koreksi Hipokalsemia</div>
+    <div class="grid2" style="gap:10px">
+      <div>
+        <div class="input-row"><label>Ca total</label><div class="input-unit-wrap"><input type="number" id="ca-val" placeholder="cth: 6.8" step="0.1"><button class="unit-toggle-btn" data-unit="ca-val" onclick="toggleKalcUnit('ca-val')">mg/dL</button></div></div>
+        <div class="input-row"><label>Albumin serum</label><input type="number" id="ca-alb" placeholder="cth: 2.5" step="0.1"><span class="unit">g/dL</span></div>
+        <div class="input-row"><label>Ca ionized <span style="font-size:10px;color:var(--muted)">(opsional)</span></label><input type="number" id="ca-ion" placeholder="opsional" step="0.01"><span class="unit">mmol/L</span></div>
+        <div class="input-row"><label>pH arteri <span style="font-size:10px;color:var(--muted)">(opsional)</span></label><input type="number" id="ca-ph" placeholder="opsional" step="0.01"></div>
+        <div class="input-row"><label>Berat badan</label><input type="number" id="ca-bw" placeholder="cth: 65"><span class="unit">kg</span></div>
+      </div>
+      <div>
+        <div class="info" style="margin-top:4px;font-size:12px">
+          <strong>Formula koreksi albumin:</strong><br>
+          Ca terkoreksi = Ca total + 0.8 × (4 − Albumin)<br><br>
+          Normal Ca total: 8.5–10.5 mg/dL<br>
+          Normal Ca ionized: 1.12–1.32 mmol/L<br><br>
+          Ca ionized lebih reliabel pada hipoalbuminemia berat, asidosis, atau kelainan protein
+          <span style="font-size:11px;color:var(--muted);display:block;margin-top:4px">Payne RB. BMJ 1973 · Cooper MS. BMJ 2003</span>
+        </div>
+      </div>
+    </div>
+    <button class="calc-btn" onclick="calcCaCorr()">Hitung Koreksi Ca</button>
+    <div id="ca-results" class="hidden" style="margin-top:12px"><div id="ca-result-content"></div></div>
+  </div>
+
+  <!-- Magnesium -->
+  <div class="calc-box" style="margin-top:16px">
+    <div class="calc-title"><span>🔋</span> Koreksi Magnesium — Hipomagnesemia</div>
+    <div class="grid2" style="gap:10px">
+      <div>
+        <div class="input-row"><label>Mg serum</label><div class="input-unit-wrap"><input type="number" id="mg-val" placeholder="cth: 1.1" step="0.1"><button class="unit-toggle-btn" data-unit="mg-val" onclick="toggleKalcUnit('mg-val')">mg/dL</button></div></div>
+        <div class="input-row"><label>Berat badan</label><input type="number" id="mg-bw" placeholder="cth: 65"><span class="unit">kg</span></div>
+        <div class="input-row"><label>eGFR / CrCl</label><input type="number" id="mg-egfr" placeholder="cth: 45"><span class="unit">mL/mnt</span></div>
+        <div class="input-row"><label>Gejala</label>
+          <select id="mg-symptomatic">
+            <option value="no">Tidak bergejala / ringan</option>
+            <option value="yes">Berat (torsades, kejang, aritmia)</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <div class="info" style="margin-top:4px;font-size:12px">
+          Normal Mg: 1.7–2.2 mg/dL (0.7–0.9 mmol/L)<br><br>
+          Hipomagnesemia sering menyertai hipokalemia &amp; hipokalsemia refrakter — koreksi Mg terlebih dahulu.<br><br>
+          <strong>Gagal ginjal (CrCl &lt;30):</strong><br>
+          Turunkan dosis 50%, monitor refleks patella &amp; SpO₂ selama infus MgSO₄
+          <span style="font-size:11px;color:var(--muted);display:block;margin-top:4px">Glasdam SM. AACN Adv Crit Care 2012 · de Baaij JH. Physiol Rev 2015</span>
+        </div>
+      </div>
+    </div>
+    <details style="margin:12px 0 4px">
+      <summary style="cursor:pointer;font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600;padding:8px 12px;background:var(--card);border:1px solid var(--border-hi);border-radius:8px;list-style:none">
+        📖 Etiologi &amp; Checklist Diagnostik Hipomagnesemia ▼
+      </summary>
+      <div style="padding:12px;border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;background:var(--card)">
+        <div class="subsec" style="margin-top:0">Etiologi Umum di ICU/IGD</div>
+        <table>
+          <tr><th>Kategori</th><th>Penyebab Utama</th></tr>
+          <tr><td><strong>Kehilangan GI</strong></td><td>Diare (paling umum), muntah, SNG suction prolonged, fistula GI, short bowel syndrome, malabsorpsi</td></tr>
+          <tr><td><strong>Kehilangan Renal</strong></td><td>Loop diuretik (furosemide), thiazide, Amphotericin B, Cisplatin, Aminoglikosida, Tacrolimus, Siklosporin</td></tr>
+          <tr><td><strong>PPI / Antasid</strong></td><td>Omeprazol, lansoprazol (penggunaan &gt;1 tahun) — inhibisi absorpsi Mg di usus</td></tr>
+          <tr><td><strong>Shift/Redistribusi</strong></td><td>Insulin infus, katekolamin (epinefrin), transfusi masif (citrate binding Mg)</td></tr>
+          <tr><td><strong>Intake kurang</strong></td><td>Malnutrisi, TPN tanpa suplementasi Mg, alkoholisme kronik</td></tr>
+          <tr><td><strong>Lainnya</strong></td><td>Post-parathyroidektomi (hungry bone), pankreatitis akut, DKA (poliuria)</td></tr>
+        </table>
+        <div class="warn" style="font-size:12px;margin-top:10px">
+          <strong>⚠ Hipomagnesemia sering asimtomatik sampai Mg &lt;1.2 mg/dL.</strong><br>
+          Gejala: tremor, tetani, aritmia (torsades de pointes), kejang, hipokalemia refrakter, hipokalsemia refrakter.
+        </div>
+        <div class="subsec" style="margin-top:10px">Checklist: Kapan Curiga Hipomagnesemia?</div>
+        <div style="font-size:12px;line-height:1.9">
+          ☐ Hipokalemia tidak respons koreksi K<br>
+          ☐ Hipokalsemia refrakter meski sudah dikoreksi<br>
+          ☐ Torsades de pointes / QT prolonged tanpa sebab jelas<br>
+          ☐ Pasien ICU &gt;3 hari dengan loop diuretik<br>
+          ☐ Pengguna PPI jangka panjang<br>
+          ☐ Riwayat alkoholisme / malnutrisi<br>
+          ☐ Pasien kemoterapi (cisplatin, cetuximab)<br>
+          ☐ Post-transplant (tacrolimus/cyclosporin)
+        </div>
+        <div class="formula-note" style="margin-top:8px">📚 de Baaij JH. Physiol Rev 2015;95:1 · Glasdam SM. AACN Adv Crit Care 2012 · Swaminathan R. Clin Biochem Rev 2003;24:47</div>
+      </div>
+    </details>
+    <button class="calc-btn" onclick="calcMgCorr()">Hitung Koreksi Mg</button>
+    <div id="mg-results" class="hidden" style="margin-top:12px"><div id="mg-result-content"></div></div>
+  </div>
+</div>
+
+<!-- =========================================================== -->
+<!-- SUB: NLR -->
+<!-- =========================================================== -->
+
+<!-- Clinical Scenarios -->
+<div class="calc-box" style="margin-top:12px">
+  <div class="calc-title"><span>🩺</span> Contoh Skenario Klinis — Panduan Prioritas Koreksi</div>
+
+  <details style="margin-bottom:8px">
+    <summary style="cursor:pointer;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;list-style:none;color:var(--text)">
+      📋 Kasus 1 — Sepsis + Multi Elektrolit Abnormal ▼
+    </summary>
+    <div style="padding:12px 14px;border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;background:var(--card);font-size:12px">
+      <div style="color:var(--text2);margin-bottom:8px"><strong>Pasien:</strong> Laki-laki 60 kg, sepsis, Na 125 mEq/L (kronik), K 2.8 mEq/L, Mg 1.3 mg/dL, Ca 7.2 mg/dL, pH 7.28</div>
+      <div class="warn" style="font-size:12px">
+        <strong>⚠ PRIORITAS KOREKSI:</strong>
+        <ol style="margin:6px 0 0 16px;padding:0;line-height:1.9">
+          <li><strong>Koreksi Mg DULU</strong> (MgSO₄ 2–4g IV) — hipokalemia dan hipokalsemia tidak akan respons tanpa Mg normal</li>
+          <li><strong>Koreksi K KEDUA</strong> (setelah Mg &gt;1.7) — KCl 20–40 mEq dalam 4 jam, monitor EKG</li>
+          <li><strong>Koreksi Na TERAKHIR</strong> — rate lambat ≤8 mEq/24 jam (kronik, ODS risk tinggi)</li>
+          <li><strong>Ca</strong> — cek Ca ionized, koreksi jika Ca ion &lt;1.0 mmol/L</li>
+        </ol>
+        <br>⚠ Koreksi asidosis (NaHCO₃) akan menurunkan K serum — awasi K setelah pemberian bikarbonat
+      </div>
+    </div>
+  </details>
+
+  <details style="margin-bottom:8px">
+    <summary style="cursor:pointer;padding:10px 14px;background:var(--card);border:1px solid var(--red);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;list-style:none;color:var(--red)">
+      🚨 Kasus 2 — Hiponatremia Akut + Kejang (Emergensi) ▼
+    </summary>
+    <div style="padding:12px 14px;border:1px solid var(--red);border-top:none;border-radius:0 0 8px 8px;background:rgba(255,60,60,0.05);font-size:12px">
+      <div style="color:var(--text2);margin-bottom:8px"><strong>Pasien:</strong> Wanita 55 kg, post-operasi, Na 112 mEq/L, onset 6 jam post-op, kejang aktif</div>
+      <strong style="color:var(--red)">TINDAKAN SEGERA:</strong>
+      <ol style="margin:6px 0 8px 16px;padding:0;line-height:1.9">
+        <li><strong>NaCl 3%: BOLUS 150 mL IV dalam 20 menit</strong> — segera</li>
+        <li>Ulangi bolus sampai kejang berhenti atau Na naik 5 mEq/L</li>
+        <li>Lanjutkan NaCl 3% infus — target total kenaikan 10 mEq/L dalam 24 jam pertama</li>
+        <li>Monitor Na setiap 2 jam — jangan biarkan Na naik &gt;12 mEq/24 jam</li>
+      </ol>
+      <strong style="color:var(--accent)">✓ Onset akut → batas koreksi lebih longgar (10–12 mEq/L/24 jam aman)</strong>
+      <div class="formula-note" style="margin-top:8px">📚 Spasovski G (ERBP/ESE). Nephrol Dial Transplant 2014</div>
+    </div>
+  </details>
+
+  <details>
+    <summary style="cursor:pointer;padding:10px 14px;background:var(--card);border:1px solid var(--amber);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;list-style:none;color:var(--amber)">
+      ⚡ Kasus 3 — Hiperkalemia + AKI Oliguria ▼
+    </summary>
+    <div style="padding:12px 14px;border:1px solid var(--amber);border-top:none;border-radius:0 0 8px 8px;background:rgba(255,160,0,0.05);font-size:12px">
+      <div style="color:var(--text2);margin-bottom:8px"><strong>Pasien:</strong> Laki-laki 70 kg, AKI oliguria, K 6.8 mEq/L, EKG: T lancip + QRS melebar, urin &lt;0.3 mL/kg/jam</div>
+      <strong style="color:var(--amber)">TINDAKAN SIMULTAN:</strong>
+      <ol style="margin:6px 0 8px 16px;padding:0;line-height:1.9">
+        <li><strong>Kalsium Glukonat 10%: 20 mL IV dalam 5–10 menit</strong> — SEGERA (stabilisasi jantung)</li>
+        <li><strong>Insulin 10 unit + D50 50 mL IV</strong> (shift K ke sel)</li>
+        <li><strong>Salbutamol 10 mg nebulisasi</strong> (sinergi dengan insulin)</li>
+        <li><strong>Konsul nephro — HD SEGERA</strong> (K &gt;6.5 + EKG changes + oliguria = indikasi absolut)</li>
+        <li>Stop semua sumber K: K dalam infus, diet K, heparin, ACE inhibitor</li>
+      </ol>
+      <div class="formula-note" style="margin-top:8px">📚 Kovesdy CP. Kidney Int 2023 · ACLS AHA 2020</div>
+    </div>
+  </details>
+</div>
+
+<script src="../../assets/js/scripts-kalkulator-electro.js"></script>
+<script src="../../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../../assets/js/feedback.js"></script>
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+  <script src="../../assets/data/references.js"></script>
+  <script src="../../assets/js/scripts-citations.js"></script>
+</body>
+</html>

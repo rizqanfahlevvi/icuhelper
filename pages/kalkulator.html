@@ -1,0 +1,215 @@
+﻿<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator Klinis — ICU Helper</title>
+<link rel="stylesheet" href="../assets/css/styles.css">
+<script>
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+<nav class="tab-bar">
+  <a class="tab-btn" href="../index.html">🏠 Home</a>
+  <a class="tab-btn active" href="kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="ekg.html">📈 EKG</a>
+  <a class="tab-btn" href="teori.html">📖 Teori</a>
+  <a class="tab-btn" href="skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../referensi.html">📚 Referensi</a>
+</nav>
+
+<div class="section-header">
+  <span class="section-label">// Pilih Kalkulator</span>
+  <div class="section-line"></div>
+</div>
+
+<div class="mod-grid">
+
+  <a class="mod-card" href="kalkulator/kalkulator-ibw.html">
+    <span class="mod-card-icon">⚖️</span>
+    <div class="mod-card-title">IBW & Parameter Ventilator</div>
+    <div class="mod-card-desc">Ideal Body Weight (Devine), tidal volume per kondisi klinis (ARDS/PPOK/Asma/Neuro), BMI, BSA, LBW, REE, MABL</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-g">IBW</span>
+      <span class="tag tag-b">VT</span>
+      <span class="tag tag-b">REE</span>
+      <span class="tag tag-b">MABL</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">devine formula</span>
+    </div>
+  </a>
+
+  <a class="mod-card" href="kalkulator/kalkulator-drug.html">
+    <span class="mod-card-icon"><i data-lucide="pill" class="mod-card-icon"></i></span>
+    <div class="mod-card-title">Sedasi, Paralitik & Induksi RSI</div>
+    <div class="mod-card-desc">Kalkulator sedasi ICU berbasis RASS & nyeri, induksi RSI 10 obat (6 skenario klinis), dosis loading + maintenance + volume syringe</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-b">RSI</span>
+      <span class="tag tag-g">Sedasi</span>
+      <span class="tag tag-b">Propofol</span>
+      <span class="tag tag-b">Rocuronium</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">10 obat RSI</span>
+    </div>
+  </a>
+
+  <a class="mod-card" href="kalkulator/kalkulator-pump.html">
+    <span class="mod-card-icon"><i data-lucide="microscope" class="mod-card-icon"></i></span>
+    <div class="mod-card-title">Syringe Pump</div>
+    <div class="mod-card-desc">Rate syringe pump 12 obat ICU — Fentanyl, Propofol, Dexmedetomidine, Norepinefrin, Cisatrakurium, Amiodarone, dan lainnya</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-g">mL/jam</span>
+      <span class="tag tag-o">Vasopressor</span>
+      <span class="tag tag-b">NMB</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">12 obat ICU</span>
+    </div>
+  </a>
+
+  <a class="mod-card" href="kalkulator/kalkulator-pf.html">
+    <span class="mod-card-icon"><i data-lucide="activity" class="mod-card-icon"></i></span>
+    <div class="mod-card-title">P/F Ratio & Oxygenation Index</div>
+    <div class="mod-card-desc">P/F ratio (klasifikasi ARDS Berlin), Oxygenation Index (OI), Driving Pressure, OSI berbasis SpO₂</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-g">P/F</span>
+      <span class="tag tag-r">ARDS</span>
+      <span class="tag tag-b">OI</span>
+      <span class="tag tag-o">Driving P</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">berlin criteria</span>
+    </div>
+  </a>
+
+  <a class="mod-card" href="kalkulator/kalkulator-renal.html">
+    <span class="mod-card-icon"><i data-lucide="activity" class="mod-card-icon"></i></span>
+    <div class="mod-card-title">Fungsi Renal</div>
+    <div class="mod-card-desc">eGFR multi-formula (CKD-EPI 2021 ★, CG, MDRD-4, Cys-C), AKI staging KDIGO, FENa & FEUrea, Osmolalitas & Osmol Gap</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-g">eGFR</span>
+      <span class="tag tag-b">AKI KDIGO</span>
+      <span class="tag tag-b">FENa</span>
+      <span class="tag tag-o">Osmolalitas</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">CKD-EPI 2021</span>
+    </div>
+  </a>
+
+  <a class="mod-card" href="kalkulator/kalkulator-pulmo.html">
+    <span class="mod-card-icon"><i data-lucide="settings" class="mod-card-icon"></i></span>
+    <div class="mod-card-title">Pulmo — CAP Scoring</div>
+    <div class="mod-card-desc">CURB-65, PSI/PORT Score (20 variabel), A-a Gradient, konverter Ureum ↔ BUN ↔ mmol/L otomatis</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-g">CURB-65</span>
+      <span class="tag tag-b">PSI</span>
+      <span class="tag tag-b">A-a Gradient</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">PORT score</span>
+    </div>
+  </a>
+
+  <a class="mod-card" href="kalkulator/kalkulator-electro.html">
+    <span class="mod-card-icon"><i data-lucide="zap" class="mod-card-icon"></i></span>
+    <div class="mod-card-title">ElektroCorr — Koreksi Elektrolit</div>
+    <div class="mod-card-desc">Koreksi Na (hipo/hiper + safeguard ODS), K (hipo/hiper + alur hiperkalemia), Ca terkoreksi albumin, Mg dengan penyesuaian renal</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-o">Na</span>
+      <span class="tag tag-o">K</span>
+      <span class="tag tag-b">Ca</span>
+      <span class="tag tag-b">Mg</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">ODS safeguard</span>
+    </div>
+  </a>
+
+  <a class="mod-card" href="kalkulator/kalkulator-nlr.html">
+    <span class="mod-card-icon">🧫</span>
+    <div class="mod-card-title">NLR & Biomarker Inflamasi</div>
+    <div class="mod-card-desc">Neutrophil-to-Lymphocyte Ratio, PLR, SII, MLR — interpretasi per konteks klinis (sepsis, CAP, COVID-19, AMI, onkologi)</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-g">NLR</span>
+      <span class="tag tag-b">PLR</span>
+      <span class="tag tag-b">SII</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">biomarker ratio</span>
+    </div>
+  </a>
+
+  <a class="mod-card" href="kalkulator/kalkulator-transfusi.html">
+    <span class="mod-card-icon"><i data-lucide="activity" class="mod-card-icon"></i></span>
+    <div class="mod-card-title">Kalkulator Transfusi</div>
+    <div class="mod-card-desc">PRC, Whole Blood, FFP, Trombosit Concentrate (RD & Apheresis), Cryoprecipitate — volume, kolf, dan estimasi respons Hb</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-r">PRC</span>
+      <span class="tag tag-b">FFP</span>
+      <span class="tag tag-r">TC</span>
+      <span class="tag tag-b">Cryo</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">estimasi Hb</span>
+    </div>
+  </a>
+
+  <a class="mod-card" href="kalkulator/kalkulator-cairan.html">
+    <span class="mod-card-icon"><i data-lucide="droplet" class="mod-card-icon"></i></span>
+    <div class="mod-card-title">Kebutuhan Cairan Harian ICU</div>
+    <div class="mod-card-desc">Restriksi rasional (20–30 mL/kg/hari), ROSE framework, koreksi IWL & demam, target balans harian, balans kumulatif, fluid overload %</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-b">ROSE</span>
+      <span class="tag tag-g">Restriksi</span>
+      <span class="tag tag-o">Fluid Balance</span>
+      <span class="tag tag-r">Fluid Overload</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">Malbrain 2018</span>
+    </div>
+  </a>
+
+</div>
+
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../assets/js/feedback.js"></script>
+  <script src="../assets/data/references.js"></script>
+  <script src="../assets/js/scripts-citations.js"></script>
+</body>
+</html>

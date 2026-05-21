@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sedasi, Paralitik & Induksi RSI — Cheatsheet Ventilator Dewasa</title>
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<script>
+/* Anti-FOUC: apply saved theme before paint */
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn active" href="kalkulator-ibw.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="../ekg.html">📈 EKG</a>
+  <a class="tab-btn" href="../teori.html">📖 Teori</a>
+  <a class="tab-btn" href="../skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+
+<nav class="subtab-bar">
+  <a class="subtab-btn" href="kalkulator-ibw.html">⚖️ IBW & Parameter</a>
+  <a class="subtab-btn active" href="kalkulator-drug.html">💊 Sedasi & Paralitik</a>
+  <a class="subtab-btn" href="kalkulator-pump.html">🔬 Syringe Pump</a>
+  <a class="subtab-btn" href="kalkulator-pf.html">📈 P/F & OI</a>
+  <a class="subtab-btn" href="kalkulator-renal.html">🫘 Renal</a>
+  <a class="subtab-btn" href="kalkulator-pulmo.html">🫁 Pulmo</a>
+  <a class="subtab-btn" href="kalkulator-electro.html">⚡ ElektroCorr</a>
+  <a class="subtab-btn" href="kalkulator-nlr.html">🧫 NLR</a>
+  <a class="subtab-btn" href="kalkulator-transfusi.html">🩸 Transfusi</a>
+</nav>
+
+<!-- Panel Toggle -->
+  <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+    <button class="subtab-btn active" id="drug-tab-intubasi" onclick="switchDrugPanel('intubasi',this)">🔴 Induksi Intubasi (RSI)</button>
+    <button class="subtab-btn" id="drug-tab-icu" onclick="switchDrugPanel('icu',this)">🏥 ICU Maintenance</button>
+  </div>
+
+  <!-- ===== PANEL B: INDUKSI RSI — sekarang ditampilkan pertama ===== -->
+  <div id="drug-panel-intubasi">
+    <div class="calc-box">
+      <div class="calc-title"><span>🔴</span> Kalkulator Dosis Induksi Intubasi — RSI / Modified RSI</div>
+      <div class="grid2" style="gap:10px">
+        <div>
+          <div class="input-row"><label>Berat badan</label><input type="number" id="itu-bb" placeholder="cth: 65" min="20" max="250"><span class="unit">kg</span></div>
+          <div class="input-row"><label>Skenario klinis</label>
+            <select id="itu-scenario" onchange="updateItuScenario()">
+              <option value="general">Kondisi umum / elektif</option>
+              <option value="shock">Syok / hemodinamik tidak stabil</option>
+              <option value="icp">Peningkatan TIK / cedera kepala</option>
+              <option value="bronchospasm">Bronkospasme / asma berat</option>
+              <option value="hyperkalemia">Hiperkalemia / KI Suksinilkolin</option>
+              <option value="seizure">Status epileptikus</option>
+            </select>
+          </div>
+          <div class="input-row"><label>Preferensi NMB</label>
+            <select id="itu-nmb">
+              <option value="sux">Suksinilkolin — RSI klasik (onset 45–60 dtk)</option>
+              <option value="roc_rsi">Rocuronium RSI 1.2 mg/kg (onset 60–75 dtk)</option>
+              <option value="roc_std">Rocuronium standar 0.6 mg/kg (onset 90 dtk)</option>
+              <option value="atracurium">Atracurium 0.5 mg/kg (onset 2–3 mnt)</option>
+            </select>
+          </div>
+          <div class="input-row"><label>Analgesik pre-medikasi</label>
+            <select id="itu-premed">
+              <option value="fentanyl">Fentanyl 2 mcg/kg IV (60–90 dtk sebelum)</option>
+              <option value="remifentanil">Remifentanil 1 mcg/kg IV (60 dtk sebelum)</option>
+              <option value="alfentanil">Alfentanil 15 mcg/kg IV (bolus cepat)</option>
+              <option value="none">Tidak ada (emergensi sangat cepat)</option>
+            </select>
+          </div>
+          <div style="margin-top:8px;display:flex;flex-direction:column;gap:7px">
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);cursor:pointer">
+              <input type="checkbox" id="itu-lidocaine" style="width:14px;height:14px;accent-color:var(--blue)">
+              Lidokain 1.5 mg/kg IV (3 mnt sebelum — blunting hemodynamic response)
+            </label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);cursor:pointer">
+              <input type="checkbox" id="itu-atropine" style="width:14px;height:14px;accent-color:var(--blue)">
+              Atropin pre-NMB (anak / bradikardia / suksinilkolin ulang)
+            </label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);cursor:pointer">
+              <input type="checkbox" id="itu-show-alt" checked style="width:14px;height:14px;accent-color:var(--blue)">
+              Tampilkan dosis alternatif agen induksi lain
+            </label>
+          </div>
+        </div>
+        <div>
+          <div id="itu-scenario-info" class="info" style="font-size:12px;margin-top:4px">
+            Pilih skenario klinis untuk melihat rekomendasi kombinasi obat optimal.
+          </div>
+          <div class="warn" style="font-size:12px;margin-top:8px">
+            <strong>⚠ Catatan Klinis</strong>
+            Semua dosis adalah panduan awal. Sesuaikan dengan kondisi pasien, usia, komorbid, dan keputusan klinis.
+          </div>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcIntubasi()" style="margin-top:12px">🔴 Hitung Dosis Induksi</button>
+      <div id="itu-results" class="hidden" style="margin-top:14px"><div id="itu-result-content"></div></div>
+    </div>
+
+    <!-- Tabel Preferensi Obat RSI -->
+    <div class="calc-box" style="margin-top:8px">
+      <div class="calc-title"><span>💊</span> Referensi Cepat Obat RSI — Dosis, Onset & Catatan Klinis</div>
+
+      <div class="subsec">A. Analgetik Pre-medikasi</div>
+      <table>
+        <tr><th>Obat</th><th>Dosis</th><th>Onset</th><th>Durasi</th><th>Catatan Klinis</th></tr>
+        <tr><td><strong>Fentanyl</strong></td><td>1–3 mcg/kg IV</td><td>60–90 dtk</td><td>30–60 mnt</td><td>Blunting respons hiperdinamik; pilihan utama. Hati-hati: chest-wall rigidity dosis tinggi (&gt;5 mcg/kg)</td></tr>
+        <tr><td><strong>Morfin</strong></td><td>0.1 mg/kg IV</td><td>3–5 mnt</td><td>3–4 jam</td><td>Onset lambat — kurang ideal untuk RSI. Pertimbangkan jika fentanyl tidak tersedia. Dapat menyebabkan histamine release</td></tr>
+        <tr><td><strong>Remifentanil</strong></td><td>1 mcg/kg IV (60 dtk)</td><td>30–60 dtk</td><td>5–10 mnt</td><td>Ultra-short acting. Ideal untuk RSI di ICU; tidak kumulatif. Perlu infus terpisah</td></tr>
+      </table>
+
+      <div class="subsec" style="margin-top:12px">B. Agen Induksi (Sedasi)</div>
+      <table>
+        <tr><th>Obat</th><th>Dosis RSI</th><th>Onset</th><th>Durasi</th><th>Catatan Klinis</th></tr>
+        <tr><td><strong>Propofol</strong></td><td>1–2 mg/kg IV</td><td>15–45 dtk</td><td>5–10 mnt</td><td>Antikonvulsan, bronkodilator ringan. <span style="color:var(--red)">⚠ Hipotensi</span> signifikan — kurangi dosis 50% pada syok/hipovolemia. Gunakan LBW untuk dosis</td></tr>
+        <tr><td><strong>Ketamine</strong></td><td>1–2 mg/kg IV</td><td>30–60 dtk</td><td>10–20 mnt</td><td>Simpatomimetik — <span style="color:var(--green)">↑ TD, ↑ HR</span>. Pilihan utama syok. Bronkodilator kuat → asma berat. Mitos TIK: aman pada MV terkontrol (Zeiler 2020)</td></tr>
+        <tr><td><strong>Etomidate</strong></td><td>0.3 mg/kg IV</td><td>15–45 dtk</td><td>3–8 mnt</td><td>Stabilitas hemodinamik terbaik. Supresi adrenal 12–24 jam. MENDS-2 (NEJM 2024): aman pada sepsis. Tidak ada efek analgesik</td></tr>
+        <tr><td><strong>Midazolam</strong></td><td>0.1–0.3 mg/kg IV</td><td>60–90 dtk</td><td>20–40 mnt</td><td>Onset lambat, hipotensi. <span style="color:var(--amber)">Bukan pilihan utama RSI.</span> Pertimbangkan hanya jika obat lain tidak tersedia</td></tr>
+        <tr><td><strong>Thiopental</strong></td><td>3–5 mg/kg IV</td><td>15–30 dtk</td><td>5–10 mnt</td><td>Ideal pada TIK↑ (↓ CMRO₂). Hipotensi berat. Tidak tersedia di banyak RS Indonesia</td></tr>
+      </table>
+
+      <div class="subsec" style="margin-top:12px">C. Neuromuscular Blocking Agent (NMB)</div>
+      <table>
+        <tr><th>Obat</th><th>Dosis RSI</th><th>Onset</th><th>Durasi</th><th>Catatan Klinis</th></tr>
+        <tr><td><strong>Suksinilkolin</strong></td><td>1–1.5 mg/kg IV</td><td>45–60 dtk</td><td>8–12 mnt</td><td>Depolarisasi. <span style="color:var(--green)">Short-acting</span> → aman jika intubasi gagal. <span style="color:var(--red)">KI:</span> hiperkalemia, luka bakar &gt;24 jam, imobilisasi &gt;1 minggu, MH, miopati, UMN kronik</td></tr>
+        <tr><td><strong>Rocuronium</strong></td><td>1.2 mg/kg IV (RSI)</td><td>60–75 dtk</td><td>60–90 mnt</td><td>Non-depolarisasi. Reversible dengan <strong>Sugammadex 16 mg/kg</strong> (rescue CICO). Setara suksinilkolin pada dosis RSI (Cochrane 2022)</td></tr>
+        <tr><td><strong>Atrakurium</strong></td><td>0.5–0.6 mg/kg IV</td><td>90–120 dtk</td><td>20–35 mnt</td><td>Onset terlambat — <span style="color:var(--amber)">kurang ideal untuk RSI klasik.</span> Aman pada gagal ginjal/hati (eliminasi Hofmann). Histamine release pada dosis tinggi</td></tr>
+      </table>
+
+      <div class="warn" style="margin-top:10px;font-size:12px">
+        <strong>⚠ Urutan Pemberian RSI:</strong> Pre-oksigenasi → Analgetik (T-2 mnt) → Agen Induksi (T-0) → NMB segera setelah induksi → Laringoskopi setelah onset NMB
+      </div>
+      <sup class="cite-ref" data-refs="bhatt2024,rocuronium2021,stollings2014"></sup>
+    </div>
+  </div>
+
+  <!-- ===== PANEL A: ICU MAINTENANCE ===== -->
+  <div id="drug-panel-icu" class="hidden">
+    <div class="calc-box">
+      <div class="calc-title"><span>💊</span> Kalkulator Dosis Sedasi, Analgesik & Paralitik — ICU Maintenance</div>
+      <div class="grid2" style="gap:10px">
+        <div>
+          <div class="input-row"><label>Berat badan (kg)</label><input type="number" id="drugBB" placeholder="cth: 65" min="20" max="200"></div>
+          <div class="input-row"><label>Target RASS</label>
+            <select id="drugRASS">
+              <option value="light">Light sedasi (RASS -1 s/d 0)</option>
+              <option value="moderate">Moderate (RASS -2 s/d -3)</option>
+              <option value="deep">Deep (RASS -4 s/d -5)</option>
+            </select>
+          </div>
+          <div class="input-row"><label>Kondisi nyeri</label>
+            <select id="drugPain">
+              <option value="mild">Ringan (NRS 1–3)</option>
+              <option value="moderate">Sedang (NRS 4–6)</option>
+              <option value="severe">Berat (NRS 7–10)</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <div class="info" style="margin-top:4px">
+            <strong>Panduan PADIS 2018 (SCCM):</strong><br>
+            Analgesia First → Sedasi Target → Monitor RASS/CPOT setiap 4 jam. Hindari benzodiazepin untuk sedasi rutin ICU.
+            <sup class="cite-ref" data-refs="devlin2018"></sup>
+          </div>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcDrug()">Hitung Dosis</button>
+      <div id="drug-results" class="hidden" style="margin-top:14px"><div id="drug-result-content"></div></div>
+    </div>
+  </div>
+
+  <!-- ===== THEORY: PADIS (existing) ===== -->
+  <div class="theory-dropdown" style="margin-top:6px">
+    <button class="theory-btn" onclick="toggleTheory('sedasi-theory')">📖 Strategi Sedasi & Analgesia ICU — PADIS Guidelines 2018 <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-sedasi-theory">
+      <div class="subsec">Prinsip eCASH</div>
+      <ul>
+        <li><strong>e</strong>arly Comfort using <strong>A</strong>nalgesia, minimal <strong>S</strong>edatives, and maximal <strong>H</strong>umane care — target sedasi ringan (RASS -1 sd 0) lebih baik dari deep sedation.</li>
+        <li><strong>Analgesia first:</strong> Fentanyl/morphin sebelum sedatif. CPOT (Critical-care Pain Observation Tool) untuk pasien tidak dapat komunikasi.</li>
+        <li><strong>Hindari benzodiazepin:</strong> Midazolam/lorazepam dihubungkan dengan delirium, weaning sulit, ICU-acquired weakness. Gunakan propofol atau dexmedetomidine.</li>
+        <li><strong>Dexmedetomidine:</strong> Alpha-2 agonist — sedasi tanpa depresi napas, menurunkan kejadian delirium. Hindari pada bradikardia/blok jantung.</li>
+        <li><strong>Daily SAT:</strong> Hentikan sedasi setiap pagi → nilai kesadaran → mulai SBT jika memenuhi syarat (ABC protocol: SAT + SBT).</li>
+      </ul>
+      <div class="subsec">Target Skoring</div>
+      <table>
+        <tr><th>Skala</th><th>Range</th><th>Target ICU</th></tr>
+        <tr><td>RASS</td><td>-5 s/d +4</td><td>-1 s/d 0 (light sedasi)</td></tr>
+        <tr><td>SAS</td><td>1–7</td><td>3–4</td></tr>
+        <tr><td>CPOT</td><td>0–8</td><td>&lt;2 (tanpa nyeri)</td></tr>
+        <tr><td>CAM-ICU</td><td>+/-</td><td>Negatif</td></tr>
+      </table>
+      <sup class="cite-ref" data-refs="devlin2018,barr2013,vincent2016ecash"></sup>
+    </div>
+  </div>
+
+  <!-- ===== THEORY: RSI Algorithm ===== -->
+  <div class="theory-dropdown" style="margin-top:6px">
+    <button class="theory-btn" onclick="toggleTheory('rsi-theory')">📖 Algoritma RSI — 7 Langkah, Variasi & Indikasi Khusus <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-rsi-theory">
+      <div class="subsec">7 Langkah RSI (7P)</div>
+      <table>
+        <tr><th>Langkah</th><th>Aksi</th><th>Detail</th></tr>
+        <tr><td><strong>1. Preparation</strong></td><td>Siapkan alat &amp; obat</td><td>Laryngoscope, ETT (7.0–8.0), stylet, BVM, suction, monitor EKG, SpO₂, ETCO₂. Akses IV, obat sudah ditarik dalam spuit berlabel.</td></tr>
+        <tr><td><strong>2. Pre-oxygenation</strong></td><td>SpO₂ &gt;95%</td><td>NRM 15 L/mnt minimal 3 mnt ATAU 8 napas vital capacity. Posisi head-up 20–30°. HFNO jika apneic oxygenation.</td></tr>
+        <tr><td><strong>3. Pre-medication</strong></td><td>T minus 3 mnt</td><td>Fentanyl/Remifentanil (blunting hemodynamic spike). Lidokain (opsional, ↑TIK). Atropin jika indikasi.</td></tr>
+        <tr><td><strong>4. Paralysis + Induction</strong></td><td>T-0: simultan</td><td>Agen induksi IV push → NMB IV push segera setelahnya. Tidak ada ventilasi bag-mask antara keduanya (RSI klasik).</td></tr>
+        <tr><td><strong>5. Protection</strong></td><td>Sellick manuver</td><td>Tekanan krikoid 10N (duduk) → 30N (tidak sadar). Kontroversial — banyak guideline tidak lagi merekomendasikan rutin.</td></tr>
+        <tr><td><strong>6. Placement</strong></td><td>Laringoskopi &amp; intubasi</td><td>Pada suksinilkolin: tunggu 45–60 dtk. Rocuronium RSI: tunggu 60–75 dtk. Konfirmasi dengan ETCO₂ waveform.</td></tr>
+        <tr><td><strong>7. Post-intubation care</strong></td><td>Segera setelah intubasi</td><td>Mulai sedasi/analgesia IV. Ventilasi protektif (VT 6 mL/kg IBW). Cek posisi ETT dengan CXR. Pasang NGT.</td></tr>
+      </table>
+      <div class="subsec">Variasi RSI</div>
+      <ul>
+        <li><strong>RSI Klasik:</strong> Pre-oxygenation → induksi + NMB simultan → laringoskopi tanpa BMV. Untuk pasien dengan risiko aspirasi tinggi.</li>
+        <li><strong>Modified RSI:</strong> BMV tekanan rendah (&lt;20 cmH₂O) selama menunggu NMB bekerja. Untuk pasien hipoksik pre-intubasi.</li>
+        <li><strong>DSI (Delayed Sequence Intubation):</strong> Ketamine dissociative dose (1–1.5 mg/kg) → pre-oxygenasi optimal → RSI. Untuk pasien agitasi yang tidak toleran oksigenasi pra-intubasi.</li>
+        <li><strong>Awake Intubation:</strong> Topikal anestesi + sedasi ringan (dexmedetomidine/ketamine subanestesi). Untuk airway sulit yang diprediksi.</li>
+      </ul>
+      <sup class="cite-ref" data-refs="brown2023,brown2015"></sup>
+    </div>
+  </div>
+
+  <!-- ===== THEORY: Succinylcholine vs Rocuronium ===== -->
+  <div class="theory-dropdown" style="margin-top:6px">
+    <button class="theory-btn" onclick="toggleTheory('nmb-compare')">📖 Suksinilkolin vs Rocuronium untuk RSI — Evidence Terkini 2024 <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-nmb-compare">
+      <div class="subsec">Perbandingan Klinis</div>
+      <table>
+        <tr><th>Parameter</th><th>Suksinilkolin</th><th>Rocuronium 1.2 mg/kg</th></tr>
+        <tr><td>Onset</td><td>45–60 dtk</td><td>60–75 dtk</td></tr>
+        <tr><td>Durasi</td><td>8–12 mnt (short)</td><td>60–90 mnt</td></tr>
+        <tr><td>Intubating conditions</td><td>Excellent</td><td>Excellent (dosis RSI)</td></tr>
+        <tr><td>Reversal</td><td>Spontan (pseudocholinesterase)</td><td>Sugammadex 16 mg/kg (3 mnt)</td></tr>
+        <tr><td>Hiperkalemia</td><td>⚠ Kontraindikasi absolut</td><td>Aman</td></tr>
+        <tr><td>Malignant hyperthermia</td><td>⚠ Trigger kuat</td><td>Aman</td></tr>
+        <tr><td>Pseudocholinesterase defisiensi</td><td>⚠ Paralisis berkepanjangan</td><td>Aman</td></tr>
+        <tr><td>Biaya</td><td>Lebih murah</td><td>Lebih mahal (+ sugammadex)</td></tr>
+      </table>
+      <div class="subsec">Rekomendasi Berdasarkan Evidence</div>
+      <ul>
+        <li><strong>Cochrane 2022 (Sorensen MK):</strong> Rocuronium 1.2 mg/kg non-inferior to succinylcholine untuk intubation conditions jika Sugammadex tersedia. Quality of evidence: moderate.</li>
+        <li><strong>ENIGMA-2 trial:</strong> Mendukung equivalence antara kedua obat untuk RSI di setting emergensi.</li>
+        <li><strong>Kontraindikasi Suksinilkolin:</strong> Hiperkalemia (K &gt;5.5 atau risiko tinggi), luka bakar &gt;24 jam, crush injury &gt;72 jam, imobilisasi berkepanjangan (&gt;1 minggu), lesi UMN kronik (stroke/SCI &gt;7 hari), riwayat malignant hyperthermia, miopati (Duchenne, dll), pseudocholinesterase defisiensi.</li>
+        <li><strong>Praktik:</strong> Suksinilkolin tetap pilihan default RSI jika tidak ada kontraindikasi. Rocuronium lebih dipilih jika Sugammadex tersedia dan ada KI suksinilkolin.</li>
+      </ul>
+      <sup class="cite-ref" data-refs="rocuronium2021"></sup>
+    </div>
+  </div>
+
+  <!-- ===== THEORY: Etomidate ===== -->
+  <div class="theory-dropdown" style="margin-top:6px">
+    <button class="theory-btn" onclick="toggleTheory('etomidate-theory')">📖 Etomidate — Kontroversi Supresi Adrenal & MENDS-2 Trial 2024 <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-etomidate-theory">
+      <div class="subsec">Keunggulan Etomidate</div>
+      <ul>
+        <li><strong>Stabilitas hemodinamik terbaik</strong> di antara semua agen induksi. Tidak mempengaruhi SVR atau kardiak output secara signifikan.</li>
+        <li><strong>Onset cepat (15–45 dtk)</strong> dan durasi singkat (3–5 mnt), memberikan window intubasi yang andal.</li>
+        <li><strong>Tidak ada efek analgesik</strong> — selalu kombinasikan dengan opioid pre-medikasi.</li>
+      </ul>
+      <div class="subsec">Kontroversi: Supresi Adrenal</div>
+      <ul>
+        <li>Etomidate menghambat <strong>11β-hydroxylase</strong> → supresi produksi kortisol 12–24 jam setelah dosis tunggal.</li>
+        <li>Studi awal (Jabre P, Lancet 2009) menunjukkan supresi adrenal bermakna namun mortalitas tidak berbeda.</li>
+        <li><strong>MENDS-2 Trial (NEJM 2024 — Bhatt DL et al.):</strong> RCT 686 pasien ICU yang diintubasi karena suspected infection — etomidate vs ketamine. Hasil: tidak ada perbedaan bermakna dalam ventilator-free days, mortalitas, atau kebutuhan vasopressor. Etomidate tetap aman sebagai pilihan induksi bahkan pada pasien sepsis.</li>
+        <li>Beberapa institusi dan guideline masih menyarankan kehati-hatian pada sepsis berat; pertimbangkan ketamine sebagai alternatif. Keputusan tetap individualisasi.</li>
+      </ul>
+      <sup class="cite-ref" data-refs="bhatt2024,jabre2009,chan2012"></sup>
+    </div>
+  </div>
+
+  <!-- ===== THEORY: Ketamine ===== -->
+  <div class="theory-dropdown" style="margin-top:6px">
+    <button class="theory-btn" onclick="toggleTheory('ketamine-theory')">📖 Ketamine — Mitos Peningkatan TIK & Keunggulan Klinis <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-ketamine-theory">
+      <div class="subsec">Mekanisme Kerja</div>
+      <ul>
+        <li><strong>Antagonis NMDA</strong> — dissociative anesthesia. Dosis 1–2 mg/kg IV: induksi anestesi disosiasi. Dosis subanestesi 0.1–0.5 mg/kg: analgesia + sedasi tanpa kehilangan kesadaran penuh.</li>
+        <li><strong>Efek simpatomimetik:</strong> Melepaskan katekolamin endogen → ↑HR, ↑BP, ↑SVR. Ideal untuk pasien syok.</li>
+        <li><strong>Bronkodilator:</strong> Relaksasi otot polos bronkus via simpatomimetik. Pilihan utama bronkospasme berat/asma.</li>
+      </ul>
+      <div class="subsec">Mitos vs Fakta: Ketamine dan TIK</div>
+      <ul>
+        <li><strong>Mitos lama (1970-an):</strong> Ketamine meningkatkan TIK — berdasarkan studi kecil pada pasien berventilasi spontan dengan sumbatan CSF.</li>
+        <li><strong>Evidence terkini:</strong> Pada pasien yang diventilasi mekanik dengan CO₂ terkontrol, ketamine TIDAK meningkatkan TIK secara bermakna. Bahkan kemungkinan bersifat neuroprotektif via antagonisme NMDA (mencegah excitotoxicity).</li>
+        <li><strong>Meta-analisis Zeiler 2020 (J Neurosurg Anesthesiol):</strong> Ketamine aman untuk intubasi pada pasien cedera kepala yang dikelola dengan ventilasi mekanik.</li>
+        <li><strong>Praktik:</strong> Propofol atau Etomidate masih lebih dipilih untuk cedera kepala berat jika hemodinamik stabil. Ketamine adalah alternatif yang dapat diterima jika ada syok bersamaan.</li>
+      </ul>
+      <div class="subsec">Keunggulan Klinis Lain</div>
+      <ul>
+        <li><strong>Subanestesi (0.1–0.5 mg/kg/jam):</strong> Analgesia multimodal di ICU — mengurangi kebutuhan opioid. Potensi anti-delirium (data awal positif).</li>
+        <li><strong>DSI (Delayed Sequence Intubation):</strong> 1–1.5 mg/kg ketamine memungkinkan pre-oksigenasi optimal pada pasien agitasi (Weingart SD, Ann Emerg Med 2015).</li>
+        <li><strong>Hati-hati pada:</strong> Hipertensi tidak terkontrol, gagal jantung berat, psikosis aktif, hipertiroidisme.</li>
+      </ul>
+      <span class="ref-tag">📚 Zeiler FA. J Neurosurg Anesthesiol 2020;32:12 · Cohen L. Emerg Med J 2015 · Bourgoin A. Crit Care Med 2003;31:1296 · Weingart SD. Ann Emerg Med 2015;65:349</span>
+    </div>
+  </div>
+
+  <!-- ===== THEORY: Atracurium ===== -->
+  <div class="theory-sec" style="margin-top:16px">
+    <button class="theory-btn" onclick="toggleTheory('atracurium-theory')">📖 Kapan Menggunakan Atracurium / Cisatracurium? <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-atracurium-theory">
+      <ul style="padding-left:20px;font-size:12px;color:var(--text);line-height:1.6;margin-top:0">
+        <li><strong>Onset Lambat:</strong> Atracurium (0.5 mg/kg) dan Cisatracurium (0.15–0.2 mg/kg) memiliki onset lambat (2–3 menit), sehingga <strong>bukan</strong> pilihan utama untuk Rapid Sequence Intubation (RSI) emergensi di ICU/ER.</li>
+        <li><strong>Metabolisme:</strong> Mengalami eliminasi Hofmann yang independen terhadap fungsi ginjal dan hepar. Sangat aman pada pasien dengan gagal ginjal akut (AKI) atau gagal hati.</li>
+        <li><strong>Histamine Release:</strong> Atracurium menyebabkan pelepasan histamin yang dapat memicu hipotensi atau bronkospasme. Cisatracurium bebas histamin sehingga lebih dipilih untuk ARDS atau bronkospasme berat.</li>
+        <li><strong>Indikasi Utama:</strong> Biasanya digunakan untuk maintenance NMB (infus kontinu) pada ARDS berat (P/F &lt; 120) untuk mengurangi barotrauma (ACURASYS, NEJM 2010).</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ===== THEORY: Sugammadex ===== -->
+  <div class="theory-dropdown" style="margin-top:6px">
+    <button class="theory-btn" onclick="toggleTheory('sugammadex-theory')">📖 Sugammadex — Reversal Rocuronium & Skenario "Can't Intubate" <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-sugammadex-theory">
+      <div class="subsec">Mekanisme & Dosis</div>
+      <table>
+        <tr><th>Indikasi</th><th>Dosis Sugammadex</th><th>Onset reversal</th></tr>
+        <tr><td>Blokade rutin (T2 sudah kembali)</td><td>2 mg/kg IV</td><td>~2 mnt</td></tr>
+        <tr><td>Blokade dalam (1–2 twitch)</td><td>4 mg/kg IV</td><td>~3 mnt</td></tr>
+        <tr><td>RSI rescue (rocuronium 1.2 mg/kg baru diberikan)</td><td><strong>16 mg/kg IV</strong></td><td>~3 mnt</td></tr>
+      </table>
+      <div class="subsec">Skenario "Can't Intubate, Can't Oxygenate" (CICO)</div>
+      <ul>
+        <li>Jika rocuronium RSI 1.2 mg/kg baru diberikan dan intubasi gagal → Sugammadex 16 mg/kg IV segera → blokade terangkat dalam 3 mnt → pasien dapat bernapas spontan kembali.</li>
+        <li><strong>STRIVE Hi Trial (Anaesthesia 2021):</strong> Sugammadex 16 mg/kg efektif membalikkan rocuronium RSI pada skenario airway emergensi.</li>
+        <li><strong>Keunggulan dibanding suksinilkolin dalam CICO:</strong> Suksinilkolin hanya bertahan 8–12 mnt (spontan habis), tidak dapat dibalik. Rocuronium + Sugammadex memberikan opsi rescue yang terencana.</li>
+        <li>Penting: Sugammadex <strong>tidak efektif</strong> untuk suksinilkolin, atrakurium, atau cisatrakurium. Hanya untuk rocuronium dan vecuronium.</li>
+        <li>Sediakan Sugammadex 16 mg/kg di dekat pasien <strong>sebelum</strong> memberikan rocuronium RSI — ini adalah safety net emergensi.</li>
+      </ul>
+      <div class="subsec">Kontraindikasi & Perhatian</div>
+      <ul>
+        <li>Gagal ginjal berat (CrCl &lt;30): perpanjang interval antar dosis. Data terbatas pada dialisis.</li>
+        <li>Kehamilan: data terbatas, gunakan jika benefik &gt; risiko.</li>
+        <li>Tidak membalikkan blokade dari benzodiazepin, opioid, atau obat sedasi lainnya.</li>
+      </ul>
+      <span class="ref-tag">📚 Brueckmann B. Anesthesiology 2015;122:1302 · STRIVE Hi Trial. Anaesthesia 2021;76:460 · Takazawa T. J Anesth 2020;34:116</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- SUB: PUMP -->
+
+<script src="../../assets/js/scripts-kalkulator-drug.js"></script>
+<script src="../../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../../assets/js/feedback.js"></script>
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+  <script src="../../assets/data/references.js"></script>
+  <script src="../../assets/js/scripts-citations.js"></script>
+</body>
+</html>

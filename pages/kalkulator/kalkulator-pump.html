@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Syringe Pump — Cheatsheet Ventilator Dewasa</title>
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<script>
+/* Anti-FOUC: apply saved theme before paint */
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script>
+/* Embedded detection — must run before nav.js */
+(function(){
+  if (window.frameElement || window.self !== window.top) {
+    document.documentElement.setAttribute('data-embedded','1');
+    var s = document.createElement('style');
+    s.id = 'embedded-hide';
+    s.textContent =
+      '.hbar,.tab-bar,.subtab-bar,#ix-topbar,.saweria-bar,' +
+      '.ix-footer,#feedback-root,.breadcrumb-bar,.ix-page-header' +
+      '{ display:none !important; }' +
+      'body{ padding-top:0 !important; }';
+    document.head.appendChild(s);
+  }
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn active" href="kalkulator-ibw.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="../ekg.html">📈 EKG</a>
+  <a class="tab-btn" href="../teori.html">📖 Teori</a>
+  <a class="tab-btn" href="../skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+
+<nav class="subtab-bar">
+  <a class="subtab-btn" href="kalkulator-ibw.html">⚖️ IBW & Parameter</a>
+  <a class="subtab-btn" href="kalkulator-drug.html">💊 Sedasi & Paralitik</a>
+  <a class="subtab-btn active" href="kalkulator-pump.html">🔬 Syringe Pump</a>
+  <a class="subtab-btn" href="kalkulator-pf.html">📈 P/F & OI</a>
+  <a class="subtab-btn" href="kalkulator-renal.html">🫘 Renal</a>
+  <a class="subtab-btn" href="kalkulator-pulmo.html">🫁 Pulmo</a>
+  <a class="subtab-btn" href="kalkulator-electro.html">⚡ ElektroCorr</a>
+  <a class="subtab-btn" href="kalkulator-nlr.html">🧫 NLR</a>
+  <a class="subtab-btn" href="kalkulator-transfusi.html">🩸 Transfusi</a>
+</nav>
+
+<div class="calc-box">
+    <div class="calc-title"><span>🔬</span> Syringe Pump Calculator — Infus Kontinyu</div>
+    <div class="grid2" style="gap:10px">
+      <div>
+        <div class="input-row"><label>Berat badan</label><input type="number" id="pumpBB" placeholder="cth: 65" min="20" max="200"><span class="unit">kg</span></div>
+        <div class="input-row"><label>Kategori</label>
+          <select id="pumpCat" onchange="updatePumpCategory()">
+            <option value="sedasi">💊 Sedasi / Analgetik</option>
+            <option value="vasopressor">🫀 Vasopressor / Inotropik</option>
+            <option value="antiaritmia">⚡ Antiaritmia</option>
+            <option value="diuretik">💧 Diuretik</option>
+            <option value="lainnya">🔧 Lainnya</option>
+          </select>
+        </div>
+        <div class="input-row"><label>Obat</label>
+          <select id="pumpDrug" onchange="updatePumpForm()"></select>
+        </div>
+        <div class="input-row"><label>Dosis target</label><input type="number" id="pumpDose" placeholder="—" step="0.1"><span class="unit" id="pumpDoseUnit">mcg/kg/mnt</span></div>
+        <div class="input-row"><label>Volume syringe</label>
+          <select id="pumpVol"><option value="50">50 mL</option><option value="25">25 mL</option><option value="10">10 mL</option></select>
+        </div>
+      </div>
+      <div id="pump-drug-info" class="info" style="margin-top:4px;font-size:12px">Pilih obat untuk info dosis</div>
+    </div>
+    <button class="calc-btn" onclick="calcPump()">Hitung Syringe Pump</button>
+    <div id="pump-results" class="hidden" style="margin-top:14px">
+      <div id="pump-result-content"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SUB: PF -->
+
+<script src="../../assets/js/scripts-kalkulator-pump.js"></script>
+<script src="../../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../../assets/js/feedback.js"></script>
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+  <script src="../../assets/data/references.js"></script>
+  <script src="../../assets/js/scripts-citations.js"></script>
+</body>
+</html>

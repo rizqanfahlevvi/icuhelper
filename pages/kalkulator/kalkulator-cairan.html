@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kebutuhan Cairan Harian ICU — ICU Helper</title>
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<script>
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script>
+/* Embedded detection — must run before nav.js */
+(function(){
+  if (window.frameElement || window.self !== window.top) {
+    document.documentElement.setAttribute('data-embedded','1');
+    var s = document.createElement('style');
+    s.id = 'embedded-hide';
+    s.textContent =
+      '.hbar,.tab-bar,.subtab-bar,#ix-topbar,.saweria-bar,' +
+      '.ix-footer,#feedback-root,.breadcrumb-bar,.ix-page-header' +
+      '{ display:none !important; }' +
+      'body{ padding-top:0 !important; }';
+    document.head.appendChild(s);
+  }
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+<style>
+/* ── ROSE phase chips ──────────────────────────────────────── */
+.rose-chips {
+  display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 4px;
+}
+.rose-chip {
+  display: flex; align-items: center; gap: 6px;
+  padding: .35rem .75rem; border-radius: 20px; border: 1.5px solid var(--border);
+  background: var(--card); color: var(--text2);
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+  cursor: pointer; transition: all .15s; white-space: nowrap;
+}
+.rose-chip:hover { border-color: var(--border-hi); color: var(--text); }
+.rose-chip.active { color: var(--bg); }
+.rose-chip[data-phase="R"].active  { background:#ef4444;border-color:#ef4444; }
+.rose-chip[data-phase="O"].active  { background:#f97316;border-color:#f97316; }
+.rose-chip[data-phase="S"].active  { background:#22c55e;border-color:#22c55e; }
+.rose-chip[data-phase="E"].active  { background:#3b82f6;border-color:#3b82f6; }
+.rose-desc {
+  font-size:11px; padding:10px 14px; border-radius:8px;
+  border:1px solid var(--border); background:var(--card);
+  margin-top:8px; line-height:1.6;
+}
+
+/* ── Cumulative balance grid ───────────────────────────────── */
+.cumbal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 8px; margin: 10px 0;
+}
+.cumbal-day {
+  display: flex; flex-direction: column; gap: 4px;
+}
+.cumbal-day label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; color: var(--text3);
+  text-transform: uppercase; letter-spacing: .05em;
+}
+.cumbal-day input {
+  width: 100%; box-sizing: border-box;
+  padding: 6px 8px; border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--card); color: var(--text);
+  font-family: 'JetBrains Mono', monospace; font-size: 12px;
+  text-align: center;
+}
+.cumbal-day input:focus { border-color: var(--accent); outline: none; }
+
+/* ── Reference section ─────────────────────────────────────── */
+.ref-list {
+  display: flex; flex-direction: column; gap: 6px; margin-top: 8px;
+}
+.ref-item {
+  padding: 8px 12px; border-radius: 6px;
+  border-left: 3px solid var(--accent-dim2);
+  background: var(--card); font-size: 11px; line-height: 1.6;
+  color: var(--text2);
+}
+.ref-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700; color: var(--accent);
+  margin-right: 6px;
+}
+</style>
+</head>
+<body>
+
+<div class="hbar"></div>
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn active" href="kalkulator-ibw.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="../teori.html">📖 Teori</a>
+  <a class="tab-btn" href="../skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+<nav class="subtab-bar">
+  <a class="subtab-btn" href="kalkulator-ibw.html">⚖️ IBW</a>
+  <a class="subtab-btn" href="kalkulator-drug.html">💊 Sedasi</a>
+  <a class="subtab-btn" href="kalkulator-pump.html">🔬 Pump</a>
+  <a class="subtab-btn" href="kalkulator-pf.html">📈 P/F</a>
+  <a class="subtab-btn" href="kalkulator-renal.html">🫘 Renal</a>
+  <a class="subtab-btn" href="kalkulator-pulmo.html">🫁 Pulmo</a>
+  <a class="subtab-btn" href="kalkulator-electro.html">⚡ Elektro</a>
+  <a class="subtab-btn" href="kalkulator-nlr.html">🧫 NLR</a>
+  <a class="subtab-btn" href="kalkulator-transfusi.html">🩸 Transfusi</a>
+  <a class="subtab-btn active" href="kalkulator-cairan.html">💧 Cairan</a>
+</nav>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     BOX 1 — KEBUTUHAN CAIRAN BASAL ICU
+     ═══════════════════════════════════════════════════════════ -->
+<div class="calc-box">
+  <div class="calc-title"><span>💧</span> Kebutuhan Cairan Basal ICU — Pendekatan Restriksi Rasional</div>
+  <div class="info" style="font-size:12px;margin-bottom:12px">
+    Pada pasien ICU dewasa, pendekatan <strong>restriksi rasional 20–30 mL/kgBB/hari</strong> lebih
+    direkomendasikan dibanding formula Holliday-Segar (100/50/20) yang dikembangkan untuk
+    anak sehat dan cenderung melebih-lebihkan kebutuhan pasien kritis.
+    Formula Holliday-Segar ditampilkan sebagai <em>perbandingan</em> saja.
+    <span style="display:block;margin-top:4px;color:var(--muted)">
+      NICE CG174 2013 [4] · CLASSIC NEJM 2022 [3] · Malbrain IFA 2020 [2]
+    </span>
+  </div>
+
+  <div class="grid2" style="gap:10px">
+    <div>
+      <div class="input-row">
+        <label>Berat badan aktual</label>
+        <input type="number" id="b1-bw" placeholder="cth: 65" min="1" max="300" oninput="calcBasal()">
+        <span class="unit">kg</span>
+      </div>
+      <div class="input-row">
+        <label>Target maintenance</label>
+        <select id="b1-target" onchange="calcBasal()">
+          <option value="20">Restriksi ketat — 20 mL/kg/hari</option>
+          <option value="25" selected>Standar ICU — 25 mL/kg/hari</option>
+          <option value="30">Liberal — 30 mL/kg/hari</option>
+        </select>
+      </div>
+    </div>
+    <div>
+      <div class="info" style="font-size:12px;margin-top:4px">
+        <strong>Panduan pilihan target:</strong><br>
+        · <strong>20 mL/kg/hari</strong> — pasien ventilasi mekanik, edema, gagal jantung/ginjal<br>
+        · <strong>25 mL/kg/hari</strong> — standar ICU umum, target awal yang aman<br>
+        · <strong>30 mL/kg/hari</strong> — pasien dengan kehilangan insensibel tinggi atau nutrisi kurang<br><br>
+        <span style="color:var(--muted)">Angka ini adalah <em>titik awal</em> — sesuaikan tiap 12–24 jam
+        berdasarkan balans, hemodinamik, dan fase ROSE.</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="b1-result" class="hidden" style="margin-top:14px"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     BOX 2 — FAKTOR KOREKSI & PENYESUAIAN (TITRASI)
+     ═══════════════════════════════════════════════════════════ -->
+<div class="calc-box">
+  <div class="calc-title"><span>🔧</span> Faktor Koreksi & Penyesuaian Cairan (Titrasi Real-Time)</div>
+  <div class="info" style="font-size:12px;margin-bottom:8px">
+    Kebutuhan basal di atas hanyalah <em>starting point</em>. Di ICU, target cairan harus dievaluasi
+    ulang setiap <strong>12–24 jam</strong> berdasarkan fase klinis, insensible water loss, dan status volume.
+    <span style="display:block;margin-top:4px;color:var(--muted)">Malbrain MLNG et al. Ann Intensive Care 2018 [1] · Wiedemann HP et al. NEJM 2006 [10]</span>
+  </div>
+
+  <!-- A. ROSE Phase -->
+  <div class="subsec" style="margin-top:10px">A. Fase ROSE — Pilih Fase Klinis Pasien Saat Ini</div>
+  <div class="rose-chips">
+    <button class="rose-chip" data-phase="R" onclick="selectROSE('R')">🔴 R — Resuscitation</button>
+    <button class="rose-chip" data-phase="O" onclick="selectROSE('O')">🟠 O — Optimization</button>
+    <button class="rose-chip" data-phase="S" onclick="selectROSE('S')">🟢 S — Stabilization</button>
+    <button class="rose-chip" data-phase="E" onclick="selectROSE('E')">🔵 E — Evacuation</button>
+  </div>
+  <div id="rose-desc" class="rose-desc" style="display:none"></div>
+
+  <!-- B. Koreksi IWL -->
+  <div class="subsec" style="margin-top:14px">B. Koreksi Insensible Water Loss (IWL)</div>
+  <div class="grid2" style="gap:10px;margin-top:6px">
+    <div>
+      <div class="input-row">
+        <label>Berat badan</label>
+        <input type="number" id="b2-bw" placeholder="cth: 65" min="1" max="300">
+        <span class="unit">kg</span>
+      </div>
+      <div class="input-row">
+        <label>Suhu tubuh</label>
+        <input type="number" id="b2-temp" placeholder="cth: 38.5" value="37.0" step="0.1" min="34" max="43">
+        <span class="unit">°C</span>
+      </div>
+      <div class="input-row">
+        <label>Status ventilasi</label>
+        <select id="b2-vent">
+          <option value="spontan">Napas spontan</option>
+          <option value="ventilator">Ventilator mekanik</option>
+          <option value="hfnc">HFNC / NIV</option>
+        </select>
+      </div>
+      <div class="input-row">
+        <label>Diaphoresis</label>
+        <select id="b2-sweat">
+          <option value="none">Tidak ada</option>
+          <option value="mild">Ringan (+200 mL)</option>
+          <option value="moderate">Sedang (+500 mL)</option>
+          <option value="severe">Berat/profus (+900 mL)</option>
+        </select>
+      </div>
+    </div>
+    <div>
+      <div class="info" style="font-size:12px;margin-top:4px">
+        <strong>Koreksi Suhu:</strong><br>
+        Tambahkan <strong>10–12%</strong> dari kebutuhan maintenance per
+        1°C kenaikan suhu di atas <strong>37,5°C</strong>.<br>
+        <span style="color:var(--muted)">Holliday MA, Segar WE 1957 [6] · Bruder N et al. Crit Care Med 1994</span><br><br>
+        <strong>IWL per ventilasi:</strong><br>
+        · Spontan: ~10–15 mL/kg/hari<br>
+        · Ventilator: ~5–8 mL/kg/hari <em>(gas terhumidifikasi)</em><br>
+        · HFNC: ~8–10 mL/kg/hari
+      </div>
+    </div>
+  </div>
+
+  <!-- C. Kehilangan Tambahan -->
+  <div class="subsec" style="margin-top:14px">C. Kehilangan Tambahan & Target UO</div>
+  <div class="grid2" style="gap:10px;margin-top:6px">
+    <div>
+      <div class="input-row">
+        <label>Target urin output</label>
+        <input type="number" id="b2-uo" placeholder="0.5" value="0.5" step="0.1" min="0.1" max="5">
+        <span class="unit">mL/kg/jam</span>
+      </div>
+      <div class="input-row">
+        <label>Output NGT/OGT</label>
+        <input type="number" id="b2-ngt" placeholder="0" min="0">
+        <span class="unit">mL/hari</span>
+      </div>
+      <div class="input-row">
+        <label>Output drain/WSD</label>
+        <input type="number" id="b2-drain" placeholder="0" min="0">
+        <span class="unit">mL/hari</span>
+      </div>
+      <div class="input-row">
+        <label>Kehilangan lain</label>
+        <input type="number" id="b2-other" placeholder="0" min="0">
+        <span class="unit">mL/hari</span>
+      </div>
+    </div>
+    <div>
+      <div class="info" style="font-size:12px;margin-top:4px">
+        <strong>Target UO rekomendasi:</strong><br>
+        · Umum ICU: 0.5 mL/kg/jam<br>
+        · AKI oliguria: ≥0.5 mL/kg/jam (KDIGO)<br>
+        · Post-cardiac surgery: 0.5–1 mL/kg/jam<br><br>
+        <span style="color:var(--muted)">Semua kehilangan harus <em>diganti</em> untuk
+        mempertahankan euvolemia, kecuali pada fase Evacuation.</span>
+      </div>
+    </div>
+  </div>
+
+  <button class="calc-btn" onclick="calcKoreksi()">Hitung Total Kebutuhan Terkoreksi</button>
+  <div id="b2-result" class="hidden" style="margin-top:14px"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     BOX 3 — TARGET BALANS HARIAN & KUMULATIF
+     ═══════════════════════════════════════════════════════════ -->
+<div class="calc-box">
+  <div class="calc-title"><span>📊</span> Target Balans Cairan — Harian & Kumulatif</div>
+  <div class="info" style="font-size:12px;margin-bottom:12px">
+    Balans cairan positif kumulatif yang berkepanjangan berhubungan langsung dengan peningkatan
+    mortalitas ICU. Target balans <strong>harian</strong> bergantung pada fase ROSE, sedangkan
+    balans <strong>kumulatif</strong> menjadi parameter prognostik penting.
+    <span style="display:block;margin-top:4px;color:var(--muted)">
+      Boyd JH et al. Crit Care Med 2011 [7] · Sakr Y et al. Crit Care Med 2017 [8] · Malbrain 2018 [1]
+    </span>
+  </div>
+
+  <!-- A. Target per fase ROSE -->
+  <div class="subsec">A. Target Balans Harian per Fase ROSE</div>
+  <div style="overflow-x:auto;margin-top:8px">
+    <table style="width:100%;border-collapse:collapse;font-size:11px;font-family:'JetBrains Mono',monospace">
+      <thead>
+        <tr style="background:var(--bg2)">
+          <th style="padding:8px 10px;text-align:left;border-bottom:1px solid var(--border)">Fase</th>
+          <th style="padding:8px 10px;text-align:left;border-bottom:1px solid var(--border)">Target Balans /24 jam</th>
+          <th style="padding:8px 10px;text-align:left;border-bottom:1px solid var(--border)">Strategi Cairan</th>
+          <th style="padding:8px 10px;text-align:left;border-bottom:1px solid var(--border)">Catatan Klinis</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:8px 10px"><span style="color:#ef4444;font-weight:700">🔴 R — Resuscitation</span></td>
+          <td style="padding:8px 10px">+500 s/d +1.500 mL</td>
+          <td style="padding:8px 10px">Bolus cairan terukur (250–500 mL), titrasi per respons</td>
+          <td style="padding:8px 10px">Hentikan jika tidak ada fluid responsiveness</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:8px 10px"><span style="color:#f97316;font-weight:700">🟠 O — Optimization</span></td>
+          <td style="padding:8px 10px">0 s/d +500 mL</td>
+          <td style="padding:8px 10px">Titrasi ketat, hindari overloading, targetkan organ perfusion</td>
+          <td style="padding:8px 10px">Monitor dinamik: PLR, PPV, SVV</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:8px 10px"><span style="color:#22c55e;font-weight:700">🟢 S — Stabilization</span></td>
+          <td style="padding:8px 10px">±0 mL (net zero)</td>
+          <td style="padding:8px 10px">Maintenance saja, ganti kehilangan yang terukur</td>
+          <td style="padding:8px 10px">Prioritas: hindari tambahan positive balance</td>
+        </tr>
+        <tr>
+          <td style="padding:8px 10px"><span style="color:#3b82f6;font-weight:700">🔵 E — Evacuation</span></td>
+          <td style="padding:8px 10px">−500 s/d −1.500 mL</td>
+          <td style="padding:8px 10px">Diuretik (furosemid), pembatasan input, CRRT jika gagal ginjal</td>
+          <td style="padding:8px 10px">Target jika FO &gt;10% dari BB baseline</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- B. Kalkulator Balans Kumulatif -->
+  <div class="subsec" style="margin-top:18px">B. Kalkulator Balans Kumulatif (7 Hari)</div>
+  <div class="info" style="font-size:12px;margin-bottom:10px">
+    Masukkan balans cairan aktual tiap hari. Balans kumulatif positif &gt;5 L meningkatkan risiko
+    disfungsi organ; &gt;10 L berhubungan dengan mortalitas signifikan.
+    <span style="display:block;margin-top:4px;color:var(--muted)">Boyd JH et al. Crit Care Med 2011 [7] · Sakr Y et al. Crit Care Med 2017 [8]</span>
+  </div>
+  <div class="cumbal-grid">
+    <div class="cumbal-day"><label>Hari 1</label><input type="number" id="cb-d1" placeholder="±mL" step="100"></div>
+    <div class="cumbal-day"><label>Hari 2</label><input type="number" id="cb-d2" placeholder="±mL" step="100"></div>
+    <div class="cumbal-day"><label>Hari 3</label><input type="number" id="cb-d3" placeholder="±mL" step="100"></div>
+    <div class="cumbal-day"><label>Hari 4</label><input type="number" id="cb-d4" placeholder="±mL" step="100"></div>
+    <div class="cumbal-day"><label>Hari 5</label><input type="number" id="cb-d5" placeholder="±mL" step="100"></div>
+    <div class="cumbal-day"><label>Hari 6</label><input type="number" id="cb-d6" placeholder="±mL" step="100"></div>
+    <div class="cumbal-day"><label>Hari 7</label><input type="number" id="cb-d7" placeholder="±mL" step="100"></div>
+  </div>
+  <button class="calc-btn" onclick="calcCumulative()">Hitung Balans Kumulatif</button>
+  <div id="cb-result" class="hidden" style="margin-top:14px"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     BOX 4 — FLUID OVERLOAD ASSESSMENT
+     ═══════════════════════════════════════════════════════════ -->
+<div class="calc-box">
+  <div class="calc-title"><span>⚖️</span> Fluid Overload Assessment</div>
+  <div class="info" style="font-size:12px;margin-bottom:12px">
+    Fluid overload ≥10% dari berat badan baseline berhubungan dengan peningkatan
+    mortalitas dan durasi ventilasi yang lebih lama. Threshold &gt;10% menjadi indikasi
+    masuk fase <strong>Evacuation (E)</strong> pada ROSE.
+    <span style="display:block;margin-top:4px;color:var(--muted)">Sutherland SM et al. CJASN 2010 [9] · Abulebda K et al. Pediatr Crit Care Med 2014</span>
+  </div>
+  <div class="grid2" style="gap:10px">
+    <div>
+      <div class="input-row">
+        <label>Berat badan kering / baseline</label>
+        <input type="number" id="fo-dry" placeholder="cth: 60" min="1" max="300">
+        <span class="unit">kg</span>
+      </div>
+      <div class="input-row">
+        <label>Berat badan saat ini</label>
+        <input type="number" id="fo-current" placeholder="cth: 66" min="1" max="300">
+        <span class="unit">kg</span>
+      </div>
+    </div>
+    <div>
+      <div class="info" style="margin-top:4px;font-size:12px">
+        <strong>Formula:</strong><br>
+        FO% = (BB saat ini − BB kering) ÷ BB kering × 100<br><br>
+        <strong>Interpretasi:</strong><br>
+        · &lt;5% → Euvolemia / normal<br>
+        · 5–10% → Overload ringan — monitoring ketat<br>
+        · 10–15% → Overload sedang → fase <strong>Evacuation</strong><br>
+        · &gt;15% → Overload berat → intervensi aktif segera
+      </div>
+    </div>
+  </div>
+  <button class="calc-btn" onclick="calcFluidOverload()">Hitung Fluid Overload</button>
+  <div id="fo-result" class="hidden" style="margin-top:12px"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     BOX 5 — FLUID BALANCE 24 JAM AKTUAL
+     ═══════════════════════════════════════════════════════════ -->
+<div class="calc-box">
+  <div class="calc-title"><span>📋</span> Fluid Balance 24 Jam Aktual</div>
+  <div class="info" style="font-size:12px;margin-bottom:12px">
+    Hitung balans cairan aktual 24 jam. Bandingkan dengan target balans fase ROSE di atas.
+    Positive fluid balance berkepanjangan &gt;1–2 L/hari meningkatkan risiko edema, ARDS, dan gagal ginjal.
+  </div>
+  <div class="grid2" style="gap:14px">
+    <div>
+      <div class="subsec">Total Input (mL)</div>
+      <div class="input-row"><label>Cairan IV maintenance</label><input type="number" id="fb-iv" placeholder="0" min="0"><span class="unit">mL</span></div>
+      <div class="input-row"><label>Obat IV / flush</label><input type="number" id="fb-med" placeholder="0" min="0"><span class="unit">mL</span></div>
+      <div class="input-row"><label>Nutrisi (EN/PN)</label><input type="number" id="fb-nutri" placeholder="0" min="0"><span class="unit">mL</span></div>
+      <div class="input-row"><label>Bolus / resusitasi</label><input type="number" id="fb-bolus" placeholder="0" min="0"><span class="unit">mL</span></div>
+      <div class="input-row"><label>Input oral / NGT</label><input type="number" id="fb-oral" placeholder="0" min="0"><span class="unit">mL</span></div>
+    </div>
+    <div>
+      <div class="subsec">Total Output (mL)</div>
+      <div class="input-row"><label>Urin output</label><input type="number" id="fb-uo" placeholder="0" min="0"><span class="unit">mL</span></div>
+      <div class="input-row"><label>IWL (estimasi)</label><input type="number" id="fb-iwl" placeholder="cth: 500" min="0"><span class="unit">mL</span></div>
+      <div class="input-row"><label>Output NGT / muntah</label><input type="number" id="fb-ngt" placeholder="0" min="0"><span class="unit">mL</span></div>
+      <div class="input-row"><label>Output drain / WSD</label><input type="number" id="fb-drain" placeholder="0" min="0"><span class="unit">mL</span></div>
+      <div class="input-row"><label>Output lain</label><input type="number" id="fb-other" placeholder="0" min="0"><span class="unit">mL</span></div>
+    </div>
+  </div>
+  <button class="calc-btn" onclick="calcFluidBalance()">Hitung Fluid Balance</button>
+  <div id="fb-result" class="hidden" style="margin-top:14px"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     BOX 6 — REFERENSI (VANCOUVER)
+     ═══════════════════════════════════════════════════════════ -->
+<div class="calc-box">
+  <div class="calc-title"><span>📚</span> Referensi & Sitasi</div>
+  <div class="info" style="font-size:12px;margin-bottom:10px">
+    Kalkulator ini disusun berdasarkan bukti klinis terbaru. Seluruh sitasi dalam format <strong>Vancouver</strong>.
+  </div>
+  <div class="ref-list">
+    <div class="ref-item">
+      <span class="ref-num">[1]</span>
+      Malbrain MLNG, Van Regenmortel N, Saugel B, De Tavernier B, Van Gaal PJ, Joannes-Boyau O, et al.
+      Principles of fluid management and stewardship in septic shock: it is time to consider the four D's
+      and the four phases of fluid therapy. <em>Ann Intensive Care</em>. 2018;8(1):66.
+    </div>
+    <div class="ref-item">
+      <span class="ref-num">[2]</span>
+      Malbrain MLNG, Langer T, Annane D, Gattinoni L, Elbers P, Hahn RG, et al.
+      Intravenous fluid therapy in the perioperative and critical care setting: Executive summary
+      of the International Fluid Academy (IFA). <em>Ann Intensive Care</em>. 2020;10(1):64.
+    </div>
+    <div class="ref-item">
+      <span class="ref-num">[3]</span>
+      Meyhoff TS, Hjortrup PB, Wetterslev J, Sivapalan P, Laake JH, Cronhjort M, et al.
+      Restriction of Intravenous Fluid in ICU Patients with Septic Shock (CLASSIC trial).
+      <em>N Engl J Med</em>. 2022;386(26):2459–70.
+    </div>
+    <div class="ref-item">
+      <span class="ref-num">[4]</span>
+      National Institute for Health and Care Excellence (NICE).
+      Intravenous fluid therapy in adults in hospital. Clinical Guideline CG174.
+      London: NICE; 2013 [updated 2017].
+    </div>
+    <div class="ref-item">
+      <span class="ref-num">[5]</span>
+      Semler MW, Self WH, Wanderer JP, Ehrenfeld JM, Wang L, Byrne DW, et al.
+      Balanced Crystalloids versus Saline in Critically Ill Adults (SMART trial).
+      <em>N Engl J Med</em>. 2018;378(9):829–39.
+    </div>
+    <div class="ref-item">
+      <span class="ref-num">[6]</span>
+      Holliday MA, Segar WE. The maintenance need for water in parenteral fluid therapy.
+      <em>Pediatrics</em>. 1957;19(5):823–32.
+    </div>
+    <div class="ref-item">
+      <span class="ref-num">[7]</span>
+      Boyd JH, Forbes J, Nakada TA, Walley KR, Russell JA.
+      Fluid resuscitation in septic shock: a positive fluid balance and elevated central venous
+      pressure are associated with increased mortality.
+      <em>Crit Care Med</em>. 2011;39(2):259–65.
+    </div>
+    <div class="ref-item">
+      <span class="ref-num">[8]</span>
+      Sakr Y, Rubatto Birri PN, Kotfis K, Nanchal R, Shah B, Kluge S, et al.
+      Higher Fluid Balance Increases the Risk of Death From Sepsis: Results From a Large
+      International Audit. <em>Crit Care Med</em>. 2017;45(3):386–94.
+    </div>
+    <div class="ref-item">
+      <span class="ref-num">[9]</span>
+      Sutherland SM, Zappitelli M, Alexander SR, Chua AN, Brophy PD, Bunchman TE, et al.
+      Fluid overload and mortality in children receiving continuous renal replacement therapy:
+      the prospective pediatric continuous renal replacement therapy registry.
+      <em>Am J Kidney Dis</em>. 2010;55(2):316–25.
+    </div>
+    <div class="ref-item">
+      <span class="ref-num">[10]</span>
+      Wiedemann HP, Wheeler AP, Bernard GR, Thompson BT, Hayden D, deBoisblanc B, et al.
+      Comparison of two fluid-management strategies in acute lung injury (FACTT trial).
+      <em>N Engl J Med</em>. 2006;354(24):2564–75.
+    </div>
+  </div>
+  <div class="warn" style="margin-top:12px;font-size:11px">
+    ⚕️ Kalkulator ini merupakan <strong>alat bantu klinis</strong> — bukan pengganti penilaian klinis
+    individual. Selalu sesuaikan dengan kondisi spesifik pasien, hasil monitor hemodinamik,
+    dan kebijakan institusi.
+  </div>
+</div>
+
+<script src="../../assets/js/scripts-kalkulator-cairan.js"></script>
+<script src="../../assets/js/nav.js"></script>
+<script src="../../assets/js/pwa.js"></script>
+<div id="feedback-root"></div>
+<script src="../../assets/js/feedback.js"></script>
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+<script src="../../assets/data/references.js"></script>
+<script src="../../assets/js/scripts-citations.js"></script>
+</body>
+</html>

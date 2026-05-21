@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BFS/CFS — Frailty Scale — Cheatsheet Ventilator Dewasa</title>
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<style>
+.sko-row{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:7px;border:.5px solid var(--border);margin-bottom:5px;background:var(--bg)}
+.sko-row .sp{flex:1;font-size:12px}.sko-row .sp strong{display:block;font-size:13px;margin-bottom:1px}
+.sko-row .sp small{color:var(--muted);font-size:11px}.sko-row .spts{font-weight:700;font-size:16px;min-width:26px;text-align:right}
+.spts-0{color:var(--green)}.spts-1{color:var(--blue)}.spts-2{color:var(--amber)}.spts-3{color:var(--coral)}.spts-4{color:var(--red)}
+.sko-row.row-skip{opacity:.55;border-style:dashed}
+.big-total{font-size:52px;font-weight:700;line-height:1;margin-bottom:4px}
+.rass-item{display:flex;align-items:flex-start;gap:12px;padding:10px 12px;border-radius:7px;border:.5px solid var(--border);cursor:pointer;transition:all .15s;margin-bottom:5px;background:var(--card)}
+.rass-item:hover{border-color:var(--blue);background:var(--blue-bg)}
+.rass-item.sel-pos{border-color:var(--red)!important;background:var(--red-bg)!important}
+.rass-item.sel-zero{border-color:var(--green)!important;background:var(--green-bg)!important}
+.rass-item.sel-neg{border-color:var(--teal)!important;background:var(--teal-bg)!important}
+.rass-num{font-size:18px;font-weight:700;min-width:34px;text-align:center;padding-top:1px}
+.rass-label{font-weight:600;font-size:13px;margin-bottom:2px}.rass-desc{font-size:12px;color:var(--muted)}
+.cfs-item{display:flex;align-items:flex-start;gap:12px;padding:11px 13px;border-radius:7px;border:.5px solid var(--border);cursor:pointer;transition:all .15s;margin-bottom:5px;background:var(--card)}
+.cfs-item:hover{border-color:var(--blue);background:var(--blue-bg)}.cfs-item.sel-cfs{border-color:var(--blue)!important;background:var(--blue-bg)!important}
+.cfs-num{font-size:20px;font-weight:700;min-width:30px;color:var(--blue);padding-top:1px}
+.cfs-label{font-weight:600;font-size:13px;margin-bottom:2px}.cfs-desc{font-size:12px;color:var(--muted)}
+.cam-feature{background:var(--card);border:.5px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px}
+.cam-flabel{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);margin-bottom:5px}
+.cam-fq{font-size:13px;font-weight:600;margin-bottom:8px;line-height:1.5}
+.cam-fdetail{font-size:12px;color:var(--muted);margin-bottom:10px;line-height:1.6;padding:8px 10px;background:var(--bg);border-radius:6px;border:.5px solid var(--border)}
+.yn-row{display:flex;gap:8px;flex-wrap:wrap}
+.yn-btn{padding:6px 16px;border-radius:5px;border:.5px solid var(--border2);background:var(--bg);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s;color:var(--muted)}
+.yn-btn.y-active{background:var(--green-bg)!important;border-color:var(--green)!important;color:var(--green)!important}
+.yn-btn.n-active{background:var(--red-bg)!important;border-color:var(--red)!important;color:var(--red)!important}
+.ap-sec{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);border-bottom:.5px solid var(--blue-bg);padding-bottom:6px;margin:14px 0 10px}
+.opt-tag{font-size:10px;background:var(--amber-bg);color:var(--amber);border-radius:3px;padding:1px 5px;margin-left:4px;vertical-align:middle}
+</style>
+<script>
+/* Anti-FOUC: apply saved theme before paint */
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn" href="../kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="../ekg.html">📈 EKG</a>
+  <a class="tab-btn" href="../teori.html">📖 Teori</a>
+  <a class="tab-btn active" href="skoring-sofa.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+
+<nav class="subtab-bar">
+  <a class="subtab-btn" href="skoring-sofa.html">🔴 SOFA</a>
+  <a class="subtab-btn active" href="skoring-bfs.html">🧓 BFS/CFS</a>
+  <a class="subtab-btn" href="skoring-cpis.html">🫁 CPIS</a>
+  <a class="subtab-btn" href="skoring-rass.html">😴 RASS</a>
+  <a class="subtab-btn" href="skoring-camicu.html">🧠 CAM-ICU</a>
+  <a class="subtab-btn" href="skoring-apache.html">⚕️ APACHE-II</a>
+  <a class="subtab-btn" href="skoring-candida.html">🍄 Candida</a>
+</nav>
+
+<div class="calc-box">
+    <div class="calc-title"><span>🧓</span> BFS — Bedside Frailty Scale / Clinical Frailty Scale (CFS)</div>
+    <div class="info" style="font-size:12px;margin-bottom:14px">
+      <strong>📌 Cara Penggunaan:</strong> Pilih kategori yang paling sesuai kondisi pasien <em>sebelum</em> sakit akut (status fungsional baseline 2 minggu lalu). CFS menilai status fungsional, bukan kondisi akut saat ini.
+    </div>
+    <div id="cfs-scale">
+      <div class="cfs-item" onclick="selectCFS(1,this)"><div class="cfs-num">1</div><div><div class="cfs-label">Sangat Bugar (Very Fit)</div><div class="cfs-desc">Energik, aktif, motivasi tinggi, berolahraga rutin. Kondisi paling prima untuk usianya.</div></div></div>
+      <div class="cfs-item" onclick="selectCFS(2,this)"><div class="cfs-num">2</div><div><div class="cfs-label">Bugar (Well)</div><div class="cfs-desc">Tidak ada penyakit aktif namun kurang prima. Berolahraga sesekali atau aktif musiman.</div></div></div>
+      <div class="cfs-item" onclick="selectCFS(3,this)"><div class="cfs-num">3</div><div><div class="cfs-label">Mengatasi dengan Baik (Managing Well)</div><div class="cfs-desc">Penyakit medis terkontrol, tidak rutin berolahraga. Kadang mengeluh lambat/kelelahan ringan.</div></div></div>
+      <div class="cfs-item" onclick="selectCFS(4,this)"><div class="cfs-num">4</div><div><div class="cfs-label">Frailty Sangat Ringan (Very Mild)</div><div class="cfs-desc">Tidak tergantung penuh, sering mengeluh lambat atau kelelahan siang hari.</div></div></div>
+      <div class="cfs-item" onclick="selectCFS(5,this)"><div class="cfs-num">5</div><div><div class="cfs-label">Frailty Ringan (Mild)</div><div class="cfs-desc">Ketergantungan parsial untuk IADL (belanja, keuangan, transportasi). Mandiri untuk ADL dasar.</div></div></div>
+      <div class="cfs-item" onclick="selectCFS(6,this)"><div class="cfs-num">6</div><div><div class="cfs-label">Frailty Sedang (Moderate)</div><div class="cfs-desc">Butuh bantuan semua aktivitas di luar rumah. Di dalam rumah masih bisa naik tangga/mandi sendiri (kadang butuh bantuan).</div></div></div>
+      <div class="cfs-item" onclick="selectCFS(7,this)"><div class="cfs-num">7</div><div><div class="cfs-label">Frailty Berat (Severe)</div><div class="cfs-desc">Ketergantungan total untuk perawatan pribadi. Klinis stabil, tidak berisiko meninggal dalam 6 bulan.</div></div></div>
+      <div class="cfs-item" onclick="selectCFS(8,this)"><div class="cfs-num">8</div><div><div class="cfs-label">Frailty Sangat Berat (Very Severe)</div><div class="cfs-desc">Ketergantungan total, mendekati akhir kehidupan. Tidak dapat pulih dari sakit ringan sekalipun.</div></div></div>
+      <div class="cfs-item" onclick="selectCFS(9,this)"><div class="cfs-num">9</div><div><div class="cfs-label">Sakit Terminal (Terminally Ill)</div><div class="cfs-desc">Harapan hidup &lt;6 bulan, tidak tampak frail secara klinis. Mendekati akhir kehidupan.</div></div></div>
+    </div>
+    <div id="cfs-result" class="hidden" style="margin-top:14px"><div id="cfs-result-content"></div></div>
+  </div>
+  <div class="theory-dropdown">
+    <button class="theory-btn" onclick="toggleTheory('bfs-t')">📖 Teori BFS/CFS — Frailty di ICU (Rockwood et al. CMAJ 2005) <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-bfs-t">
+      <div class="subsec">Definisi Frailty</div>
+      <p style="font-size:12px;margin-bottom:8px">Frailty adalah sindrom penurunan cadangan fisiologis multidimensional dan kerentanan terhadap stresor. CFS (Clinical Frailty Scale) dikembangkan Rockwood et al. (2005) sebagai alat bedside yang cepat dan valid. Dalam ICU, frailty pra-morbid adalah prediktor kuat mortalitas, lama rawat, ketergantungan fungsional pasca-ICU, dan re-admission.</p>
+      <div class="subsec">Interpretasi CFS dalam Konteks ICU</div>
+      <div class="table-wrapper">
+      <table>
+        <tr><th>CFS</th><th>Kategori</th><th>Implikasi ICU</th></tr>
+        <tr><td>1–3</td><td>Tidak Frail</td><td>Risiko rendah; toleransi intervensi baik; tidak ada pembatasan berbasis frailty</td></tr>
+        <tr><td>4–5</td><td>Pre-Frail / Frailty Ringan</td><td>Risiko moderat; diskusi tujuan perawatan lebih awal; monitor fungsional pasca-ICU</td></tr>
+        <tr><td>6–7</td><td>Frailty Sedang–Berat</td><td>Risiko mortalitas meningkat signifikan; pertimbangkan eskalasi/de-eskalasi bersama keluarga</td></tr>
+        <tr><td>8–9</td><td>Frailty Sangat Berat</td><td>Manfaat intervensi agresif sangat terbatas; konsultasi paliatif; advance directive</td></tr>
+      </table>
+      </div>
+      <div class="subsec">Bukti Klinis Terbaru</div>
+      <ul>
+        <li><strong>FROG-ICU (Darvall et al. 2019):</strong> CFS ≥5 → mortalitas 6-bulan meningkat signifikan (HR 1.6), independen dari usia dan diagnosis</li>
+        <li><strong>COVID-19/ICU (Hewitt et al. JAMA IM 2020):</strong> CFS ≥5 prediktor mortalitas lebih kuat dari usia atau komorbiditas tunggal pada pasien COVID-19 ICU</li>
+        <li><strong>Meta-analisis (Muscedere et al. 2017):</strong> CFS ≥5 dikaitkan OR 1.71 untuk mortalitas ICU dan OR 1.86 untuk mortalitas rumah sakit</li>
+        <li><strong>Catatan:</strong> Untuk disabilitas kronik stabil (tidak progresif), gunakan kondisi 2 minggu sebelum sakit akut sebagai referensi</li>
+        <li>⚠️ <strong>Keterbatasan:</strong> CFS tidak valid sebagai baseline pada pasien dengan disabilitas perkembangan kronik atau kondisi neurologi kronik parah yang stabil (misal: cerebral palsy, demensia berat kronik). Pada kondisi ini, gunakan kondisi fungsional terbaik 2 minggu sebelum sakit akut sebagai referensi (PICS-ICU Consensus 2023).</li>
+      </ul>
+      <sup class="cite-ref" data-refs="rockwood2005,darvall2019,hewitt2020,muscedere2017,flaatten2024"></sup>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 3. CPIS ====== -->
+
+<script src="../../assets/js/scripts-skoring.js"></script>
+<script src="../../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../../assets/js/feedback.js"></script>
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+  <script src="../../assets/data/references.js"></script>
+  <script src="../../assets/js/scripts-citations.js"></script>
+</body>
+</html>

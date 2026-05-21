@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teori — ICU Helper</title>
+<link rel="stylesheet" href="../assets/css/styles.css">
+<script>
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+<nav class="tab-bar">
+  <a class="tab-btn" href="../index.html">🏠 Home</a>
+  <a class="tab-btn" href="kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="ekg.html">📈 EKG</a>
+  <a class="tab-btn active" href="teori.html">📖 Teori</a>
+  <a class="tab-btn" href="skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../referensi.html">📚 Referensi</a>
+</nav>
+
+<div class="section-header">
+  <span class="section-label">// Pilih Topik Teori</span>
+  <div class="section-line"></div>
+</div>
+
+<div class="mod-grid">
+
+  <a class="mod-card" href="teori/teori-impending.html">
+    <span class="mod-card-icon"><i data-lucide="alert-triangle" class="mod-card-icon"></i></span>
+    <div class="mod-card-title">Impending Gagal Napas</div>
+    <div class="mod-card-desc">Tanda-tanda impending respiratory failure, ambang batas klinis (VC &lt;20 mL/kg, MIP &lt;-30, MEP &lt;40), kapan dan bagaimana memutuskan intubasi elektif</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-o">Impending</span>
+      <span class="tag tag-b">Intubasi</span>
+      <span class="tag tag-b">VC/MIP/MEP</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">ROX index</span>
+    </div>
+  </a>
+
+  <a class="mod-card" href="teori/teori-fisiologi.html">
+    <span class="mod-card-icon"><i data-lucide="settings" class="mod-card-icon"></i></span>
+    <div class="mod-card-title">Fisiologi Pernapasan</div>
+    <div class="mod-card-desc">Mekanisme oksigenasi vs ventilasi, difusi alveolar-kapiler, V/Q mismatch, shunt intrapulmoner, deadspace, kurva disosiasi oksihemoglobin</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-g">Oksigenasi</span>
+      <span class="tag tag-b">V/Q</span>
+      <span class="tag tag-b">Shunt</span>
+      <span class="tag tag-b">Difusi</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">LUNG SAFE 2016</span>
+    </div>
+  </a>
+
+  <a class="mod-card" href="teori/teori-gagalnapas.html">
+    <span class="mod-card-icon"><i data-lucide="wind" class="mod-card-icon"></i></span>
+    <div class="mod-card-title">Gagal Napas & ARDS</div>
+    <div class="mod-card-desc">Patofisiologi gagal napas Tipe I & II, mekanisme ARDS, VILI (barotrauma, volutrauma, atelektrauma, biotrauma), prinsip lung-protective ventilation</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-b">Tipe I/II</span>
+      <span class="tag tag-r">ARDS</span>
+      <span class="tag tag-o">VILI</span>
+      <span class="tag tag-b">Berlin</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">Global ARDS 2023</span>
+    </div>
+  </a>
+
+  <a class="mod-card" href="teori/teori-sepsis.html">
+    <span class="mod-card-icon"><i data-lucide="bug" class="mod-card-icon"></i></span>
+    <div class="mod-card-title">Sepsis & Syok Septik</div>
+    <div class="mod-card-desc">Patofisiologi sepsis komprehensif, definisi Sepsis-3, SIRS/qSOFA, Surviving Sepsis Campaign bundle, manajemen vasopressor, peran laktat</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-r">Sepsis-3</span>
+      <span class="tag tag-r">SSC Bundle</span>
+      <span class="tag tag-o">Vasopressor</span>
+      <span class="tag tag-b">Laktat</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">SSC 2024</span>
+    </div>
+  </a>
+
+  <a class="mod-card" href="teori/teori-b1b6.html">
+    <span class="mod-card-icon"><i data-lucide="clipboard-list" class="mod-card-icon"></i></span>
+    <div class="mod-card-title">B1–B6 Bedside Assessment</div>
+    <div class="mod-card-desc">Panduan cepat terapi intensif sistematis: Breathing · Blood · Brain · Bladder · Bowel · Bone/Integumen — checklist, target, tabel vasopressor, staging AKI, nutrisi</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-g">B1 Breathing</span>
+      <span class="tag tag-b">B2 Blood</span>
+      <span class="tag tag-b">B3 Brain</span>
+      <span class="tag tag-o">B4–B6</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">7 tab · ringkasan</span>
+    </div>
+  </a>
+
+</div>
+
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../assets/js/feedback.js"></script>
+  <script src="../assets/data/references.js"></script>
+  <script src="../assets/js/scripts-citations.js"></script>
+</body>
+</html>

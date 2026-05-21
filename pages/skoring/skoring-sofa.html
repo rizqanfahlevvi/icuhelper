@@ -1,0 +1,203 @@
+﻿<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOFA Score — Cheatsheet Ventilator Dewasa</title>
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<style>
+.sko-row{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:7px;border:.5px solid var(--border);margin-bottom:5px;background:var(--bg)}
+.sko-row .sp{flex:1;font-size:12px}.sko-row .sp strong{display:block;font-size:13px;margin-bottom:1px}
+.sko-row .sp small{color:var(--muted);font-size:11px}.sko-row .spts{font-weight:700;font-size:16px;min-width:26px;text-align:right}
+.spts-0{color:var(--green)}.spts-1{color:var(--blue)}.spts-2{color:var(--amber)}.spts-3{color:var(--coral)}.spts-4{color:var(--red)}
+.sko-row.row-skip{opacity:.55;border-style:dashed}
+.big-total{font-size:52px;font-weight:700;line-height:1;margin-bottom:4px}
+.rass-item{display:flex;align-items:flex-start;gap:12px;padding:10px 12px;border-radius:7px;border:.5px solid var(--border);cursor:pointer;transition:all .15s;margin-bottom:5px;background:var(--card)}
+.rass-item:hover{border-color:var(--blue);background:var(--blue-bg)}
+.rass-item.sel-pos{border-color:var(--red)!important;background:var(--red-bg)!important}
+.rass-item.sel-zero{border-color:var(--green)!important;background:var(--green-bg)!important}
+.rass-item.sel-neg{border-color:var(--teal)!important;background:var(--teal-bg)!important}
+.rass-num{font-size:18px;font-weight:700;min-width:34px;text-align:center;padding-top:1px}
+.rass-label{font-weight:600;font-size:13px;margin-bottom:2px}.rass-desc{font-size:12px;color:var(--muted)}
+.cfs-item{display:flex;align-items:flex-start;gap:12px;padding:11px 13px;border-radius:7px;border:.5px solid var(--border);cursor:pointer;transition:all .15s;margin-bottom:5px;background:var(--card)}
+.cfs-item:hover{border-color:var(--blue);background:var(--blue-bg)}.cfs-item.sel-cfs{border-color:var(--blue)!important;background:var(--blue-bg)!important}
+.cfs-num{font-size:20px;font-weight:700;min-width:30px;color:var(--blue);padding-top:1px}
+.cfs-label{font-weight:600;font-size:13px;margin-bottom:2px}.cfs-desc{font-size:12px;color:var(--muted)}
+.cam-feature{background:var(--card);border:.5px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px}
+.cam-flabel{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);margin-bottom:5px}
+.cam-fq{font-size:13px;font-weight:600;margin-bottom:8px;line-height:1.5}
+.cam-fdetail{font-size:12px;color:var(--muted);margin-bottom:10px;line-height:1.6;padding:8px 10px;background:var(--bg);border-radius:6px;border:.5px solid var(--border)}
+.yn-row{display:flex;gap:8px;flex-wrap:wrap}
+.yn-btn{padding:6px 16px;border-radius:5px;border:.5px solid var(--border2);background:var(--bg);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s;color:var(--muted)}
+.yn-btn.y-active{background:var(--green-bg)!important;border-color:var(--green)!important;color:var(--green)!important}
+.yn-btn.n-active{background:var(--red-bg)!important;border-color:var(--red)!important;color:var(--red)!important}
+.ap-sec{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);border-bottom:.5px solid var(--blue-bg);padding-bottom:6px;margin:14px 0 10px}
+.opt-tag{font-size:10px;background:var(--amber-bg);color:var(--amber);border-radius:3px;padding:1px 5px;margin-left:4px;vertical-align:middle}
+</style>
+<script>
+/* Anti-FOUC: apply saved theme before paint */
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn" href="../kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="../ekg.html">📈 EKG</a>
+  <a class="tab-btn" href="../teori.html">📖 Teori</a>
+  <a class="tab-btn active" href="skoring-sofa.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+
+<nav class="subtab-bar">
+  <a class="subtab-btn active" href="skoring-sofa.html">🔴 SOFA</a>
+  <a class="subtab-btn" href="skoring-bfs.html">🧓 BFS/CFS</a>
+  <a class="subtab-btn" href="skoring-cpis.html">🫁 CPIS</a>
+  <a class="subtab-btn" href="skoring-rass.html">😴 RASS</a>
+  <a class="subtab-btn" href="skoring-camicu.html">🧠 CAM-ICU</a>
+  <a class="subtab-btn" href="skoring-apache.html">⚕️ APACHE-II</a>
+  <a class="subtab-btn" href="skoring-candida.html">🍄 Candida</a>
+</nav>
+
+<div class="calc-box">
+    <div class="calc-title"><span>🔴</span> SOFA Score — Sequential Organ Failure Assessment (Sepsis-3, 2016)</div>
+    <div class="info" style="font-size:12px;margin-bottom:14px">
+      <strong>💡 Parameter Opsional:</strong> Isi hanya yang tersedia. Skor dihitung otomatis + catatan parameter dilewati.
+      Sistem kardiovaskular pilih dari dropdown. Baseline SOFA untuk kalkulasi Δ SOFA (kriteria Sepsis-3).
+    </div>
+    <div class="grid2" style="gap:16px">
+      <div>
+        <div class="subsec">🫁 Respirasi</div>
+        <div class="input-row"><label>PaO₂ (mmHg)</label><input type="number" id="sofa-pao2" placeholder="Opsional" min="20" max="600"><span class="opt-tag">opsional</span></div>
+        <div class="input-row" style="align-items:flex-start">
+          <label style="padding-top:6px">FiO₂ <span class="opt-tag">opsional</span></label>
+          <div style="flex:1">
+            <div class="fio2-mode-bar">
+              <button class="fio2-mode-btn active" id="sofa-fio2-btn-direct" onclick="setFiO2ModeFor('sofa','direct')">🔢 Direct Input</button>
+              <button class="fio2-mode-btn" id="sofa-fio2-btn-lowflow" onclick="setFiO2ModeFor('sofa','lowflow')">💨 Low-Flow O₂</button>
+            </div>
+            <div id="sofa-fio2-direct-wrap">
+              <input type="number" id="sofa-fio2-direct" step="0.01" min="0.21" max="1.0" placeholder="0.21–1.0" oninput="syncFiO2DirectFor('sofa')" style="width:100%">
+            </div>
+            <div id="sofa-fio2-lowflow-wrap" style="display:none">
+              <select id="sofa-o2-device" onchange="estimateFiO2For('sofa')" class="abg-lowflow-input">
+                <option value="nasal">Nasal Cannula (1–6 L/mnt)</option>
+                <option value="simple">Simple Mask (5–10 L/mnt)</option>
+                <option value="nrm">Non-Rebreathing Mask (10–15 L/mnt)</option>
+                <option value="venturi24">Venturi 24%</option>
+                <option value="venturi28">Venturi 28%</option>
+                <option value="venturi31">Venturi 31%</option>
+                <option value="venturi35">Venturi 35%</option>
+                <option value="venturi40">Venturi 40%</option>
+                <option value="venturi60">Venturi 60%</option>
+              </select>
+              <input type="number" id="sofa-o2-flow" placeholder="Flow (L/menit)" min="1" max="15" step="0.5" oninput="estimateFiO2For('sofa')" class="abg-lowflow-input">
+              <div id="sofa-fio2-est" class="abg-fio2-est"></div>
+            </div>
+            <input type="hidden" id="sofa-fio2">
+          </div>
+        </div>
+        <div class="input-row"><label>Ventilasi mekanik?</label>
+          <select id="sofa-vent"><option value="">Tidak diketahui</option><option value="yes">Ya</option><option value="no">Tidak</option></select>
+        </div>
+        <div class="subsec" style="margin-top:14px">🩸 Koagulasi</div>
+        <div class="input-row"><label>Trombosit (×10³/μL)</label><input type="number" id="sofa-plt" placeholder="Opsional" min="0" max="1000"><span class="opt-tag">opsional</span></div>
+        <div class="subsec" style="margin-top:14px">🫀 Hepar</div>
+        <div class="input-row"><label>Bilirubin total (mg/dL)</label><input type="number" id="sofa-bili" placeholder="Opsional" step="0.1" min="0" max="50"><span class="opt-tag">opsional</span></div>
+      </div>
+      <div>
+        <div class="subsec">❤️ Kardiovaskular</div>
+        <div class="input-row" style="flex-direction:column;align-items:flex-start;gap:4px">
+          <label>Status MAP / Vasopressor</label>
+          <select id="sofa-cv" style="width:100%;max-width:340px">
+            <option value="">— Lewati (tidak tersedia) —</option>
+            <option value="0">0 — MAP ≥70 mmHg, tanpa vasopressor</option>
+            <option value="1">1 — MAP &lt;70 mmHg, tanpa vasopressor</option>
+            <option value="2">2 — Dopamine ≤5 μg/kg/mnt atau Dobutamine</option>
+            <option value="3">3 — Dopamine 5.1–15 atau Epi/Norepi ≤0.1 μg/kg/mnt</option>
+            <option value="4">4 — Dopamine &gt;15 atau Epi/Norepi &gt;0.1 μg/kg/mnt</option>
+          </select>
+        </div>
+        <div class="subsec" style="margin-top:14px">🧠 SSP (GCS)</div>
+        <div class="input-row"><label>GCS total (3–15)</label><input type="number" id="sofa-gcs" placeholder="Opsional" min="3" max="15"><span class="opt-tag">opsional</span></div>
+        <div class="subsec" style="margin-top:14px">🫘 Renal</div>
+        <div class="input-row"><label>Kreatinin (mg/dL)</label><input type="number" id="sofa-cr" placeholder="Opsional" step="0.1" min="0" max="30"><span class="opt-tag">opsional</span></div>
+        <div class="input-row"><label>Urine output (mL/24j)</label><input type="number" id="sofa-uo" placeholder="Opsional" min="0" max="6000"><span class="opt-tag">opsional</span></div>
+        <div class="subsec" style="margin-top:14px">📊 Untuk Δ SOFA (Sepsis-3)</div>
+        <div class="input-row"><label>SOFA Baseline</label><input type="number" id="sofa-baseline" placeholder="0 jika tidak ada" min="0" max="24"></div>
+      </div>
+    </div>
+    <button class="calc-btn" style="margin-top:12px" onclick="calcSOFA()">🔴 Hitung SOFA Score</button>
+    <div id="sofa-results" class="hidden" style="margin-top:16px"><div id="sofa-result-content"></div></div>
+  </div>
+  <div class="theory-dropdown">
+    <button class="theory-btn" onclick="toggleTheory('sofa-t')">📖 Teori SOFA Score — Sepsis-3 (Singer et al. JAMA 2016) <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-sofa-t">
+      <div class="subsec">Latar Belakang</div>
+      <p style="font-size:12px;margin-bottom:8px">SOFA Score (Sequential Organ Failure Assessment) dikembangkan Vincent et al. (1996) untuk menilai disfungsi organ secara berurutan. Pada <strong>Sepsis-3 (Singer et al. JAMA 2016)</strong>, SOFA dijadikan dasar definisi baru: <strong>Sepsis = Infeksi + Δ SOFA ≥2 dari baseline</strong>, menggantikan kriteria SIRS yang terlalu sensitif dan tidak spesifik.</p>
+      <div class="subsec">Tabel Penilaian SOFA</div>
+      <div class="table-wrapper">
+      <table>
+        <tr><th>Sistem</th><th>Parameter</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+        <tr><td>Respirasi</td><td>PaO₂/FiO₂ (mmHg)</td><td>≥400</td><td>300–399</td><td>200–299</td><td>100–199*</td><td>&lt;100*</td></tr>
+        <tr><td>Koagulasi</td><td>Trombosit (×10³/μL)</td><td>≥150</td><td>100–149</td><td>50–99</td><td>20–49</td><td>&lt;20</td></tr>
+        <tr><td>Hepar</td><td>Bilirubin (mg/dL)</td><td>&lt;1.2</td><td>1.2–1.9</td><td>2.0–5.9</td><td>6.0–11.9</td><td>≥12.0</td></tr>
+        <tr><td>Kardiovaskular</td><td>MAP/Vasopressor</td><td>MAP≥70</td><td>MAP&lt;70</td><td>DA≤5/DOB</td><td>DA5–15/Epi,NE≤0.1</td><td>DA&gt;15/Epi,NE&gt;0.1</td></tr>
+        <tr><td>SSP</td><td>GCS</td><td>15</td><td>13–14</td><td>10–12</td><td>6–9</td><td>&lt;6</td></tr>
+        <tr><td>Renal</td><td>Kreatinin (mg/dL)</td><td>&lt;1.2</td><td>1.2–1.9</td><td>2.0–3.4</td><td>3.5–4.9 / UO&lt;500</td><td>≥5.0 / UO&lt;200</td></tr>
+      </table>
+      </div>
+      <p style="font-size:11px;color:var(--muted);margin-top:4px">*Skor 3–4 respirasi membutuhkan ventilasi mekanik (invasif/NIV). DA=Dopamine, DOB=Dobutamine, Epi/NE (μg/kg/mnt)</p>
+      <p style="font-size:11px;color:var(--muted);margin-top:3px">⚡ <strong>SpO₂/FiO₂ sebagai substitusi PaO₂/FiO₂</strong> jika AGD tidak tersedia: ≤315 setara P/F ≤300 · ≤264 setara P/F ≤200 · ≤221 setara P/F ≤150 <em>(Pandharipande PP et al. Crit Care Med 2023)</em></p>
+      <div class="subsec">Interpretasi Mortalitas</div>
+      <div class="table-wrapper">
+      <table>
+        <tr><th>SOFA Total</th><th>Mortalitas ICU (estimasi)</th></tr>
+        <tr><td>0–6</td><td>&lt;10%</td></tr><tr><td>7–9</td><td>15–20%</td></tr>
+        <tr><td>10–12</td><td>40–50%</td></tr><tr><td>≥13</td><td>&gt;80%</td></tr>
+        <tr><td>Δ SOFA ≥2</td><td>→ Kriteria Sepsis-3 (jika ada infeksi)</td></tr>
+      </table>
+      </div>
+      <div class="subsec">Definisi Sepsis-3</div>
+      <ul>
+        <li><strong>Sepsis:</strong> Disfungsi organ mengancam jiwa akibat disregulasi respons host terhadap infeksi (Δ SOFA ≥2)</li>
+        <li><strong>Septic Shock:</strong> Sepsis + vasopressor untuk MAP ≥65 mmHg + Laktat &gt;2 mmol/L meski sudah resusitasi adekuat</li>
+        <li><strong>qSOFA:</strong> Skrining pre-ICU — RR ≥22 + GCS &lt;15 + Sistolik ≤100 → skor ≥2 = risiko tinggi</li>
+      </ul>
+      <p style="font-size:12px;margin-top:6px;margin-bottom:4px"><strong>Delta-SOFA:</strong> Ferreira FL et al. JAMA 2001;286:1754 — ΔSOFA pada 48 jam lebih prediktif dari nilai absolut; ΔSOFA meningkat = prognosis buruk independen dari skor awal. Gunakan untuk monitoring respons terapi harian.</p>
+      <sup class="cite-ref" data-refs="vincent1996,singer2016,seymour2016,lambden2019,evans2021,shankarhari2016,ferreira2001,pandharipande2023"></sup>
+    </div>
+  </div>
+</div>
+<!-- ====== 2. BFS/CFS ====== -->
+
+<script src="../../assets/js/scripts-fio2-utils.js"></script>
+<script src="../../assets/js/scripts-skoring.js"></script>
+<script src="../../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../../assets/js/feedback.js"></script>
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+  <script src="../../assets/data/references.js"></script>
+  <script src="../../assets/js/scripts-citations.js"></script>
+</body>
+</html>

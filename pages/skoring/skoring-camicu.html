@@ -1,0 +1,193 @@
+﻿<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAM-ICU — Delirium — Cheatsheet Ventilator Dewasa</title>
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<style>
+.sko-row{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:7px;border:.5px solid var(--border);margin-bottom:5px;background:var(--bg)}
+.sko-row .sp{flex:1;font-size:12px}.sko-row .sp strong{display:block;font-size:13px;margin-bottom:1px}
+.sko-row .sp small{color:var(--muted);font-size:11px}.sko-row .spts{font-weight:700;font-size:16px;min-width:26px;text-align:right}
+.spts-0{color:var(--green)}.spts-1{color:var(--blue)}.spts-2{color:var(--amber)}.spts-3{color:var(--coral)}.spts-4{color:var(--red)}
+.sko-row.row-skip{opacity:.55;border-style:dashed}
+.big-total{font-size:52px;font-weight:700;line-height:1;margin-bottom:4px}
+.rass-item{display:flex;align-items:flex-start;gap:12px;padding:10px 12px;border-radius:7px;border:.5px solid var(--border);cursor:pointer;transition:all .15s;margin-bottom:5px;background:var(--card)}
+.rass-item:hover{border-color:var(--blue);background:var(--blue-bg)}
+.rass-item.sel-pos{border-color:var(--red)!important;background:var(--red-bg)!important}
+.rass-item.sel-zero{border-color:var(--green)!important;background:var(--green-bg)!important}
+.rass-item.sel-neg{border-color:var(--teal)!important;background:var(--teal-bg)!important}
+.rass-num{font-size:18px;font-weight:700;min-width:34px;text-align:center;padding-top:1px}
+.rass-label{font-weight:600;font-size:13px;margin-bottom:2px}.rass-desc{font-size:12px;color:var(--muted)}
+.cfs-item{display:flex;align-items:flex-start;gap:12px;padding:11px 13px;border-radius:7px;border:.5px solid var(--border);cursor:pointer;transition:all .15s;margin-bottom:5px;background:var(--card)}
+.cfs-item:hover{border-color:var(--blue);background:var(--blue-bg)}.cfs-item.sel-cfs{border-color:var(--blue)!important;background:var(--blue-bg)!important}
+.cfs-num{font-size:20px;font-weight:700;min-width:30px;color:var(--blue);padding-top:1px}
+.cfs-label{font-weight:600;font-size:13px;margin-bottom:2px}.cfs-desc{font-size:12px;color:var(--muted)}
+.cam-feature{background:var(--card);border:.5px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px}
+.cam-flabel{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);margin-bottom:5px}
+.cam-fq{font-size:13px;font-weight:600;margin-bottom:8px;line-height:1.5}
+.cam-fdetail{font-size:12px;color:var(--muted);margin-bottom:10px;line-height:1.6;padding:8px 10px;background:var(--bg);border-radius:6px;border:.5px solid var(--border)}
+.yn-row{display:flex;gap:8px;flex-wrap:wrap}
+.yn-btn{padding:6px 16px;border-radius:5px;border:.5px solid var(--border2);background:var(--bg);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s;color:var(--muted)}
+.yn-btn.y-active{background:var(--green-bg)!important;border-color:var(--green)!important;color:var(--green)!important}
+.yn-btn.n-active{background:var(--red-bg)!important;border-color:var(--red)!important;color:var(--red)!important}
+.ap-sec{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);border-bottom:.5px solid var(--blue-bg);padding-bottom:6px;margin:14px 0 10px}
+.opt-tag{font-size:10px;background:var(--amber-bg);color:var(--amber);border-radius:3px;padding:1px 5px;margin-left:4px;vertical-align:middle}
+</style>
+<script>
+/* Anti-FOUC: apply saved theme before paint */
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn" href="../kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="../ekg.html">📈 EKG</a>
+  <a class="tab-btn" href="../teori.html">📖 Teori</a>
+  <a class="tab-btn active" href="skoring-sofa.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+
+<nav class="subtab-bar">
+  <a class="subtab-btn" href="skoring-sofa.html">🔴 SOFA</a>
+  <a class="subtab-btn" href="skoring-bfs.html">🧓 BFS/CFS</a>
+  <a class="subtab-btn" href="skoring-cpis.html">🫁 CPIS</a>
+  <a class="subtab-btn" href="skoring-rass.html">😴 RASS</a>
+  <a class="subtab-btn active" href="skoring-camicu.html">🧠 CAM-ICU</a>
+  <a class="subtab-btn" href="skoring-apache.html">⚕️ APACHE-II</a>
+  <a class="subtab-btn" href="skoring-candida.html">🍄 Candida</a>
+</nav>
+
+<div class="calc-box">
+    <div class="calc-title"><span>🧠</span> CAM-ICU — Confusion Assessment Method for the ICU</div>
+    <div class="info" style="font-size:12px;margin-bottom:14px">
+      <strong>⚠️ Prasyarat RASS:</strong> CAM-ICU hanya dapat dilakukan pada RASS <strong>-3 s/d +4</strong>.
+      Jika RASS -4 atau -5 → catat UTA (Unable to Assess) dan kurangi dosis sedasi.
+    </div>
+    <div class="cam-feature">
+      <div class="cam-flabel">Prasyarat — Cek RASS Terlebih Dahulu</div>
+      <div class="cam-fq">Berapa nilai RASS saat ini?</div>
+      <div class="cam-fdetail">RASS -4 atau -5 → Hentikan penilaian, catat "UTA". Ulangi saat sedasi dikurangi.</div>
+      <div class="yn-row">
+        <button class="yn-btn" onclick="setCamRASS('ok',this)">✓ RASS -3 s/d +4 → Lanjut penilaian</button>
+        <button class="yn-btn" onclick="setCamRASS('uta',this)">✗ RASS -4 atau -5 → UTA</button>
+      </div>
+    </div>
+    <div id="cam-main" class="hidden">
+      <div class="cam-feature">
+        <div class="cam-flabel">Fitur 1 — WAJIB ADA (Acute Onset / Fluctuating Course)</div>
+        <div class="cam-fq">Apakah ada perubahan AKUT status mental dari baseline, ATAU apakah kondisi berfluktuasi dalam 24 jam terakhir?</div>
+        <div class="cam-fdetail">Tanyakan keluarga/perawat: "Apakah ada perubahan mendadak dalam pikiran atau kesadaran pasien? Apakah kondisi naik-turun sepanjang hari?" Cek catatan keperawatan untuk fluktuasi.</div>
+        <div class="yn-row">
+          <button class="yn-btn" onclick="setCam(1,'yes',this)">✓ Ya — Ada perubahan/fluktuasi</button>
+          <button class="yn-btn" onclick="setCam(1,'no',this)">✗ Tidak</button>
+        </div>
+      </div>
+      <div class="cam-feature">
+        <div class="cam-flabel">Fitur 2 — WAJIB ADA (Inattention — Gangguan Perhatian)</div>
+        <div class="cam-fq">Apakah pasien mengalami gangguan perhatian (gagal uji Letters atau Gambar)?</div>
+        <div class="cam-fdetail">
+          <strong>Uji Letters (SAVEAHAART):</strong> Pasien genggam tangan Anda setiap huruf "A" — S·A·V·E·A·H·A·A·R·T (huruf A muncul 4×: posisi 2,5,7,8)<br>
+          <strong>Gagal</strong> jika &gt;2 kesalahan (tidak genggam saat A, atau genggam bukan saat A).<br>
+          <strong>Alternatif — Uji Gambar:</strong> Tunjukkan 5 gambar → tunjukkan 10 gambar → tanyakan mana yang sudah dilihat. Gagal jika &gt;2 kesalahan.
+        </div>
+        <div class="yn-row">
+          <button class="yn-btn" onclick="setCam(2,'yes',this)">✓ Gagal (&gt;2 kesalahan) — Ada gangguan perhatian</button>
+          <button class="yn-btn" onclick="setCam(2,'no',this)">✗ Lulus (≤2 kesalahan)</button>
+        </div>
+      </div>
+      <div class="cam-feature">
+        <div class="cam-flabel">Fitur 3 — Salah satu dari Fitur 3 ATAU 4 harus ada (Altered Level of Consciousness)</div>
+        <div class="cam-fq">Apakah tingkat kesadaran berubah? (RASS ≠ 0)</div>
+        <div class="cam-fdetail">Positif jika RASS tidak sama dengan 0. RASS +1 s/d +4 = Agitasi | RASS -1 s/d -3 = Sedasi berlebih</div>
+        <div class="yn-row">
+          <button class="yn-btn" onclick="setCam(3,'yes',this)">✓ Ya — RASS ≠ 0</button>
+          <button class="yn-btn" onclick="setCam(3,'no',this)">✗ Tidak — RASS = 0 (Alert &amp; Calm)</button>
+        </div>
+      </div>
+      <div class="cam-feature">
+        <div class="cam-flabel">Fitur 4 — Salah satu dari Fitur 3 ATAU 4 harus ada (Disorganized Thinking)</div>
+        <div class="cam-fq">Apakah pasien mengalami pemikiran tidak terorganisir (gagal 4 pertanyaan atau perintah)?</div>
+        <div class="cam-fdetail">
+          <strong>4 Pertanyaan Y/N:</strong> (1) Apakah batu mengapung di air? (2) Adakah ikan di laut? (3) Apakah 1 kg lebih berat dari 2 kg? (4) Bisakah palu digunakan untuk memaku?<br>
+          <strong>Perintah:</strong> "Angkat jari sebanyak ini" (tunjuk 2 jari) → "Sekarang lakukan dengan tangan lainnya" (tanpa demonstrasi).<br>
+          <strong>Gagal</strong> jika &gt;1 kesalahan pada pertanyaan, ATAU tidak dapat mengikuti perintah.
+        </div>
+        <div class="yn-row">
+          <button class="yn-btn" onclick="setCam(4,'yes',this)">✓ Gagal (&gt;1 kesalahan / tidak ikut perintah)</button>
+          <button class="yn-btn" onclick="setCam(4,'no',this)">✗ Lulus</button>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcCAMICU()">🧠 Nilai CAM-ICU</button>
+    </div>
+    <div id="cam-uta" class="hidden"><div class="warn" style="margin-top:12px"><strong>UTA — Unable to Assess</strong><br>RASS -4 atau -5: pasien tidak dapat dinilai CAM-ICU. Kurangi sedasi dan ulangi saat RASS ≥-3.</div></div>
+    <div id="cam-results" class="hidden" style="margin-top:14px"><div id="cam-result-content"></div></div>
+  </div>
+  <div class="theory-dropdown">
+    <button class="theory-btn" onclick="toggleTheory('cam-t')">📖 Teori CAM-ICU & Manajemen Delirium ICU — PADIS 2018 <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-cam-t">
+      <div class="subsec">Tentang Delirium ICU</div>
+      <p style="font-size:12px;margin-bottom:8px">Delirium terjadi pada 60–80% pasien ICU berventilasi mekanik. Dikaitkan dengan mortalitas lebih tinggi, lama rawat lebih panjang, dan penurunan kognitif jangka panjang. CAM-ICU (Ely et al. JAMA 2001) adalah gold standard — sensitivitas 76–93%, spesifisitas 89–100%.</p>
+      <div class="info" style="font-size:11px;padding:8px 10px;margin-bottom:8px"><strong>Update — CAM-ICU-7:</strong> Modifikasi terbaru CAM-ICU yang memberikan skala 0–7 berdasarkan keparahan delirium, bukan hanya ya/tidak. Membantu monitor respons terapi. Slooter AJC et al. Intensive Care Med 2017.</div>
+      <div class="subsec">Algoritma CAM-ICU</div>
+      <ul>
+        <li><strong>Langkah 0:</strong> Cek RASS → -4/-5 = UTA; ≥-3 → lanjut</li>
+        <li><strong>CAM-ICU Positif:</strong> Fitur 1 ✓ + Fitur 2 ✓ + [Fitur 3 ✓ ATAU Fitur 4 ✓]</li>
+        <li><strong>CAM-ICU Negatif:</strong> Fitur 1 ✗, atau Fitur 2 ✗, atau keduanya Fitur 3+4 ✗</li>
+        <li>Nilai setiap shift (minimal 2× sehari). Dokumentasikan.</li>
+      </ul>
+      <div class="subsec">Tipe Delirium</div>
+      <div class="table-wrapper">
+      <table>
+        <tr><th>Tipe</th><th>Karakteristik</th><th>Proporsi</th></tr>
+        <tr><td>Hiperaktif</td><td>Agitasi, menarik selang, vokalisasi</td><td>~25%</td></tr>
+        <tr><td>Hipoaktif</td><td>Tenang/mengantuk — sering tidak dikenali — prognosis lebih buruk</td><td>~50%</td></tr>
+        <tr><td>Campuran</td><td>Bergantian hiper dan hipoaktif</td><td>~25%</td></tr>
+      </table>
+      </div>
+      <div class="subsec">Manajemen Delirium — Mnemonic THINK</div>
+      <ul>
+        <li><strong>T</strong>oxic: sepsis, obat (benzodiazepin, opioid, antikolinergik), withdrawal alkohol/sedatif</li>
+        <li><strong>H</strong>ypoxemia: cek saturasi, ventilasi, anemia</li>
+        <li><strong>I</strong>mmobilization: mobilisasi dini, fisioterapi, reposisi tiap 2 jam</li>
+        <li><strong>N</strong>on-pharmacologic first: orientasi (jam/tanggal/tempat), siklus tidur-bangun, pencahayaan, kacamata/alat dengar</li>
+        <li><strong>K</strong>ey drugs to avoid: benzodiazepin, antihistamin, antikolinergik, meperidine</li>
+        <li>Haloperidol/Quetiapine: hanya jika diperlukan untuk keselamatan; tidak terbukti mempersingkat delirium</li>
+        <li>Dexmedetomidine: menurunkan durasi delirium vs benzodiazepin pada beberapa RCT</li>
+      </ul>
+      <sup class="cite-ref" data-refs="ely2001,devlin2018,barr2013,slooter2017,brummel2014,pun2021"></sup>
+    </div>
+  </div>
+</div>
+<!-- ====== 6. APACHE-II ====== -->
+
+<script src="../../assets/js/scripts-skoring.js"></script>
+<script src="../../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../../assets/js/feedback.js"></script>
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+  <script src="../../assets/data/references.js"></script>
+  <script src="../../assets/js/scripts-citations.js"></script>
+</body>
+</html>

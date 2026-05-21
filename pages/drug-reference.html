@@ -1,0 +1,952 @@
+﻿<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drug Reference — ICU Helper</title>
+<link rel="stylesheet" href="../assets/css/styles.css">
+<script>
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../assets/js/scripts-theme.js"></script>
+<style>
+/* ── Drug Reference Page Styles ── */
+.drug-controls {
+  padding: 10px 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+/* Flex rows */
+.dc-row {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+/* Search — short fixed width on the right */
+.drug-search-wrap {
+  position: relative;
+  flex: 0 0 120px;
+  transition: flex-basis .2s ease;
+}
+.drug-search-wrap:focus-within { flex-basis: 180px; }
+#drug-search {
+  width: 100%;
+  padding: 8px 28px 8px 10px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 20px;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  box-sizing: border-box;
+}
+#drug-search:focus { border-color: var(--accent); outline: none; }
+.search-clear {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 11px;
+  display: none;
+}
+/* eGFR band dropdown — fixed width, aligns right */
+.dr-band-drop { position: relative; flex-shrink: 0; }
+.dr-band-drop.open .dr-drop-arrow { transform: rotate(180deg); }
+.dr-band-drop.open .dr-band-menu  { display: block; }
+.dr-band-menu { right: 0; left: auto; min-width: 200px; }
+/* Band items — same look as category drop items */
+.dr-band-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  padding: .42rem .7rem;
+  border-radius: 7px;
+  border: none;
+  background: none;
+  color: var(--text2);
+  cursor: pointer;
+  text-align: left;
+  box-sizing: border-box;
+  transition: background .12s, color .12s;
+}
+.dr-band-item:hover { background: var(--bg2); color: var(--text); }
+.dr-band-item.active { background: var(--bg2); color: var(--accent); font-weight: 700; }
+/* Input embedded at bottom of eGFR dropdown */
+.dr-egfr-sep {
+  height: 1px;
+  background: var(--border);
+  margin: .4rem .4rem .3rem;
+}
+.dr-egfr-input-wrap {
+  padding: .25rem .5rem .4rem;
+}
+.dr-egfr-input-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--text3);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  margin-bottom: .25rem;
+}
+.dr-egfr-input-row {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+}
+#egfr-input {
+  flex: 1;
+  min-width: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  outline: none;
+  border-radius: 6px;
+  padding: .32rem .5rem;
+  border: 1px solid var(--border);
+  transition: border-color .15s, background .15s;
+  box-sizing: border-box;
+}
+#egfr-input:focus { border-color: var(--accent); background: var(--card); }
+#egfr-input::placeholder { color: var(--text3); font-size: 10px; }
+#egfr-input::-webkit-outer-spin-button,
+#egfr-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+#egfr-input[type=number] { -moz-appearance: textfield; }
+.egfr-unit-sm {
+  font-size: 9px; color: var(--text3);
+  white-space: nowrap; flex-shrink: 0;
+  font-family: 'JetBrains Mono', monospace;
+}
+.egfr-status {
+  font-size: 10px;
+  color: var(--accent);
+  font-family: 'JetBrains Mono', monospace;
+  min-height: 14px;
+}
+/* ── Filter Dropdown (mobile/tablet) + Pills Row (desktop) ── */
+.dr-filter-wrap { display: flex; align-items: center; gap: .5rem; }
+
+/* Category dropdown — expands left */
+.dr-filter-drop { position: relative; flex: 1; min-width: 0; }
+.dr-pill-row    { display: none; }
+
+.dr-drop-btn {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  padding: .38rem .8rem;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text2);
+  cursor: pointer;
+  white-space: nowrap;
+  width: 100%;
+  justify-content: space-between;
+  transition: border-color .15s, color .15s;
+  box-sizing: border-box;
+}
+.dr-drop-btn:hover { color: var(--text); border-color: var(--border-hi); }
+.dr-drop-arrow {
+  font-size: 8px;
+  opacity: .55;
+  transition: transform .18s ease;
+  margin-left: .15rem;
+}
+.dr-filter-drop.open .dr-drop-arrow { transform: rotate(180deg); }
+.dr-drop-lhs { display: flex; align-items: center; gap: .38rem; }
+.dr-drop-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--border-hi);
+}
+.dr-drop-dot.d-all          { background: var(--border-hi); }
+.dr-drop-dot.d-vasopressor  { background: #f87171; }
+.dr-drop-dot.d-inotropik    { background: #60a5fa; }
+.dr-drop-dot.d-sedasi       { background: #a78bfa; }
+.dr-drop-dot.d-analgesia    { background: var(--warn); }
+.dr-drop-dot.d-nmb          { background: var(--accent); }
+.dr-drop-dot.d-antibiotik   { background: #2dd4bf; }
+.dr-drop-dot.d-antifungal   { background: #f59e0b; }
+.dr-drop-dot.d-antiviral    { background: #34d399; }
+.dr-drop-dot.d-high_alert   { background: #ff4444; }
+.dr-drop-dot.d-kardiovaskular { background: #fb7185; }
+.dr-drop-dot.d-steroid      { background: #c084fc; }
+.dr-drop-dot.d-gi           { background: #fb923c; }
+.dr-drop-dot.d-pregnancy_safe { background: #f9a8d4; }
+
+.dr-drop-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(0,0,0,.35);
+  z-index: 60;
+  min-width: 170px;
+  padding: .3rem;
+  max-height: 320px;
+  overflow-y: auto;
+}
+.dr-filter-drop.open .dr-drop-menu { display: block; }
+.dr-drop-item {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  width: 100%;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  padding: .42rem .7rem;
+  border-radius: 7px;
+  border: none;
+  background: none;
+  color: var(--text2);
+  cursor: pointer;
+  text-align: left;
+  box-sizing: border-box;
+  transition: background .12s, color .12s;
+}
+.dr-drop-item:hover { background: var(--bg2); color: var(--text); }
+.dr-drop-item.active { background: var(--bg); color: var(--text); font-weight: 700; }
+
+/* Pills row hidden on all sizes — dropdown only */
+.dr-pill-row { display: none; }
+.drug-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+}
+#drug-sort {
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+}
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.badge-safe   { background: rgba(0,255,136,.12); color: #00ff88; border: 1px solid rgba(0,255,136,.4); }
+.badge-adjust { background: rgba(255,215,0,.12);  color: #ffd700; border: 1px solid rgba(255,215,0,.4); }
+.badge-reduce { background: rgba(255,136,0,.12); color: #ff8800; border: 1px solid rgba(255,136,0,.4); }
+.badge-avoid  { background: rgba(255,68,68,.12);  color: #ff4444; border: 1px solid rgba(255,68,68,.4); }
+.badge-high-alert { background: rgba(255,68,68,.15); color: #ff5555; border: 1px solid rgba(255,68,68,.4); }
+.badge-pregnancy { background: rgba(255,182,193,.1); color: #ffaacc; border: 1px solid rgba(255,182,193,.3); }
+.badge-pump {
+  background: var(--accent);
+  color: #080808;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+.badge-pump:hover { opacity: 0.85; }
+/* Spectrum tags */
+.spectrum-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }
+.spectrum-tag { padding: 2px 7px; border-radius: 4px; font-size: 10px; font-family: 'JetBrains Mono', monospace; }
+.stag-covered { background: rgba(0,255,136,.1); color: #00ff88; }
+.stag-partial  { background: rgba(255,215,0,.1);  color: #ffd700; }
+.stag-no      { background: rgba(255,68,68,.08);  color: #ff6666; }
+/* Light mode overrides */
+[data-theme="light"] .badge-safe   { background: rgba(0,153,77,.1);   color: #00994d; border-color: #00994d; }
+[data-theme="light"] .badge-adjust { background: rgba(180,140,0,.1);  color: #a08000; border-color: #a08000; }
+[data-theme="light"] .badge-reduce { background: rgba(200,80,0,.1);   color: #c85000; border-color: #c85000; }
+[data-theme="light"] .badge-avoid  { background: rgba(180,0,0,.1);    color: #cc0000; border-color: #cc0000; }
+[data-theme="light"] .egfr-pill.active  { background: #00994d; color: #fff; }
+[data-theme="light"] .filter-pill.active { background: #00994d; color: #fff; }
+[data-theme="light"] .badge-pump { background: #00994d; }
+
+/* ── Panel sections (flowchart + ladder) ── */
+.drug-panel-section {
+  max-width: 1200px;
+  margin: 0 auto 8px;
+  padding: 0 12px;
+}
+.drug-panel-details {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.drug-panel-summary {
+  padding: 10px 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--accent);
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+}
+.drug-panel-summary::-webkit-details-marker { display: none; }
+.drug-panel-summary::before { content: '▶ '; font-size: 9px; }
+.drug-panel-details[open] .drug-panel-summary::before { content: '▼ '; }
+.panel-loading { padding: 12px 14px; font-size: 11px; color: var(--muted); }
+
+/* ── Vasopressor flowchart ── */
+.flowchart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px;
+  padding: 10px 14px 14px;
+}
+.flowchart-card {
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  overflow: hidden;
+}
+.flowchart-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  font-size: 11px;
+}
+.flowchart-steps { padding: 8px 10px; }
+.flowchart-step {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.step-num {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+.step-body { flex: 1; min-width: 0; }
+.step-agent { font-size: 11.5px; font-weight: 700; color: var(--text); }
+.step-dose  { font-size: 10.5px; color: var(--accent); font-family: 'JetBrains Mono', monospace; margin-top: 1px; }
+.step-note  { font-size: 10px; color: var(--muted); margin-top: 2px; line-height: 1.4; }
+.step-detail-btn {
+  margin-top: 4px;
+  padding: 2px 7px;
+  background: transparent;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  color: var(--accent);
+  font-size: 9.5px;
+  cursor: pointer;
+  font-family: 'JetBrains Mono', monospace;
+}
+.step-detail-btn:hover { background: var(--accent); color: var(--bg); }
+
+/* ── Sedation ladder ── */
+.ladder-list { padding: 10px 14px 14px; display: flex; flex-direction: column; gap: 8px; }
+.ladder-rung {
+  background: var(--bg2);
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+.ladder-header { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.ladder-level {
+  color: #fff;
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.ladder-label { font-size: 11.5px; font-weight: 700; color: var(--text); }
+.ladder-desc { font-size: 10.5px; color: var(--text2); margin-bottom: 7px; }
+.ladder-agents { display: flex; flex-direction: column; gap: 5px; }
+.ladder-agent {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  align-items: baseline;
+  padding: 5px 8px;
+  background: var(--card);
+  border-radius: 5px;
+  border: 1px solid var(--border);
+}
+.la-name { font-size: 11px; font-weight: 700; color: var(--text); }
+.la-dose { font-size: 10.5px; color: var(--accent); font-family: 'JetBrains Mono', monospace; }
+.la-note { font-size: 10px; color: var(--muted); width: 100%; }
+
+/* ── COMPACT CARD GRID (cairan-style seamless) ── */
+.dr-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  padding: 16px;
+  background: transparent;
+}
+
+.dr-card {
+  background: var(--card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.dr-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+  background: var(--card-hover);
+}
+.dr-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--accent);
+  transition: transform .22s ease;
+  transform: scaleX(0);
+  transform-origin: left;
+  z-index: 1;
+}
+.dr-card:hover::before { transform: scaleX(1); }
+.dr-card.high-alert-card::before { background: #ff4444; transform: scaleX(1); }
+.dr-card.egfr-flagged::before { background: #ffd700; }
+
+.dr-coll {
+  padding: .75rem .9rem;
+}
+.dr-name-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: .3rem;
+  margin-bottom: .2rem;
+}
+.dr-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+  flex: 1;
+  min-width: 0;
+}
+.dr-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  flex-shrink: 0;
+  align-items: center;
+}
+.dr-class {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  color: var(--text3);
+  margin-bottom: .15rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dr-brand {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  color: var(--accent);
+  margin-bottom: .18rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dr-dose {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--text3);
+  line-height: 1.35;
+  margin-top: .1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dr-egfr-pill {
+  margin-top: .3rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  padding: .1rem .4rem;
+  border-radius: 3px;
+  display: inline-block;
+}
+.dr-egfr-pill.mode-safe   { background: rgba(0,255,136,.1); color: #00ff88; border: 1px solid rgba(0,255,136,.3); }
+.dr-egfr-pill.mode-adjust { background: rgba(255,215,0,.1); color: #ffd700; border: 1px solid rgba(255,215,0,.3); }
+.dr-egfr-pill.mode-reduce { background: rgba(255,136,0,.1); color: #ff8800; border: 1px solid rgba(255,136,0,.3); }
+.dr-egfr-pill.mode-avoid  { background: rgba(255,68,68,.1);  color: #ff4444; border: 1px solid rgba(255,68,68,.3); }
+
+.dr-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text3);
+}
+
+/* ── BOTTOM-SHEET MODAL ── */
+.dr-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 400;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .22s ease;
+}
+.dr-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+.dr-overlay.open .dr-modal {
+  transform: translateY(0);
+}
+
+.dr-modal {
+  width: calc(100% - 16px);
+  margin: 0 8px;
+  max-height: calc(100dvh - 60px);
+  overflow-y: auto;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  transform: translateY(28px);
+  transition: transform .22s ease;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-hi) transparent;
+}
+.dr-modal::-webkit-scrollbar { width: 5px; }
+.dr-modal::-webkit-scrollbar-track { background: transparent; }
+.dr-modal::-webkit-scrollbar-thumb { background: var(--border-hi); border-radius: 10px; }
+
+@media (min-width: 640px) {
+  .dr-overlay { align-items: center; padding: 24px 0; }
+  .dr-modal {
+    width: min(720px, 92vw);
+    max-height: calc(100dvh - 80px);
+    border-radius: 12px;
+    transform: translateY(20px) scale(.97);
+  }
+  .dr-overlay.open .dr-modal { transform: translateY(0) scale(1); }
+}
+
+.dr-modal-handle {
+  width: 36px; height: 4px;
+  background: var(--border-hi);
+  border-radius: 2px;
+  margin: 10px auto 4px;
+}
+@media (min-width: 640px) { .dr-modal-handle { display: none; } }
+
+/* Sticky wrapper: handle + head + tabs */
+.drm-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--bg);
+}
+
+/* Modal header */
+.drm-head {
+  padding: .75rem 1rem .6rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: .75rem;
+}
+.drm-head-info { flex: 1; min-width: 0; }
+.drm-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.25;
+  margin-bottom: .25rem;
+}
+.drm-class {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  color: var(--text3);
+  margin-bottom: .3rem;
+}
+.drm-badges { display: flex; flex-wrap: wrap; gap: 4px; }
+.drm-head-actions {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  flex-shrink: 0;
+}
+.drm-theme-toggle { flex-shrink: 0; }
+  .drm-close {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text2);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 11.5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s;
+  }
+  .drm-close:hover {
+    background: rgba(255, 68, 68, 0.1);
+    color: #ff4444;
+    border-color: #ff4444;
+  }
+
+/* Modal tabs */
+.drm-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  background: var(--card);
+  overflow-x: auto;
+  flex-shrink: 0;
+  scrollbar-width: none;
+}
+.drm-tabs::-webkit-scrollbar { display: none; }
+.drm-tab {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: .5rem .85rem;
+  border: none;
+  background: none;
+  color: var(--text3);
+  cursor: pointer;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: color .15s, border-color .15s;
+  flex-shrink: 0;
+}
+.drm-tab:hover { color: var(--text2); }
+.drm-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* Modal body */
+.drm-body {
+  padding: 0;
+}
+.drm-panel { display: none; padding: 1rem; }
+.drm-panel.active { display: block; }
+
+/* Content inside panels */
+.drm-sec-lbl {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--accent);
+  padding-left: .5rem;
+  border-left: 2px solid var(--accent);
+  display: block;
+  margin: .9rem 0 .5rem;
+  line-height: 1.3;
+}
+.drm-sec-lbl:first-child { margin-top: 0; }
+.drm-p { font-size: 12.5px; color: var(--text2); line-height: 1.65; margin-bottom: .5rem; }
+.drm-p strong { color: var(--text); }
+.drm-ul { margin: .2rem 0 .6rem 1.2rem; padding: 0; }
+.drm-ul li { font-size: 12px; color: var(--text2); line-height: 1.6; margin-bottom: .2rem; }
+.drm-block {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: .6rem .75rem;
+  margin-bottom: .6rem;
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.6;
+}
+.drm-block strong { color: var(--text); }
+.drm-warn-box {
+  background: rgba(255,68,68,.08);
+  border: 1px solid rgba(255,68,68,.35);
+  border-radius: 7px;
+  padding: .65rem .85rem;
+  margin-bottom: .7rem;
+}
+.drm-warn-item { font-size: 11.5px; color: #ff6666; margin-bottom: .2rem; line-height: 1.5; }
+.drm-protocol { font-size: 11px; color: var(--text2); margin-top: .4rem; padding-top: .4rem; border-top: 1px solid rgba(255,68,68,.2); }
+
+/* Renal table inside modal */
+.drm-renal-tbl { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: .4rem; }
+.drm-renal-tbl th {
+  background: var(--bg2);
+  padding: 5px 8px;
+  text-align: left;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text3);
+  border-bottom: 1px solid var(--border);
+}
+.drm-renal-tbl td { padding: 5px 8px; border-bottom: 1px solid rgba(255,255,255,.04); vertical-align: top; }
+.drm-renal-tbl tr.active-band td { background: rgba(0,255,136,.06); color: var(--text); font-weight: 600; }
+.drm-renal-tbl tr.active-band td:first-child { color: var(--accent); }
+
+/* Antidote highlight */
+.drm-antidote {
+  background: rgba(0,255,136,.05);
+  border: 1px solid rgba(0,255,136,.2);
+  border-radius: 5px;
+  padding: .5rem .7rem;
+  margin-top: .5rem;
+  font-size: 12px;
+  color: var(--text2);
+}
+.drm-antidote strong { color: #00ff88; }
+
+/* Interaction cards */
+.drm-ixn {
+  padding: .45rem .7rem;
+  border-radius: 5px;
+  margin-bottom: .4rem;
+  font-size: 11.5px;
+  color: var(--text2);
+  line-height: 1.55;
+}
+.drm-ixn.major    { background: rgba(255,68,68,.06);  border-left: 2px solid #ff4444; }
+.drm-ixn.moderate { background: rgba(255,215,0,.05);  border-left: 2px solid #ffd700; }
+.drm-ixn strong { color: var(--text); }
+
+/* Stewardship block */
+.drm-stew {
+  background: rgba(255,215,0,.04);
+  border: 1px solid rgba(255,215,0,.15);
+  border-radius: 6px;
+  padding: .65rem .8rem;
+  margin-top: .6rem;
+  font-size: 11.5px;
+  color: var(--text2);
+  line-height: 1.7;
+}
+.drm-stew strong { color: var(--warn); }
+
+/* Light mode overrides */
+[data-theme="light"] .dr-card:hover { background: var(--card-hover); }
+[data-theme="light"] .drm-tab.active { color: #00994d; border-bottom-color: #00994d; }
+[data-theme="light"] .drm-sec-lbl { color: #00994d; border-left-color: #00994d; }
+
+/* Badges in light mode */
+[data-theme="light"] .badge-high-alert { background: rgba(180,0,0,.08); color: #cc0000; border-color: rgba(180,0,0,.4); }
+[data-theme="light"] .badge-pregnancy  { background: rgba(160,0,80,.07); color: #a00050; border-color: rgba(160,0,80,.35); }
+[data-theme="light"] .stag-covered { background: rgba(0,140,60,.1);  color: #006633; }
+[data-theme="light"] .stag-partial  { background: rgba(140,100,0,.1); color: #7a5800; }
+[data-theme="light"] .stag-no      { background: rgba(180,0,0,.07);  color: #cc0000; }
+
+/* Card variants in light mode */
+[data-theme="light"] .dr-egfr-pill.mode-safe   { background: rgba(0,140,60,.1);  color: #006633; border-color: rgba(0,140,60,.4); }
+[data-theme="light"] .dr-egfr-pill.mode-adjust { background: rgba(140,100,0,.1); color: #7a5800; border-color: rgba(140,100,0,.4); }
+[data-theme="light"] .dr-egfr-pill.mode-reduce { background: rgba(180,60,0,.1);  color: #b03000; border-color: rgba(180,60,0,.4); }
+[data-theme="light"] .dr-egfr-pill.mode-avoid  { background: rgba(180,0,0,.1);   color: #cc0000; border-color: rgba(180,0,0,.4); }
+
+/* Modal content in light mode */
+[data-theme="light"] .drm-warn-box  { background: rgba(180,0,0,.05); border-color: rgba(180,0,0,.25); }
+[data-theme="light"] .drm-warn-item { color: #b00000; }
+[data-theme="light"] .drm-protocol  { border-top-color: rgba(180,0,0,.15); color: var(--text3); }
+[data-theme="light"] .drm-ixn.major    { background: rgba(180,0,0,.05); border-left-color: #cc0000; }
+[data-theme="light"] .drm-ixn.moderate { background: rgba(140,100,0,.05); border-left-color: #907000; }
+[data-theme="light"] .drm-stew         { background: rgba(140,100,0,.05); border-color: rgba(140,100,0,.2); }
+[data-theme="light"] .drm-stew strong  { color: #7a5800; }
+[data-theme="light"] .drm-antidote         { background: rgba(0,140,60,.05); border-color: rgba(0,140,60,.2); }
+[data-theme="light"] .drm-antidote strong  { color: #006633; }
+[data-theme="light"] .drm-block { background: rgba(0,0,0,.03); border-color: rgba(0,0,0,.08); }
+[data-theme="light"] .drm-renal-tbl th { background: rgba(0,0,0,.04); color: var(--text3); }
+[data-theme="light"] .drm-renal-tbl td { border-bottom-color: rgba(0,0,0,.06); color: var(--text2); }
+[data-theme="light"] .drm-renal-tbl tr.active-band td { background: rgba(0,140,60,.07); }
+[data-theme="light"] .drm-renal-tbl tr.active-band td:first-child { color: #00994d; }
+[data-theme="light"] .dr-drop-menu { box-shadow: 0 8px 28px rgba(0,0,0,.12); }
+</style>
+</head>
+<body>
+
+<div class="hbar"></div>
+<nav class="tab-bar">
+  <a class="tab-btn" href="../index.html"><i data-lucide="home" class="tab-icon"></i> Home</a>
+  <a class="tab-btn" href="kalkulator.html"><i data-lucide="calculator" class="tab-icon"></i> Kalkulator</a>
+  <a class="tab-btn" href="setting.html"><i data-lucide="settings" class="tab-icon"></i> Setting</a>
+  <a class="tab-btn" href="monitoring.html"><i data-lucide="monitor" class="tab-icon"></i> Monitoring</a>
+  <a class="tab-btn" href="abg.html"><i data-lucide="activity" class="tab-icon"></i> ABG</a>
+  <a class="tab-btn" href="weaning.html"><i data-lucide="arrow-down-circle" class="tab-icon"></i> Weaning</a>
+  <a class="tab-btn" href="ekg.html"><i data-lucide="activity" class="tab-icon"></i> EKG</a>
+  <a class="tab-btn active" href="drug-reference.html"><i data-lucide="pill" class="tab-icon"></i> Drug Ref</a>
+  <a class="tab-btn" href="skoring.html"><i data-lucide="clipboard-list" class="tab-icon"></i> Skoring</a>
+  <a class="tab-btn" href="../referensi.html"><i data-lucide="book-text" class="tab-icon"></i> Referensi</a>
+</nav>
+
+<div class="sec">Drug Reference ICU</div>
+
+<!-- SEARCH & FILTER -->
+<section class="drug-controls">
+  <!-- Single row: Category | eGFR band | Search -->
+  <div class="dc-row">
+    <div class="dr-filter-drop" id="dr-filter-drop">
+      <button class="dr-drop-btn" id="dr-drop-btn" type="button">
+        <span class="dr-drop-lhs">
+          <span class="dr-drop-dot d-all" id="dr-drop-dot"></span>
+          <span id="dr-drop-label">Semua Obat</span>
+        </span>
+        <span class="dr-drop-arrow">▾</span>
+      </button>
+      <div class="dr-drop-menu" id="dr-drop-menu">
+        <button class="dr-drop-item active" data-cat="all" type="button"><span class="dr-drop-dot d-all"></span>Semua</button>
+        <button class="dr-drop-item" data-cat="vasopressor" type="button"><span class="dr-drop-dot d-vasopressor"></span>🫀 Vasopressor</button>
+        <button class="dr-drop-item" data-cat="inotropik" type="button"><span class="dr-drop-dot d-inotropik"></span>💓 Inotropik</button>
+        <button class="dr-drop-item" data-cat="sedasi" type="button"><span class="dr-drop-dot d-sedasi"></span>💤 Sedasi</button>
+        <button class="dr-drop-item" data-cat="analgesia" type="button"><span class="dr-drop-dot d-analgesia"></span>💊 Analgesia</button>
+        <button class="dr-drop-item" data-cat="nmb" type="button"><span class="dr-drop-dot d-nmb"></span>⚡ NMB</button>
+        <button class="dr-drop-item" data-cat="antibiotik" type="button"><span class="dr-drop-dot d-antibiotik"></span>🦠 Antibiotik</button>
+        <button class="dr-drop-item" data-cat="antifungal" type="button"><span class="dr-drop-dot d-antifungal"></span>🍄 Antifungal</button>
+        <button class="dr-drop-item" data-cat="antiviral" type="button"><span class="dr-drop-dot d-antiviral"></span>🧬 Antiviral</button>
+        <button class="dr-drop-item" data-cat="high_alert" type="button"><span class="dr-drop-dot d-high_alert"></span>🚨 High-Alert</button>
+        <button class="dr-drop-item" data-cat="kardiovaskular" type="button"><span class="dr-drop-dot d-kardiovaskular"></span>❤️ Kardio</button>
+        <button class="dr-drop-item" data-cat="steroid" type="button"><span class="dr-drop-dot d-steroid"></span>💉 Steroid</button>
+        <button class="dr-drop-item" data-cat="gi" type="button"><span class="dr-drop-dot d-gi"></span>🫙 GI</button>
+        <button class="dr-drop-item" data-cat="pregnancy_safe" type="button"><span class="dr-drop-dot d-pregnancy_safe"></span>🤰 Aman Hamil</button>
+      </div>
+    </div>
+    <div class="dr-band-drop" id="dr-band-drop">
+      <button class="dr-drop-btn" id="dr-band-btn" type="button">
+        <span class="dr-drop-lhs">
+          <span class="dr-egfr-icon">⚡</span>
+          <span id="dr-band-label">eGFR Mode</span>
+        </span>
+        <span class="dr-drop-arrow">▾</span>
+      </button>
+      <div class="dr-drop-menu dr-band-menu" id="dr-band-menu">
+        <button class="dr-band-item active" data-band="all" type="button">Semua (tanpa filter)</button>
+        <button class="dr-band-item" data-band="ge60" type="button">≥60 mL/min · Normal</button>
+        <button class="dr-band-item" data-band="r30_60" type="button">30–60 mL/min · CKD 3</button>
+        <button class="dr-band-item" data-band="r15_30" type="button">15–30 mL/min · CKD 4</button>
+        <button class="dr-band-item" data-band="r_lt15" type="button">&lt;15 mL/min · CKD 5</button>
+        <button class="dr-band-item" data-band="hd" type="button">HD · Hemodialisis</button>
+        <button class="dr-band-item" data-band="crrt" type="button">CRRT · Continuous RRT</button>
+        <div class="dr-egfr-sep"></div>
+        <div class="dr-egfr-input-wrap">
+          <div class="dr-egfr-input-label">Nilai eGFR</div>
+          <div class="dr-egfr-input-row">
+            <input type="number" id="egfr-input" placeholder="mis. 45" min="0" max="200" step="1" autocomplete="off">
+            <span class="egfr-unit-sm">mL/min</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="drug-search-wrap">
+      <input type="text" id="drug-search" placeholder="🔍 Cari..." autocomplete="off">
+      <span class="search-clear" id="search-clear">✕</span>
+    </div>
+  </div>
+  <div class="egfr-status" id="egfr-status"></div>
+  <!-- Count + sort -->
+  <div class="drug-meta">
+    <span id="drug-count">Memuat database...</span>
+    <select id="drug-sort">
+      <option value="name">A–Z Nama</option>
+      <option value="category">Kategori</option>
+      <option value="renal_flag">eGFR: Butuh Penyesuaian</option>
+    </select>
+  </div>
+</section>
+
+<!-- DRUG CARDS GRID -->
+<div class="dr-grid" id="drug-grid"></div>
+
+<!-- VASOPRESSOR FLOWCHART -->
+<section class="drug-panel-section" style="margin-top:24px">
+  <details class="drug-panel-details">
+    <summary class="drug-panel-summary">🫀 Algoritma Vasopressor — Pilihan per Tipe Syok</summary>
+    <div id="vasopressor-flowchart" class="panel-loading">Memuat flowchart...</div>
+  </details>
+</section>
+
+<!-- SEDATION LADDER -->
+<section class="drug-panel-section">
+  <details class="drug-panel-details">
+    <summary class="drug-panel-summary">💤 Tangga Sedasi ICU — SCCM PADIS 2018</summary>
+    <div id="sedation-ladder" class="panel-loading">Memuat tangga sedasi...</div>
+  </details>
+</section>
+
+<!-- Saweria bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · Drug Reference · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+
+<!-- Drug Detail Modal -->
+<div id="drug-overlay" class="dr-overlay" onclick="if(event.target===this)closeDrugModal()">
+  <div id="drug-modal" class="dr-modal">
+    <div id="drug-modal-content"></div>
+  </div>
+</div>
+
+<!-- Pump Calculator Popup -->
+<div id="pump-overlay" class="pump-overlay" onclick="if(event.target===this)closePumpPopup()">
+  <div class="pump-popup">
+    <div class="pump-popup-head">
+      <span class="pump-popup-title">⚡ Kalkulator Syringe Pump</span>
+      <button class="pump-close" onclick="closePumpPopup()" title="Tutup">✕</button>
+    </div>
+    <iframe id="pump-iframe" class="pump-iframe" src="" title="Kalkulator Syringe Pump"></iframe>
+  </div>
+</div>
+
+<script src="../assets/data/drugs.js"></script>
+<script src="../assets/js/scripts-drugs.js"></script>
+<script src="../assets/data/references.js"></script>
+<script src="../assets/js/scripts-citations.js"></script>
+<script src="../assets/js/nav.js"></script>
+<script>function closeDrugModal(){var o=document.getElementById('drug-overlay');if(o)o.classList.remove('open');document.body.style.overflow='';}</script>
+</body>
+</html>

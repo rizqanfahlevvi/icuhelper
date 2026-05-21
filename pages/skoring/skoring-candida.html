@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Candida Score — Cheatsheet Ventilator Dewasa</title>
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<style>
+.sko-row{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:7px;border:.5px solid var(--border);margin-bottom:5px;background:var(--bg)}
+.sko-row .sp{flex:1;font-size:12px}.sko-row .sp strong{display:block;font-size:13px;margin-bottom:1px}
+.sko-row .sp small{color:var(--muted);font-size:11px}.sko-row .spts{font-weight:700;font-size:16px;min-width:26px;text-align:right}
+.spts-0{color:var(--green)}.spts-1{color:var(--blue)}.spts-2{color:var(--amber)}.spts-3{color:var(--coral)}.spts-4{color:var(--red)}
+.sko-row.row-skip{opacity:.55;border-style:dashed}
+.big-total{font-size:52px;font-weight:700;line-height:1;margin-bottom:4px}
+.rass-item{display:flex;align-items:flex-start;gap:12px;padding:10px 12px;border-radius:7px;border:.5px solid var(--border);cursor:pointer;transition:all .15s;margin-bottom:5px;background:var(--card)}
+.rass-item:hover{border-color:var(--blue);background:var(--blue-bg)}
+.rass-item.sel-pos{border-color:var(--red)!important;background:var(--red-bg)!important}
+.rass-item.sel-zero{border-color:var(--green)!important;background:var(--green-bg)!important}
+.rass-item.sel-neg{border-color:var(--teal)!important;background:var(--teal-bg)!important}
+.rass-num{font-size:18px;font-weight:700;min-width:34px;text-align:center;padding-top:1px}
+.rass-label{font-weight:600;font-size:13px;margin-bottom:2px}.rass-desc{font-size:12px;color:var(--muted)}
+.cfs-item{display:flex;align-items:flex-start;gap:12px;padding:11px 13px;border-radius:7px;border:.5px solid var(--border);cursor:pointer;transition:all .15s;margin-bottom:5px;background:var(--card)}
+.cfs-item:hover{border-color:var(--blue);background:var(--blue-bg)}.cfs-item.sel-cfs{border-color:var(--blue)!important;background:var(--blue-bg)!important}
+.cfs-num{font-size:20px;font-weight:700;min-width:30px;color:var(--blue);padding-top:1px}
+.cfs-label{font-weight:600;font-size:13px;margin-bottom:2px}.cfs-desc{font-size:12px;color:var(--muted)}
+.cam-feature{background:var(--card);border:.5px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px}
+.cam-flabel{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);margin-bottom:5px}
+.cam-fq{font-size:13px;font-weight:600;margin-bottom:8px;line-height:1.5}
+.cam-fdetail{font-size:12px;color:var(--muted);margin-bottom:10px;line-height:1.6;padding:8px 10px;background:var(--bg);border-radius:6px;border:.5px solid var(--border)}
+.yn-row{display:flex;gap:8px;flex-wrap:wrap}
+.yn-btn{padding:6px 16px;border-radius:5px;border:.5px solid var(--border2);background:var(--bg);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s;color:var(--muted)}
+.yn-btn.y-active{background:var(--green-bg)!important;border-color:var(--green)!important;color:var(--green)!important}
+.yn-btn.n-active{background:var(--red-bg)!important;border-color:var(--red)!important;color:var(--red)!important}
+.ap-sec{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);border-bottom:.5px solid var(--blue-bg);padding-bottom:6px;margin:14px 0 10px}
+.opt-tag{font-size:10px;background:var(--amber-bg);color:var(--amber);border-radius:3px;padding:1px 5px;margin-left:4px;vertical-align:middle}
+</style>
+<script>
+/* Anti-FOUC: apply saved theme before paint */
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn" href="../kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="../ekg.html">📈 EKG</a>
+  <a class="tab-btn" href="../teori.html">📖 Teori</a>
+  <a class="tab-btn active" href="skoring-sofa.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+
+<nav class="subtab-bar">
+  <a class="subtab-btn" href="skoring-sofa.html">🔴 SOFA</a>
+  <a class="subtab-btn" href="skoring-bfs.html">🧓 BFS/CFS</a>
+  <a class="subtab-btn" href="skoring-cpis.html">🫁 CPIS</a>
+  <a class="subtab-btn" href="skoring-rass.html">😴 RASS</a>
+  <a class="subtab-btn" href="skoring-camicu.html">🧠 CAM-ICU</a>
+  <a class="subtab-btn" href="skoring-apache.html">⚕️ APACHE-II</a>
+  <a class="subtab-btn active" href="skoring-candida.html">🍄 Candida</a>
+</nav>
+
+<div class="calc-box">
+    <div class="calc-title"><span>🍄</span> Candida Score — Risiko Kandidiasis Invasif ICU</div>
+    <div class="info" style="font-size:12px;margin-bottom:14px">
+      <strong>📌 Indikasi:</strong> Pasien ICU non-neutropenik untuk menentukan perlu-tidaknya antijamur empiris. Berlaku sebelum diagnosis kandidiasis invasif terkonfirmasi.
+    </div>
+    <div style="max-width:520px">
+      <div class="subsec">Faktor Risiko — Centang yang Ada</div>
+      <label style="display:flex;align-items:center;gap:10px;padding:12px;border:.5px solid var(--border);border-radius:7px;cursor:pointer;margin-bottom:8px;font-size:13px;background:var(--card)">
+        <input type="checkbox" id="cs-surgery" style="width:16px;height:16px;accent-color:var(--blue);flex-shrink:0">
+        <div><strong>Operasi mayor</strong> saat masuk ICU <span style="font-size:11px;color:var(--muted);display:block">Termasuk operasi abdomen, thoraks, jantung terbuka</span></div>
+        <span style="margin-left:auto;font-weight:700;color:var(--blue);white-space:nowrap">+1 poin</span>
+      </label>
+      <label style="display:flex;align-items:center;gap:10px;padding:12px;border:.5px solid var(--border);border-radius:7px;cursor:pointer;margin-bottom:8px;font-size:13px;background:var(--card)">
+        <input type="checkbox" id="cs-tpn" style="width:16px;height:16px;accent-color:var(--blue);flex-shrink:0">
+        <div><strong>Nutrisi Parenteral Total (TPN/NPT)</strong> <span style="font-size:11px;color:var(--muted);display:block">Sedang mendapat TPN aktif</span></div>
+        <span style="margin-left:auto;font-weight:700;color:var(--blue);white-space:nowrap">+1 poin</span>
+      </label>
+      <label style="display:flex;align-items:center;gap:10px;padding:12px;border:.5px solid var(--border);border-radius:7px;cursor:pointer;margin-bottom:8px;font-size:13px;background:var(--card)">
+        <input type="checkbox" id="cs-colonize" style="width:16px;height:16px;accent-color:var(--blue);flex-shrink:0">
+        <div><strong>Kolonisasi Candida multifocal</strong> <span style="font-size:11px;color:var(--muted);display:block">Candida ditemukan di ≥2 tempat berbeda (sputum, urin, feses, luka, dll.)</span></div>
+        <span style="margin-left:auto;font-weight:700;color:var(--blue);white-space:nowrap">+1 poin</span>
+      </label>
+      <label style="display:flex;align-items:center;gap:10px;padding:12px;border:.5px solid var(--border);border-radius:7px;cursor:pointer;margin-bottom:8px;font-size:13px;background:var(--card)">
+        <input type="checkbox" id="cs-sepsis" style="width:16px;height:16px;accent-color:var(--red);flex-shrink:0">
+        <div><strong>Sepsis berat</strong> (Severe Sepsis) <span style="font-size:11px;color:var(--muted);display:block">Sepsis dengan disfungsi organ akut (setara Severe Sepsis pra-Sepsis-3; SOFA ≥2 + infeksi)</span></div>
+        <span style="margin-left:auto;font-weight:700;color:var(--red);white-space:nowrap">+2 poin</span>
+      </label>
+      <button class="calc-btn" style="margin-top:6px" onclick="calcCandida()">🍄 Hitung Candida Score</button>
+    </div>
+    <div id="candida-results" class="hidden" style="margin-top:16px"><div id="candida-result-content"></div></div>
+  </div>
+  <div class="warn" style="margin-bottom:10px">⚠️ Istilah "Severe Sepsis" mengacu pada terminologi pra-2016. Dalam praktik saat ini setara dengan Sepsis (Sepsis-3) dengan SOFA ≥2 akut dari baseline.</div>
+  <div class="theory-dropdown">
+    <button class="theory-btn" onclick="toggleTheory('candida-t')">📖 Teori Candida Score — Kandidiasis Invasif ICU (León et al. 2006, 2009) <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-candida-t">
+      <div class="subsec">Latar Belakang</div>
+      <p style="font-size:12px;margin-bottom:8px">Candida Score dikembangkan León et al. (2006) dari 1.699 pasien ICU Eropa dan divalidasi (2009) pada kohort lebih besar. Tujuannya mengidentifikasi pasien ICU non-neutropenik berisiko tinggi kandidiasis invasif yang mungkin mendapat manfaat dari terapi antijamur empiris (tanpa menunggu kultur darah positif).</p>
+      <div class="subsec">Interpretasi Skor</div>
+      <div class="table-wrapper">
+      <table>
+        <tr><th>Candida Score</th><th>Risiko</th><th>Rekomendasi</th></tr>
+        <tr><td>&lt;3</td><td>Rendah — kandidiasis invasif tidak mungkin</td><td>Antijamur empiris tidak direkomendasikan; pantau ketat</td></tr>
+        <tr><td>≥3</td><td>Tinggi — kandidiasis invasif mungkin</td><td>Pertimbangkan terapi antijamur empiris</td></tr>
+      </table>
+      </div>
+      <div class="subsec">Pilihan Antijamur Empiris (ESCMID/IDSA 2016)</div>
+      <ul>
+        <li><strong>Flukonazol 400 mg/hari:</strong> Pasien stabil, tidak ada riwayat azole sebelumnya, tidak curiga C. krusei/glabrata</li>
+        <li><strong>Ekinokandin</strong> (Caspofungin, Micafungin, Anidulafungin): Pasien berat/tidak stabil, riwayat azole, atau curiga C. glabrata/krusei</li>
+        <li>De-eskalasi ke Flukonazol bila pasien stabil dan kultur sensitif</li>
+        <li>Evaluasi ulang dalam 4–5 hari; hentikan jika kultur negatif dan kondisi membaik</li>
+        <li>Candida Score tidak menggantikan penilaian klinis; kultur darah tetap gold standard</li>
+      </ul>
+      <div class="subsec">Faktor Risiko Tambahan (Tidak Termasuk dalam Candida Score)</div>
+      <ul>
+        <li>Antibiotik spektrum luas &gt;7 hari · CVC (Kateter Vena Sentral) · Hemodialisis · Transplantasi organ solid · Bedah abdomen berulang / perforasi GI</li>
+      </ul>
+      <sup class="cite-ref" data-refs="leon2006,leon2009,pappas2016,kullberg2015,cornely2023"></sup>
+    </div>
+  </div>
+
+<script src="../../assets/js/scripts-skoring.js"></script>
+<script src="../../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../../assets/js/feedback.js"></script>
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+  <script src="../../assets/data/references.js"></script>
+  <script src="../../assets/js/scripts-citations.js"></script>
+</body>
+</html>

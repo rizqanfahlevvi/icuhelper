@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skoring ICU — ICU Helper</title>
+<link rel="stylesheet" href="../assets/css/styles.css">
+<script>
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+<nav class="tab-bar">
+  <a class="tab-btn" href="../index.html">🏠 Home</a>
+  <a class="tab-btn" href="kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="ekg.html">📈 EKG</a>
+  <a class="tab-btn" href="teori.html">📖 Teori</a>
+  <a class="tab-btn active" href="skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../referensi.html">📚 Referensi</a>
+</nav>
+
+<div class="section-header">
+  <span class="section-label">// Pilih Skoring ICU</span>
+  <div class="section-line"></div>
+</div>
+
+<div class="mod-grid">
+
+  <a class="mod-card" href="skoring/skoring-sofa.html">
+    <span class="mod-card-icon"><i data-lucide="clipboard-list" class="mod-card-icon"></i></span>
+    <div class="mod-card-title">SOFA Score</div>
+    <div class="mod-card-desc">Sequential Organ Failure Assessment — penilaian 6 organ (respirasi, koagulasi, hepar, kardiovaskular, SSP, renal), skor 0–24, prediksi mortalitas ICU</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-b">6 Organ</span>
+      <span class="tag tag-b">0–24 poin</span>
+      <span class="tag tag-g">Sepsis-3</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">delta-SOFA</span>
+    </div>
+  </a>
+
+  <a class="mod-card" href="skoring/skoring-apache.html">
+    <span class="mod-card-icon"><i data-lucide="monitor" class="mod-card-icon"></i></span>
+    <div class="mod-card-title">APACHE-II</div>
+    <div class="mod-card-desc">Acute Physiology and Chronic Health Evaluation II — 12 parameter fisiologis akut, usia, penyakit kronik, skor 0–71, prediksi mortalitas rumah sakit</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-b">12 Parameter</span>
+      <span class="tag tag-b">0–71 poin</span>
+      <span class="tag tag-o">Mortalitas</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">prediksi RS</span>
+    </div>
+  </a>
+
+  <a class="mod-card" href="skoring/skoring-rass.html">
+    <span class="mod-card-icon">💤</span>
+    <div class="mod-card-title">RASS — Sedasi & Agitasi</div>
+    <div class="mod-card-desc">Richmond Agitation-Sedation Scale, skala -5 (tidak responsif) hingga +4 (sangat agresif). Panduan titrasi sedasi PADIS 2018 dan evaluasi harian</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-b">-5 s/d +4</span>
+      <span class="tag tag-g">PADIS 2018</span>
+      <span class="tag tag-b">SAT</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">titrasi sedasi</span>
+    </div>
+  </a>
+
+  <a class="mod-card" href="skoring/skoring-camicu.html">
+    <span class="mod-card-icon">🧠</span>
+    <div class="mod-card-title">CAM-ICU — Delirium</div>
+    <div class="mod-card-desc">Confusion Assessment Method for the ICU — deteksi delirium 4 fitur: perubahan status mental akut, inatensi, pemikiran tidak terorganisir, perubahan kesadaran</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-o">4 Fitur</span>
+      <span class="tag tag-o">Delirium</span>
+      <span class="tag tag-g">PADIS</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">ABCDEF bundle</span>
+    </div>
+  </a>
+
+  <a class="mod-card" href="skoring/skoring-cpis.html">
+    <span class="mod-card-icon"><i data-lucide="settings" class="mod-card-icon"></i></span>
+    <div class="mod-card-title">CPIS — Pneumonia VAP</div>
+    <div class="mod-card-desc">Clinical Pulmonary Infection Score — 6 item (suhu, leukosit, sekret, PaO₂/FiO₂, radiografi, kultur), skrining VAP dan panduan terapi antibiotik</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-g">6 Item</span>
+      <span class="tag tag-b">VAP</span>
+      <span class="tag tag-b">Antibiotik</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">ERS 2022</span>
+    </div>
+  </a>
+
+  <a class="mod-card" href="skoring/skoring-bfs.html">
+    <span class="mod-card-icon">🧓</span>
+    <div class="mod-card-title">Bedside Frailty Scale (CFS)</div>
+    <div class="mod-card-desc">Clinical Frailty Scale 1–9 — penilaian kelemahan/kerapuhan pra-ICU, prediksi outcome, panduan keputusan eskalasi perawatan dan prognosis jangka panjang</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-b">1–9</span>
+      <span class="tag tag-o">Frailty</span>
+      <span class="tag tag-b">Prognosis</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">Flaatten 2024</span>
+    </div>
+  </a>
+
+  <a class="mod-card" href="skoring/skoring-candida.html">
+    <span class="mod-card-icon">🍄</span>
+    <div class="mod-card-title">Candida Score</div>
+    <div class="mod-card-desc">Risiko kandidemia invasif pada pasien ICU — nutrisi parenteral, operasi abdomen, kolonisasi multi-lokasi, syok septik. Panduan profilaksis antijamur</div>
+    <div class="mod-card-tags">
+      <span class="tag tag-g">Kandida</span>
+      <span class="tag tag-r">Invasif</span>
+      <span class="tag tag-b">Antijamur</span>
+    </div>
+    <div class="mod-card-footer">
+      <span class="mod-card-arrow">→ buka</span>
+      <span class="mod-card-meta">ESCMID 2023</span>
+    </div>
+  </a>
+
+</div>
+
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+
+<script src="../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../assets/js/feedback.js"></script>
+  <script src="../assets/data/references.js"></script>
+  <script src="../assets/js/scripts-citations.js"></script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fisiologi Ventilasi & Mekanika Paru — Cheatsheet Ventilator Dewasa</title>
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<script>
+/* Anti-FOUC: apply saved theme before paint */
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn" href="../kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="../ekg.html">📈 EKG</a>
+  <a class="tab-btn active" href="teori-impending.html">📖 Teori</a>
+  <a class="tab-btn" href="../skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+
+<nav class="subtab-bar">
+  <a class="subtab-btn" href="teori-impending.html">⚠️ Impending Gagal Napas</a>
+  <a class="subtab-btn" href="teori-gagalnapas.html">🫁 Gagal Napas</a>
+  <a class="subtab-btn active" href="teori-fisiologi.html">🔬 Fisiologi Ventilasi</a>
+  <a class="subtab-btn" href="teori-sepsis.html">🦠 Sepsis</a>
+  <a class="subtab-btn" href="teori-b1b6.html">📋 B1–B6</a>
+</nav>
+
+<div class="sec">Fisiologi Ventilasi & Mekanika Paru</div>
+
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('mekanikaparu')">📖 Compliance, Resistensi & Work of Breathing <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-mekanikaparu">
+      <div class="subsec">Compliance Paru (C)</div>
+      <p><strong>C = ΔV / ΔP</strong> (mL/cmH₂O) · Normal statis: 60–100 mL/cmH₂O · Normal dinamis: 40–80 mL/cmH₂O</p>
+      <table>
+        <tr><th>Kondisi</th><th>Compliance</th><th>Penyebab</th></tr>
+        <tr><td>ARDS</td><td>↓↓ (15–30)</td><td>Edema alveolar, kolaps, kekakuan paru</td></tr>
+        <tr><td>Fibrosis paru</td><td>↓↓</td><td>Jaringan fibrosa kaku</td></tr>
+        <tr><td>Edema paru</td><td>↓</td><td>Cairan meningkatkan kekakuan</td></tr>
+        <tr><td>PPOK/Emfisema</td><td>↑↑ (&gt;100)</td><td>Destruksi jaringan elastis, hiperinflasi</td></tr>
+        <tr><td>Obesitas</td><td>↓</td><td>Beban dinding dada, FRC rendah</td></tr>
+        <tr><td>Asites masif</td><td>↓</td><td>Tekanan abdominal ↑ → FRC ↓</td></tr>
+      </table>
+      <div class="subsec">Static vs Dynamic Compliance</div>
+      <ul>
+        <li><strong>Cstat = VT / (Pplat − PEEP)</strong> — mencerminkan compliance paru + dinding dada (tidak termasuk resistensi)</li>
+        <li><strong>Cdyn = VT / (PIP − PEEP)</strong> — termasuk resistensi jalan napas. Cdyn &lt; Cstat → ada komponen resistif (bronkospasme, sekret, ETT kecil)</li>
+        <li><strong>Driving pressure (DP):</strong> DP = Pplat − PEEP = VT / Crs → target DP ≤15 cmH₂O (Amato et al)</li>
+        <li><strong>Mechanical Power (MP):</strong> MP = 0.098 × RR × VT × [PIP − (ΔP/2) + PEEP] — energi yang diberikan ke paru per menit. Target MP &lt;17 J/mnt untuk proteksi paru.</li>
+      </ul>
+      <div class="subsec">Work of Breathing (WOB)</div>
+      <ul>
+        <li>Normal: 0.3–0.6 J/L. Pada gagal napas bisa meningkat 10–20×.</li>
+        <li>Otot napas normal mengkonsumsi &lt;5% total VO₂. Pada gagal napas berat: 30–50%.</li>
+        <li>Ventilasi mekanik mengambil alih WOB → mengurangi konsumsi O₂ otot napas → redistribusi DO₂ ke organ vital.</li>
+      </ul>
+      <sup class="cite-ref" data-refs="amato2015,gattinoni2016"></sup>
+    </div>
+  </div>
+
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('mode-theory')">📖 Mode Ventilasi — VC vs PC, SIMV vs AC, PSV <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-mode-theory">
+      <table>
+        <tr><th>Mode</th><th>Yang Dikontrol</th><th>Yang Bervariasi</th><th>Kegunaan Utama</th></tr>
+        <tr><td>VC-AC (Volume Control)</td><td>VT, RR minimum, Flow</td><td>PIP (tergantung compliance)</td><td>ARDS, kontrol VT ketat; monitoring Pplat mudah</td></tr>
+        <tr><td>PC-AC (Pressure Control)</td><td>PIP, RR minimum, Ti</td><td>VT (tergantung compliance)</td><td>Compliance sangat rendah; ARDS bila VC tidak cocok</td></tr>
+        <tr><td>SIMV-VC/PC</td><td>Rate mandatory + VT/PIP</td><td>Napas spontan di antara</td><td>Weaning bertahap; dikombinasi dengan PSV</td></tr>
+        <tr><td>PSV (Pressure Support)</td><td>Level PS (cmH₂O)</td><td>VT, RR (patient-triggered)</td><td>Weaning; spontaneous breathing preservation</td></tr>
+        <tr><td>CPAP</td><td>PEEP (tekanan baseline)</td><td>Semua parameter napas spontan</td><td>Post-ekstubasi, NIV ringan, SBT</td></tr>
+        <tr><td>PRVC/VC+ (Adaptive)</td><td>Target VT + batas PIP</td><td>PIP menyesuaikan compliance</td><td>Kombinasi keuntungan VC dan PC</td></tr>
+        <tr><td>APRV/BiPHASIC</td><td>P-high, P-low, T-high, T-low</td><td>VT, spontaneous breath</td><td>ARDS refrakter, rekruitmen alveoli</td></tr>
+      </table>
+      <ul style="margin-top:8px">
+        <li><strong>AC vs SIMV:</strong> AC — setiap napas pasien mendapat full support. SIMV — hanya napas mandatory di-support penuh. SIMV semakin jarang direkomendasikan sebagai mode weaning (Brochard et al — PSV lebih baik untuk mempersingkat weaning).</li>
+        <li><strong>Double triggering / breath stacking:</strong> Pada VC-AC, jika neural Ti &gt; mechanical Ti → pasien trigger napas kedua sebelum ekshalasi selesai → overdistensi. Solusi: perpanjang Ti atau ganti ke PC.</li>
+        <li><strong>Patient-Ventilator Asynchrony (PVA):</strong> Tersering: ineffective triggering, double triggering, flow starvation. PVA &gt;10% dari napas → outcome buruk.</li>
+        <li><strong>⚠️ APRV:</strong> Yoshida T et al. Am J Respir Crit Care Med 2019 — rekruitmen alveoli baik namun risiko P-SILI (Patient Self-Inflicted Lung Injury) pada effort napas spontan tinggi. Gunakan dengan pemantauan ketat effort napas.</li>
+      </ul>
+      <sup class="cite-ref" data-refs="brochard1994,boles2007"></sup>
+    </div>
+  </div>
+
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('peep-theory')">📖 PEEP — Fisiologi, Titrasi & FiO₂/PEEP Table ARDSNet <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-peep-theory">
+      <div class="subsec">Efek Fisiologis PEEP</div>
+      <ul>
+        <li><strong>↑ FRC:</strong> Membuka alveoli yang kolaps → ↑ area pertukaran gas → ↑ PaO₂</li>
+        <li><strong>↓ Shunt:</strong> Rekruitmen alveoli → V/Q mismatch berkurang</li>
+        <li><strong>↑ Afterload LV:</strong> ↑ tekanan intratorakal → ↓ venous return → ↓ preload. Beneficial pada edema paru kardiogenik, harmful pada hipovolemia.</li>
+        <li><strong>Risiko overdistensi:</strong> PEEP terlalu tinggi → alveoli yang sudah terbuka menjadi overdistensi → ↑ Pplat → ↑ driving pressure → VILI.</li>
+      </ul>
+      <div class="subsec">FiO₂/PEEP Table (ARDSNet Lower PEEP Strategy)</div>
+      <table>
+        <tr><th>FiO₂</th><td>0.30</td><td>0.40</td><td>0.40</td><td>0.50</td><td>0.50</td><td>0.60</td><td>0.70</td><td>0.70</td><td>0.80</td><td>0.90</td><td>0.90</td><td>1.0</td></tr>
+        <tr><th>PEEP (Lower)</th><td>5</td><td>5</td><td>8</td><td>8</td><td>10</td><td>10</td><td>10</td><td>12</td><td>14</td><td>14</td><td>16–18</td><td>18–24</td></tr>
+        <tr><th>PEEP (Higher)</th><td>5</td><td>8</td><td>10</td><td>10</td><td>12</td><td>14</td><td>14</td><td>14</td><td>16</td><td>18</td><td>20</td><td>22–24</td></tr>
+      </table>
+      <div class="subsec">Titrasi PEEP Lainnya</div>
+      <ul>
+        <li><strong>Best PEEP trial:</strong> Naikkan PEEP bertahap → monitor compliance statis (PEEP optimal = Cstat tertinggi)</li>
+        <li><strong>Esophageal balloon:</strong> Mengukur Pes (tekanan esofageal ≈ tekanan pleura) → hitung transpulmonary pressure (Ptp = Paw − Pes). Target Ptp ekspirasi 0–10 cmH₂O. EPVent-2 trial (2019): tidak menunjukkan penurunan mortalitas vs empirical.</li>
+        <li><strong>Electrical Impedance Tomography (EIT):</strong> Visualisasi real-time distribusi ventilasi → guided PEEP titration. Frerichs I et al. Thorax 2017;72(1):83–93 — EIT untuk monitoring distribusi ventilasi real-time dan guided PEEP titration: feasibility dan reproducibility pada pasien ICU.</li>
+        <li><strong>Lung Ultrasound (LUS):</strong> B-lines monitoring untuk panduan PEEP titrasi dan respons rekruitmen.</li>
+        <li><strong>LUNG SAFE (Bellani G et al. JAMA 2016;315:788)</strong> — survei global 50 negara, 459 ICU: 40% pasien ARDS tidak mendapat tidal volume protektif; driving pressure median &gt;15 cmH₂O di RS non-akademik. Menunjukkan gap besar antara evidence dan praktik klinis nyata.</li>
+      </ul>
+      <sup class="cite-ref" data-refs="ardsnet2000,brower2004,talmor2008,beitler2019,amato2015"></sup>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SUB: SEPSIS (BARU) ===== -->
+
+<script src="../../assets/js/scripts-teori.js"></script>
+<script src="../../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../../assets/js/feedback.js"></script>
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+  <script src="../../assets/data/references.js"></script>
+  <script src="../../assets/js/scripts-citations.js"></script>
+</body>
+</html>

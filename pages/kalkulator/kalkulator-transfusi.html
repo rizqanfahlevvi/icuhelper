@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator Transfusi Darah — Cheatsheet Ventilator Dewasa</title>
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<script>
+/* Anti-FOUC: apply saved theme before paint */
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn active" href="kalkulator-ibw.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="../ekg.html">📈 EKG</a>
+  <a class="tab-btn" href="../teori.html">📖 Teori</a>
+  <a class="tab-btn" href="../skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+
+<nav class="subtab-bar">
+  <a class="subtab-btn" href="kalkulator-ibw.html">⚖️ IBW & Parameter</a>
+  <a class="subtab-btn" href="kalkulator-drug.html">💊 Sedasi & Paralitik</a>
+  <a class="subtab-btn" href="kalkulator-pump.html">🔬 Syringe Pump</a>
+  <a class="subtab-btn" href="kalkulator-pf.html">📈 P/F & OI</a>
+  <a class="subtab-btn" href="kalkulator-renal.html">🫘 Renal</a>
+  <a class="subtab-btn" href="kalkulator-pulmo.html">🫁 Pulmo</a>
+  <a class="subtab-btn" href="kalkulator-electro.html">⚡ ElektroCorr</a>
+  <a class="subtab-btn" href="kalkulator-nlr.html">🧫 NLR</a>
+  <a class="subtab-btn active" href="kalkulator-transfusi.html">🩸 Transfusi</a>
+</nav>
+
+<!-- Panel Toggle -->
+  <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+    <button class="subtab-btn active" id="trx-tab-prc" onclick="switchTrxPanel('prc',this)">🔴 PRC</button>
+    <button class="subtab-btn" id="trx-tab-wb" onclick="switchTrxPanel('wb',this)">🫙 Whole Blood</button>
+    <button class="subtab-btn" id="trx-tab-ffp" onclick="switchTrxPanel('ffp',this)">🟡 FFP</button>
+    <button class="subtab-btn" id="trx-tab-tc" onclick="switchTrxPanel('tc',this)">🟠 Trombosit</button>
+    <button class="subtab-btn" id="trx-tab-cryo" onclick="switchTrxPanel('cryo',this)">❄️ Cryoprecipitate</button>
+  </div>
+
+  <!-- PRC -->
+  <div id="trx-panel-prc">
+    <div class="calc-box">
+      <div class="calc-title"><span>🔴</span> Packed Red Cells (PRC / Darah Merah Pekat)</div>
+      <div class="grid2" style="gap:10px">
+        <div>
+          <div class="input-row"><label>Hb aktual</label><input type="number" id="prc-hb" placeholder="cth: 6.5" step="0.1" min="0"><span class="unit">g/dL</span></div>
+          <div class="input-row"><label>Target Hb</label><input type="number" id="prc-hbt" placeholder="cth: 9.0" step="0.1" min="0"><span class="unit">g/dL</span></div>
+          <div class="input-row"><label>Berat badan</label><input type="number" id="prc-bb" placeholder="cth: 65"><span class="unit">kg</span></div>
+          <div class="input-row"><label>Jenis kelamin</label>
+            <select id="prc-sex"><option value="m">Laki-laki (EBV 70 mL/kg)</option><option value="f">Perempuan (EBV 65 mL/kg)</option></select>
+          </div>
+          <div class="input-row"><label>Premedikasi <span style="font-size:10px;color:var(--muted)">(opsional)</span></label>
+            <select id="prc-premed">
+              <option value="none">Tidak ada (Rutin)</option>
+              <option value="furosemide">Furosemide (Pencegahan TACO)</option>
+              <option value="diph_dexa">Diphenhydramine + Dexamethasone (Riwayat alergi transfusi)</option>
+              <option value="dexa">Dexamethasone saja</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <div class="info" style="font-size:12px;margin-top:4px">
+            <strong>Formula (k=4):</strong><br>
+            Volume PRC = ΔHb × BB × 4<br><br>
+            <strong>Trigger transfusi PRC:</strong><br>
+            Hb &lt;7 g/dL → transfusi pada umumnya<br>
+            Hb &lt;8 g/dL → ACS, post-op jantung<br>
+            Hb &lt;10 g/dL → gagal jantung simtomatik<br>
+            1 kolf PRC (250 mL) ≈ ↑1 g/dL Hb pada dewasa 70 kg
+            <span style="font-size:11px;color:var(--muted);display:block;margin-top:4px">Stainsby D. Br J Haematol 2006 · AABB 2016</span>
+          </div>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcPRC()">Hitung Kebutuhan PRC</button>
+      <div id="prc-results" class="hidden" style="margin-top:14px"><div id="prc-result-content"></div></div>
+    </div>
+  </div>
+
+  <!-- WB -->
+  <div id="trx-panel-wb" class="hidden">
+    <div class="calc-box">
+      <div class="calc-title"><span>🫙</span> Whole Blood (Darah Lengkap)</div>
+      <div class="grid2" style="gap:10px">
+        <div>
+          <div class="input-row"><label>Hb aktual</label><input type="number" id="wb-hb" placeholder="cth: 6.5" step="0.1" min="0"><span class="unit">g/dL</span></div>
+          <div class="input-row"><label>Target Hb</label><input type="number" id="wb-hbt" placeholder="cth: 9.0" step="0.1" min="0"><span class="unit">g/dL</span></div>
+          <div class="input-row"><label>Berat badan</label><input type="number" id="wb-bb" placeholder="cth: 65"><span class="unit">kg</span></div>
+        </div>
+        <div>
+          <div class="info" style="font-size:12px;margin-top:4px">
+            <strong>Formula (k=6):</strong><br>
+            Volume WB = ΔHb × BB × 6<br>
+            (WB Hct ≈ 38–45%, lebih rendah dari PRC)<br><br>
+            <strong>1 kolf WB ≈ 450 mL</strong><br>
+            Mengandung eritrosit, leukosit, trombosit, plasma, faktor koagulasi (jika fresh).<br>
+            Jarang tersedia di BDRS Indonesia — biasanya segera diproses menjadi komponen.
+            <span style="font-size:11px;color:var(--muted);display:block;margin-top:4px">AABB Technical Manual 20th ed. 2020</span>
+          </div>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcWB()">Hitung Kebutuhan WB</button>
+      <div id="wb-results" class="hidden" style="margin-top:14px"><div id="wb-result-content"></div></div>
+    </div>
+  </div>
+
+  <!-- FFP -->
+  <div id="trx-panel-ffp" class="hidden">
+    <div class="calc-box">
+      <div class="calc-title"><span>🟡</span> Fresh Frozen Plasma (FFP)</div>
+      <div class="grid2" style="gap:10px">
+        <div>
+          <div class="input-row"><label>Berat badan</label><input type="number" id="ffp-bb" placeholder="cth: 65"><span class="unit">kg</span></div>
+          <div class="input-row"><label>Indikasi</label>
+            <select id="ffp-indikasi">
+              <option value="10">Koagulopati + perdarahan (10 mL/kg)</option>
+              <option value="15">Koreksi INR standar (15 mL/kg)</option>
+              <option value="20">DIC aktif (20 mL/kg)</option>
+              <option value="30">Reversal cepat / perdarahan masif (30 mL/kg)</option>
+            </select>
+          </div>
+          <div class="input-row"><label>INR aktual <span style="font-size:10px;color:var(--muted)">(opsional)</span></label><input type="number" id="ffp-inr" placeholder="opsional" step="0.1" min="0"></div>
+        </div>
+        <div>
+          <div class="info" style="font-size:12px;margin-top:4px">
+            <strong>Dosis FFP: 10–30 mL/kg BB</strong><br><br>
+            <strong>Indikasi:</strong><br>
+            • PT/INR &gt;1.5× normal + perdarahan aktif<br>
+            • Reversal warfarin (jika PCC tidak tersedia)<br>
+            • DIC (rasio 1:1 dengan PRC pada perdarahan masif)<br>
+            • Defisiensi faktor multipel<br><br>
+            <strong>1 kolf FFP ≈ 200–250 mL</strong><br>
+            Gunakan dalam 4 jam setelah thaw. ABO compatible.
+            <span style="font-size:11px;color:var(--muted);display:block;margin-top:4px">Roback JD. Transfusion 2010;50:1227</span>
+          </div>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcFFP()">Hitung Kebutuhan FFP</button>
+      <div id="ffp-results" class="hidden" style="margin-top:14px"><div id="ffp-result-content"></div></div>
+    </div>
+  </div>
+
+  <!-- TC -->
+  <div id="trx-panel-tc" class="hidden">
+    <div class="calc-box">
+      <div class="calc-title"><span>🟠</span> Thrombocyte Concentrate (TC / Konsentrat Trombosit)</div>
+      <div class="grid2" style="gap:10px">
+        <div>
+          <div class="input-row"><label>Plt aktual</label><input type="number" id="tc-plt" placeholder="cth: 15" step="1" min="0"><span class="unit">×10³/μL</span></div>
+          <div class="input-row"><label>Target Plt</label><input type="number" id="tc-pltt" placeholder="cth: 50" step="1" min="0"><span class="unit">×10³/μL</span></div>
+          <div class="input-row"><label>Berat badan</label><input type="number" id="tc-bb" placeholder="cth: 65"><span class="unit">kg</span></div>
+          <div class="input-row"><label>Tipe produk</label>
+            <select id="tc-tipe">
+              <option value="rd">Random Donor (RD) — 1 unit ≈ 50–70 mL</option>
+              <option value="sda">Apheresis / Single Donor (SDA) — 1 kantong ≈ 250 mL</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <div class="info" style="font-size:12px;margin-top:4px">
+            <strong>Rule of thumb:</strong><br>
+            1 unit RD per 10 kg BB → ↑5.000–10.000/μL<br>
+            1 kantong Apheresis → ↑30.000–60.000/μL<br><br>
+            <strong>Trigger transfusi TC:</strong><br>
+            &lt;10.000 → profilaksis (stabil)<br>
+            &lt;20.000 → prosedur invasif minor<br>
+            &lt;50.000 → operasi umum<br>
+            &lt;100.000 → bedah saraf / mata<br>
+            <span style="font-size:11px;color:var(--muted);display:block;margin-top:4px">Slichter SJ. Hematology ASH 2007 · British Committee 2003</span>
+          </div>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcTC()">Hitung Kebutuhan Trombosit</button>
+      <div id="tc-results" class="hidden" style="margin-top:14px"><div id="tc-result-content"></div></div>
+    </div>
+  </div>
+
+  <!-- Cryo -->
+  <div id="trx-panel-cryo" class="hidden">
+    <div class="calc-box">
+      <div class="calc-title"><span>❄️</span> Cryoprecipitate (Kriopresipitat)</div>
+      <div class="grid2" style="gap:10px">
+        <div>
+          <div class="input-row"><label>Fibrinogen aktual</label><div class="input-unit-wrap"><input type="number" id="cryo-fib" placeholder="cth: 80" step="1" min="0"><button class="unit-toggle-btn" data-unit="cryo-fib" onclick="toggleKalcUnit('cryo-fib')">mg/dL</button></div></div>
+          <div class="input-row"><label>Target fibrinogen</label>
+            <select id="cryo-target">
+              <option value="150">150 mg/dL (umum / DIC)</option>
+              <option value="200">200 mg/dL (obstetrik / perdarahan masif)</option>
+              <option value="100">100 mg/dL (minimum)</option>
+            </select>
+          </div>
+          <div class="input-row"><label>Berat badan</label><input type="number" id="cryo-bb" placeholder="cth: 65"><span class="unit">kg</span></div>
+        </div>
+        <div>
+          <div class="info" style="font-size:12px;margin-top:4px">
+            <strong>Kandungan 1 kolf Kriopresipitat:</strong><br>
+            Fibrinogen: 150–250 mg (rata-rata 200 mg)<br>
+            Faktor VIII: 80–120 IU<br>
+            vWF, Faktor XIII, Fibronektin<br>
+            Volume: ±15–20 mL/kolf<br><br>
+            <strong>Indikasi:</strong><br>
+            • Fibrinogen &lt;150 mg/dL + perdarahan aktif<br>
+            • DIC dengan hipofibrinogenemia<br>
+            • Perdarahan obstetrik (target ≥200 mg/dL)
+            <span style="font-size:11px;color:var(--muted);display:block;margin-top:4px">Spahn DR. Crit Care 2019;23:98 · WOMAN Trial. Lancet 2017</span>
+          </div>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcCryo()">Hitung Kebutuhan Cryoprecipitate</button>
+      <div id="cryo-results" class="hidden" style="margin-top:14px"><div id="cryo-result-content"></div></div>
+    </div>
+  </div>
+
+  <!-- Tabel Referensi Produk -->
+  <div class="card" style="margin-top:12px">
+    <div class="subsec">📋 Referensi Cepat — Spesifikasi Produk Darah (1 kolf)</div>
+    <table>
+      <tr><th>Produk</th><th>Volume</th><th>Kandungan Utama</th><th>Masa Simpan</th><th>Catatan</th></tr>
+      <tr><td><strong>PRC</strong></td><td>±250 mL</td><td>Eritrosit, Hct 55–80%</td><td>35–42 hari (4°C)</td><td>ABO &amp; Rh compatible</td></tr>
+      <tr><td><strong>Whole Blood</strong></td><td>±450 mL</td><td>Eritrosit + plasma + trombosit + faktor</td><td>21–35 hari (4°C)</td><td>Jarang tersedia di BDRS</td></tr>
+      <tr><td><strong>FFP</strong></td><td>±200–250 mL</td><td>Semua faktor koagulasi</td><td>12 bulan (−20°C)</td><td>Gunakan ≤4 jam setelah thaw</td></tr>
+      <tr><td><strong>TC Random Donor</strong></td><td>±50–70 mL/unit</td><td>≥5.5×10¹⁰ trombosit/unit</td><td>5 hari (22°C, agitasi)</td><td>4–6 unit = 1 pooled dose dewasa</td></tr>
+      <tr><td><strong>TC Apheresis (SDA)</strong></td><td>±200–300 mL</td><td>≥3×10¹¹ trombosit</td><td>5 hari (22°C, agitasi)</td><td>Setara 4–6 unit RD</td></tr>
+      <tr><td><strong>Cryoprecipitate</strong></td><td>±15–20 mL</td><td>Fibrinogen 150–250 mg, Fak VIII, vWF</td><td>12 bulan (−20°C)</td><td>Gunakan ≤6 jam setelah thaw</td></tr>
+    </table>
+  </div>
+
+  <!-- ===== THEORY: Premedikasi Transfusi ===== -->
+  <div class="theory-dropdown" style="margin-top:6px">
+    <button class="theory-btn" onclick="toggleTheory('premed-trx')">📖 Premedikasi Transfusi — Indikasi & Evidence <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-premed-trx">
+      <div class="subsec">Rutin Premedikasi: Perlu atau Tidak?</div>
+      <ul>
+        <li><strong>TIDAK DISARANKAN SECARA RUTIN:</strong> Berbagai studi klinis menunjukkan bahwa premedikasi rutin dengan antipiretik (Paracetamol) atau antihistamin (Diphenhydramine) tidak menurunkan insiden reaksi transfusi (FNHTR) secara bermakna pada pasien tanpa riwayat reaksi sebelumnya.</li>
+      </ul>
+      <div class="subsec">Indikasi Khusus Premedikasi</div>
+      <table>
+        <tr><th>Kondisi Pasien</th><th>Obat Pilihan</th><th>Rasional & Evidence</th></tr>
+        <tr><td><strong>Risiko TACO (Transfusion-Associated Circulatory Overload)</strong></td><td>Furosemide 10–20 mg IV (di sela-sela transfusi atau pre)</td><td>Pada pasien lansia, gagal jantung kongestif (CHF), gagal ginjal, atau transfusi masif dengan volume besar. Mencegah edema paru kardiogenik.</td></tr>
+        <tr><td><strong>Riwayat Reaksi Alergi Ringan (Urtikaria)</strong></td><td>Diphenhydramine 25–50 mg IV/PO + Paracetamol</td><td>Mencegah reaksi alergi yang dimediasi histamin pada pasien yang sudah diketahui memiliki antibodi terhadap protein plasma donor.</td></tr>
+        <tr><td><strong>Riwayat Reaksi Alergi Sedang-Berat</strong></td><td>Dexamethasone 4–10 mg IV + Diphenhydramine</td><td>Menekan respons imunologis secara lebih luas. Pasien seperti ini juga direkomendasikan menerima <em>Washed Red Blood Cells</em> jika memungkinkan.</td></tr>
+      </table>
+      <div class="warn" style="font-size:12px;margin-top:10px">
+        <strong>⚠ Penting:</strong> Jangan mencampur obat apa pun ke dalam kantong darah. Berikan obat melalui jalur intravena yang berbeda atau flush jalur sebelum dan sesudahnya dengan NaCl 0.9%.
+      </div>
+      <sup class="cite-ref" data-refs="aabb2020"></sup>
+    </div>
+  </div>
+
+<script src="../../assets/js/scripts-kalkulator-transfusi.js"></script>
+<script src="../../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../../assets/js/feedback.js"></script>
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+  <script src="../../assets/data/references.js"></script>
+  <script src="../../assets/js/scripts-citations.js"></script>
+</body>
+</html>

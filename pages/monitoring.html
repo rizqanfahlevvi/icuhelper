@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monitoring — Cheatsheet Ventilator Dewasa</title>
+<link rel="stylesheet" href="../assets/css/styles.css">
+<script>
+/* Anti-FOUC: apply saved theme before paint */
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../index.html">🏠 Home</a>
+  <a class="tab-btn" href="kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="setting.html">🫁 Setting</a>
+  <a class="tab-btn active" href="monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="ekg.html">📈 EKG</a>
+  <a class="tab-btn" href="teori.html">📖 Teori</a>
+  <a class="tab-btn" href="skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../referensi.html">📚 Referensi</a>
+</nav>
+
+<div class="jump-nav">
+  <span class="jump-nav-label">Lompat ke:</span>
+  <a class="jump-link" href="#dope">⚡ DOPE</a>
+  <a class="jump-link" href="#targets">🎯 Target Parameter</a>
+  <a class="jump-link" href="#komplikasi">⚠️ Komplikasi</a>
+  <a class="jump-link" href="#waveform">📈 Waveform</a>
+</div>
+
+<div class="sec" id="dope">Troubleshooting Cepat — DOPE Mnemonic</div>
+<div class="grid4">
+  <div class="cc red">
+    <div class="ct">D — Displacement</div>
+    <ul>
+      <li>ETT keluar / masuk bronkus kanan</li>
+      <li>Cek: suara napas bilateral</li>
+      <li>Cek posisi ETT di CXR (tip T2–T3)</li>
+      <li>Kedalaman oral ≈ TB(cm)/10 + 4</li>
+    </ul>
+  </div>
+  <div class="cc amber">
+    <div class="ct">O — Obstruction</div>
+    <ul>
+      <li>Sekret, bite block tidak terpasang, kinking ETT</li>
+      <li>SpO₂ ↓, PIP ↑, VT ↓</li>
+      <li>Suction in-line; cek sirkuit</li>
+      <li>Jika buntu total: lepas ETT, BVM manual</li>
+    </ul>
+  </div>
+  <div class="cc purple">
+    <div class="ct">P — Pneumothorax</div>
+    <ul>
+      <li>SpO₂ drop mendadak + TD drop</li>
+      <li>Suara napas menghilang unilateral</li>
+      <li>PIP ↑↑, deviasi trakea (tension)</li>
+      <li>Jarum dekompresi ICS 2 MCL segera</li>
+    </ul>
+  </div>
+  <div class="cc teal">
+    <div class="ct">E — Equipment</div>
+    <ul>
+      <li>Sirkuit bocor, humidifier mati</li>
+      <li>Ventilator malfunction / listrik padam</li>
+      <li>Cek semua koneksi sirkuit</li>
+      <li>Backup: BVM selalu di sisi tempat tidur</li>
+    </ul>
+  </div>
+</div>
+
+<div class="sec" id="targets">Target Parameter Dewasa per Kondisi</div>
+<div class="card">
+  <table>
+    <tr><th>Kondisi</th><th>pH</th><th>PaO₂ (mmHg)</th><th>PaCO₂ (mmHg)</th><th>SpO₂</th><th>Pplat</th></tr>
+    <tr><td>Normal / Post-op</td><td>7.35–7.45</td><td>80–100</td><td>35–45</td><td>94–98%</td><td>&lt;25</td></tr>
+    <tr><td>ARDS Mild</td><td>7.30–7.45</td><td>55–80</td><td>35–50 <span class="badge ba">perm</span></td><td>88–95%</td><td>&lt;30</td></tr>
+    <tr><td>ARDS Moderate-Severe</td><td>&gt;7.20</td><td>55–80</td><td>45–65 <span class="badge ba">perm</span></td><td>88–95%</td><td>≤28</td></tr>
+    <tr><td>PPOK Eksaserbasi</td><td>7.25–7.40</td><td>55–70</td><td>Baseline ↑ <span class="badge ba">perm</span></td><td>88–92%</td><td>&lt;30</td></tr>
+    <tr><td>Asma Berat</td><td>&gt;7.20</td><td>60–90</td><td>45–70 <span class="badge ba">perm</span></td><td>94–98%</td><td>&lt;30</td></tr>
+    <tr><td>Sepsis/Pneumonia</td><td>7.30–7.45</td><td>60–100</td><td>35–50</td><td>92–96%</td><td>&lt;30</td></tr>
+    <tr><td>GBS/MG</td><td>7.35–7.45</td><td>80–100</td><td>35–45</td><td>≥95%</td><td>&lt;28</td></tr>
+    <tr><td>Edema Paru Kardiogenik</td><td>7.35–7.45</td><td>70–100</td><td>35–45</td><td>92–96%</td><td>&lt;25</td></tr>
+  </table>
+</div>
+
+<div class="sec" id="komplikasi">Komplikasi Ventilasi Mekanik</div>
+<div class="grid3">
+  <div class="cc red">
+    <div class="ct">VILI (Ventilator Induced Lung Injury)</div>
+    <p><strong>Mekanisme:</strong> Volutrauma, barotrauma, atelectrauma, biotrauma</p>
+    <p style="margin-top:6px"><strong>Pencegahan:</strong> VT 6 mL/kg IBW, Pplat ≤30, driving pressure ≤15, PEEP titrasi optimal</p>
+  </div>
+  <div class="cc amber">
+    <div class="ct">VAP (Ventilator-Associated Pneumonia)</div>
+    <p><strong>Definisi:</strong> Pneumonia &gt;48 jam setelah intubasi</p>
+    <p style="margin-top:6px"><strong>Pencegahan:</strong> Bundle VAP (HOB 30°, oral hygiene CHX, SAT/SBT daily, cuff pressure 20–30)</p>
+  </div>
+  <div class="cc purple">
+    <div class="ct">VIDD (Diaphragm Dysfunction)</div>
+    <p><strong>Mekanisme:</strong> Controlled ventilation → disuse atrophy diafragma dalam 18–69 jam</p>
+    <p style="margin-top:6px"><strong>Pencegahan:</strong> Preserve spontaneous breathing effort; hindari deep sedation lama; gunakan PSV mode</p>
+  </div>
+</div>
+
+<div class="sec" id="waveform">Monitoring Waveform & Loop</div>
+<div class="card">
+  <div class="grid2">
+    <div>
+      <h3>Deteksi Auto-PEEP</h3>
+      <ul>
+        <li>Flow-time grafik: garis flow tidak kembali ke nol sebelum napas berikutnya</li>
+        <li>Ekspiratory hold (0.5–1 detik): baca auto-PEEP dari display</li>
+        <li>Klinis: PIP ↑, TD drop, sinkronisasi buruk</li>
+        <li>Aksi: ↓ RR, ↓ I:E (perpanjang ekspirasi), ↑ flow rate, bronkodilator</li>
+      </ul>
+    </div>
+    <div>
+      <h3>P-V Loop Abnormal</h3>
+      <ul>
+        <li><strong>Upper inflection point:</strong> Overdistensi → turunkan VT/Pplat</li>
+        <li><strong>Lower inflection point:</strong> Atelektasis → naikkan PEEP di atas LIP</li>
+        <li><strong>Penduluft:</strong> Alveoli terbuka-tutup siklik → ubah PEEP</li>
+        <li><strong>Beaked loop:</strong> Air trapping/auto-PEEP pada asma/PPOK</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/scripts-monitoring.js"></script>
+<script src="../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../assets/js/feedback.js"></script>
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+  <script src="../assets/data/references.js"></script>
+  <script src="../assets/js/scripts-citations.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,591 @@
+﻿<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sepsis — Teori & Tatalaksana — Cheatsheet Ventilator Dewasa</title>
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<script>
+/* Anti-FOUC: apply saved theme before paint */
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn" href="../kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="../ekg.html">📈 EKG</a>
+  <a class="tab-btn active" href="teori-impending.html">📖 Teori</a>
+  <a class="tab-btn" href="../skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+
+<nav class="subtab-bar">
+  <a class="subtab-btn" href="teori-impending.html">⚠️ Impending Gagal Napas</a>
+  <a class="subtab-btn" href="teori-gagalnapas.html">🫁 Gagal Napas</a>
+  <a class="subtab-btn" href="teori-fisiologi.html">🔬 Fisiologi Ventilasi</a>
+  <a class="subtab-btn active" href="teori-sepsis.html">🦠 Sepsis</a>
+  <a class="subtab-btn" href="teori-b1b6.html">📋 B1–B6</a>
+</nav>
+
+<div class="sec">Sepsis — Teori, Diagnosis & Tatalaksana Komprehensif</div>
+
+  <!-- DEFINISI BOX -->
+  <div class="cc red">
+    <div class="ct">⚠️ Definisi Sepsis (Sepsis-3, JAMA 2016) — Berlaku Internasional & Nasional</div>
+    <div class="grid2" style="margin-top:8px">
+      <div>
+        <p><strong>🔴 Sepsis:</strong></p>
+        <p style="color:var(--text);font-size:13px">Disfungsi organ yang mengancam jiwa akibat respons tubuh yang tidak terkontrol terhadap infeksi.<br>
+        <strong>Kriteria:</strong> Dugaan/bukti infeksi + <strong>SOFA ≥2 (akut)</strong> dari baseline</p>
+      </div>
+      <div>
+        <p><strong>🔴🔴 Syok Septik:</strong></p>
+        <p style="color:var(--text);font-size:13px">Subset sepsis dengan kelainan sirkulasi dan metabolisme seluler yang berat → risiko kematian lebih tinggi.<br>
+        <strong>Kriteria:</strong> Sepsis + <strong>vasopressor untuk MAP ≥65</strong> + <strong>laktat &gt;2 mmol/L</strong> meski resusitasi adekuat</p>
+      </div>
+    </div>
+    <p style="margin-top:8px;color:var(--text);font-size:13px"><strong>⚠️ Perhatian:</strong> Sepsis-3 menghapus konsep SIRS sebagai kriteria diagnostic. SIRS terlalu sensitif namun tidak spesifik. <em>Infeksi + SOFA ≥2 adalah standar saat ini.</em></p>
+    <p style="margin-top:6px;font-size:12px"><em>📚 Singer M et al. The Third International Consensus Definitions for Sepsis and Septic Shock (Sepsis-3). JAMA 2016;315(8):801–810 · PPK Sepsis PERDICI/PAPDI 2022 · Kemenkes RI — Pedoman Nasional Pelayanan Kedokteran Sepsis 2022</em></p>
+  </div>
+
+  <!-- qSOFA & SOFA SCREENING -->
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('sep-qsofa')">📖 Screening: qSOFA & SOFA Score pada Sepsis <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-sep-qsofa">
+      <div class="subsec">qSOFA (Quick SOFA) — Bedside Screening di Luar ICU</div>
+      <p>Tiga kriteria, masing-masing bernilai 1 poin. <strong>qSOFA ≥2 → curiga sepsis → ukur SOFA lengkap + laktat.</strong></p>
+      <table>
+        <tr><th>Kriteria qSOFA</th><th>Abnormal</th><th>Skor</th></tr>
+        <tr><td>Altered mentation (GCS &lt;15)</td><td>GCS menurun dari baseline</td><td>1</td></tr>
+        <tr><td>Respiratory Rate</td><td>≥22 x/menit</td><td>1</td></tr>
+        <tr><td>Systolic Blood Pressure</td><td>≤100 mmHg</td><td>1</td></tr>
+      </table>
+      <p style="margin-top:8px"><strong>Limitasi qSOFA (2022–2024):</strong> Sensitivitas rendah (51–65%) → jangan digunakan sebagai satu-satunya kriteria eksklusi sepsis. NEWS-2 atau SIRS lebih sensitif untuk skrining awal.</p>
+
+      <div class="subsec" style="margin-top:14px">SOFA Score — Konfirmasi Disfungsi Organ di ICU</div>
+      <table>
+        <tr><th>Sistem Organ</th><th>Parameter</th><th>Skor 1</th><th>Skor 2</th><th>Skor 3</th><th>Skor 4</th></tr>
+        <tr><td>Respirasi</td><td>P/F ratio (mmHg)</td><td>300–400</td><td>200–299</td><td>100–199 + VM</td><td>&lt;100 + VM</td></tr>
+        <tr><td>Koagulasi</td><td>Trombosit (×10³/μL)</td><td>100–149</td><td>50–99</td><td>20–49</td><td>&lt;20</td></tr>
+        <tr><td>Hepar</td><td>Bilirubin (mg/dL)</td><td>1.2–1.9</td><td>2.0–5.9</td><td>6.0–11.9</td><td>≥12</td></tr>
+        <tr><td>Kardiovaskular</td><td>MAP/Vasopressor</td><td>MAP &lt;70</td><td>Dopa ≤5 / Dobu</td><td>Dopa 5–15 / Epi ≤0.1 / NE ≤0.1</td><td>Dopa &gt;15 / Epi/NE &gt;0.1</td></tr>
+        <tr><td>SSP</td><td>GCS</td><td>13–14</td><td>10–12</td><td>6–9</td><td>&lt;6</td></tr>
+        <tr><td>Renal</td><td>Kreatinin (mg/dL)</td><td>1.2–1.9</td><td>2.0–3.4</td><td>3.5–4.9 / UO &lt;500mL/hr</td><td>≥5 / UO &lt;200mL/hr</td></tr>
+      </table>
+      <p style="margin-top:8px"><strong>SOFA ≥2 akut</strong> dari baseline = definisi sepsis. <strong>ΔSOFA ≥2</strong> dalam 24 jam = memburuk.</p>
+      <p><strong>Mortalitas berdasarkan SOFA total:</strong> 0–6: &lt;10% · 7–9: ~15–20% · 10–12: ~40% · ≥13: &gt;80%</p>
+      <sup class="cite-ref" data-refs="singer2016,seymour2016,raith2017,freund2017"></sup>
+    </div>
+  </div>
+
+  <!-- EPIDEMIOLOGI & PATOFISIOLOGI -->
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('sep-patofis')">📖 Epidemiologi & Patofisiologi Sepsis <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-sep-patofis">
+      <div class="subsec">Epidemiologi</div>
+      <ul>
+        <li><strong>Global (2020):</strong> ~48,9 juta kasus sepsis/tahun; 11 juta kematian (19.7% dari kematian global). GBD 2017 Study.</li>
+        <li><strong>Indonesia:</strong> Insidens ICU: 30–40% pasien ICU mengalami sepsis. Mortalitas syok septik di Indonesia: 40–70% (PAPDI/PERDICI 2022).</li>
+        <li><strong>Sumber infeksi terbanyak:</strong> Paru (35–50%), abdomen (20–25%), saluran kemih (15–20%), kulit (5–10%), SSP (5%).</li>
+        <li><strong>Patogen terbanyak di Indonesia:</strong> Gram negatif (Klebsiella, E. coli, Acinetobacter); MRSA meningkat; Candida pada immunocompromised.</li>
+      </ul>
+      <div class="subsec">Patofisiologi — Cascade Sepsis</div>
+      <table>
+        <tr><th>Tahap</th><th>Proses</th><th>Mediator Utama</th><th>Manifestasi Klinis</th></tr>
+        <tr><td><strong>1. Pengenalan Patogen</strong></td><td>PAMPs (LPS, peptidoglikan) berikatan dengan PRRs (TLR-4, NLR) di sel imun</td><td>Makrofag, neutrofil, sel dendritik</td><td>Demam, leukositosis/leukopenia</td></tr>
+        <tr><td><strong>2. Respons Inflamasi Sistemik</strong></td><td>Aktivasi NF-κB → sitokin pro-inflamasi berlebih (cytokine storm)</td><td>TNF-α, IL-1β, IL-6, IL-8, IFN-γ</td><td>SIRS, vasodilatasi, demam tinggi</td></tr>
+        <tr><td><strong>3. Disfungsi Endotel</strong></td><td>Sitokin merusak endotel → permeabilitas ↑ → kebocoran kapiler</td><td>Thrombin, PAF, VEGF</td><td>Edema, hipoalbuminemia, third-spacing</td></tr>
+        <tr><td><strong>4. Koagulopati</strong></td><td>Aktivasi kaskade koagulasi + hambatan fibrinolisis → microthrombi</td><td>Trombin, fibrin, PAI-1</td><td>DIC, trombositopenia, purpura fulminans</td></tr>
+        <tr><td><strong>5. Disfungsi Mitokondria</strong></td><td>Oksigen tidak dapat digunakan oleh sel (cytopathic hypoxia)</td><td>NO berlebih, ROS</td><td>Laktat ↑ meski DO₂ cukup</td></tr>
+        <tr><td><strong>6. MODS</strong></td><td>Akumulasi kegagalan organ → spiral kematian</td><td>—</td><td>SOFA ↑, ARDS, AKI, ensefalopati</td></tr>
+      </table>
+      <div class="subsec">Syok Distributif pada Sepsis</div>
+      <ul>
+        <li><strong>Vasodilatasi:</strong> NO berlebih → ↓ SVR → ↓ MAP meski CO awal ↑ (warm shock)</li>
+        <li><strong>Hipovolemia relatif:</strong> Kebocoran kapiler → volume intravaskular ↓</li>
+        <li><strong>Disfungsi miokard:</strong> Sitokin (TNF-α, IL-1β) → depresi kontraktilitas → CO ↓ pada fase lanjut</li>
+        <li><strong>Distribusi aliran darah:</strong> Arteriovenous shunting → laktat ↑ meski MAP terkontrol</li>
+      </ul>
+      <sup class="cite-ref" data-refs="singer2016,rudd2020,hotchkiss2016"></sup>
+    </div>
+  </div>
+
+  <!-- BUNDLE SSC 2021/2024 -->
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('sep-bundle')">📖 Sepsis Bundle — SSC 2021 & Update 2024 (1-Hour Bundle) <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-sep-bundle">
+      <div class="cc amber" style="margin-bottom:10px">
+        <div class="ct">⏱️ 1-Hour Bundle Sepsis (SSC 2021) — LAKUKAN DALAM 1 JAM PERTAMA</div>
+        <p style="color:var(--text)">Studi menunjukkan setiap jam keterlambatan → mortalitas ↑ 7%. Bundle ini harus dimulai segera setelah diagnosis dicurigai.</p>
+      </div>
+      <table>
+        <tr><th>#</th><th>Aksi</th><th>Detail</th><th>Rekomendasi SSC</th></tr>
+        <tr>
+          <td><strong>1</strong></td>
+          <td>🩸 Ukur Laktat</td>
+          <td>Laktat serum/darah vena. Re-ukur dalam 2 jam jika laktat awal &gt;2 mmol/L. Target laktat &lt;2 mmol/L sebagai tanda resusitasi adekuat.</td>
+          <td><span class="badge bg">Kuat</span></td>
+        </tr>
+        <tr>
+          <td><strong>2</strong></td>
+          <td>🏺 Kultur Darah</td>
+          <td>Ambil 2 set kultur darah (aerob + anaerob) SEBELUM antibiotik. Kultur lain sesuai sumber (urin, BAL, liquor). Jangan tunda AB lebih dari 45 menit untuk ambil kultur.</td>
+          <td><span class="badge bg">Kuat</span></td>
+        </tr>
+        <tr>
+          <td><strong>3</strong></td>
+          <td>💊 Antibiotik Broad-Spectrum</td>
+          <td>Berikan antibiotik empiris SEBELUM 1 jam (lebih cepat lebih baik). Pilih sesuai sumber dugaan, pola lokal, dan faktor risiko resistensi (MRSA, ESBL, KPC).</td>
+          <td><span class="badge br">Kuat — Tingkat Bukti Tinggi</span></td>
+        </tr>
+        <tr>
+          <td><strong>4</strong></td>
+          <td>💧 Resusitasi Cairan</td>
+          <td>Kristaloid 30 mL/kg IV dalam 3 jam pertama jika hipotensi atau laktat ≥4 mmol/L. Nilai respons cairan sebelum bolus lanjutan (PLR, VTI, pulse pressure variasi).</td>
+          <td><span class="badge ba">Sedang</span></td>
+        </tr>
+        <tr>
+          <td><strong>5</strong></td>
+          <td>💊 Vasopressor</td>
+          <td>Jika MAP &lt;65 selama/setelah resusitasi → mulai norepinefrin. Target MAP ≥65 mmHg (individualisasi: MAP ≥80 pada hipertensi kronik).</td>
+          <td><span class="badge br">Kuat</span></td>
+        </tr>
+      </table>
+
+      <div class="subsec" style="margin-top:14px">Update SSC 2024 — Perubahan Penting</div>
+      <ul>
+        <li><strong>Cairan lebih restriktif (CLASSIC trial 2022):</strong> Resusitasi restriktif (1 L/jam maks dalam 6 jam setelah stabilisasi) vs liberal → mortalitas tidak berbeda; liberal lebih banyak efek samping (edema, AKI). Pertimbangkan guided resuscitation setelah stabilisasi awal.</li>
+        <li><strong>Penekanan guided resuscitation:</strong> Gunakan dynamic predictor (PLR, VTI, End-expiratory occlusion test) — bukan CVP statik — untuk panduan pemberian cairan lanjutan.</li>
+        <li><strong>Laktat-guided therapy:</strong> Target normalisasi laktat (&lt;2 mmol/L) dalam 6 jam lebih baik daripada target ScvO₂ (ANDROMEDA-SHOCK 2018).</li>
+        <li><strong>Antibiotik de-eskalasi 48–72 jam:</strong> Setelah kultur tersedia → narrowing spectrum. Procalcitonin (PCT) membantu panduan durasi (≥ 80% penurunan dari puncak → stop AB).</li>
+        <li><strong>SSC 2024 — Pembaruan Kunci (Evans L et al. Intensive Care Med / Crit Care Med 2024):</strong> Rekomendasi steroid diperketat — hidrokortison hanya jika NE ≥0.25 μg/kg/mnt setelah resusitasi adekuat (lebih ketat dari panduan sebelumnya). HFNC dapat dipertimbangkan sebagai oksigenasi awal pada sepsis dengan gagal napas ringan-sedang sebelum intubasi. Target normalisasi laktat &lt;2 mmol/L dalam 6 jam tetap direkomendasikan sebagai penanda resusitasi.</li>
+      </ul>
+      <sup class="cite-ref" data-refs="evans2021,evans2024,hjortrup2022,hernandez2019,timsit2020"></sup>
+    </div>
+  </div>
+
+  <!-- ANTIBIOTIK EMPIRIS -->
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('sep-ab')">📖 Antibiotik Empiris Sepsis — Berdasarkan Sumber Infeksi <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-sep-ab">
+      <div class="warn">⚠️ Selalu sesuaikan dengan pola kuman & sensitivitas lokal (antibiogram institusi). Deeskalasi dalam 48–72 jam berdasarkan kultur.</div>
+      <table>
+        <tr><th>Sumber Infeksi</th><th>Patogen Dugaan</th><th>Pilihan AB Empiris Dewasa</th><th>Alternatif/MRSA Risk</th></tr>
+        <tr>
+          <td><strong>Paru (CAP berat)</strong></td>
+          <td>S. pneumoniae, H. influenzae, Legionella, Mycoplasma</td>
+          <td>Ceftriaxone 1–2 g IV/24 jam + Azithromycin 500 mg IV/24 jam<br><em>atau</em> Moxifloxacin 400 mg IV/24 jam (monoterapi)</td>
+          <td>Jika MRSA risk: + Vancomycin 15–20 mg/kg/8–12 jam</td>
+        </tr>
+        <tr>
+          <td><strong>Paru (HAP/VAP)</strong></td>
+          <td>Klebsiella, Pseudomonas, MRSA, Acinetobacter</td>
+          <td>Piperacillin-tazobactam 4.5 g IV/6 jam <em>atau</em> Imipenem/Meropenem 1 g IV/8 jam</td>
+          <td>+ Vancomycin atau Linezolid (MRSA). Kolistin/Tigesiklin jika MDR.</td>
+        </tr>
+        <tr>
+          <td><strong>Abdomen (perforasi, peritonitis)</strong></td>
+          <td>E. coli, Klebsiella, Enterococcus, Bacteroides</td>
+          <td>Piperacillin-tazobactam 4.5 g/6 jam <em>atau</em> Cefepime 2 g/8 jam + Metronidazole 500 mg/8 jam</td>
+          <td>Meropenem jika risiko ESBL tinggi. + Flukonazol jika Candida risk.</td>
+        </tr>
+        <tr>
+          <td><strong>Saluran Kemih (urosepsis)</strong></td>
+          <td>E. coli, Klebsiella, Proteus, Enterococcus</td>
+          <td>Ceftriaxone 2 g IV/24 jam <em>atau</em> Ciprofloxacin 400 mg IV/12 jam</td>
+          <td>Meropenem jika ESBL. Piperacillin-tazobactam jika Pseudomonas risk.</td>
+        </tr>
+        <tr>
+          <td><strong>Kulit/Jaringan Lunak</strong></td>
+          <td>S. aureus, Streptococcus, bakteri anaerob (necrotizing)</td>
+          <td>Kloksasilin 2 g/4 jam <em>atau</em> Ampicillin-sulbaktam 3 g/6 jam</td>
+          <td>Necrotizing: + Klindamisin 600 mg/8 jam (anti-toksin). MRSA: Vancomycin.</td>
+        </tr>
+        <tr>
+          <td><strong>SSP (meningitis)</strong></td>
+          <td>N. meningitidis, S. pneumoniae, Listeria (imunosupresi)</td>
+          <td>Ceftriaxone 4 g/24 jam + Ampicillin 2 g/4 jam + Deksametason 0.15 mg/kg/6 jam</td>
+          <td>Jika HSV ensefalitis: Asiklovir 10 mg/kg/8 jam</td>
+        </tr>
+        <tr>
+          <td><strong>Sumber tidak jelas (unknown)</strong></td>
+          <td>Broad coverage</td>
+          <td>Meropenem 1 g/8 jam <em>atau</em> Piperacillin-tazobactam 4.5 g/6 jam</td>
+          <td>+ Vancomycin jika risiko MRSA/kateter sentral. + Flukonazol jika candida risk.</td>
+        </tr>
+      </table>
+      <div class="subsec">Faktor Risiko Resistensi — Pertimbangkan Eskalasi Empiris</div>
+      <ul>
+        <li><strong>MRSA:</strong> Riwayat MRSA, rawat inap &gt;72 jam, dialisis, infeksi kulit/jaringan lunak, kolonisasi diketahui</li>
+        <li><strong>ESBL/KPC:</strong> Riwayat antibiotik sebelumnya, rawat inap berulang, perjalanan ke Asia Selatan/Tenggara, pemasangan kateter ureter</li>
+        <li><strong>Candida:</strong> Imunosupresi, TPN &gt;5 hari, antibiotik broad-spectrum &gt;5 hari, peritonitis bedah, hemodialisis, colonization multipel</li>
+        <li><strong>Pseudomonas:</strong> Bronkiektasis, PPOK berat, immunocompromised, bronkoskopi recent</li>
+      </ul>
+      <sup class="cite-ref" data-refs="evans2021,kalil2016,torres2019"></sup>
+    </div>
+  </div>
+
+  <!-- RESUSITASI CAIRAN -->
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('sep-fluid')">📖 Resusitasi Cairan Sepsis — Strategi & Guided Assessment <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-sep-fluid">
+      <div class="subsec">Prinsip Resusitasi Cairan Sepsis (4D Framework)</div>
+      <table>
+        <tr><th>Dimensi</th><th>Pertanyaan</th><th>Alat Evaluasi</th></tr>
+        <tr><td><strong>Drug (Jenis Cairan)</strong></td><td>Kristaloid atau Koloid?</td><td>Albumin untuk MAP rendah setelah kristaloid</td></tr>
+        <tr><td><strong>Dose (Jumlah)</strong></td><td>Berapa banyak cairan yang dibutuhkan?</td><td>PLR, VTI, pulse pressure variasi</td></tr>
+        <tr><td><strong>Duration (Fase)</strong></td><td>Fase mana saat ini?</td><td>Resuscitation → Optimization → Stabilization → De-escalation (ROSE)</td></tr>
+        <tr><td><strong>De-escalation</strong></td><td>Kapan hentikan/kurangi cairan?</td><td>Fluid balance negatif target setelah 24–48 jam</td></tr>
+      </table>
+      <div class="subsec">Pilihan Cairan Resusitasi</div>
+      <table>
+        <tr><th>Cairan</th><th>Keunggulan</th><th>Keterbatasan</th><th>Rekomendasi</th></tr>
+        <tr>
+          <td><strong>NaCl 0.9% (NS)</strong></td>
+          <td>Murah, tersedia luas</td>
+          <td>Asidosis hiperkloremik, AKI jika berlebihan (SMART trial)</td>
+          <td>Hindari sebagai pilihan utama jika tersedia alternatif</td>
+        </tr>
+        <tr>
+          <td><strong>Ringer Laktat (RL)</strong></td>
+          <td>Balanced crystalloid, fisiologis</td>
+          <td>Laktat aditif bisa interferensi interpretasi laktat serum (minimal)</td>
+          <td><span class="badge bg">Pilihan UTAMA (SSC 2021)</span></td>
+        </tr>
+        <tr>
+          <td><strong>PlasmaLyte</strong></td>
+          <td>Balanced, pH lebih fisiologis, tanpa laktat</td>
+          <td>Biaya lebih tinggi</td>
+          <td><span class="badge bg">Alternatif baik RL</span></td>
+        </tr>
+        <tr>
+          <td><strong>Albumin 4–5%</strong></td>
+          <td>Onkotik, anti-inflamasi, antioksidan; ALBIOS trial: manfaat pada syok septik</td>
+          <td>Mahal, ketersediaan terbatas</td>
+          <td><span class="badge ba">Dipertimbangkan jika butuh cairan besar atau albumin &lt;2 g/dL</span></td>
+        </tr>
+        <tr>
+          <td><strong>HES / Starches</strong></td>
+          <td>—</td>
+          <td>AKI lebih banyak, tidak aman (6S, CHEST trial)</td>
+          <td><span class="badge br">KONTRAINDIKASI pada sepsis</span></td>
+        </tr>
+      </table>
+      <div class="subsec">Penilaian Responsifitas Cairan (Fluid Responsiveness)</div>
+      <ul>
+        <li><strong>Passive Leg Raising (PLR):</strong> Angkat kaki 45° selama 1 menit → ↑ CO ≥10% → fluid responsive. Sensitivitas 85%, spesifisitas 91%. Dapat dilakukan di tempat tidur tanpa alat khusus.</li>
+        <li><strong>Pulse Pressure Variation (PPV):</strong> PPV &gt;13% pada pasien VM terkontrol → fluid responsive. Tidak valid: aritmia, napas spontan, ARDS berat, PEEP tinggi.</li>
+        <li><strong>Stroke Volume Variation (SVV):</strong> SVV &gt;10–13% → fluid responsive. Butuh monitoring invasif (PiCCO, LIDCO).</li>
+        <li><strong>End-Expiratory Occlusion Test:</strong> Okludir ekspirasi 15 detik → ↑ CO ≥5% → fluid responsive.</li>
+        <li><strong>Mini-fluid challenge:</strong> 100–200 mL kristaloid IV dalam 1 menit → pantau CO/VTI segera.</li>
+        <li><strong>CVP:</strong> TIDAK DIREKOMENDASIKAN sebagai panduan resusitasi (tidak reliabel). Target CVP 8–12 hanya dalam konteks khusus (SSC 2021).</li>
+      </ul>
+      <sup class="cite-ref" data-refs="semler2018,caironi2014,perner2012,monnet2015,hjortrup2022,hernandez2023"></sup>
+    </div>
+  </div>
+
+  <!-- VASOPRESSOR -->
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('sep-vaso')">📖 Vasopressor & Inotropik pada Sepsis <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-sep-vaso">
+      <div class="subsec">Vasopressor — Urutan Prioritas (SSC 2021)</div>
+      <table>
+        <tr><th>Obat</th><th>Mekanisme</th><th>Dosis</th><th>Peran</th></tr>
+        <tr>
+          <td><strong>Norepinefrin (NE)</strong></td>
+          <td>α₁ &gt; β₁ → vasokonstriksi + sedikit inotropik</td>
+          <td>0.01–3 μg/kg/mnt (mulai 0.05–0.1)</td>
+          <td><span class="badge br">VASOPRESSOR LINI PERTAMA</span></td>
+        </tr>
+        <tr>
+          <td><strong>Vasopressin (ADH)</strong></td>
+          <td>V1 receptor → vasokonstriksi langsung, hemat NE</td>
+          <td>0.01–0.04 unit/mnt (fixed dose)</td>
+          <td><span class="badge ba">Tambahkan jika NE &gt;0.25–0.5 μg/kg/mnt (NE-sparing effect)</span></td>
+        </tr>
+        <tr>
+          <td><strong>Epinefrin (Adrenalin)</strong></td>
+          <td>α₁ + β₁ + β₂ → vasopresor + inotropik kuat</td>
+          <td>0.01–0.5 μg/kg/mnt</td>
+          <td>Lini ketiga: tambahkan NE + Vasopressin jika masih tidak stabil</td>
+        </tr>
+        <tr>
+          <td><strong>Dopamin</strong></td>
+          <td>DA &lt;5: renal; 5–10: β₁; &gt;10: α₁</td>
+          <td>5–20 μg/kg/mnt</td>
+          <td><span class="badge br">TIDAK DIREKOMENDASIKAN sebagai lini pertama</span> (lebih banyak aritmia, mortalitas lebih tinggi vs NE: De Backer 2010)</td>
+        </tr>
+        <tr>
+          <td><strong>Angiotensin II</strong></td>
+          <td>AT1 receptor → vasokonstriksi</td>
+          <td>20–1500 ng/kg/mnt</td>
+          <td>ATHOS-3 trial: efektif pada vasodilatory shock refrakter. Pilihan ketika NE + Vaso tidak cukup.</td>
+        </tr>
+        <tr>
+          <td><strong>Dobutamin</strong></td>
+          <td>β₁ &gt;&gt; β₂ → inotropik + kronotropik</td>
+          <td>2.5–20 μg/kg/mnt</td>
+          <td>Tambahkan NE jika disfungsi miokard (CO rendah, laktat tidak turun meski MAP terkontrol)</td>
+        </tr>
+      </table>
+      <div class="subsec">Target Hemodinamik</div>
+      <ul>
+        <li><strong>MAP ≥65 mmHg</strong> sebagai minimum. Pertimbangkan MAP ≥75–80 pada hipertensi kronik (SEPSISPAM trial: MAP 80 vs 65 — tidak ada perbedaan mortalitas, namun lebih sedikit AKI pada hipertensi kronik).</li>
+        <li><strong>Akses vasopressor:</strong> CVC adalah standar. Namun SSC 2021: vasopressor boleh diberikan via vena perifer besar (antekubital) hingga 1–2 jam sebelum CVC terpasang jika situasi darurat (bukti OVIVA dan PVP trial 2023).</li>
+        <li><strong>Monitoring:</strong> Arterial line direkomendasikan untuk pasien yang butuh vasopressor ≥6 jam.</li>
+      </ul>
+      <div class="subsec">Hidrokortison pada Sepsis</div>
+      <ul>
+        <li><strong>Indikasi:</strong> Syok septik refrakter yang membutuhkan NE ≥0.25 μg/kg/mnt setelah resusitasi adekuat</li>
+        <li><strong>Dosis:</strong> Hidrokortison 200 mg/hari IV (50 mg/6 jam atau 200 mg infusi kontinyu)</li>
+        <li><strong>Bukti:</strong> ADRENAL trial (2018): tidak ↓ mortalitas namun memperpendek waktu syok. APROCCHSS trial (2018): + Fludrokortison → ↓ mortalitas (tidak konfirmasi di studi lain).</li>
+        <li><strong>Durasi:</strong> Tapering setelah syok membaik (umumnya 5–7 hari)</li>
+        <li><strong>ACTH stimulation test:</strong> TIDAK diperlukan untuk memulai steroid (SSC 2021)</li>
+      </ul>
+      <sup class="cite-ref" data-refs="debacker2010,asfar2014,khanna2017,venkatesh2018,annane2018,censer2019"></sup>
+    </div>
+  </div>
+
+  <!-- SOURCE CONTROL -->
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('sep-source')">📖 Source Control & Manajemen Organ Sepsis <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-sep-source">
+      <div class="subsec">Source Control — Prinsip Utama</div>
+      <ul>
+        <li><strong>Tindakan sesegera mungkin (&lt;6–12 jam)</strong> setelah stabilisasi hemodinamik minimal</li>
+        <li>Drainase abses, debridemen jaringan nekrotik, reseksi segmen terinfeksi, lepas kateter/implan terinfeksi</li>
+        <li>Intervensi yang paling minimal namun efektif (perkutaneus drainase &gt; operasi jika memungkinkan)</li>
+        <li>Bila ada VAP → pertimbangkan trakeostomi dini (≤7 hari) pada pasien yang diperkirakan butuh VM panjang</li>
+      </ul>
+      <div class="subsec">Manajemen Organ Target pada Sepsis</div>
+      <table>
+        <tr><th>Organ</th><th>Komplikasi Sepsis</th><th>Target & Tatalaksana</th></tr>
+        <tr>
+          <td><strong>Paru (ARDS)</strong></td>
+          <td>ARDS terjadi pada 30–40% syok septik</td>
+          <td>VT 6 mL/kg IBW, Pplat ≤30, PEEP optimal, prone jika P/F &lt;150. Lihat subtab Fisiologi.</td>
+        </tr>
+        <tr>
+          <td><strong>Ginjal (AKI)</strong></td>
+          <td>AKI: 40–50% pasien sepsis ICU</td>
+          <td>Hindari nefrotoksin, optimalkan perfusi ginjal, CRRT (RRT) jika: oliguria refrakter, asidosis berat, overload cairan. RRT awal (AKIKI-2: tidak ada manfaat inisiasi sangat awal).</td>
+        </tr>
+        <tr>
+          <td><strong>Koagulasi (DIC)</strong></td>
+          <td>DIC pada 30–50% syok septik berat</td>
+          <td>FFP jika prosedur + PT/INR &gt;1.5. Fibrinogen &lt;1.5 g/L → cryoprecipitate. Trombosit &lt;10.000 → transfusi; &lt;20.000 jika perdarahan risiko tinggi. Heparin terapeutik TIDAK untuk DIC sepsis.</td>
+        </tr>
+        <tr>
+          <td><strong>Hepar</strong></td>
+          <td>Kolestasis septik, disfungsi hepatik</td>
+          <td>Hindari hepatotoksin, nutrisi enteral dini (24–48 jam), kontrol infeksi. Tidak ada terapi spesifik untuk disfungsi hepar akibat sepsis.</td>
+        </tr>
+        <tr>
+          <td><strong>SSP (Ensefalopati Septik)</strong></td>
+          <td>Delirium, penurunan kesadaran (30–70%)</td>
+          <td>RASS 0 – (−1) target. Protokol ABCDEF bundle. Hindari BZD. Dexmedetomidine lebih baik dari BZD untuk delirium ICU (MENDS trial). CAM-ICU monitoring.</td>
+        </tr>
+        <tr>
+          <td><strong>Metabolik</strong></td>
+          <td>Hiperglikemia stres (>180 mg/dL)</td>
+          <td>Target glukosa 140–180 mg/dL dengan insulin infus. Target ketat (&lt;110) → hipoglikemia berbahaya (NICE-SUGAR trial).</td>
+        </tr>
+      </table>
+      <sup class="cite-ref" data-refs="ardsnet2000,gaudry2021,nicesugar2009,ely2019"></sup>
+    </div>
+  </div>
+
+  <!-- NUTRISI & TERAPI SUPORTIF -->
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('sep-nutr')">📖 Nutrisi, Sedasi & Terapi Suportif Lain pada Sepsis <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-sep-nutr">
+      <div class="subsec">Nutrisi Enteral Dini</div>
+      <ul>
+        <li><strong>Mulai dalam 24–48 jam</strong> setelah resusitasi hemodinamik awal (MAP ≥65 tanpa eskalasi vasopressor aktif)</li>
+        <li><strong>Target kalori:</strong> 25–30 kkal/kg/hari (fasa akut awal: trophic/permissive underfeeding 10–15 kkal/kg sudah cukup)</li>
+        <li><strong>Target protein:</strong> 1.2–2.0 g/kg/hari (lebih tinggi pada CRRT, luka bakar, obese)</li>
+        <li><strong>Nutrisi parenteral:</strong> Mulai hanya jika enteral tidak mungkin setelah 5–7 hari (hindari PN dini — SPN trial)</li>
+        <li><strong>Monitoring toleransi:</strong> GRV (gastric residual volume) &lt;500 mL/6 jam boleh dilanjutkan. Prokinetik (metoclopramide, eritromisin) jika intoleransi</li>
+      </ul>
+      <div class="subsec">Sedasi & Analgesia pada Sepsis (PADIS 2018)</div>
+      <ul>
+        <li><strong>Prinsip A1C2D3E4F5:</strong> Analgesia first, then light sedation (RASS -1 to 0), hindari delirium, early mobility, family engagement</li>
+        <li><strong>Target RASS:</strong> 0 hingga −1 (awake dan cooperative) kecuali ada indikasi sedasi dalam (ARDS berat, NMB)</li>
+        <li><strong>Analgesia:</strong> Fentanil/morfin titrasi sesuai NRS/BPS. Multimodal analgesia (NSAID/paracetamol adjuvan) mengurangi dosis opioid.</li>
+        <li><strong>Sedasi:</strong> Propofol atau dexmedetomidine → lebih baik dari benzodiazepin (delirium lebih sedikit, waktu ventilasi lebih pendek)</li>
+        <li><strong>SAT (Spontaneous Awakening Trial):</strong> Hentikan sedasi tiap pagi → nilai neurologi → coupled dengan SBT</li>
+        <li><strong>Delirium:</strong> CAM-ICU monitoring 2× sehari. Haloperidol: tidak ↓ mortalitas (HOPE-ICU), namun dapat digunakan untuk agitasi. Dexmedetomidine: ↓ delirium (MENDS2).</li>
+      </ul>
+      <div class="subsec">Transfusi Darah</div>
+      <ul>
+        <li><strong>Target Hb:</strong> ≥7 g/dL pada sepsis stabil (TRISS trial). Target ≥9 g/dL pada iskemia miokard aktif atau hipoksemia berat.</li>
+        <li><strong>Hindari transfusi profilaksis</strong> tanpa indikasi jelas → transfusi berlebih dikaitkan dengan infeksi, ARDS, dan mortalitas meningkat.</li>
+      </ul>
+      <div class="subsec">Profilaksis DVT & Stress Ulcer</div>
+      <ul>
+        <li><strong>DVT:</strong> Heparin subkutan (UFH 5000 unit/8 jam atau LMWH) jika tidak ada kontraindikasi. Mekanik (compression devices) jika antikoagulan kontraindikasi.</li>
+        <li><strong>Stress ulcer:</strong> PPI atau H2RA pada pasien dengan faktor risiko (ventilasi mekanik &gt;48 jam, koagulopati). Tidak rutin pada semua pasien ICU (SUP-ICU 2018: tidak ↓ mortalitas).</li>
+      </ul>
+      <div class="subsec">Terapi yang TIDAK Direkomendasikan Rutin</div>
+      <ul>
+        <li><strong>Vitamin C dosis tinggi:</strong> CITRIS-ALI trial (JAMA 2019): Vitamin C IV 200 mg/kg/hari selama 4 hari — tidak ↓ SOFA score atau biomarker inflamasi secara signifikan. LOVIT trial (NEJM 2022): Vitamin C dosis tinggi → lebih banyak harm (mortalitas + ginjal lebih buruk di beberapa analisis). <em>Tidak direkomendasikan secara rutin.</em></li>
+        <li><strong>Kombinasi Vitamin C + Thiamine + Hidrokortison (VITAMINS protocol):</strong> VITAMINS trial (JAMA 2020): tidak ↓ waktu bebas vasopressor vs hidrokortison saja. Tidak ada manfaat lebih dari steroid tunggal. <em>Tidak direkomendasikan sebagai paket rutin.</em></li>
+        <li><strong>Thiamine (Vitamin B1):</strong> Suplementasi hanya diindikasikan jika defisiensi thiamine dicurigai (alkoholisme, malnutrisi berat, laktat persisten meski resusitasi adekuat). TACT trial: tidak ada manfaat rutin pada sepsis umum.</li>
+        <li><strong>Selenium, Zinc, antioksidan lain:</strong> Meta-analisis tidak menunjukkan manfaat mortalitas yang konsisten pada sepsis ICU. Tidak direkomendasikan rutin (SSC 2021).</li>
+      </ul>
+      <sup class="cite-ref" data-refs="devlin2018,doig2013,hebert2014,krag2018,skrobik2018,fowler2019,lamontagne2022,fujii2020"></sup>
+    </div>
+  </div>
+
+  <!-- SEPSIS DI INDONESIA / NASIONAL -->
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('sep-nasional')">📖 Sepsis di Indonesia — Panduan & Konteks Lokal <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-sep-nasional">
+      <div class="cc teal" style="margin-bottom:10px">
+        <div class="ct">📋 Referensi Nasional Sepsis Indonesia</div>
+        <p style="color:var(--text);font-size:13px">Panduan nasional sepsis di Indonesia telah diselaraskan dengan SSC 2021, namun mempertimbangkan sumber daya dan pola kuman lokal.</p>
+      </div>
+      <table>
+        <tr><th>Dokumen</th><th>Institusi</th><th>Tahun</th><th>Poin Utama</th></tr>
+        <tr><td><strong>PPK Sepsis & Syok Septik</strong></td><td>PERDICI / PAPDI</td><td>2022</td><td>Adaptasi SSC 2021 untuk ICU Indonesia; monitoring laktat, antibiotik sesuai antibiogram lokal, vasopressor lini pertama NE</td></tr>
+        <tr><td><strong>Pedoman Nasional Pelayanan Kedokteran (PNPK) Sepsis</strong></td><td>Kemenkes RI</td><td>2022</td><td>Panduan tingkat nasional untuk RS tipe A–D; definisi Sepsis-3, bundle 1 jam, monitoring</td></tr>
+        <tr><td><strong>Konsensus Penatalaksanaan Sepsis</strong></td><td>PERDICI / PAPDI / PERDATIN</td><td>2023</td><td>Kolaborasi multidisiplin; mencakup: resusitasi cairan, vasopressor, AB empiris, nutrisi, weaning ventilator pada ARDS-sepsis</td></tr>
+        <tr><td><strong>Program Peningkatan Kualitas Sepsis (PPS)</strong></td><td>PERSI / Kemenkes</td><td>2022–2024</td><td>Implementasi sepsis bundle di RS nasional, pelatihan, dashboard monitoring kualitas</td></tr>
+      </table>
+      <div class="subsec">Tantangan Khas Sepsis di Indonesia</div>
+      <ul>
+        <li><strong>Keterlambatan diagnosis:</strong> Rata-rata 4–8 jam dari IGD ke ICU. Edukasi dan screening qSOFA di IGD sangat penting.</li>
+        <li><strong>Ketersediaan kultur:</strong> Banyak RS tipe C/D belum memiliki laboratorium mikrobiologi 24 jam. Strategi: kultur sebelum AB, de-eskalasi berdasarkan respons klinis jika kultur tidak tersedia.</li>
+        <li><strong>Pola resistensi:</strong> ESBL sangat tinggi (E. coli ESBL &gt;60–80% di beberapa RS Indonesia). Pertimbangkan carbapenem empiris pada infeksi RS + riwayat AB sebelumnya.</li>
+        <li><strong>Laktat point-of-care:</strong> i-STAT atau gas analyzer perlu tersedia di IGD sebagai skrining laktat. Target &lt;2 mmol/L dalam 6 jam.</li>
+        <li><strong>Vasopresor perifer:</strong> Pada setting IGD dengan CVC terbatas, SSC 2021 memperbolehkan NE via vena perifer besar sementara (OVIVA/PVP evidence).</li>
+        <li><strong>Albumin:</strong> Tersedia dan dikover BPJS untuk sepsis dengan albumin &lt;2.5 g/dL. Albumin 20% 50–100 mL dapat digunakan jika albumin rendah.</li>
+      </ul>
+      <div class="subsec">Alur Sepsis di IGD Indonesia (Rekomendasi)</div>
+      <table>
+        <tr><th>Waktu</th><th>Aksi</th></tr>
+        <tr><td><strong>0–15 mnt</strong></td><td>Triase → curiga infeksi + qSOFA ≥2 → aktivasi sepsis alert → O₂, monitoring, akses IV × 2 besar</td></tr>
+        <tr><td><strong>15–30 mnt</strong></td><td>Ambil kultur darah, laktat, darah lengkap, kimia darah, prokalsitonin, AGD → pesan AB</td></tr>
+        <tr><td><strong>30–60 mnt</strong></td><td>Berikan AB empiris, mulai resusitasi RL/PlasmaLyte 500 mL bolus (evaluasi responsifitas), pertimbangkan vasopressor jika MAP &lt;65</td></tr>
+        <tr><td><strong>1–3 jam</strong></td><td>Re-evaluasi laktat, hemodinamik, oksigenasi. Kaji kebutuhan ICU. Pertimbangkan NE via perifer jika CVC belum tersedia.</td></tr>
+        <tr><td><strong>3–6 jam</strong></td><td>Re-evaluasi total cairan (hindari &gt;30 mL/kg tanpa re-assess), pemasangan CVC, target organ monitoring, konsul spesialis penyebab primer</td></tr>
+        <tr><td><strong>6–24 jam</strong></td><td>De-eskalasi cairan (fluid balance netral/negatif), evaluasi kultur → narrowing AB, manajemen organ (AKI, ARDS), nutrisi enteral dini</td></tr>
+      </table>
+      <sup class="cite-ref" data-refs="perdici2023,evans2021"></sup>
+    </div>
+  </div>
+
+  <!-- MONITORING SEPSIS -->
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('sep-monitor')">📖 Monitoring & Target Resusitasi Sepsis <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-sep-monitor">
+      <div class="subsec">Target Resusitasi Komprehensif</div>
+      <table>
+        <tr><th>Parameter</th><th>Target</th><th>Metode</th><th>Waktu</th></tr>
+        <tr><td>MAP</td><td>≥65 mmHg (≥80 jika hipertensi kronik)</td><td>NIBP / Arterial line</td><td>Kontinu</td></tr>
+        <tr><td>Laktat serum</td><td>&lt;2 mmol/L (normalisasi dalam 6 jam)</td><td>AGD / Point-of-care</td><td>Tiap 2 jam hingga normal</td></tr>
+        <tr><td>Urine output</td><td>≥0.5 mL/kg/jam</td><td>Kateter urin + urometer</td><td>Tiap jam</td></tr>
+        <tr><td>ScvO₂</td><td>≥70% (jika monitor tersedia)</td><td>Kateter CVC di vena cava superior</td><td>Tiap 2–4 jam</td></tr>
+        <tr><td>SOFA score</td><td>Penurunan ≥2 dalam 48 jam → respons baik</td><td>Hitung dari data lab + klinis</td><td>Tiap 24 jam</td></tr>
+        <tr><td>Procalcitonin (PCT)</td><td>↓ ≥80% dari puncak → pertimbangkan stop AB</td><td>Lab</td><td>Tiap 48–72 jam</td></tr>
+        <tr><td>CRP</td><td>Tren turun</td><td>Lab</td><td>Tiap 48 jam</td></tr>
+        <tr><td>Gula darah</td><td>140–180 mg/dL</td><td>POC glucometer</td><td>Tiap 1–2 jam (jika insulin drip)</td></tr>
+        <tr><td>RASS</td><td>0 hingga −1 (target ringan)</td><td>Bedside assessment</td><td>Tiap 4 jam</td></tr>
+        <tr><td>CAM-ICU</td><td>Negatif (tidak delirium)</td><td>Bedside assessment</td><td>2× sehari (shift)</td></tr>
+      </table>
+      <div class="subsec">Tanda Resusitasi Tidak Adekuat</div>
+      <ul>
+        <li>Laktat menetap ≥4 mmol/L setelah 6 jam → pertimbangkan dobutamin (disfungsi miokard) atau re-evaluasi source control</li>
+        <li>MAP tidak mencapai target meski NE &gt;0.5 μg/kg/mnt → tambahkan vasopressin ± steroid</li>
+        <li>ScvO₂ &lt;70% + laktat tinggi → CO rendah → butuh inotropik</li>
+        <li>UO menurun progresif → evaluasi fluid responsiveness, pertimbangkan RRT early jika overload</li>
+        <li>SOFA tidak turun/meningkat dalam 48 jam → re-evaluasi sumber infeksi, efektivitas antibiotik</li>
+      </ul>
+      <sup class="cite-ref" data-refs="evans2021,hernandez2019,timsit2020,ely2019"></sup>
+    </div>
+  </div>
+
+  <!-- SEPSIS KHUSUS -->
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('sep-khusus')">📖 Sepsis pada Kondisi Khusus — Immunocompromised, Neutropenia, Fungemia <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-sep-khusus">
+      <div class="subsec">Sepsis pada Pasien Immunocompromised</div>
+      <ul>
+        <li><strong>Definisi:</strong> Keganasan aktif, kemoterapi, HIV CD4 &lt;200, steroid jangka panjang ≥20 mg/hari, transplantasi organ, biologis imunosupresif</li>
+        <li><strong>Presentasi atipikal:</strong> Tanpa demam (imunosupresi berat), leukopenia tanpa leukositosis, tanda inflamasi minimal</li>
+        <li><strong>Antibiotik empiris lebih luas:</strong> Coverage gram negatif termasuk Pseudomonas + fungi (Candida, Aspergillus pada neutropenia)</li>
+        <li><strong>Hindari intubasi jika memungkinkan:</strong> Immunocompromised → VAP risiko sangat tinggi. Pertimbangkan HFNC atau Helmet NIV lebih lama.</li>
+      </ul>
+      <div class="subsec">Febrile Neutropenia & Sepsis</div>
+      <ul>
+        <li><strong>Definisi:</strong> Neutrofil &lt;500/mm³ atau &lt;1000 dan diperkirakan turun + Suhu ≥38.3°C atau ≥38°C × 2 jam</li>
+        <li><strong>Risiko tinggi (MASCC &lt;21):</strong> Rawat inap + antibiotik IV empiris segera (dalam 60 menit)</li>
+        <li><strong>Antibiotik pilihan:</strong> Piperacillin-tazobactam 4.5 g/6 jam ATAU Cefepime 2 g/8 jam. Jika Pseudomonas risk → Meropenem. Tambahkan Vancomycin jika: kateter, mukositis berat, suspek gram positif.</li>
+        <li><strong>Antifungal empiris:</strong> Echinocandin (micafungin, anidulafungin) → kandidemia. Vorikonazol/liposomal AmpB → Aspergillus (neutropenia &gt;7 hari + tidak respons AB)</li>
+        <li><strong>G-CSF (filgrastim):</strong> Dipertimbangkan pada neutropenia parah/memanjang, namun tidak rutin untuk semua FN</li>
+      </ul>
+      <div class="subsec">Kandidemia & Fungemia</div>
+      <table>
+        <tr><th>Echinocandin</th><th>Dosis Loading</th><th>Dosis Maintenance</th><th>Keterangan</th></tr>
+        <tr><td>Micafungin</td><td>—</td><td>100 mg IV/24 jam</td><td>Pilihan utama kandidemia non-neutropenia</td></tr>
+        <tr><td>Anidulafungin</td><td>200 mg IV × 1</td><td>100 mg IV/24 jam</td><td>Half-life lebih panjang</td></tr>
+        <tr><td>Caspofungin</td><td>70 mg IV × 1</td><td>50 mg IV/24 jam</td><td>Alternatif</td></tr>
+        <tr><td>Flukonazol</td><td>800 mg IV × 1</td><td>400 mg IV/24 jam</td><td>Hanya jika: stabil + tidak ada risiko C. glabrata/C. krusei</td></tr>
+      </table>
+      <ul>
+        <li><strong>Catatan:</strong> De-eskalasi ke flukonazol jika Candida albicans atau parapsilosis, pasien stabil, tidak pada ICU berat</li>
+        <li><strong>Durasi:</strong> Minimal 14 hari setelah kultur terakhir negatif + resolusi gejala</li>
+        <li><strong>Wajib:</strong> Funduskopi (endoftalmitis), echokardiografi (endokarditis), cabut semua CVC jika kandidemia terkonfirmasi</li>
+      </ul>
+      <sup class="cite-ref" data-refs="pappas2016,freifeld2011,grieco2020"></sup>
+    </div>
+  </div>
+
+  <!-- REFERENSI SEPSIS -->
+  <div class="card" style="margin-top:16px">
+    <div class="subsec">📚 Referensi Utama Sepsis — v4 2026</div>
+    <table>
+      <tr><th>Publikasi</th><th>Topik</th><th>Poin Kunci</th></tr>
+      <tr><td><strong>Singer M et al. JAMA 2016;315:801</strong></td><td>Definisi Sepsis-3</td><td>Sepsis = disfungsi organ life-threatening akibat infeksi. Septic shock = sepsis + vasopressor + laktat &gt;2.</td></tr>
+      <tr><td><strong>Evans L et al. Crit Care Med 2021;49:e1063</strong></td><td>SSC Guidelines 2021</td><td>1-hour bundle, kristaloid balanced, NE lini pertama, antibiotic &lt;1 jam, laktat-guided resusitasi.</td></tr>
+      <tr><td><strong>Rudd KE et al. Lancet 2020;395:200</strong></td><td>Global burden sepsis (GBD 2017)</td><td>48.9 juta kasus/tahun, 11 juta kematian. Tertinggi di Asia Selatan dan Sub-Sahara Afrika.</td></tr>
+      <tr><td><strong>Hjortrup PB (CLASSIC). NEJM 2022;386:2459</strong></td><td>Resusitasi cairan restriktif</td><td>Restriktif vs liberal setelah stabilisasi awal: tidak ada perbedaan mortalitas, restriktif lebih aman.</td></tr>
+      <tr><td><strong>Hernández G (ANDROMEDA-SHOCK). JAMA 2019;321:654</strong></td><td>Laktat vs perfusi perifer</td><td>Peripheral perfusion index-guided setara laktat-guided untuk resusitasi. Tidak inferior.</td></tr>
+      <tr><td><strong>De Backer D. NEJM 2010;362:779</strong></td><td>NE vs dopamin sepsis</td><td>NE → lebih sedikit aritmia, mortalitas tidak berbeda secara keseluruhan namun lebih baik pada syok kardiogenik.</td></tr>
+      <tr><td><strong>Venkatesh B (ADRENAL). NEJM 2018;378:797</strong></td><td>Hidrokortison sepsis</td><td>Tidak ↓ mortalitas namun mempercepat resolusi syok. Direkomendasikan pada syok refrakter.</td></tr>
+      <tr><td><strong>Permpikul C (PVP). JAMA Int Med 2023</strong></td><td>Vasopressor via perifer</td><td>NE via vena perifer besar: aman dan efektif hingga CVC tersedia. Mengurangi keterlambatan vasopressor.</td></tr>
+      <tr><td><strong>PERDICI/PAPDI. PPK Sepsis 2022</strong></td><td>Panduan nasional</td><td>Adaptasi SSC 2021 untuk Indonesia. Antibiotik empiris sesuai pola lokal, monitoring laktat, vasopressor NE.</td></tr>
+      <tr><td><strong>Kemenkes RI. PNPK Sepsis 2022</strong></td><td>Kebijakan nasional</td><td>Standar pelayanan sepsis RS Indonesia, 1-hour bundle wajib implementasi, monitoring kualitas berbasis data.</td></tr>
+    </table>
+  </div>
+
+<script src="../../assets/js/scripts-teori.js"></script>
+<script src="../../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../../assets/js/feedback.js"></script>
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+  <script src="../../assets/data/references.js"></script>
+  <script src="../../assets/js/scripts-citations.js"></script>
+</body>
+</html>

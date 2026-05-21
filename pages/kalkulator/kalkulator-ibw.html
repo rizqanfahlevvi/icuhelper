@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBW & Parameter Ventilator — Cheatsheet Ventilator Dewasa</title>
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<script>
+/* Anti-FOUC: apply saved theme before paint */
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn active" href="kalkulator-ibw.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="../ekg.html">📈 EKG</a>
+  <a class="tab-btn" href="../teori.html">📖 Teori</a>
+  <a class="tab-btn" href="../skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+
+<nav class="subtab-bar">
+  <a class="subtab-btn active" href="kalkulator-ibw.html">⚖️ IBW & Parameter</a>
+  <a class="subtab-btn" href="kalkulator-drug.html">💊 Sedasi & Paralitik</a>
+  <a class="subtab-btn" href="kalkulator-pump.html">🔬 Syringe Pump</a>
+  <a class="subtab-btn" href="kalkulator-pf.html">📈 P/F & OI</a>
+  <a class="subtab-btn" href="kalkulator-renal.html">🫘 Renal</a>
+  <a class="subtab-btn" href="kalkulator-pulmo.html">🫁 Pulmo</a>
+  <a class="subtab-btn" href="kalkulator-electro.html">⚡ ElektroCorr</a>
+  <a class="subtab-btn" href="kalkulator-nlr.html">🧫 NLR</a>
+  <a class="subtab-btn" href="kalkulator-transfusi.html">🩸 Transfusi</a>
+</nav>
+
+<div class="calc-box">
+    <div class="calc-title"><span>⚖️</span> Kalkulator IBW & Parameter Awal Ventilator</div>
+    <div class="grid2" style="gap:10px">
+      <div>
+        <div class="input-row"><label>Jenis kelamin</label>
+          <select id="ibwSex"><option value="m">Laki-laki</option><option value="f">Perempuan</option></select>
+        </div>
+        <div class="input-row"><label>Tinggi badan</label><input type="number" id="ibwHeight" placeholder="cth: 165" min="100" max="220"><span class="unit">cm</span></div>
+        <div class="input-row"><label>Berat badan aktual</label><input type="number" id="ibwActual" placeholder="cth: 70" min="20" max="250"><span class="unit">kg</span></div>
+        <div class="input-row"><label>Usia</label><input type="number" id="ibwAge" placeholder="cth: 45" min="15" max="120"><span class="unit">tahun</span></div>
+        <div class="input-row"><label>Kondisi klinis</label>
+          <select id="ibwCondition">
+            <option value="normal">Umum / Post-op</option>
+            <option value="ards">ARDS</option>
+            <option value="copd">PPOK</option>
+            <option value="asthma">Asma Berat</option>
+            <option value="neuro">Neuromuskular (GBS/MG)</option>
+          </select>
+        </div>
+        <div class="input-row"><label>Hb aktual <span style="font-size:10px;color:var(--muted)">(opsional)</span></label><input type="number" id="ibwHb" placeholder="opsional, untuk MABL" step="0.1" min="0"><span class="unit">g/dL</span></div>
+      </div>
+      <div>
+        <div class="info" style="margin-top:4px">
+          <strong>Formula Devine (IBW):</strong><br>
+          Laki-laki: 50 + 0.91 × (TB cm − 152.4)<br>
+          Perempuan: 45.5 + 0.91 × (TB cm − 152.4)<br>
+          <span style="font-size:11px;color:var(--muted)">Devine BJ. Drug Intell Clin Pharm 1974</span>
+        </div>
+      </div>
+    </div>
+    <button class="calc-btn" onclick="calcIBW()">Hitung IBW & Parameter</button>
+    <div id="ibw-results" class="hidden" style="margin-top:16px">
+      <div class="result-grid" id="ibw-result-grid"></div>
+      <div id="ibw-vent-table" style="margin-top:14px"></div>
+      <div class="formula-note" id="ibw-note" style="margin-top:10px"></div>
+    </div>
+  </div>
+  <div class="theory-dropdown">
+    <button class="theory-btn" onclick="toggleTheory('ibw-theory')">📖 Mengapa IBW & Bukan Actual Body Weight? <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-ibw-theory">
+      <ul>
+        <li><strong>Dasar fisiologis:</strong> Volume paru (FRC, TLC) berkorelasi dengan tinggi badan, bukan berat badan aktual. Pasien obesitas memiliki paru berukuran normal namun berat badan jauh lebih tinggi.</li>
+        <li><strong>Risiko pada obesitas:</strong> Jika VT dihitung dari actual BW → overdistensi alveolar → volutrauma → VILI. Pada pasien 100 kg obesitas dengan tinggi 165 cm, IBW ~65 kg. Perbedaan VT: 600 mL (actual) vs 390 mL (IBW) — risiko signifikan.</li>
+        <li><strong>ARDSNet trial:</strong> VT 6 mL/kg IBW terbukti menurunkan mortalitas 22% vs 12 mL/kg. Seluruh kalkulasi berbasis IBW.</li>
+        <li><strong>Adjusted BW (ABW):</strong> Untuk pasien obesitas ekstrem: ABW = IBW + 0.4 × (Actual BW − IBW). Digunakan untuk dosis obat tertentu, bukan untuk VT ventilator.</li>
+      </ul>
+      <sup class="cite-ref" data-refs="ardsnet2000,devine1974,singer2023"></sup>
+    </div>
+  </div>
+</div>
+
+<!-- SUB: DRUG -->
+
+<script src="../../assets/js/scripts-kalkulator-ibw.js"></script>
+<script src="../../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../../assets/js/feedback.js"></script>
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+  <script src="../../assets/data/references.js"></script>
+  <script src="../../assets/js/scripts-citations.js"></script>
+</body>
+</html>

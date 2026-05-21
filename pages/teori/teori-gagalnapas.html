@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gagal Napas — Klasifikasi & Patofisiologi — Cheatsheet Ventilator Dewasa</title>
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<script>
+/* Anti-FOUC: apply saved theme before paint */
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn" href="../kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="../ekg.html">📈 EKG</a>
+  <a class="tab-btn active" href="teori-impending.html">📖 Teori</a>
+  <a class="tab-btn" href="../skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+
+<nav class="subtab-bar">
+  <a class="subtab-btn" href="teori-impending.html">⚠️ Impending Gagal Napas</a>
+  <a class="subtab-btn active" href="teori-gagalnapas.html">🫁 Gagal Napas</a>
+  <a class="subtab-btn" href="teori-fisiologi.html">🔬 Fisiologi Ventilasi</a>
+  <a class="subtab-btn" href="teori-sepsis.html">🦠 Sepsis</a>
+  <a class="subtab-btn" href="teori-b1b6.html">📋 B1–B6</a>
+</nav>
+
+<div class="sec">Klasifikasi & Patofisiologi Gagal Napas</div>
+
+  <div class="cc blue">
+    <div class="ct">Definisi Gagal Napas</div>
+    <p>Gagal napas adalah ketidakmampuan sistem respirasi untuk mempertahankan pertukaran gas yang adekuat untuk memenuhi kebutuhan metabolik tubuh.</p>
+    <div class="grid2" style="margin-top:10px">
+      <div>
+        <p><strong>Kriteria Diagnostik:</strong></p>
+        <ul>
+          <li><strong>Hipoksemia:</strong> PaO₂ &lt;60 mmHg pada udara ruang (FiO₂ 0.21)</li>
+          <li><strong>Hiperkapnia:</strong> PaCO₂ &gt;45 mmHg dengan asidosis respiratorik (pH &lt;7.35)</li>
+          <li><strong>Kombinasi:</strong> Keduanya (tipe campuran)</li>
+        </ul>
+      </div>
+      <div>
+        <p><strong>Klasifikasi Waktu:</strong></p>
+        <ul>
+          <li><strong>Akut:</strong> Onset &lt;72 jam; pH asidosis, tidak ada kompensasi ginjal</li>
+          <li><strong>Kronik:</strong> Onset &gt;72 jam; HCO₃⁻ meningkat (kompensasi); pH relatif normal</li>
+          <li><strong>Akut-on-kronik:</strong> Eksaserbasi pada pasien dengan gagal napas kronik (PPOK)</li>
+        </ul>
+      </div>
+    </div>
+    <p style="margin-top:8px;font-size:12px"><em>📚 West JB. Respiratory Physiology: The Essentials. 10th ed 2016 · Roussos C, Koutsoukou A. Eur Respir J Suppl 2003;47:3s · Tobin MJ. NEJM 1988;318:776</em></p>
+  </div>
+
+  <div class="cc teal" style="margin-top:10px;margin-bottom:10px">
+    <div class="ct">Global Definition of ARDS (2023)</div>
+    <p style="font-size:13px">Matthay MA et al. Am J Respir Crit Care Med 2023 memperbarui definisi Berlin 2012 dengan: (1) menambahkan HFNC ≥30 L/mnt dengan FiO₂ ≥0.4 dan NIV/CPAP sebagai setting yang memenuhi kriteria; (2) SpO₂/FiO₂ ≤315 dapat menggantikan PaO₂/FiO₂ jika AGD tidak tersedia; (3) tidak lagi mensyaratkan bilateral infiltrat simetris ketat.</p>
+    <p style="margin-top:6px;font-size:12px"><em>📚 Matthay MA et al. Am J Respir Crit Care Med 2023;207(4):374–383</em></p>
+  </div>
+
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('tipe1-theory')">📖 Gagal Napas Tipe I — Hipoksemia (PaO₂ &lt;60 mmHg) <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-tipe1-theory">
+      <p><strong>Definisi:</strong> PaO₂ &lt;60 mmHg dengan PaCO₂ normal atau rendah. A-a gradient meningkat.</p>
+      <div class="subsec">Mekanisme Tipe I</div>
+      <table>
+        <tr><th>Mekanisme</th><th>Patofisiologi</th><th>Contoh Klinis</th><th>Respons O₂</th></tr>
+        <tr><td><strong>V/Q Mismatch</strong></td><td>Alveoli ventilasi tidak sepadan dengan perfusi (atau sebaliknya). Penyebab hipoksemia tersering.</td><td>Pneumonia, PPOK, asma, PE, edema paru</td><td>Respons baik</td></tr>
+        <tr><td><strong>Shunt (Qs/Qt)</strong></td><td>Darah melewati paru tanpa kontak alveoli. Shunt anatomi atau intrapulmoner.</td><td>ARDS berat, atelektasis masif, AVM paru, PFO</td><td>Respons minimal</td></tr>
+        <tr><td><strong>Difusi Terganggu</strong></td><td>Penebalan membran alveolar-kapiler → ↓ transfer O₂.</td><td>Fibrosis paru, sarkoidosis, pneumonitis</td><td>Respons baik (istirahat)</td></tr>
+        <tr><td><strong>Hipoventilasi</strong></td><td>A-a gradient NORMAL. PAO₂ ↓ karena PaCO₂ ↑.</td><td>OHS, overdosis opiat, NMD</td><td>Respons sangat baik</td></tr>
+        <tr><td><strong>FiO₂ Rendah</strong></td><td>Tekanan parsial O₂ inspirasi rendah. A-a gradient normal.</td><td>Ketinggian, ruang terkurung</td><td>Respons baik</td></tr>
+      </table>
+      <div class="subsec">A-a Gradient</div>
+      <ul>
+        <li><strong>Formula:</strong> A-a = PAO₂ − PaO₂ = [FiO₂ × (Patm − PH₂O) − PaCO₂/RQ] − PaO₂</li>
+        <li><strong>Normal:</strong> 5–15 mmHg pada usia muda; meningkat dengan usia: ~2.5 + (0.21 × usia)</li>
+        <li><strong>A-a normal + hipoksemia:</strong> Hipoventilasi murni atau FiO₂ rendah</li>
+        <li><strong>A-a meningkat + hipoksemia:</strong> V/Q mismatch, shunt, atau difusi terganggu</li>
+      </ul>
+      <span class="ref-tag">📚 West JB. Respiratory Physiology. 10th ed 2016 · Roussos C, Koutsoukou A. Eur Respir J 2003 · Tobin MJ. NEJM 1988;318:776 · Petersson J, Glenny RW. Am J Physiol Lung Cell Mol Physiol 2014</span>
+      <div class="subsec" style="margin-top:12px">Prone Positioning pada ARDS Berat</div>
+      <ul>
+        <li><strong>PROSEVA trial (Guérin C et al. NEJM 2013;368:2159):</strong> Prone &gt;16 jam/hari pada P/F &lt;150 → mortalitas 28 hari ↓ dari 32.8% menjadi 16% (RR 0.39, NNT ~6). Rekomendasi kuat untuk ARDS berat (P/F &lt;150, SSC/ATS 2017).</li>
+        <li><strong>Mekanisme:</strong> Redistribusi ventilasi ke daerah dorsal yang lebih banyak, ↓ shunt, ↓ overdistensi ventral, ↑ drainase sekret, ↓ kompresi jantung ke paru.</li>
+        <li><strong>Kontraindikasi relatif:</strong> Fraktur tulang belakang tidak stabil, luka bakar anterior luas, tekanan intrakranial meningkat, kehamilan trimester III.</li>
+      </ul>
+      <div class="subsec">Neuromuscular Blockade (NMB) pada ARDS — Konflik Data</div>
+      <ul>
+        <li><strong>ACURASYS (Papazian L. NEJM 2010;363:1107):</strong> Cisatracurium 48 jam pada ARDS berat (P/F &lt;150) → ↓ mortalitas 90 hari dan ↑ hari bebas ventilator dibanding placebo.</li>
+        <li><strong>ROSE (Moss M. NEJM 2019;380:1997):</strong> NMB rutin 48 jam tidak lebih baik dari sedasi ringan (RASS -1 s/d 0) tanpa NMB dalam mortalitas 90 hari.</li>
+        <li><strong>Kesimpulan terkini:</strong> NMB rutin 48 jam TIDAK direkomendasikan. Pertimbangkan hanya pada ARDS berat dengan patient-ventilator dyssynchrony berat yang tidak teratasi, atau saat prone positioning berlangsung.</li>
+      </ul>
+      <div class="subsec">Driving Pressure (DP) pada ARDS</div>
+      <ul>
+        <li><strong>Definisi:</strong> DP = Plateau pressure − PEEP = VT / Compliance sistem respirasi. Mencerminkan "stress" efektif pada paru yang masih aerasi.</li>
+        <li><strong>Amato MB et al. NEJM 2015;372:747:</strong> Analisis observasional multicenter — DP &gt;14 cmH₂O dikaitkan dengan mortalitas lebih tinggi, bahkan setelah koreksi VT dan PEEP. Target DP ≤14 cmH₂O rasional.</li>
+        <li><strong>DRIVINGARDS trial (NEJM Evidence 2023):</strong> RCT pertama driving pressure-guided ventilation — tren protektif namun belum mencapai signifikansi statistik. Mendukung pendekatan DP-guided sebagai strategi tambahan, namun belum cukup untuk mengubah standar manajemen saat ini.</li>
+        <li><strong>Praktis:</strong> Jika VT 6 mL/kgIBW menghasilkan DP &gt;14 → turunkan VT ke 4–5 mL/kgIBW; jika perlu, toleransi permissive hypercapnia.</li>
+      </ul>
+      <sup class="cite-ref" data-refs="guerin2013,papazian2010,moss2019,amato2015"></sup>
+    </div>
+  </div>
+
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('tipe2-theory')">📖 Gagal Napas Tipe II — Hiperkapnia (PaCO₂ &gt;45 mmHg) <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-tipe2-theory">
+      <p><strong>Definisi:</strong> PaCO₂ &gt;45 mmHg + pH &lt;7.35 (asidosis respiratorik). Mencerminkan ventilasi alveolar yang tidak adekuat.</p>
+      <p style="margin-top:6px"><strong>Persamaan kunci:</strong> PaCO₂ = VCO₂ / VA (ventilasi alveolar) → VA = VE × (1 − VD/VT)</p>
+      <div class="subsec">Mekanisme Tipe II</div>
+      <table>
+        <tr><th>Kategori</th><th>Mekanisme</th><th>Contoh Klinis</th></tr>
+        <tr><td><strong>Drive Napas ↓</strong></td><td>Pusat napas di batang otak terganggu → ↓ RR dan VT</td><td>Overdosis opiat/BZD, stroke batang otak, hipotiroid berat, OHS</td></tr>
+        <tr><td><strong>Pompa Napas Gagal</strong></td><td>Otot napas lemah → VT ↓, dead space meningkat relatif</td><td>GBS, MG, SMA, ALS, miopati ICU, hipofosfatemia</td></tr>
+        <tr><td><strong>Beban Napas ↑</strong></td><td>Resistensi atau compliance buruk → WOB sangat tinggi → fatigue</td><td>Status asmatikus, PPOK eksaserbasi berat, efusi pleura masif</td></tr>
+        <tr><td><strong>Dead Space ↑</strong></td><td>VA efektif berkurang meski VT cukup</td><td>ARDS berat (VD/VT &gt;0.6), PE masif, syok</td></tr>
+      </table>
+      <div class="subsec">Dead Space (VD/VT)</div>
+      <ul>
+        <li><strong>Normal:</strong> VD/VT = 0.3 (30% dari setiap napas adalah dead space)</li>
+        <li><strong>ARDS berat:</strong> VD/VT bisa mencapai 0.6–0.7 → butuh VE sangat tinggi untuk normocapnia</li>
+        <li><strong>Formula Bohr:</strong> VD/VT = (PaCO₂ − PeCO₂) / PaCO₂</li>
+        <li><strong>VD/VT &gt;0.6 di ARDS:</strong> Prediktor mortalitas independen (Nuckton TJ. NEJM 2002)</li>
+        <li><strong>Klinis:</strong> VD/VT tinggi → weaning sulit meski kekuatan otot normal</li>
+      </ul>
+      <sup class="cite-ref" data-refs="gold2024"></sup>
+    </div>
+  </div>
+
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('tipe3-theory')">📖 Gagal Napas Tipe III (Perioperatif) & Tipe IV (Syok) <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-tipe3-theory">
+      <div class="subsec">Tipe III — Perioperatif / Atelektasis</div>
+      <ul>
+        <li><strong>Mekanisme:</strong> Anestesi umum → ↓ FRC 20–30% → penutupan jalan napas kecil → atelektasis → V/Q mismatch → hipoksemia</li>
+        <li><strong>Faktor risiko:</strong> Obesitas, operasi abdominal/torakal, PPOK, merokok, usia lanjut, nyeri post-op (splinting)</li>
+        <li><strong>Penatalaksanaan:</strong> PEEP ≥5 cmH₂O, rekruitmen maneuver, CPAP post-op, analgesia adekuat, early mobilisasi, spirometri insentif</li>
+        <li><strong>NIV profilaksis post-op:</strong> Efektif menurunkan re-intubasi pada pasien risiko tinggi (ECLAIR trial, Jaber 2016)</li>
+        <li><strong>HFNC post-op abdominal:</strong> OPERA trial (2024) — HFNC vs O₂ konvensional, tidak superior untuk composite outcome, namun lebih nyaman</li>
+      </ul>
+      <div class="subsec">Tipe IV — Hipoperfusi / Syok</div>
+      <ul>
+        <li><strong>Mekanisme:</strong> Syok → DO₂ tidak memenuhi VO₂ → metabolisme anaerob → laktat asidosis → gagal napas sebagai organ failure</li>
+        <li><strong>DO₂ = CO × CaO₂ × 10</strong> — CO = cardiac output, CaO₂ = Hb × 1.34 × SaO₂ + (PaO₂ × 0.003)</li>
+        <li><strong>Interaksi ventilasi-sirkulasi:</strong> Ventilasi mekanik meningkatkan tekanan intratorakal → ↓ preload → ↓ CO → perburukan syok. Resusitasi hemodinamik harus bersamaan.</li>
+        <li><strong>Tatalaksana prioritas Tipe IV:</strong> (1) Resusitasi hemodinamik, (2) Source control, (3) Ventilasi mekanik untuk mengurangi WOB otot napas (redistribusi DO₂)</li>
+      </ul>
+      <sup class="cite-ref" data-refs="jaber2016,debacker2010,evans2021"></sup>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SUB: FISIOLOGI ===== -->
+
+<script src="../../assets/js/scripts-teori.js"></script>
+<script src="../../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../../assets/js/feedback.js"></script>
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+  <script src="../../assets/data/references.js"></script>
+  <script src="../../assets/js/scripts-citations.js"></script>
+</body>
+</html>

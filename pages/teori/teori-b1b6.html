@@ -1,0 +1,654 @@
+﻿<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B1–B6 Bedside Assessment — ICU Helper</title>
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<style>
+/* ---- B1–B6 Tab Pills ---- */
+.b-tabs {
+  display: flex; gap: 4px; flex-wrap: wrap;
+  margin-bottom: 16px; padding: 6px;
+  background: var(--bg2); border-radius: 8px; border: 1px solid var(--border);
+}
+.b-tab-btn {
+  padding: 6px 14px; border-radius: 5px;
+  font-size: 12px; font-weight: 600; cursor: pointer;
+  border: none; background: transparent; color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  transition: all 0.15s; letter-spacing: 0.04em; white-space: nowrap;
+}
+.b-tab-btn:hover { background: var(--accent-dim); color: var(--accent); }
+.b-tab-btn.active { background: var(--accent); color: #000; font-weight: 700; }
+.b-section { display: none; }
+.b-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent);
+  margin: 14px 0 6px; padding-bottom: 4px; border-bottom: 1px solid var(--accent-dim2);
+}
+.ref-small {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text2);
+  margin-top: 10px; padding: 6px 10px; background: var(--accent2-dim);
+  border-left: 3px solid var(--accent2); border-radius: 0 4px 4px 0; display: block;
+}
+.target-badge {
+  display: inline-block; font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 4px;
+  background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent-dim2);
+  margin-left: 6px; vertical-align: middle;
+}
+.warn-badge {
+  display: inline-block; font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 4px;
+  background: var(--danger-dim); color: var(--danger); border: 1px solid rgba(255,59,92,0.2);
+  margin-left: 6px; vertical-align: middle;
+}
+.checklist-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+@media(max-width:600px) { .checklist-grid { grid-template-columns: 1fr; } }
+</style>
+<script>
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn" href="../kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="../ekg.html">📈 EKG</a>
+  <a class="tab-btn active" href="teori-impending.html">📖 Teori</a>
+  <a class="tab-btn" href="../skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+
+<nav class="subtab-bar">
+  <a class="subtab-btn" href="teori-impending.html">⚠️ Impending Gagal Napas</a>
+  <a class="subtab-btn" href="teori-gagalnapas.html">🫁 Gagal Napas</a>
+  <a class="subtab-btn" href="teori-fisiologi.html">🔬 Fisiologi Ventilasi</a>
+  <a class="subtab-btn" href="teori-sepsis.html">🦠 Sepsis</a>
+  <a class="subtab-btn active" href="teori-b1b6.html">📋 B1–B6</a>
+</nav>
+
+<div class="sec">📋 B1–B6 Bedside Assessment: Panduan Cepat Terapi Intensif</div>
+
+<!-- ==================== TAB PILLS ==================== -->
+<div class="b-tabs">
+  <button class="b-tab-btn" data-tab="tab-b1" onclick="showB1B6Tab('tab-b1')">B1 · Breathing</button>
+  <button class="b-tab-btn" data-tab="tab-b2" onclick="showB1B6Tab('tab-b2')">B2 · Blood</button>
+  <button class="b-tab-btn" data-tab="tab-b3" onclick="showB1B6Tab('tab-b3')">B3 · Brain</button>
+  <button class="b-tab-btn" data-tab="tab-b4" onclick="showB1B6Tab('tab-b4')">B4 · Bladder</button>
+  <button class="b-tab-btn" data-tab="tab-b5" onclick="showB1B6Tab('tab-b5')">B5 · Bowel</button>
+  <button class="b-tab-btn" data-tab="tab-b6" onclick="showB1B6Tab('tab-b6')">B6 · Bone/Integumen</button>
+  <button class="b-tab-btn" data-tab="tab-ringkasan" onclick="showB1B6Tab('tab-ringkasan')">📋 Ringkasan</button>
+</div>
+
+<!-- ==================== B1 — BREATHING ==================== -->
+<div class="b-section" id="tab-b1">
+
+  <div class="cc blue">
+    <div class="ct">B1 — Breathing (Pernapasan) · Komponen Penilaian Bedside</div>
+    <div class="grid2" style="margin-top:8px">
+      <div>
+        <p><strong>Parameter Vital:</strong></p>
+        <ul>
+          <li><strong>RR</strong> — normal 12–20 x/mnt; ≥30 = distress berat</li>
+          <li><strong>SpO₂</strong> — sesuai target kondisi (lihat tabel)</li>
+          <li><strong>Work of Breathing (WOB)</strong> — otot aksesori, retraksi, tripod position</li>
+        </ul>
+      </div>
+      <div>
+        <p><strong>Auskultasi & Pola Napas:</strong></p>
+        <ul>
+          <li>Vesikuler, ronkhi, wheezing, stridor, pleural rub</li>
+          <li>Kusmaul (asidosis metabolik), Cheyne-Stokes (gagal jantung/neurologis)</li>
+          <li>Paradoxal breathing → kelelahan diafragma → ancaman intubasi</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="b-label">Target SpO₂ per Kondisi Klinis</div>
+  <table>
+    <tr><th>Kondisi</th><th>Target SpO₂</th><th>Catatan</th></tr>
+    <tr><td>Umum / pasca-resusitasi</td><td><span class="target-badge">94–98%</span></td><td>Hindari hiperoksia</td></tr>
+    <tr><td>ARDS sedang–berat</td><td><span class="target-badge">88–95%</span></td><td>Toleransi hipoksemia permisif</td></tr>
+    <tr><td>PPOK / hiperkania kronik</td><td><span class="target-badge">88–92%</span></td><td>Hindari supresi drive napas</td></tr>
+    <tr><td>Stroke / post-cardiac arrest</td><td><span class="target-badge">94–98%</span></td><td>Hiperoksia berbahaya untuk otak</td></tr>
+    <tr><td>Neonatal / pediatrik</td><td><span class="target-badge">91–95%</span></td><td>Sesuai panduan unit</td></tr>
+  </table>
+
+  <div class="b-label">Klasifikasi ARDS — P/F Ratio (Berlin 2012)</div>
+  <table>
+    <tr><th>Derajat</th><th>P/F Ratio (mmHg)</th><th>SpO₂/FiO₂ Setara</th><th>PEEP Min.</th></tr>
+    <tr><td>Ringan</td><td>200–300 <span class="target-badge">Mild</span></td><td>≤315</td><td>≥5 cmH₂O</td></tr>
+    <tr><td>Sedang</td><td>100–200 <span class="warn-badge">Moderate</span></td><td>≤264</td><td>≥5 cmH₂O</td></tr>
+    <tr><td>Berat</td><td>&lt;100 <span class="warn-badge">Severe</span></td><td>≤221</td><td>≥5 cmH₂O</td></tr>
+  </table>
+
+  <div class="b-label">Parameter Ventilator — Target Lung-Protective</div>
+  <table>
+    <tr><th>Parameter</th><th>Target</th><th>Batas Aman</th></tr>
+    <tr><td>Tidal Volume</td><td>6 mL/kgBB IBW</td><td>4–8 mL/kgBB IBW</td></tr>
+    <tr><td>Plateau Pressure (Pplat)</td><td>≤28 cmH₂O</td><td><span class="warn-badge">≤30 cmH₂O MUTLAK</span></td></tr>
+    <tr><td>Driving Pressure (ΔP)</td><td><span class="target-badge">≤15 cmH₂O</span></td><td>≤15 ideal (Amato 2015)</td></tr>
+    <tr><td>PEEP</td><td>Per tabel ARDSNet / eskalasi klinis</td><td>—</td></tr>
+    <tr><td>RR</td><td>14–25 x/mnt</td><td>Sesuai pH &amp; PaCO₂</td></tr>
+    <tr><td>FiO₂</td><td>Titrasi ke SpO₂ target</td><td>Turunkan secepat mungkin</td></tr>
+  </table>
+
+  <sup class="cite-ref" data-refs="esicm2023ards,ardsnet2000,amato2015,matthay2023"></sup>
+
+</div>
+
+<!-- ==================== B2 — BLOOD ==================== -->
+<div class="b-section" id="tab-b2">
+
+  <div class="cc teal">
+    <div class="ct">B2 — Blood / Sirkulasi · Komponen Penilaian Bedside</div>
+    <div class="grid2" style="margin-top:8px">
+      <div>
+        <p><strong>Parameter Hemodinamik:</strong></p>
+        <ul>
+          <li><strong>HR</strong> — normal 60–100 bpm; takikardia = kompensasi?</li>
+          <li><strong>BP &amp; MAP</strong> — tekanan nadi menyempit = low CO</li>
+          <li><strong>JVP</strong> — tinggi = gagal jantung kanan / tamponade</li>
+          <li><strong>CRT</strong> — &gt;2 detik = hipoperfusi perifer</li>
+        </ul>
+      </div>
+      <div>
+        <p><strong>Biomarker Sirkulasi:</strong></p>
+        <ul>
+          <li><strong>Laktat</strong> — target &lt;2 mmol/L; clearance ≥10%/2 jam</li>
+          <li><strong>ScvO₂</strong> — &lt;70% = inadequate DO₂ atau↑ VO₂</li>
+          <li><strong>Troponin</strong> — elevasi = myocardial injury</li>
+          <li><strong>BNP/NT-proBNP</strong> — penanda volume overload</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="b-label">Target MAP per Kondisi</div>
+  <table>
+    <tr><th>Kondisi</th><th>Target MAP</th><th>Catatan</th></tr>
+    <tr><td>Septic shock (umum)</td><td><span class="target-badge">≥65 mmHg</span></td><td>SSC 2021/2026</td></tr>
+    <tr><td>Septic shock ≥65 tahun / riwayat HT kronik</td><td><span class="target-badge">60–65 mmHg</span></td><td>65+ mnt tidak meningkatkan outcome (65 Trial)</td></tr>
+    <tr><td>TBI / Stroke iskemik akut</td><td><span class="target-badge">≥80 mmHg</span></td><td>Lindungi CPP</td></tr>
+    <tr><td>Post-cardiac arrest</td><td><span class="target-badge">≥65–80 mmHg</span></td><td>Sesuai guideline lokal</td></tr>
+    <tr><td>Hipotensi ortostatik tanpa syok</td><td>Klinis + simtom</td><td>—</td></tr>
+  </table>
+
+  <div class="b-label">Fluid Responsiveness</div>
+  <div class="cc gray-c">
+    <p>Prediksi respons terhadap pemberian cairan — lakukan sebelum bolus IV:</p>
+    <table style="margin-top:8px">
+      <tr><th>Metode</th><th>Nilai Prediktif Positif</th><th>Syarat</th></tr>
+      <tr><td>Passive Leg Raise (PLR)</td><td>↑ CO ≥10–15% dalam 60–90 dtk</td><td>Bisa dilakukan semua pasien</td></tr>
+      <tr><td>Pulse Pressure Variation (PPV)</td><td><span class="warn-badge">&gt;13%</span></td><td>VM, sinus rhythm, VT 8 mL/kg</td></tr>
+      <tr><td>Stroke Volume Variation (SVV)</td><td><span class="warn-badge">&gt;10%</span></td><td>VM, sinus rhythm</td></tr>
+      <tr><td>End-expiratory Occlusion Test</td><td>↑ CO ≥5%</td><td>VM, tolerasi apnea 15 dtk</td></tr>
+    </table>
+    <p style="margin-top:8px;font-size:12px"><em>Fluid challenge: 250 mL kristaloid dalam 10–15 mnt, evaluasi ulang hemodinamik. Tidak ada formula tetap.</em></p>
+  </div>
+
+  <div class="b-label">Vasopressor — Pilihan & Dosis</div>
+  <table>
+    <tr><th>Obat</th><th>Dosis Awal</th><th>Dosis Maks.</th><th>Indikasi</th></tr>
+    <tr><td><strong>Norepinefrin</strong></td><td>0.01–0.05 mcg/kg/mnt</td><td>0.5–1 mcg/kg/mnt</td><td>Lini 1 — septic shock, distributif</td></tr>
+    <tr><td><strong>Vasopressin</strong></td><td>0.03–0.04 U/mnt (fixed)</td><td>0.06 U/mnt</td><td>Add-on jika NE ≥0.25 mcg/kg/mnt</td></tr>
+    <tr><td><strong>Epinefrin</strong></td><td>0.01–0.05 mcg/kg/mnt</td><td>0.5 mcg/kg/mnt</td><td>Anafilaksis; lini 2 septic shock</td></tr>
+    <tr><td><strong>Dobutamin</strong></td><td>2.5–5 mcg/kg/mnt</td><td>20 mcg/kg/mnt</td><td>Low CO, gagal jantung kardiogenik</td></tr>
+    <tr><td><strong>Fenilefrin</strong></td><td>100–200 mcg/mnt</td><td>—</td><td>Vasodilatasi tanpa takikardia (AFib + syok)</td></tr>
+  </table>
+
+  <div class="b-label">Target Laktat</div>
+  <div class="cc amber">
+    <table>
+      <tr><th>Nilai Laktat</th><th>Interpretasi</th><th>Tindakan</th></tr>
+      <tr><td>&lt;2 mmol/L</td><td>Normal</td><td>Observasi, pertahankan kondisi</td></tr>
+      <tr><td>2–4 mmol/L</td><td>Hipoperfusi subklinis</td><td>Optimasi hemodinamik, evaluasi ulang 2 jam</td></tr>
+      <tr><td><span class="warn-badge">&gt;4 mmol/L</span></td><td>Syok / hipoperfusi berat</td><td>Resusitasi agresif, pertimbangkan CRRT</td></tr>
+    </table>
+    <p style="margin-top:8px;font-size:12px"><strong>Laktat clearance ≥10% setiap 2 jam</strong> — target SSC sebagai marker adequacy resusitasi. Laktat non-hipoksik: gagal hepar, metformin, tiamin defisiensi.</p>
+  </div>
+
+  <sup class="cite-ref" data-refs="esicm2024fluid,trial652020,monnet2023"></sup>
+
+</div>
+
+<!-- ==================== B3 — BRAIN ==================== -->
+<div class="b-section" id="tab-b3">
+
+  <div class="cc purple">
+    <div class="ct">B3 — Brain / Persarafan · Komponen Penilaian Bedside</div>
+    <div class="grid2" style="margin-top:8px">
+      <div>
+        <p><strong>Kesadaran:</strong></p>
+        <ul>
+          <li><strong>GCS</strong> — Mata (1–4) + Verbal (1–5) + Motorik (1–6); total 3–15</li>
+          <li><strong>AVPU</strong> — Alert / Voice / Pain / Unresponsive (bedside cepat)</li>
+          <li>GCS ≤8 → pertimbangkan proteksi jalan napas</li>
+        </ul>
+      </div>
+      <div>
+        <p><strong>Pupil:</strong></p>
+        <ul>
+          <li>Ukuran normal: 2–5 mm bilateral</li>
+          <li>Refleks cahaya: langsung + tidak langsung</li>
+          <li>Anisokoria &gt;1 mm + fixed → herniasi uncal?</li>
+          <li>Pinpoint (1 mm): opiat, pontin lesion</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="b-label">Sedasi — Target RASS</div>
+  <table>
+    <tr><th>RASS</th><th>Deskripsi</th><th>Kondisi</th></tr>
+    <tr><td>0</td><td>Alert, tenang</td><td>Target umum (weaning, post-op)</td></tr>
+    <tr><td>-1</td><td>Mengantuk, buka mata &gt;10 dtk terhadap suara</td><td><span class="target-badge">Target ICU</span></td></tr>
+    <tr><td>-2</td><td>Sedasi ringan, buka mata &lt;10 dtk</td><td>Dapat diterima bila diperlukan</td></tr>
+    <tr><td>-3 s/d -5</td><td>Sedasi dalam hingga tidak responsif</td><td><span class="warn-badge">Hindari kecuali indikasi</span></td></tr>
+  </table>
+  <div class="cc gray-c" style="margin-top:8px">
+    <p><strong>Pilihan Agen Sedasi (PADIS 2025):</strong></p>
+    <ul>
+      <li><strong>Dexmedetomidine</strong> — direkomendasikan (kondisional) di atas propofol untuk ventilasi mekanik dewasa; ↓ durasi delirium</li>
+      <li><strong>Propofol</strong> — alternatif, awasi hipertrigliseridemia dan propofol infusion syndrome &gt;48 jam</li>
+      <li><strong>Midazolam</strong> — hindari untuk sedasi rutin; risiko akumulasi dan delirium lebih tinggi</li>
+    </ul>
+  </div>
+
+  <div class="b-label">Penilaian Nyeri</div>
+  <table>
+    <tr><th>Skala</th><th>Digunakan Pada</th><th>Skor Nyeri Signifikan</th></tr>
+    <tr><td><strong>CPOT</strong> (Critical-Care Pain Observation Tool)</td><td>Pasien tidak bisa komunikasi verbal / terintubasi</td><td>≥3 dari 8</td></tr>
+    <tr><td><strong>NRS</strong> (Numeric Rating Scale)</td><td>Pasien sadar dan dapat berkomunikasi</td><td>≥4 dari 10</td></tr>
+    <tr><td><strong>BPS</strong> (Behavioral Pain Scale)</td><td>Alternatif CPOT — pasien terintubasi</td><td>≥6 dari 12</td></tr>
+  </table>
+
+  <div class="b-label">Penilaian Delirium</div>
+  <table>
+    <tr><th>Alat</th><th>Setting</th><th>Positif Jika</th></tr>
+    <tr><td><strong>CAM-ICU</strong></td><td>Pasien terintubasi / ICU ventilator</td><td>Fitur 1+2 AND (3 OR 4) positif</td></tr>
+    <tr><td><strong>ICDSC</strong></td><td>Pasien ICU non-intubasi</td><td>Skor ≥4 dari 8</td></tr>
+  </table>
+  <div class="cc amber" style="margin-top:8px">
+    <p><strong>Pencegahan &amp; Terapi Delirium (PADIS 2025):</strong></p>
+    <ul>
+      <li>Melatonin 3–5 mg malam hari — kondisional untuk pencegahan</li>
+      <li><strong>Antipsikotik (haloperidol, quetiapine) TIDAK direkomendasikan</strong> secara rutin untuk terapi delirium — tidak memperpendek durasi</li>
+      <li>Orientasi ulang, mobilisasi dini, siklus tidur/bangun, kurangi sedasi</li>
+    </ul>
+  </div>
+
+  <div class="b-label">ABCDEF Bundle — Ringkasan</div>
+  <div class="cc blue">
+    <table>
+      <tr><th>Huruf</th><th>Komponen</th></tr>
+      <tr><td><strong>A</strong></td><td>Assess, Prevent, and Manage Pain</td></tr>
+      <tr><td><strong>B</strong></td><td>Both SAT (Spontaneous Awakening Trial) &amp; SBT (Spontaneous Breathing Trial)</td></tr>
+      <tr><td><strong>C</strong></td><td>Choice of Analgesia and Sedation (minimize benzodiazepine)</td></tr>
+      <tr><td><strong>D</strong></td><td>Delirium: Assess, Prevent, Manage</td></tr>
+      <tr><td><strong>E</strong></td><td>Early Mobility and Exercise</td></tr>
+      <tr><td><strong>F</strong></td><td>Family Engagement and Empowerment</td></tr>
+    </table>
+    <p style="margin-top:8px;font-size:12px"><em>Implementasi bundle penuh ↓ mortalitas, ICU LOS, ventilator days (Pun BT et al. Crit Care Med 2021 — 15.226 pasien).</em></p>
+  </div>
+
+  <sup class="cite-ref" data-refs="padis2025,sarwal2023,pun2021"></sup>
+
+</div>
+
+<!-- ==================== B4 — BLADDER ==================== -->
+<div class="b-section" id="tab-b4">
+
+  <div class="cc teal">
+    <div class="ct">B4 — Bladder / Renal &amp; Balans Cairan · Komponen Penilaian Bedside</div>
+    <div class="grid2" style="margin-top:8px">
+      <div>
+        <p><strong>Parameter:</strong></p>
+        <ul>
+          <li><strong>Urine Output (UO)</strong> — target ≥0.5 mL/kgBB/jam</li>
+          <li>Oliguria: &lt;0.5 mL/kg/jam (&gt;6 jam)</li>
+          <li>Anuria: &lt;50 mL/hari</li>
+        </ul>
+      </div>
+      <div>
+        <p><strong>Evaluasi Awal:</strong></p>
+        <ul>
+          <li>Kateter paten? posisi benar?</li>
+          <li>Pre-renal vs renal vs post-renal</li>
+          <li>FENa &lt;1% = pre-renal; &gt;2% = renal</li>
+          <li>Kreatinin tren — rising vs plateau</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="b-label">Staging AKI — KDIGO 2012 / Update 2026</div>
+  <table>
+    <tr><th>Stage</th><th>Kreatinin</th><th>Urine Output</th></tr>
+    <tr><td><strong>Stage 1</strong></td><td>↑1.5–1.9× baseline, ATAU ↑≥0.3 mg/dL dalam 48 jam</td><td>&lt;0.5 mL/kg/jam selama 6–12 jam</td></tr>
+    <tr><td><strong>Stage 2</strong></td><td>↑2.0–2.9× baseline</td><td>&lt;0.5 mL/kg/jam ≥12 jam</td></tr>
+    <tr><td><span class="warn-badge">Stage 3</span></td><td>↑≥3× baseline, ATAU ≥4.0 mg/dL, ATAU mulai RRT</td><td>&lt;0.3 mL/kg/jam ≥24 jam, ATAU anuria ≥12 jam</td></tr>
+  </table>
+
+  <div class="b-label">Balans Cairan — Monitoring Harian</div>
+  <div class="cc gray-c">
+    <div class="grid2">
+      <div>
+        <p><strong>Intake (hitung semua):</strong></p>
+        <ul>
+          <li>Cairan IV (kristaloid, koloid)</li>
+          <li>Nutrisi enteral / parenteral</li>
+          <li>Obat-obatan terlarut</li>
+          <li>Produk darah</li>
+          <li>Oral / via NGT</li>
+        </ul>
+      </div>
+      <div>
+        <p><strong>Output (catat semua):</strong></p>
+        <ul>
+          <li>Urine (kateter / spontan)</li>
+          <li>NGT / gastric drainage</li>
+          <li>Drain luka / chest tube</li>
+          <li>Insensible Water Loss (IWL): 10–15 mL/kgBB/hari + koreksi demam</li>
+          <li>Diare, muntah, stoma</li>
+        </ul>
+      </div>
+    </div>
+    <p style="margin-top:10px"><strong>Target balans:</strong> Resusitasi awal (0–6 jam) → positif oke. Fase optimasi (6–24 jam) → netral. Fase de-eskalasi (&gt;24 jam) → <strong>negatif</strong> (kurangi edema, ↑ keberhasilan weaning).</p>
+  </div>
+
+  <div class="b-label">Indikasi RRT (Renal Replacement Therapy)</div>
+  <table>
+    <tr><th>Indikasi</th><th>Ambang</th></tr>
+    <tr><td>Fluid overload refrakter</td><td>&gt;10–15% berat badan; gagal respons diuretik</td></tr>
+    <tr><td>Hiperkalemia refrakter</td><td><span class="warn-badge">K⁺ &gt;6.5 mEq/L</span> atau EKG changes</td></tr>
+    <tr><td>Asidosis metabolik berat</td><td><span class="warn-badge">pH &lt;7.1</span> refrakter</td></tr>
+    <tr><td>Uremia simtomatik</td><td>Perikarditis, ensefalopati, perdarahan uremik</td></tr>
+    <tr><td>Keracunan dialyzable</td><td>Metanol, etilen glikol, litium, salisilat</td></tr>
+  </table>
+
+  <sup class="cite-ref" data-refs="kdigo2012aki,gaudry2016,startaki2020"></sup>
+
+</div>
+
+<!-- ==================== B5 — BOWEL ==================== -->
+<div class="b-section" id="tab-b5">
+
+  <div class="cc green">
+    <div class="ct">B5 — Bowel / Pencernaan &amp; Nutrisi · Komponen Penilaian Bedside</div>
+    <p style="margin-top:8px"><strong>Urutan Pemeriksaan Abdomen:</strong> I-A-P-P (Inspeksi → Auskultasi → Perkusi → Palpasi)</p>
+    <div class="grid2" style="margin-top:8px">
+      <div>
+        <ul>
+          <li><strong>Inspeksi:</strong> distensi, skar, ostomi, hernia</li>
+          <li><strong>Auskultasi:</strong> bising usus (normal: 5–34/mnt), metalik = obstruksi</li>
+        </ul>
+      </div>
+      <div>
+        <ul>
+          <li><strong>Perkusi:</strong> timpani (gas), pekak (cairan/massa)</li>
+          <li><strong>Palpasi:</strong> nyeri tekan, defense, rigiditas, organ</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="b-label">Target Nutrisi ICU</div>
+  <table>
+    <tr><th>Parameter</th><th>Target</th><th>Catatan</th></tr>
+    <tr><td>Kalori total</td><td><span class="target-badge">25–30 kkal/kgBB/hari</span></td><td>Gunakan berat aktual atau IBW (jika obesitas)</td></tr>
+    <tr><td>Protein</td><td><span class="target-badge">1.2–2.0 g/kgBB/hari</span></td><td>↑ 2.0–2.5 pada luka bakar, CRRT</td></tr>
+    <tr><td>Karbohidrat</td><td>~3–5 g/kgBB/hari</td><td>Hindari hiperglikemia</td></tr>
+    <tr><td>Lemak</td><td>~1–1.5 g/kgBB/hari</td><td>Awasi trigliserida jika propofol</td></tr>
+    <tr><td>Target GDS</td><td>140–180 mg/dL</td><td>Protokol insulin jika &gt;180 berulang</td></tr>
+  </table>
+
+  <div class="b-label">Early Enteral Nutrition (EN)</div>
+  <div class="cc blue">
+    <ul>
+      <li>Mulai EN <strong>dalam 24–48 jam</strong> setelah masuk ICU bila hemodinamik stabil (tidak pada dosis vasopressor yang ↑/↑↑)</li>
+      <li>Target laju: 10–20 mL/jam → eskalasi bertahap ke target kalori dalam 48–72 jam</li>
+      <li>Posisi kepala tempat tidur: 30–45° untuk mengurangi risiko aspirasi</li>
+      <li>Pantau toleransi tiap 4–6 jam (lihat tanda intoleransi di bawah)</li>
+    </ul>
+  </div>
+
+  <div class="b-label">Tanda Feeding Intolerance</div>
+  <table>
+    <tr><th>Tanda</th><th>Ambang Klinis</th><th>Tindakan</th></tr>
+    <tr><td>Distensi abdomen signifikan</td><td>Lingkar abdomen ↑ &gt;3 cm / pemeriksaan klinis</td><td>Kurangi/tunda EN, evaluasi penyebab</td></tr>
+    <tr><td>Muntah / regurgitasi</td><td>Volume &gt;yang diberikan</td><td>Stop sementara, posisikan ulang, prokinetik</td></tr>
+    <tr><td>Gastric Residual Volume (GRV)</td><td><span class="warn-badge">&gt;500 mL/4–6 jam</span></td><td>Tahan EN, berikan prokinetik, cek posisi NGT</td></tr>
+    <tr><td>Diare</td><td>&gt;3× defekasi cair/hari</td><td>Evaluasi C. diff, osmolaritas formula, infeksi</td></tr>
+  </table>
+
+  <div class="b-label">Tekanan Intraabdominal (IAP)</div>
+  <div class="cc amber">
+    <table>
+      <tr><th>IAP</th><th>Klasifikasi</th></tr>
+      <tr><td>&lt;12 mmHg</td><td>Normal</td></tr>
+      <tr><td>12–15 mmHg</td><td>Hipertensi Intraabdominal (IAH) Grade I</td></tr>
+      <tr><td>16–20 mmHg</td><td>IAH Grade II</td></tr>
+      <tr><td>21–25 mmHg</td><td>IAH Grade III</td></tr>
+      <tr><td><span class="warn-badge">&gt;25 mmHg</span></td><td>IAH Grade IV → risiko Abdominal Compartment Syndrome (ACS)</td></tr>
+    </table>
+    <p style="margin-top:8px;font-size:12px"><em>Pengukuran via kateter urin dengan teknik Kron. ACS = IAP &gt;20 mmHg + disfungsi organ baru.</em></p>
+  </div>
+
+  <sup class="cite-ref" data-refs="aspen2022,taylor2016,singer2019"></sup>
+
+</div>
+
+<!-- ==================== B6 — BONE/INTEGUMEN ==================== -->
+<div class="b-section" id="tab-b6">
+
+  <div class="cc coral">
+    <div class="ct">B6 — Bone, Integumen &amp; Other · Komponen Penilaian Bedside</div>
+    <p style="margin-top:8px">Sistem muskuloskeletal, kulit, dan perfusi perifer. Seringkali diabaikan namun krusial untuk outcome ICU jangka panjang (PICS).</p>
+  </div>
+
+  <div class="b-label">MRC Scale — Penilaian Kekuatan Otot</div>
+  <table>
+    <tr><th>Skor MRC</th><th>Deskripsi</th></tr>
+    <tr><td><strong>0</strong></td><td>Tidak ada kontraksi otot sama sekali</td></tr>
+    <tr><td><strong>1</strong></td><td>Kedutan / flicker, tidak ada gerakan sendi</td></tr>
+    <tr><td><strong>2</strong></td><td>Gerakan aktif, tidak melawan gravitasi</td></tr>
+    <tr><td><strong>3</strong></td><td>Gerakan aktif melawan gravitasi tanpa resistensi</td></tr>
+    <tr><td><strong>4</strong></td><td>Gerakan aktif melawan gravitasi + resistensi sebagian</td></tr>
+    <tr><td><strong>5</strong></td><td>Kekuatan normal</td></tr>
+  </table>
+  <div class="cc gray-c" style="margin-top:8px">
+    <p><strong>ICU-Acquired Weakness (ICUAW):</strong></p>
+    <ul>
+      <li>Insidensi: <strong>25–50%</strong> pada pasien ICU ≥7 hari</li>
+      <li>Kriteria: MRC sum score &lt;48 dari 60 (bilateral, 6 kelompok otot)</li>
+      <li>Faktor risiko: imobilisasi, kortikosteroid, hiperglikemia, sepsis, NMB berkepanjangan, ventilasi mekanik &gt;7 hari</li>
+      <li>Intervensi: mobilisasi dini (lihat ABCDEF Bundle), kontrol glikemik, minimalisasi NMB</li>
+    </ul>
+  </div>
+
+  <div class="b-label">Capillary Refill Time (CRT)</div>
+  <div class="cc teal">
+    <p><strong>Teknik:</strong> Tekan ujung jari/kuku selama 5 detik → lepas → hitung waktu kembali ke warna normal.</p>
+    <table style="margin-top:8px">
+      <tr><th>Waktu CRT</th><th>Interpretasi</th></tr>
+      <tr><td><span class="target-badge">&lt;2 detik</span></td><td>Normal — perfusi perifer adekuat</td></tr>
+      <tr><td>2–3 detik</td><td>Borderline — awasi, evaluasi hemodinamik</td></tr>
+      <tr><td><span class="warn-badge">&gt;3 detik</span></td><td>Hipoperfusi perifer — resusitasi / evaluasi output jantung</td></tr>
+    </table>
+    <p style="margin-top:8px;font-size:12px"><em>CRT-guided resusitasi: ANDROMEDA-SHOCK-2 (NEJM 2023) — tidak lebih baik dari laktat-guided pada mortalitas 28 hari, namun CRT lebih cepat diukur bedside.</em></p>
+  </div>
+
+  <div class="b-label">Edema — Grading Pitting</div>
+  <table>
+    <tr><th>Grade</th><th>Kedalaman Pitting</th><th>Keterangan</th></tr>
+    <tr><td>+1</td><td>&lt;2 mm</td><td>Cepat menghilang (&lt;15 dtk)</td></tr>
+    <tr><td>+2</td><td>2–4 mm</td><td>Menghilang dalam 15–30 dtk</td></tr>
+    <tr><td>+3</td><td>4–6 mm</td><td>Menetap &gt;1 menit</td></tr>
+    <tr><td>+4</td><td>&gt;6 mm</td><td>Sangat dalam, menetap &gt;2 menit</td></tr>
+  </table>
+
+  <div class="b-label">Pressure Injury — NPUAP/EPUAP Staging</div>
+  <table>
+    <tr><th>Stage</th><th>Deskripsi</th></tr>
+    <tr><td><strong>Stage 1</strong></td><td>Eritema non-blanching, kulit intak</td></tr>
+    <tr><td><strong>Stage 2</strong></td><td>Hilangnya lapisan parsial dermis; luka terbuka/merah</td></tr>
+    <tr><td><strong>Stage 3</strong></td><td>Hilangnya lapisan penuh; lemak subkutan terlihat</td></tr>
+    <tr><td><span class="warn-badge">Stage 4</span></td><td>Hilangnya lapisan penuh + keterlibatan otot/tendon/tulang</td></tr>
+    <tr><td>Unstageable</td><td>Luka penuh ditutupi slough/eschar</td></tr>
+    <tr><td>Deep Tissue (DTI)</td><td>Kulit intak/melepuh, warna ungu/merah anggur — kerusakan dalam</td></tr>
+  </table>
+
+  <div class="b-label">Mottling Score</div>
+  <table>
+    <tr><th>Skor</th><th>Area Mottling</th></tr>
+    <tr><td>0</td><td>Tidak ada</td></tr>
+    <tr><td>1</td><td>Terbatas pada lutut</td></tr>
+    <tr><td>2</td><td>Meluas ke paha atas (tidak melebihi paha)</td></tr>
+    <tr><td>3</td><td>Meluas ke lipatan inguinal</td></tr>
+    <tr><td>4</td><td>Meluas ke umbilikus</td></tr>
+    <tr><td><span class="warn-badge">5</span></td><td>Seluruh ekstremitas bawah + batang tubuh</td></tr>
+  </table>
+  <p style="font-size:12px;margin-top:6px"><em>Mottling score ≥3 pada 1 jam resusitasi → mortalitas 50% (Jouffroy R, 2019).</em></p>
+
+  <div class="b-label">Early Mobilization — Prinsip Umum</div>
+  <div class="cc blue">
+    <ul>
+      <li>Mulai sedini mungkin bila hemodinamik stabil dan tidak ada kontraindikasi</li>
+      <li>Tangga mobilisasi: latihan pasif → aktif-bantu → duduk di tempat tidur → duduk di kursi → berdiri → berjalan</li>
+      <li>Ventilasi mekanik bukan kontraindikasi mutlak — pasien intubasi bisa latihan di TT</li>
+      <li>Koordinasikan dengan SAT (Spontaneous Awakening Trial) dan SBT</li>
+    </ul>
+  </div>
+
+  <sup class="cite-ref" data-refs="npuap2019"></sup>
+
+</div>
+
+<!-- ==================== RINGKASAN ==================== -->
+<div class="b-section" id="tab-ringkasan">
+
+  <div class="cc blue">
+    <div class="ct">📋 Keterkaitan B1–B6 dengan Ventilasi Mekanik</div>
+    <table style="margin-top:8px">
+      <tr><th>Sistem</th><th>Hubungan dengan Ventilasi Mekanik</th></tr>
+      <tr><td><strong>B1 · Breathing</strong></td><td>Setting primer: VT, PEEP, FiO₂, mode, RR, driving pressure — semua langsung mempengaruhi oksigenasi &amp; ventilasi</td></tr>
+      <tr><td><strong>B2 · Blood</strong></td><td>PEEP tinggi → ↓ preload → ↓ CO; resusitasi berlebih → edema paru → perburukan ventilasi. MAP mempengaruhi DO₂</td></tr>
+      <tr><td><strong>B3 · Brain</strong></td><td>Sedasi dalam → ↑ durasi VM; delirium memperpanjang ICU-LOS; SAT+SBT terbukti ↓ durasi ventilasi</td></tr>
+      <tr><td><strong>B4 · Bladder</strong></td><td>Fluid overload → edema paru → FRC ↓ → perburukan hipoksemia. AKI berat → indikasi RRT. Balans negatif → ↑ keberhasilan weaning</td></tr>
+      <tr><td><strong>B5 · Bowel</strong></td><td>Distensi abdomen → ↑ IAP → ↑ Pplat → barotrauma. Nutrisi adekuat ↑ kekuatan otot napas → ↑ kemampuan weaning</td></tr>
+      <tr><td><strong>B6 · Bone/Integumen</strong></td><td>ICUAW → kegagalan weaning. Mobilisasi dini ↓ durasi VM. Pressure injury ↑ infeksi → sepsis → perburukan kondisi keseluruhan</td></tr>
+    </table>
+  </div>
+
+  <div class="b-label">Checklist Bedside Cepat — B1 s/d B6</div>
+  <div class="checklist-grid">
+
+    <div class="cc blue">
+      <div class="ct">🫁 B1 · Breathing</div>
+      <ul>
+        <li>RR &amp; SpO₂ dalam target?</li>
+        <li>WOB berlebihan? otot aksesori?</li>
+        <li>Driving pressure ≤15 cmH₂O?</li>
+        <li>Pplat ≤30 cmH₂O?</li>
+        <li>FiO₂ sudah diturunkan?</li>
+        <li>Auskultasi bilateral?</li>
+      </ul>
+    </div>
+
+    <div class="cc teal">
+      <div class="ct">❤️ B2 · Blood</div>
+      <ul>
+        <li>MAP ≥65 mmHg?</li>
+        <li>Laktat &lt;2 mmol/L? clearance ≥10%?</li>
+        <li>Vasopressor dosis terendah?</li>
+        <li>Fluid responsiveness dinilai?</li>
+        <li>CRT &lt;2 detik?</li>
+        <li>Irama jantung normal?</li>
+      </ul>
+    </div>
+
+    <div class="cc purple">
+      <div class="ct">🧠 B3 · Brain</div>
+      <ul>
+        <li>RASS sesuai target (-1 s/d 0)?</li>
+        <li>Nyeri dinilai (CPOT/NRS)?</li>
+        <li>CAM-ICU sudah dilakukan?</li>
+        <li>SAT dilakukan hari ini?</li>
+        <li>Pupil reaktif bilateral?</li>
+        <li>Sedasi diminimalkan?</li>
+      </ul>
+    </div>
+
+    <div class="cc teal">
+      <div class="ct">🫘 B4 · Bladder</div>
+      <ul>
+        <li>UO ≥0.5 mL/kgBB/jam?</li>
+        <li>Balans cairan dihitung?</li>
+        <li>Tren kreatinin stabil/turun?</li>
+        <li>Indikasi RRT dinilai?</li>
+        <li>Target balans negatif fase de-eskalasi?</li>
+      </ul>
+    </div>
+
+    <div class="cc green">
+      <div class="ct">🌿 B5 · Bowel</div>
+      <ul>
+        <li>EN sudah dimulai (bila aman)?</li>
+        <li>Target kalori &amp; protein tercapai?</li>
+        <li>GRV &lt;500 mL?</li>
+        <li>Distensi atau IAH?</li>
+        <li>GDS 140–180 mg/dL?</li>
+      </ul>
+    </div>
+
+    <div class="cc coral">
+      <div class="ct">🦴 B6 · Bone/Integumen</div>
+      <ul>
+        <li>Mobilisasi dilakukan hari ini?</li>
+        <li>Kulit &amp; pressure point diperiksa?</li>
+        <li>Edema grade?</li>
+        <li>Mottling ada?</li>
+        <li>MRC dinilai (bila memungkinkan)?</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <sup class="cite-ref" data-refs="padis2025,evans2021,kdigo2012aki,esicm2023ards,aspen2022"></sup>
+
+</div>
+
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+
+<script src="../../assets/js/scripts-teori-b1b6.js"></script>
+<script src="../../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../../assets/js/feedback.js"></script>
+  <script src="../../assets/data/references.js"></script>
+  <script src="../../assets/js/scripts-citations.js"></script>
+</body>
+</html>
+

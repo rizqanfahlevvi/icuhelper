@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P/F Ratio & Oxygenation Index — Cheatsheet Ventilator Dewasa</title>
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<script>
+/* Anti-FOUC: apply saved theme before paint */
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn active" href="kalkulator-ibw.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="../ekg.html">📈 EKG</a>
+  <a class="tab-btn" href="../teori.html">📖 Teori</a>
+  <a class="tab-btn" href="../skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+
+<nav class="subtab-bar">
+  <a class="subtab-btn" href="kalkulator-ibw.html">⚖️ IBW & Parameter</a>
+  <a class="subtab-btn" href="kalkulator-drug.html">💊 Sedasi & Paralitik</a>
+  <a class="subtab-btn" href="kalkulator-pump.html">🔬 Syringe Pump</a>
+  <a class="subtab-btn active" href="kalkulator-pf.html">📈 P/F & OI</a>
+  <a class="subtab-btn" href="kalkulator-renal.html">🫘 Renal</a>
+  <a class="subtab-btn" href="kalkulator-pulmo.html">🫁 Pulmo</a>
+  <a class="subtab-btn" href="kalkulator-electro.html">⚡ ElektroCorr</a>
+  <a class="subtab-btn" href="kalkulator-nlr.html">🧫 NLR</a>
+  <a class="subtab-btn" href="kalkulator-transfusi.html">🩸 Transfusi</a>
+</nav>
+
+<div class="calc-box">
+    <div class="calc-title"><span>📈</span> Kalkulator P/F Ratio, OI & Klasifikasi ARDS</div>
+    <div class="grid2" style="gap:10px">
+      <div>
+        <div class="input-row"><label>PaO₂ (mmHg)</label><input type="number" id="pfPaO2" placeholder="cth: 80" min="20" max="600"></div>
+        <div class="input-row" style="align-items:flex-start">
+          <label style="padding-top:6px">FiO₂</label>
+          <div style="flex:1">
+            <div class="fio2-mode-bar">
+              <button class="fio2-mode-btn active" id="pf-fio2-btn-direct" onclick="setFiO2ModeFor('pf','direct')">🔢 Direct Input</button>
+              <button class="fio2-mode-btn" id="pf-fio2-btn-lowflow" onclick="setFiO2ModeFor('pf','lowflow')">💨 Low-Flow O₂</button>
+            </div>
+            <div id="pf-fio2-direct-wrap">
+              <input type="number" id="pf-fio2-direct" step="0.01" min="0.21" max="1.0" placeholder="0.21–1.0" oninput="syncFiO2DirectFor('pf')" style="width:100%">
+            </div>
+            <div id="pf-fio2-lowflow-wrap" style="display:none">
+              <select id="pf-o2-device" onchange="estimateFiO2For('pf')" class="abg-lowflow-input">
+                <option value="nasal">Nasal Cannula (1–6 L/mnt)</option>
+                <option value="simple">Simple Mask (5–10 L/mnt)</option>
+                <option value="nrm">Non-Rebreathing Mask (10–15 L/mnt)</option>
+                <option value="venturi24">Venturi 24%</option>
+                <option value="venturi28">Venturi 28%</option>
+                <option value="venturi31">Venturi 31%</option>
+                <option value="venturi35">Venturi 35%</option>
+                <option value="venturi40">Venturi 40%</option>
+                <option value="venturi60">Venturi 60%</option>
+              </select>
+              <input type="number" id="pf-o2-flow" placeholder="Flow (L/menit)" min="1" max="15" step="0.5" oninput="estimateFiO2For('pf')" class="abg-lowflow-input">
+              <div id="pf-fio2-est" class="abg-fio2-est"></div>
+            </div>
+            <input type="hidden" id="pf-fio2">
+          </div>
+        </div>
+        <div class="input-row"><label>MAP ventilator (cmH₂O)</label><input type="number" id="pfMAP" placeholder="cth: 14" min="0" max="50"></div>
+        <div class="input-row" style="align-items:flex-start">
+          <label style="padding-top:6px">SpO₂ / SaO₂ (%)</label>
+          <div style="flex:1">
+            <div class="fio2-mode-bar">
+              <button class="fio2-mode-btn active" id="pf-spo2-btn-pulse" onclick="setSpo2SourceFor('pf','pulse')">💡 SpO₂ (Pulse Ox)</button>
+              <button class="fio2-mode-btn" id="pf-spo2-btn-abg" onclick="setSpo2SourceFor('pf','abg')">🔬 SaO₂ (ABG)</button>
+            </div>
+            <div class="spo2-source-note" id="pf-spo2-note">Pulse ox ±2–4% dari SaO₂; tidak akurat pada vasokonstrisi perifer, methHb, COHb tinggi. Gunakan SaO₂ dari ABG jika tersedia untuk OSI yang lebih akurat (Jubran A, Crit Care 2015).</div>
+            <input type="number" id="pfSpO2" step="1" min="50" max="100" placeholder="cth: 94" style="width:100%">
+          </div>
+        </div>
+        <div class="input-row"><label>Pplat (cmH₂O)</label><input type="number" id="pfPplat" placeholder="opsional" min="0" max="60"></div>
+        <div class="input-row"><label>PEEP (cmH₂O)</label><input type="number" id="pfPEEP" placeholder="opsional" min="0" max="30"></div>
+        <div class="input-row"><label>PaCO₂ (mmHg)</label><input type="number" id="pfPaCO2" placeholder="opsional (untuk Tipe I/II)" min="10" max="150"></div>
+      </div>
+      <div>
+        <div class="info" style="margin-top:4px;font-size:12px">
+          <strong>Berlin Definition ARDS 2012:</strong><br>
+          Mild: P/F 200–300 (PEEP ≥5)<br>
+          Moderate: P/F 100–200<br>
+          Severe: P/F &lt;100<br>
+          <br>
+          <strong>OI = MAP × FiO₂ × 100 / PaO₂</strong><br>
+          OI &gt;25 → pertimbangkan ECMO<br>
+          <br>
+          <strong>Driving Pressure = Pplat − PEEP</strong><br>
+          Target &lt;15 cmH₂O (idealnya ≤13)<br>
+          <span style="font-size:11px;color:var(--muted)">JAMA 2012;307:2526 · Amato MB. NEJM 2015;372:747</span>
+        </div>
+      </div>
+    </div>
+    <button class="calc-btn" onclick="calcPF()">Hitung P/F & Klasifikasi</button>
+    <div id="pf-results" class="hidden" style="margin-top:14px">
+      <div id="pf-result-content"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== THEORY: Tipe Gagal Napas ===== -->
+<div class="theory-dropdown" style="margin-top:6px">
+  <button class="theory-btn" onclick="toggleTheory('respiratory-failure')">📖 Klasifikasi Gagal Napas (Tipe I - IV) <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-respiratory-failure">
+    <div class="subsec">Tipe Gagal Napas</div>
+    <table>
+      <tr><th>Tipe</th><th>Mekanisme Utama</th><th>Kriteria Lab</th><th>Contoh Klinis</th></tr>
+      <tr><td><strong>Tipe I (Hipoksemik)</strong></td><td>Kegagalan oksigenasi, V/Q mismatch, shunting</td><td>PaO₂ &lt; 60 mmHg (pada FiO₂ 0.21)<br>PaCO₂ normal / rendah</td><td>Pneumonia, ARDS, Edema paru kardiogenik, Emboli paru</td></tr>
+      <tr><td><strong>Tipe II (Hiperkapnik)</strong></td><td>Kegagalan ventilasi (pompa), hipoventilasi alveolar</td><td>PaCO₂ &gt; 50 mmHg<br>pH &lt; 7.35</td><td>Eksaserbasi PPOK akut, Asma berat, Overdosis opioid, Myasthenia gravis</td></tr>
+      <tr><td><strong>Tipe III (Perioperatif)</strong></td><td>Atelektasis pasca-operasi, penurunan FRC</td><td>Hipoksemia pasca bedah (terutama abdomen atas / toraks)</td><td>Pasien pasca laparotomi dengan hipoventilasi karena nyeri luka operasi</td></tr>
+      <tr><td><strong>Tipe IV (Syok)</strong></td><td>Hipotensi, hipoperfusi, disfungsi kardiovaskular sekunder</td><td>Gagal napas sekunder akibat syok (penggunaan otot bantu napas tinggi)</td><td>Syok kardiogenik, Syok septik berat</td></tr>
+    </table>
+    <div class="warn" style="font-size:12px;margin-top:10px">
+      <strong>Catatan:</strong> Pasien dapat mengalami gagal napas campuran (mixed respiratory failure), misal Tipe I & II pada ARDS lanjut dengan kelelahan otot napas (muscle fatigue).
+    </div>
+  </div>
+</div>
+
+<!-- ===== THEORY: Berlin ARDS ===== -->
+<div class="theory-dropdown" style="margin-top:6px">
+  <button class="theory-btn" onclick="toggleTheory('berlin-ards')">📖 Klasifikasi Berlin ARDS — Lengkap dengan Kriteria, OI & Implikasi Klinis <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-berlin-ards">
+    <div class="subsec">Tabel Klasifikasi Berlin ARDS 2012 (Update ATS 2024)</div>
+    <table>
+      <tr><th>Parameter</th><th>ARDS Ringan (Mild)</th><th>ARDS Sedang (Moderate)</th><th>ARDS Berat (Severe)</th></tr>
+      <tr><td><strong>P/F Ratio</strong></td><td>200–300 mmHg</td><td>100–200 mmHg</td><td>&lt;100 mmHg</td></tr>
+      <tr><td><strong>PEEP minimal</strong></td><td>≥5 cmH₂O</td><td>≥5 cmH₂O</td><td>≥5 cmH₂O</td></tr>
+      <tr><td><strong>Onset</strong></td><td colspan="3">≤7 hari dari faktor pencetus yang diketahui atau gejala respirasi baru/memburuk</td></tr>
+      <tr><td><strong>Radiologi</strong></td><td colspan="3">Opasitas bilateral — tidak sepenuhnya dijelaskan oleh efusi, kolaps lobar, atau nodul</td></tr>
+      <tr><td><strong>Asal edema</strong></td><td colspan="3">Gagal napas tidak sepenuhnya dijelaskan oleh gagal jantung atau overload cairan</td></tr>
+      <tr><td><strong>Mortalitas</strong></td><td>~27%</td><td>~32%</td><td>~45%</td></tr>
+    </table>
+
+    <div class="subsec" style="margin-top:12px">Oxygenation Index (OI) — Alternatif P/F pada Pasien Ventilasi Mekanik</div>
+    <p style="font-size:12px"><strong>OI = (MAP × FiO₂ × 100) / PaO₂</strong> — lebih komprehensif dari P/F karena memperhitungkan tekanan jalan napas rata-rata.</p>
+    <table>
+      <tr><th>Kategori</th><th>P/F (mmHg)</th><th>OI Dewasa</th><th>OI Pediatri (OSI*)</th></tr>
+      <tr><td>Ringan</td><td>200–300</td><td>4–8</td><td>5–7.5</td></tr>
+      <tr><td>Sedang</td><td>100–200</td><td>8–16</td><td>7.5–12.3</td></tr>
+      <tr><td>Berat</td><td>&lt;100</td><td>&gt;16</td><td>&gt;12.3</td></tr>
+      <tr><td><strong>Threshold ECMO</strong></td><td>&lt;80 refrakter</td><td><strong>&gt;25</strong></td><td>&gt;16</td></tr>
+    </table>
+    <p style="font-size:11px;color:var(--muted)">*OSI (SpO₂-based OI) = (MAP × FiO₂ × 100) / SpO₂ — digunakan pediatri jika PaO₂ tidak tersedia</p>
+
+    <div class="subsec" style="margin-top:12px">Driving Pressure (DP) — Target &lt;15 cmH₂O</div>
+    <div class="info" style="font-size:12px">
+      <strong>DP = Pplat − PEEP = VT / Crs</strong><br>
+      Driving pressure merupakan prediktor mortalitas ARDS yang lebih kuat dari VT atau PEEP secara terpisah.<br>
+      <ul style="margin-top:6px">
+        <li>Target: <strong>DP ≤15 cmH₂O</strong> (idealnya ≤13 cmH₂O)</li>
+        <li>DP &gt;15 → pertimbangkan: turunkan VT, naikkan PEEP (jika meningkatkan Crs), prone positioning</li>
+        <li>Amato et al. NEJM 2015: setiap ↑1 cmH₂O DP → ↑mortalitas 11% secara independen</li>
+        <li>DP hanya valid saat pasien fully sedated/paralyzed — usaha napas spontan mempengaruhi Pplat</li>
+      </ul>
+    </div>
+
+    <div class="subsec" style="margin-top:12px">Mechanical Power (MP) — Energi yang Diberikan ke Paru</div>
+    <div class="info" style="font-size:12px">
+      <strong>MP = 0.098 × RR × VT × (Ppeak − PEEP/2)</strong> &nbsp;[J/mnt]<br>
+      Formula lengkap Gattinoni:<br>
+      <code style="font-size:11px">MP = 0.098 × RR × VT × (PIP − ΔP/2 + PEEP)</code><br>
+      <ul style="margin-top:6px">
+        <li>Target: <strong>MP &lt;17 J/mnt</strong> untuk meminimalkan VILI</li>
+        <li>MP tinggi → barotrauma, volutrauma, biotrauma kumulatif</li>
+        <li>Komponen MP: elastik (VT/compliance) + resistif (flow × resistance) + PEEP energy</li>
+      </ul>
+    </div>
+
+    <div class="subsec" style="margin-top:12px">Implikasi Klinis per Kategori ARDS</div>
+    <table>
+      <tr><th>Intervensi</th><th>ARDS Ringan</th><th>ARDS Sedang</th><th>ARDS Berat</th></tr>
+      <tr><td>VT target</td><td>6 mL/kg IBW</td><td>6 mL/kg IBW</td><td>4–6 mL/kg IBW</td></tr>
+      <tr><td>PEEP</td><td>5–8 cmH₂O</td><td>8–13 cmH₂O</td><td>13–18 cmH₂O (higher PEEP table)</td></tr>
+      <tr><td>Prone positioning</td><td>Tidak rutin</td><td>Pertimbangkan &gt;12 jam/hari</td><td><strong>Direkomendasikan ≥16 jam/hari</strong> (PROSEVA 2013)</td></tr>
+      <tr><td>NMBA (Cisatrakurium)</td><td>Tidak rutin</td><td>Pertimbangkan jika asinkron berat</td><td><strong>48 jam awal</strong> (ACURASYS data — ATS 2024: selektif)</td></tr>
+      <tr><td>Rekrutmen alveolar</td><td>Tidak rutin</td><td>Selektif (responder)</td><td>Selektif — ART trial 2017 tidak mendukung agresif</td></tr>
+      <tr><td>Target SpO₂</td><td>92–96%</td><td>88–95%</td><td>88–92% (permissive hypoxemia)</td></tr>
+      <tr><td>ECMO VV</td><td>Tidak</td><td>Tidak (kecuali refrakter)</td><td>P/F &lt;80 refrakter &gt;6 jam atau OI &gt;25</td></tr>
+    </table>
+
+    <sup class="cite-ref" data-refs="berlin2012,amato2015,gattinoni2016,guerin2013,papazian2010"></sup>
+  </div>
+</div>
+
+<!-- =========================================================== -->
+<!-- SUB: RENAL -->
+<!-- =========================================================== -->
+
+<script src="../../assets/js/scripts-fio2-utils.js"></script>
+<script src="../../assets/js/scripts-kalkulator-pf.js"></script>
+<script src="../../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../../assets/js/feedback.js"></script>
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+  <script src="../../assets/data/references.js"></script>
+  <script src="../../assets/js/scripts-citations.js"></script>
+</body>
+</html>

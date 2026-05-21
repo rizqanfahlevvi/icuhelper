@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NLR & Biomarker Inflamasi — Cheatsheet Ventilator Dewasa</title>
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<script>
+/* Anti-FOUC: apply saved theme before paint */
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn active" href="kalkulator-ibw.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="../ekg.html">📈 EKG</a>
+  <a class="tab-btn" href="../teori.html">📖 Teori</a>
+  <a class="tab-btn" href="../skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+
+<nav class="subtab-bar">
+  <a class="subtab-btn" href="kalkulator-ibw.html">⚖️ IBW & Parameter</a>
+  <a class="subtab-btn" href="kalkulator-drug.html">💊 Sedasi & Paralitik</a>
+  <a class="subtab-btn" href="kalkulator-pump.html">🔬 Syringe Pump</a>
+  <a class="subtab-btn" href="kalkulator-pf.html">📈 P/F & OI</a>
+  <a class="subtab-btn" href="kalkulator-renal.html">🫘 Renal</a>
+  <a class="subtab-btn" href="kalkulator-pulmo.html">🫁 Pulmo</a>
+  <a class="subtab-btn" href="kalkulator-electro.html">⚡ ElektroCorr</a>
+  <a class="subtab-btn active" href="kalkulator-nlr.html">🧫 NLR</a>
+  <a class="subtab-btn" href="kalkulator-transfusi.html">🩸 Transfusi</a>
+</nav>
+
+<div class="calc-box">
+    <div class="calc-title"><span>🧫</span> Indeks Inflamasi — NLR · PLR · SII · MLR</div>
+
+    <!-- Mode toggle -->
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <button id="nlr-btn-abs" onclick="setNLRMode('abs')"
+        style="flex:1;padding:7px 0;border-radius:8px;border:1.5px solid var(--accent);background:var(--accent);color:#000;font-weight:700;font-size:13px;cursor:pointer">
+        📊 Absolut (10³/µL)
+      </button>
+      <button id="nlr-btn-pct" onclick="setNLRMode('pct')"
+        style="flex:1;padding:7px 0;border-radius:8px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-weight:600;font-size:13px;cursor:pointer">
+        % Persen (dari diff %)
+      </button>
+    </div>
+
+    <div class="grid2" style="gap:10px">
+      <div>
+        <!-- Mode absolut -->
+        <div id="nlr-input-abs">
+          <div class="subsec">Input dari CBC Differential (Absolut)</div>
+          <div class="input-row"><label>Neutrofil absolut</label><input type="number" id="nlr-neut" placeholder="cth: 8.5" step="0.1" min="0"><span class="unit">10³/μL</span></div>
+          <div class="input-row"><label>Limfosit absolut</label><input type="number" id="nlr-lymph" placeholder="cth: 1.2" step="0.1" min="0"><span class="unit">10³/μL</span></div>
+          <div class="input-row"><label>Monosit absolut</label><input type="number" id="nlr-mono" placeholder="cth: 0.6" step="0.1" min="0"><span class="unit">10³/μL</span></div>
+          <div class="input-row"><label>Trombosit</label><input type="number" id="nlr-plt" placeholder="cth: 250" step="1" min="0"><span class="unit">10³/μL</span></div>
+          <div class="input-row"><label>Leukosit total <span style="font-size:10px;color:var(--muted)">(opsional)</span></label><input type="number" id="nlr-wbc" placeholder="untuk validasi diff" step="0.1" min="0"><span class="unit">10³/μL</span></div>
+        </div>
+        <!-- Mode persen -->
+        <div id="nlr-input-pct" style="display:none">
+          <div class="subsec">Input dari Diff % + WBC Total</div>
+          <div class="input-row"><label>WBC total <span style="font-size:10px;color:var(--muted)">(wajib)</span></label><input type="number" id="nlr-wbc-pct" placeholder="cth: 12.4" step="0.1" min="0" oninput="updateNLRPctPreview()"><span class="unit">10³/μL</span></div>
+          <div class="input-row"><label>Neutrofil</label><input type="number" id="nlr-neut-pct" placeholder="cth: 80" step="0.1" min="0" max="100" oninput="updateNLRPctPreview()"><span class="unit">%</span></div>
+          <div class="input-row"><label>Limfosit</label><input type="number" id="nlr-lymph-pct" placeholder="cth: 12" step="0.1" min="0" max="100" oninput="updateNLRPctPreview()"><span class="unit">%</span></div>
+          <div class="input-row"><label>Monosit</label><input type="number" id="nlr-mono-pct" placeholder="cth: 6" step="0.1" min="0" max="100" oninput="updateNLRPctPreview()"><span class="unit">%</span></div>
+          <div class="input-row"><label>Trombosit</label><input type="number" id="nlr-plt-pct" placeholder="cth: 250" step="1" min="0"><span class="unit">10³/μL</span></div>
+          <div id="nlr-pct-preview" style="font-size:11px;color:var(--muted);margin-top:4px;line-height:1.7"></div>
+        </div>
+      </div>
+      <div>
+        <div class="info" style="margin-top:4px;font-size:12px">
+          <strong>4 Indeks Inflamasi:</strong><br>
+          <strong>NLR</strong> = Neutrofil / Limfosit &nbsp;(Normal 1–3)<br>
+          <strong>PLR</strong> = Trombosit / Limfosit &nbsp;(Normal 50–150)<br>
+          <strong>SII</strong> = Neutrofil × Trombo / Limfosit &nbsp;(Normal &lt;500)<br>
+          <strong>MLR</strong> = Monosit / Limfosit &nbsp;(Normal &lt;0.3)<br><br>
+          Input neutrofil, limfosit, monosit, trombosit dalam nilai <em>absolut</em> (bukan %) dari hasil CBC differential.
+          <span style="font-size:11px;color:var(--muted);display:block;margin-top:4px">Zahorec R. Bratisl Lek Listy 2001 · Hu B. J Cancer 2014;5:442</span>
+        </div>
+      </div>
+    </div>
+    <button class="calc-btn" onclick="calcNLR()">Hitung Indeks Inflamasi</button>
+    <div id="nlr-results" class="hidden" style="margin-top:14px"><div id="nlr-result-content"></div></div>
+  </div>
+
+  <div class="theory-dropdown" style="margin-top:6px">
+    <button class="theory-btn" onclick="toggleTheory('nlr-icu')">📖 NLR di ICU & IGD — Patofisiologi &amp; Cut-off Klinis <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-nlr-icu">
+      <div class="subsec">Mengapa NLR Penting?</div>
+      <ul>
+        <li><strong>Patofisiologi:</strong> Pada respons stres/infeksi, kortisol dan katekolamin memobilisasi neutrofil dari sumsum tulang (neutrofilia) dan menekan fungsi limfosit (limfopenia). Rasio keduanya mencerminkan beratnya respons inflamasi sistemik.</li>
+        <li><strong>NLR 1–3:</strong> Normal. Tidak ada inflamasi signifikan.</li>
+        <li><strong>NLR 3–5:</strong> Inflamasi ringan-sedang. Waspada pada konteks infeksi.</li>
+        <li><strong>NLR 5–9:</strong> Inflamasi berat. Berkorelasi dengan sepsis, pneumonia berat, infark miokard akut.</li>
+        <li><strong>NLR &gt;9:</strong> Prediktor mortalitas ICU. Cut-off 7.5–9 dikaitkan dengan outcome buruk pada berbagai studi.</li>
+        <li><strong>Keterbatasan:</strong> NLR tinggi palsu pada: steroid eksogen, post-splenektomi, granulositosis, kemoterapi. Rendah palsu pada: imunosupresan, HIV, bone marrow failure.</li>
+      </ul>
+      <sup class="cite-ref" data-refs="zahorec2001,forget2017,liu2019"></sup>
+    </div>
+  </div>
+
+  <div class="theory-dropdown" style="margin-top:6px">
+    <button class="theory-btn" onclick="toggleTheory('sii-vs-nlr')">📖 SII vs NLR — Mana yang Lebih Superior? <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-sii-vs-nlr">
+      <div class="subsec">Perbandingan Prediktif</div>
+      <table>
+        <tr><th>Indeks</th><th>Komponen</th><th>Keunggulan</th><th>Keterbatasan</th></tr>
+        <tr><td><strong>NLR</strong></td><td>N/L</td><td>Paling banyak diteliti, mudah dihitung, tersedia luas</td><td>Tidak memperhitungkan trombosit (inflamasi + koagulasi)</td></tr>
+        <tr><td><strong>PLR</strong></td><td>P/L</td><td>Mencerminkan komponen trombotik + inflamasi</td><td>Kurang prediktif untuk mortalitas akut vs NLR</td></tr>
+        <tr><td><strong>SII</strong></td><td>N×P/L</td><td>Lebih komprehensif. Lebih superior dari NLR pada sepsis, COVID-19, keganasan (AUC lebih tinggi di beberapa meta-analisis)</td><td>Nilai normal lebih bervariasi antar studi</td></tr>
+        <tr><td><strong>MLR</strong></td><td>M/L</td><td>Berguna pada infeksi kronik (TB, HIV), keganasan hematologi</td><td>Data terbatas di ICU akut</td></tr>
+      </table>
+      <ul style="margin-top:8px">
+        <li><strong>Huang Y (EClinicalMedicine 2022):</strong> SII lebih superior dari NLR dalam memprediksi mortalitas sepsis (AUC 0.79 vs 0.73).</li>
+        <li><strong>COVID-19:</strong> NLR &gt;3.13 pada admission berkorelasi dengan ICU admission (sensitivity 77%, specificity 79%). SII &gt;1000 dikaitkan dengan mortalitas 30-hari.</li>
+        <li><strong>Rekomendasi praktis:</strong> Gunakan NLR sebagai skrining cepat; SII untuk konfirmasi pada pasien kritis. Kedua indeks melengkapi, bukan menggantikan, penilaian klinis.</li>
+      </ul>
+      <sup class="cite-ref" data-refs="liu2019"></sup>
+    </div>
+  </div>
+
+  <div class="theory-dropdown" style="margin-top:6px">
+    <button class="theory-btn" onclick="toggleTheory('nlr-limit')">📖 Limitasi Indeks Inflamasi — Kapan Tidak Dapat Diandalkan? <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-nlr-limit">
+      <div class="subsec">Faktor yang Mempengaruhi NLR Secara Independen</div>
+      <ul>
+        <li><strong>Falsely elevated NLR:</strong> Steroid eksogen (neutrofilia + limfopenia farmakologis) · Stres operasi/trauma (bukan infeksi) · Post-splenektomi · G-CSF · Merokok · Leukemia mieloid</li>
+        <li><strong>Falsely low NLR:</strong> Imunosupresi (sitostatika, biologis) · HIV/AIDS (limfopenia kronik) · Bone marrow failure · Viral infection akut (neutropenia relatif)</li>
+        <li><strong>NLR pada pediatri:</strong> Nilai normal berbeda — neonatus dan bayi memiliki nilai limfosit dominan; NLR dewasa tidak berlaku langsung.</li>
+        <li><strong>Variabilitas diurnal:</strong> NLR sedikit lebih tinggi di pagi hari (cortisol surge). Idealnya diambil konsisten.</li>
+        <li><strong>Interpretasi serial:</strong> Tren NLR lebih informatif dari nilai tunggal. NLR yang menurun setelah terapi → respons positif.</li>
+      </ul>
+      <sup class="cite-ref" data-refs="forget2017"></sup>
+    </div>
+  </div>
+</div>
+
+<!-- =========================================================== -->
+<!-- SUB: TRANSFUSI -->
+<!-- =========================================================== -->
+
+<script src="../../assets/js/scripts-kalkulator-nlr.js"></script>
+<script src="../../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../../assets/js/feedback.js"></script>
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+  <script src="../../assets/data/references.js"></script>
+  <script src="../../assets/js/scripts-citations.js"></script>
+</body>
+</html>

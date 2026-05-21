@@ -1,0 +1,211 @@
+﻿<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APACHE-II Score — Cheatsheet Ventilator Dewasa</title>
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<style>
+.sko-row{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:7px;border:.5px solid var(--border);margin-bottom:5px;background:var(--bg)}
+.sko-row .sp{flex:1;font-size:12px}.sko-row .sp strong{display:block;font-size:13px;margin-bottom:1px}
+.sko-row .sp small{color:var(--muted);font-size:11px}.sko-row .spts{font-weight:700;font-size:16px;min-width:26px;text-align:right}
+.spts-0{color:var(--green)}.spts-1{color:var(--blue)}.spts-2{color:var(--amber)}.spts-3{color:var(--coral)}.spts-4{color:var(--red)}
+.sko-row.row-skip{opacity:.55;border-style:dashed}
+.big-total{font-size:52px;font-weight:700;line-height:1;margin-bottom:4px}
+.rass-item{display:flex;align-items:flex-start;gap:12px;padding:10px 12px;border-radius:7px;border:.5px solid var(--border);cursor:pointer;transition:all .15s;margin-bottom:5px;background:var(--card)}
+.rass-item:hover{border-color:var(--blue);background:var(--blue-bg)}
+.rass-item.sel-pos{border-color:var(--red)!important;background:var(--red-bg)!important}
+.rass-item.sel-zero{border-color:var(--green)!important;background:var(--green-bg)!important}
+.rass-item.sel-neg{border-color:var(--teal)!important;background:var(--teal-bg)!important}
+.rass-num{font-size:18px;font-weight:700;min-width:34px;text-align:center;padding-top:1px}
+.rass-label{font-weight:600;font-size:13px;margin-bottom:2px}.rass-desc{font-size:12px;color:var(--muted)}
+.cfs-item{display:flex;align-items:flex-start;gap:12px;padding:11px 13px;border-radius:7px;border:.5px solid var(--border);cursor:pointer;transition:all .15s;margin-bottom:5px;background:var(--card)}
+.cfs-item:hover{border-color:var(--blue);background:var(--blue-bg)}.cfs-item.sel-cfs{border-color:var(--blue)!important;background:var(--blue-bg)!important}
+.cfs-num{font-size:20px;font-weight:700;min-width:30px;color:var(--blue);padding-top:1px}
+.cfs-label{font-weight:600;font-size:13px;margin-bottom:2px}.cfs-desc{font-size:12px;color:var(--muted)}
+.cam-feature{background:var(--card);border:.5px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px}
+.cam-flabel{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);margin-bottom:5px}
+.cam-fq{font-size:13px;font-weight:600;margin-bottom:8px;line-height:1.5}
+.cam-fdetail{font-size:12px;color:var(--muted);margin-bottom:10px;line-height:1.6;padding:8px 10px;background:var(--bg);border-radius:6px;border:.5px solid var(--border)}
+.yn-row{display:flex;gap:8px;flex-wrap:wrap}
+.yn-btn{padding:6px 16px;border-radius:5px;border:.5px solid var(--border2);background:var(--bg);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s;color:var(--muted)}
+.yn-btn.y-active{background:var(--green-bg)!important;border-color:var(--green)!important;color:var(--green)!important}
+.yn-btn.n-active{background:var(--red-bg)!important;border-color:var(--red)!important;color:var(--red)!important}
+.ap-sec{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);border-bottom:.5px solid var(--blue-bg);padding-bottom:6px;margin:14px 0 10px}
+.opt-tag{font-size:10px;background:var(--amber-bg);color:var(--amber);border-radius:3px;padding:1px 5px;margin-left:4px;vertical-align:middle}
+</style>
+<script>
+/* Anti-FOUC: apply saved theme before paint */
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn" href="../kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="../ekg.html">📈 EKG</a>
+  <a class="tab-btn" href="../teori.html">📖 Teori</a>
+  <a class="tab-btn active" href="skoring-sofa.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+
+<nav class="subtab-bar">
+  <a class="subtab-btn" href="skoring-sofa.html">🔴 SOFA</a>
+  <a class="subtab-btn" href="skoring-bfs.html">🧓 BFS/CFS</a>
+  <a class="subtab-btn" href="skoring-cpis.html">🫁 CPIS</a>
+  <a class="subtab-btn" href="skoring-rass.html">😴 RASS</a>
+  <a class="subtab-btn" href="skoring-camicu.html">🧠 CAM-ICU</a>
+  <a class="subtab-btn active" href="skoring-apache.html">⚕️ APACHE-II</a>
+  <a class="subtab-btn" href="skoring-candida.html">🍄 Candida</a>
+</nav>
+
+<div class="calc-box">
+    <div class="calc-title"><span>⚕️</span> APACHE-II Score (Acute Physiology and Chronic Health Evaluation II)</div>
+    <div class="info" style="font-size:12px;margin-bottom:14px">
+      <strong>📌 Parameter Opsional:</strong> Isi parameter yang tersedia. Skor dihitung dari data yang ada; parameter dilewati tidak ditambahkan. Gunakan nilai <strong>terburuk</strong> dalam 24 jam pertama masuk ICU.
+    </div>
+    <div class="grid2" style="gap:16px">
+      <div>
+        <div class="ap-sec">📋 Data Umum</div>
+        <div class="input-row"><label>Usia (tahun)</label><input type="number" id="ap-age" placeholder="cth: 65" min="18" max="120"></div>
+        <div class="input-row"><label>Tipe masuk ICU</label>
+          <select id="ap-chronic-type" style="width:180px">
+            <option value="nonop">Non-operatif / Medis</option>
+            <option value="emergency">Post-op Emergency</option>
+            <option value="elective">Post-op Elektif</option>
+          </select>
+        </div>
+        <div class="ap-sec">Komorbiditas Berat (Chronic Health)</div>
+        <div class="info" style="font-size:11px;padding:8px 10px;margin-bottom:8px">Sirosis hati biopsi-terbukti · NYHA Class IV · PPOK berat/Cor Pulmonale · Dialisis kronik · Imunosupresi (steroid dosis tinggi, leukemia, limfoma, AIDS)</div>
+        <div class="input-row"><label>Ada komorbiditas berat?</label>
+          <select id="ap-chronic"><option value="no">Tidak ada</option><option value="yes">Ada (sesuai di atas)</option></select>
+        </div>
+        <div class="ap-sec">🌡️ Vital Signs (Terburuk 24 Jam)</div>
+        <div class="input-row"><label>Suhu rektal (°C)</label><input type="number" id="ap-temp" placeholder="Opsional" step="0.1" min="25" max="45"><span class="opt-tag">opsional</span></div>
+        <div class="input-row"><label>MAP (mmHg)</label><input type="number" id="ap-map" placeholder="Opsional" min="20" max="200"><span class="opt-tag">opsional</span></div>
+        <div class="input-row"><label>Nadi (bpm)</label><input type="number" id="ap-hr" placeholder="Opsional" min="20" max="250"><span class="opt-tag">opsional</span></div>
+        <div class="input-row"><label>Frekuensi napas (/mnt)</label><input type="number" id="ap-rr" placeholder="Opsional" min="0" max="80"><span class="opt-tag">opsional</span></div>
+        <div class="input-row"><label>GCS total (3–15)</label><input type="number" id="ap-gcs" placeholder="Opsional" min="3" max="15"><span class="opt-tag">opsional</span></div>
+      </div>
+      <div>
+        <div class="ap-sec">🫁 Oksigenasi &amp; AGD</div>
+        <div class="input-row" style="align-items:flex-start">
+          <label style="padding-top:6px">FiO₂ <span class="opt-tag">opsional</span></label>
+          <div style="flex:1">
+            <div class="fio2-mode-bar">
+              <button class="fio2-mode-btn active" id="ap-fio2-btn-direct" onclick="setFiO2ModeFor('ap','direct')">🔢 Direct Input</button>
+              <button class="fio2-mode-btn" id="ap-fio2-btn-lowflow" onclick="setFiO2ModeFor('ap','lowflow')">💨 Low-Flow O₂</button>
+            </div>
+            <div id="ap-fio2-direct-wrap">
+              <input type="number" id="ap-fio2-direct" step="0.01" min="0.21" max="1.0" placeholder="0.21–1.0" oninput="syncFiO2DirectFor('ap')" style="width:100%">
+            </div>
+            <div id="ap-fio2-lowflow-wrap" style="display:none">
+              <select id="ap-o2-device" onchange="estimateFiO2For('ap')" class="abg-lowflow-input">
+                <option value="nasal">Nasal Cannula (1–6 L/mnt)</option>
+                <option value="simple">Simple Mask (5–10 L/mnt)</option>
+                <option value="nrm">Non-Rebreathing Mask (10–15 L/mnt)</option>
+                <option value="venturi24">Venturi 24%</option>
+                <option value="venturi28">Venturi 28%</option>
+                <option value="venturi31">Venturi 31%</option>
+                <option value="venturi35">Venturi 35%</option>
+                <option value="venturi40">Venturi 40%</option>
+                <option value="venturi60">Venturi 60%</option>
+              </select>
+              <input type="number" id="ap-o2-flow" placeholder="Flow (L/menit)" min="1" max="15" step="0.5" oninput="estimateFiO2For('ap')" class="abg-lowflow-input">
+              <div id="ap-fio2-est" class="abg-fio2-est"></div>
+            </div>
+            <input type="hidden" id="ap-fio2">
+          </div>
+        </div>
+        <div class="input-row"><label>PaO₂ (mmHg)</label><input type="number" id="ap-pao2" placeholder="Opsional" min="20" max="600"><span class="opt-tag">opsional</span></div>
+        <div class="input-row"><label>PaCO₂ (mmHg)</label><input type="number" id="ap-paco2" placeholder="Dibutuhkan jika FiO₂≥0.5" min="10" max="120"><span class="opt-tag">opsional</span></div>
+        <div class="input-row"><label>pH Arteri</label><input type="number" id="ap-ph" placeholder="Opsional" step="0.01" min="6.8" max="7.8"><span class="opt-tag">opsional</span></div>
+        <div class="ap-sec">🩸 Laboratorium</div>
+        <div class="input-row"><label>Natrium (mEq/L)</label><input type="number" id="ap-na" placeholder="Opsional" min="100" max="200"><span class="opt-tag">opsional</span></div>
+        <div class="input-row"><label>Kalium (mEq/L)</label><input type="number" id="ap-k" placeholder="Opsional" step="0.1" min="1" max="10"><span class="opt-tag">opsional</span></div>
+        <div class="input-row"><label>Kreatinin (mg/dL)</label><input type="number" id="ap-cr" placeholder="Opsional" step="0.1" min="0.1" max="20"><span class="opt-tag">opsional</span></div>
+        <div class="input-row"><label>Gagal ginjal akut (AKI)?</label>
+          <select id="ap-aki"><option value="no">Tidak / CKD stabil</option><option value="yes">Ya — AKI (skor Cr ×2)</option></select>
+        </div>
+        <div class="input-row"><label>Hematokrit (%)</label><input type="number" id="ap-hct" placeholder="Opsional" step="0.1" min="5" max="70"><span class="opt-tag">opsional</span></div>
+        <div class="input-row"><label>Leukosit (×1000/mm³)</label><input type="number" id="ap-wbc" placeholder="Opsional" step="0.1" min="0" max="80"><span class="opt-tag">opsional</span></div>
+      </div>
+    </div>
+    <button class="calc-btn" style="margin-top:12px" onclick="calcAPACHE()">⚕️ Hitung APACHE-II</button>
+    <div id="apache-results" class="hidden" style="margin-top:16px"><div id="apache-result-content"></div></div>
+  </div>
+  <div class="theory-dropdown">
+    <button class="theory-btn" onclick="toggleTheory('apache-t')">📖 Teori APACHE-II Score (Knaus et al. Crit Care Med 1985) <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-apache-t">
+      <div class="subsec">Tentang APACHE-II</div>
+      <p style="font-size:12px;margin-bottom:8px">APACHE-II (Knaus et al. 1985) adalah sistem penilaian keparahan penyakit ICU yang paling banyak digunakan historis. Skor = APS (12 variabel fisiologi, 0–4 poin masing-masing) + Skor Usia (0–6) + Chronic Health (0–5). Digunakan untuk prediksi mortalitas populasi, <em>bukan</em> keputusan individual.</p>
+      <div class="subsec">Tabel Skor Usia</div>
+      <div class="table-wrapper">
+      <table>
+        <tr><th>Usia</th><th>&lt;45</th><th>45–54</th><th>55–64</th><th>65–74</th><th>≥75</th></tr>
+        <tr><td>Poin</td><td>0</td><td>2</td><td>3</td><td>5</td><td>6</td></tr>
+      </table>
+      </div>
+      <div class="subsec">Chronic Health Score</div>
+      <div class="table-wrapper">
+      <table>
+        <tr><th>Kondisi</th><th>Poin</th></tr>
+        <tr><td>Komorbiditas berat, masuk non-operatif atau operasi emergency</td><td>5</td></tr>
+        <tr><td>Komorbiditas berat, masuk post-operasi elektif</td><td>2</td></tr>
+        <tr><td>Tidak ada komorbiditas berat</td><td>0</td></tr>
+      </table>
+      </div>
+      <div class="subsec">Prediksi Mortalitas APACHE-II</div>
+      <div class="table-wrapper">
+      <table>
+        <tr><th>Skor</th><th>0–4</th><th>5–9</th><th>10–14</th><th>15–19</th><th>20–24</th><th>25–29</th><th>30–34</th><th>≥35</th></tr>
+        <tr><td>Mortalitas</td><td>~4%</td><td>~8%</td><td>~15%</td><td>~25%</td><td>~40%</td><td>~55%</td><td>~73%</td><td>~85%</td></tr>
+      </table>
+      </div>
+      <div class="subsec">Keterbatasan APACHE-II</div>
+      <ul>
+        <li>Dikembangkan dari data 1979–1982 — populasi ICU modern sangat berbeda</li>
+        <li>Akurasi bervariasi per diagnosis; lebih baik untuk sepsis/pneumonia, kurang untuk trauma</li>
+        <li>Ditujukan untuk prediksi populasi, <em>bukan</em> keputusan individual</li>
+        <li>Versi APACHE-III dan APACHE-IV lebih akurat namun lebih kompleks; SOFA lebih praktis untuk monitoring harian</li>
+        <li><strong>Kalibrasi modern:</strong> Staudinger T et al. Wien Klin Wochenschr 2016 — APACHE-II kalibrasi buruk pada ICU modern karena data derivasi dari 1979–1982; cenderung overestimasi mortalitas pada populasi ICU saat ini.</li>
+        <li><strong>Alternatif lebih akurat:</strong> SAPS-3 (Metnitz PGH et al. Intensive Care Med 2005;31:1336) — dikalibrasi pada 35.000 pasien ICU global 2002–2003; lebih akurat untuk prediksi mortalitas RS. Tersedia kalkulator online di saps3.org.</li>
+        <li><strong>Rekomendasi praktis:</strong> Untuk monitoring harian disfungsi organ, gunakan SOFA — lebih sensitif terhadap perubahan klinis dan lebih prediktif untuk mortalitas ICU dibanding APACHE-II (Raith EP et al. JAMA 2017;317:271).</li>
+      </ul>
+      <sup class="cite-ref" data-refs="knaus1985,zimmerman2006,moreno2005,raith2017"></sup>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 7. CANDIDA SCORE ====== -->
+
+<script src="../../assets/js/scripts-fio2-utils.js"></script>
+<script src="../../assets/js/scripts-skoring.js"></script>
+<script src="../../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../../assets/js/feedback.js"></script>
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+  <script src="../../assets/data/references.js"></script>
+  <script src="../../assets/js/scripts-citations.js"></script>
+</body>
+</html>
