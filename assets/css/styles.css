@@ -283,7 +283,7 @@ ul li { margin-bottom: 4px; font-size: 13px; }
 .input-row label { font-size: 13px; color: var(--muted); min-width: 140px; }
 .input-row input, .input-row select {
   background: var(--bg); border: none; /* iOS style gray text field */
-  border-radius: 8px; padding: 8px 12px; font-size: 14px; color: var(--text);
+  border-radius: 8px; padding: 8px 12px; font-size: 16px; color: var(--text);
   width: 150px; outline: none; font-family: inherit; transition: background var(--duration-normal);
 }
 .input-row input:focus, .input-row select:focus {
