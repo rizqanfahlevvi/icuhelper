@@ -47,13 +47,13 @@
   letter-spacing: .03em;
   min-width: 130px;
   justify-content: space-between;
-  transition: border-color .15s, color .15s;
+  transition: border-color var(--duration-fast), color var(--duration-fast);
 }
 .cf-drop-btn:hover { color: var(--text); border-color: var(--border-hi); }
 .cf-drop-arrow {
   font-size: 8px;
   opacity: .55;
-  transition: transform .18s ease;
+  transition: transform var(--duration-fast) ease;
   margin-left: .15rem;
 }
 .cf-filter-drop.open .cf-drop-arrow { transform: rotate(180deg); }
@@ -105,7 +105,7 @@
   cursor: pointer;
   text-align: left;
   box-sizing: border-box;
-  transition: background .12s, color .12s;
+  transition: background var(--duration-fast), color var(--duration-fast);
 }
 .cf-drop-item:hover { background: var(--bg2); color: var(--text); }
 .cf-drop-item.active { background: var(--bg); color: var(--text); font-weight: 700; }
@@ -127,7 +127,7 @@
   .cf-search-wrap {
     flex: 0 0 130px;
     max-width: none;
-    transition: width .22s ease;
+    transition: width var(--duration-normal) ease;
   }
   .cf-search-wrap:focus-within { width: 210px; flex-basis: 210px; }
 }
@@ -145,7 +145,7 @@
   cursor: pointer;
   white-space: nowrap;
   letter-spacing: .03em;
-  transition: background .15s, color .15s, border-color .15s;
+  transition: background var(--duration-fast), color var(--duration-fast), border-color var(--duration-fast);
 }
 .cf-pill:hover { color: var(--text); border-color: var(--border-hi); }
 .cf-pill.active { border-color: transparent; }
@@ -187,7 +187,7 @@
   font-size: 11px;
   color: var(--text);
   outline: none;
-  transition: border-color .15s, background .15s;
+  transition: border-color var(--duration-fast), background var(--duration-fast);
 }
 .cf-search:focus {
   border-color: var(--accent2);
@@ -206,7 +206,7 @@
   font-size: 11px;
   padding: .1rem .25rem;
   line-height: 1;
-  transition: color .15s;
+  transition: color var(--duration-fast);
 }
 .cf-search-clear:hover { color: var(--text); }
 
@@ -441,7 +441,7 @@
   color: var(--text2);
   cursor: pointer;
   white-space: nowrap;
-  transition: all .15s;
+  transition: all var(--duration-fast);
 }
 .cf-btn-close:hover,
 .cf-btn-theme:hover { color: var(--text); border-color: var(--border-hi); }
