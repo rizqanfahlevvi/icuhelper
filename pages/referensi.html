@@ -38,7 +38,7 @@
 
 <div class="sec" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
   <span>🔥 Pembaruan Panduan &amp; Studi Kunci 2022–2025</span>
-  <span style="font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:700;background:var(--accent-dim2);padding:3px 8px;border-radius:6px;">NEW</span>
+  <span style="font-size:10px;font-family:var(--font-mono);color:var(--accent);font-weight:700;background:var(--accent-dim2);padding:3px 8px;border-radius:6px;">NEW</span>
 </div>
 <div class="card">
   <table>
@@ -315,20 +315,20 @@
 
 <div class="sec" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
   <span>📚 Database Referensi Lengkap</span>
-  <span style="font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--accent2);font-weight:700;background:var(--accent2-dim);padding:3px 8px;border-radius:6px;" id="db-count-badge">memuat...</span>
+  <span style="font-size:10px;font-family:var(--font-mono);color:var(--accent2);font-weight:700;background:var(--accent2-dim);padding:3px 8px;border-radius:6px;" id="db-count-badge">memuat...</span>
 </div>
 <div class="card" id="db-ref-browser-wrap">
   <div style="margin-bottom:12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
     <input id="db-search" type="text" placeholder="🔍 Cari judul, penulis, jurnal..."
       style="flex:1;min-width:200px;padding:8px 12px;border-radius:8px;border:1.5px solid var(--border-hi);
-             background:var(--bg2);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;">
+             background:var(--bg2);color:var(--text);font-family:var(--font-mono);font-size:12px;outline:none;">
     <select id="db-filter" style="padding:8px 10px;border-radius:8px;border:1.5px solid var(--border-hi);
-      background:var(--bg2);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;cursor:pointer;">
+      background:var(--bg2);color:var(--text);font-family:var(--font-mono);font-size:12px;outline:none;cursor:pointer;">
       <option value="">Semua Topik</option>
     </select>
   </div>
   <div id="db-ref-list" style="display:flex;flex-direction:column;gap:6px;"></div>
-  <div id="db-no-result" style="display:none;text-align:center;padding:20px;color:var(--muted);font-size:12px;font-family:'JetBrains Mono',monospace;">
+  <div id="db-no-result" style="display:none;text-align:center;padding:20px;color:var(--muted);font-size:12px;font-family:var(--font-mono);">
     Tidak ada referensi yang cocok.
   </div>
 </div>
@@ -537,7 +537,7 @@
           journalSpan += '.</span>';
           var doiLink = r.doi
             ? ' <a href="https://doi.org/' + escH(r.doi) + '" target="_blank" rel="noopener" '+
-              'style="font-size:9.5px;font-family:\'JetBrains Mono\',monospace;font-weight:700;'+
+              'style="font-size:9.5px;font-family:var(--font-mono);font-weight:700;'+
               'color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent-dim2);'+
               'padding-bottom:1px;" title="Buka DOI">DOI ↗</a>'
             : '';

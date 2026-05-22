@@ -22,7 +22,7 @@
 .osm-vol-chip {
   padding: .3rem .75rem; border-radius: 20px;
   border: 1.5px solid var(--border); background: var(--card);
-  color: var(--text2); font-family: 'JetBrains Mono', monospace;
+  color: var(--text2); font-family: var(--font-mono);
   font-size: 11px; font-weight: 600; cursor: pointer;
   transition: all .15s; white-space: nowrap;
 }
@@ -89,12 +89,12 @@
       </div>
       <!-- Kolom 2: onset + kecepatan -->
       <div>
-        <label style="font-size:12px;color:var(--text2);font-family:'JetBrains Mono',monospace;font-weight:600;display:block;margin-bottom:6px">Onset Hiponatremia</label>
+        <label style="font-size:12px;color:var(--text2);font-family:var(--font-mono);font-weight:600;display:block;margin-bottom:6px">Onset Hiponatremia</label>
         <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px">
-          <label style="display:flex;align-items:center;gap:5px;padding:5px 12px;border:1.5px solid var(--border-hi);border-radius:20px;cursor:pointer;font-size:11px;font-family:'JetBrains Mono',monospace;background:var(--card);color:var(--text2)">
+          <label style="display:flex;align-items:center;gap:5px;padding:5px 12px;border:1.5px solid var(--border-hi);border-radius:20px;cursor:pointer;font-size:11px;font-family:var(--font-mono);background:var(--card);color:var(--text2)">
             <input type="radio" name="na-onset" id="na-onset-kronik" value="kronik" checked style="accent-color:var(--accent)"> Kronik (≥48 jam / tidak diketahui)
           </label>
-          <label style="display:flex;align-items:center;gap:5px;padding:5px 12px;border:1.5px solid var(--border-hi);border-radius:20px;cursor:pointer;font-size:11px;font-family:'JetBrains Mono',monospace;background:var(--card);color:var(--text2)">
+          <label style="display:flex;align-items:center;gap:5px;padding:5px 12px;border:1.5px solid var(--border-hi);border-radius:20px;cursor:pointer;font-size:11px;font-family:var(--font-mono);background:var(--card);color:var(--text2)">
             <input type="radio" name="na-onset" id="na-onset-akut" value="akut" style="accent-color:var(--accent)"> Akut (&lt;48 jam)
           </label>
         </div>
@@ -196,7 +196,7 @@
 
     <!-- Kolom kiri: input lab -->
     <div>
-      <div style="font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Lab Serum</div>
+      <div style="font-size:11px;font-family:var(--font-mono);font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Lab Serum</div>
       <div class="input-row"><label>Na serum</label><input type="number" id="osm-na" placeholder="cth: 125"><span class="unit">mEq/L</span></div>
       <div class="input-row"><label>Glukosa</label><div class="input-unit-wrap"><input type="number" id="osm-glu" placeholder="cth: 180"><button class="unit-toggle-btn" data-unit="osm-glu" onclick="toggleKalcUnit('osm-glu')">mg/dL</button></div></div>
       <div class="input-row">
@@ -218,14 +218,14 @@
 
     <!-- Kolom kanan: status volume + urin -->
     <div>
-      <div style="font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Status Volume Klinis</div>
+      <div style="font-size:11px;font-family:var(--font-mono);font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Status Volume Klinis</div>
       <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px" id="osm-vol-chips">
         <button type="button" class="osm-vol-chip" data-vol="hipo" onclick="selectVolStatus('hipo')">📉 Hipovolemik</button>
         <button type="button" class="osm-vol-chip" data-vol="eu"   onclick="selectVolStatus('eu')">⚖️ Euvolemik</button>
         <button type="button" class="osm-vol-chip" data-vol="hiper" onclick="selectVolStatus('hiper')">💧 Hipervolemik</button>
       </div>
 
-      <div style="font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">Lab Urin <span style="font-weight:400;font-size:10px;color:var(--muted)">(opsional — tingkatkan akurasi)</span></div>
+      <div style="font-size:11px;font-family:var(--font-mono);font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">Lab Urin <span style="font-weight:400;font-size:10px;color:var(--muted)">(opsional — tingkatkan akurasi)</span></div>
       <div class="input-row"><label>UNa (urin Na)</label><input type="number" id="osm-una" placeholder="cth: 18"><span class="unit">mEq/L</span></div>
       <div class="input-row"><label>Urin Osmolalitas</label><input type="number" id="osm-uosm" placeholder="cth: 450"><span class="unit">mOsm/kg</span></div>
       <div class="input-row"><label>BUN / Kreatinin</label>
@@ -387,7 +387,7 @@
       </div>
     </div>
     <details style="margin:12px 0 4px">
-      <summary style="cursor:pointer;font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600;padding:8px 12px;background:var(--card);border:1px solid var(--border-hi);border-radius:8px;list-style:none">
+      <summary style="cursor:pointer;font-size:12px;font-family:var(--font-mono);color:var(--accent);font-weight:600;padding:8px 12px;background:var(--card);border:1px solid var(--border-hi);border-radius:8px;list-style:none">
         📖 Etiologi &amp; Checklist Diagnostik Hipomagnesemia ▼
       </summary>
       <div style="padding:12px;border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;background:var(--card)">
@@ -433,7 +433,7 @@
   <div class="calc-title"><span>🩺</span> Contoh Skenario Klinis — Panduan Prioritas Koreksi</div>
 
   <details style="margin-bottom:8px">
-    <summary style="cursor:pointer;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;list-style:none;color:var(--text)">
+    <summary style="cursor:pointer;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px;font-family:var(--font-mono);font-size:12px;font-weight:600;list-style:none;color:var(--text)">
       📋 Kasus 1 — Sepsis + Multi Elektrolit Abnormal ▼
     </summary>
     <div style="padding:12px 14px;border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;background:var(--card);font-size:12px">
@@ -452,7 +452,7 @@
   </details>
 
   <details style="margin-bottom:8px">
-    <summary style="cursor:pointer;padding:10px 14px;background:var(--card);border:1px solid var(--red);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;list-style:none;color:var(--red)">
+    <summary style="cursor:pointer;padding:10px 14px;background:var(--card);border:1px solid var(--red);border-radius:8px;font-family:var(--font-mono);font-size:12px;font-weight:600;list-style:none;color:var(--red)">
       🚨 Kasus 2 — Hiponatremia Akut + Kejang (Emergensi) ▼
     </summary>
     <div style="padding:12px 14px;border:1px solid var(--red);border-top:none;border-radius:0 0 8px 8px;background:rgba(255,60,60,0.05);font-size:12px">
@@ -470,7 +470,7 @@
   </details>
 
   <details>
-    <summary style="cursor:pointer;padding:10px 14px;background:var(--card);border:1px solid var(--amber);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;list-style:none;color:var(--amber)">
+    <summary style="cursor:pointer;padding:10px 14px;background:var(--card);border:1px solid var(--amber);border-radius:8px;font-family:var(--font-mono);font-size:12px;font-weight:600;list-style:none;color:var(--amber)">
       ⚡ Kasus 3 — Hiperkalemia + AKI Oliguria ▼
     </summary>
     <div style="padding:12px 14px;border:1px solid var(--amber);border-top:none;border-radius:0 0 8px 8px;background:rgba(255,160,0,0.05);font-size:12px">
