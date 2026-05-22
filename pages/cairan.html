@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cairan IV — ICU Helper</title>
+<link rel="stylesheet" href="../assets/css/design-system.css">
+<link rel="stylesheet" href="../assets/css/layout.css">
+<link rel="stylesheet" href="../assets/css/components.css">
 <link rel="stylesheet" href="../assets/css/styles.css">
 <style>
 /* ============================================================
@@ -31,7 +34,7 @@
   display: flex;
   align-items: center;
   gap: .45rem;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 600;
   padding: .38rem .8rem;
@@ -91,7 +94,7 @@
   align-items: center;
   gap: .5rem;
   width: 100%;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 500;
   padding: .42rem .7rem;
@@ -131,7 +134,7 @@
 
 /* ── FILTER PILLS (desktop) ── */
 .cf-pill {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 600;
   padding: .4rem 1rem;
@@ -180,7 +183,7 @@
   border: 1px solid var(--border);
   border-radius: 20px;
   padding: .38rem .65rem .38rem 1.9rem;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   color: var(--text);
   outline: none;
@@ -282,7 +285,7 @@
   min-width: 0;
 }
 .cf-name {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 700;
   color: var(--text);
@@ -296,7 +299,7 @@
 
 .cf-badge {
   display: inline-block;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 9px;
   font-weight: 700;
   padding: .1rem .48rem;
@@ -319,7 +322,7 @@
 .cf-badge-alkali     { background: rgba(129,140,248,.12); color: #818cf8;      border: 1px solid rgba(129,140,248,.18); }
 
 .cf-osm {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 9px;
   color: var(--text3);
   margin-top: .15rem;
@@ -334,7 +337,7 @@
   margin-bottom: .25rem;
 }
 .cf-kc {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 9px;
   color: var(--text3);
   background: var(--bg);
@@ -360,7 +363,7 @@
 .cf-key-warn.danger { color: var(--danger); }
 .cf-tag-dep {
   display: block;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 9px; font-weight: 700;
   padding: .1rem .4rem;
   border-radius: 3px;
@@ -371,7 +374,7 @@
 }
 .cf-tag-pend {
   display: block;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 9px; font-weight: 700;
   padding: .1rem .4rem;
   border-radius: 3px;
@@ -406,7 +409,7 @@
   justify-content: center;
 }
 .cf-exp-name {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 16px;
   font-weight: 700;
   color: var(--text);
@@ -414,7 +417,7 @@
   margin-bottom: .4rem;
 }
 .cf-exp-alias {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 10px;
   color: var(--text3);
   margin-top: .28rem;
@@ -429,7 +432,7 @@
 }
 .cf-btn-close,
 .cf-btn-theme {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   padding: .35rem .75rem;
   border-radius: var(--r);
@@ -454,7 +457,7 @@
 /* Kemasan pills */
 .cf-pkg-chips { display: flex; flex-wrap: wrap; gap: .35rem; }
 .cf-pkg-chip {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 10.5px;
   padding: .22rem .75rem;
   background: var(--bg);
@@ -464,7 +467,7 @@
 }
 /* Per-package label */
 .cf-pkg-per {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 9px;
   font-weight: 700;
   text-transform: uppercase;
@@ -496,7 +499,7 @@
 
 /* Section label */
 .cf-sec-lbl {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 9px;
   font-weight: 700;
   text-transform: uppercase;
@@ -516,7 +519,7 @@
   gap: .4rem;
 }
 .cf-chip {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 11.5px;
   padding: .3rem .7rem;
   background: var(--bg);
@@ -587,7 +590,7 @@
   gap: .45rem;
 }
 .cf-refs li {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 10.5px;
   color: var(--text3);
   line-height: 1.65;
@@ -625,7 +628,7 @@
   padding: .7rem .85rem;
 }
 .cf-pop-grp {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 8.5px;
   font-weight: 700;
   text-transform: uppercase;
@@ -644,7 +647,7 @@
   grid-column: 1 / -1;
   text-align: center;
   padding: 3rem 1rem;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 12px;
   color: var(--text3);
 }
@@ -686,7 +689,9 @@
 ============================================================ -->
 
 <div class="alert-bar info">
-  <span class="alert-icon">◈</span>
+  <span class="alert-icon">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+  </span>
   36 cairan IV · 8 kategori · Referensi: SMART 2018 · BaSICS 2021 · SSC 2021 · ESPEN 2019 · ESPGHAN 2018 · ACLS 2020
 </div>
 
@@ -725,14 +730,14 @@ function closeCairanKalkulator() {
   " onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--accent-dim2)'">
     <span style="font-size:18px">🧮</span>
     <span style="flex:1">
-      <span style="display:block;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--accent)">
+      <span style="display:block;font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--accent)">
         Kalkulator Kebutuhan Cairan Harian ICU
       </span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text2)">
+      <span style="font-family:var(--font-mono);font-size:10px;color:var(--text2)">
         Restriksi Rasional · ROSE · Target Balans Harian &amp; Kumulatif · Fluid Overload
       </span>
     </span>
-    <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);font-weight:700">Buka ↗</span>
+    <span style="font-family:var(--font-mono);font-size:11px;color:var(--accent);font-weight:700">Buka ↗</span>
   </button>
 </div>
 
