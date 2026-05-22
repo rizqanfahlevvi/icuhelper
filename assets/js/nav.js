@@ -262,7 +262,7 @@
     var el = document.createElement('div');
     el.className = 'page-header';
     var title = activeSub
-      ? (activePage.icon + ' ' + activeSub.label)
+      ? (activePage.label + ' — ' + activeSub.label)
       : activePage.title;
     el.innerHTML =
       '<h1>' + title + '</h1>' +
