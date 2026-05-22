@@ -24,7 +24,7 @@
   border: 1.5px solid var(--border); background: var(--card);
   color: var(--text2); font-family: var(--font-mono);
   font-size: 11px; font-weight: 600; cursor: pointer;
-  transition: all .15s; white-space: nowrap;
+  transition: all var(--duration-fast); white-space: nowrap;
 }
 .osm-vol-chip:hover { border-color: var(--border-hi); color: var(--text); }
 .osm-vol-chip.active[data-vol="hipo"] { background:#ef4444; border-color:#ef4444; color:#fff; }
@@ -206,7 +206,7 @@
       <div class="input-row" style="margin-top:4px">
         <label style="display:flex;align-items:center;gap:4px">
           Input sebagai
-          <select id="osm-bun-unit" style="font-size:10px;padding:2px 6px;margin-left:4px">
+          <select id="osm-bun-unit" style="font-size:16px;padding:2px 6px;margin-left:4px">
             <option value="bun">BUN (mg/dL) ÷ 2.8</option>
             <option value="urea">Urea (mg/dL) ÷ 6</option>
             <option value="mmol">Urea (mmol/L)</option>

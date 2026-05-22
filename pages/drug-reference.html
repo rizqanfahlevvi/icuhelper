@@ -46,7 +46,7 @@
   border: 1px solid var(--border);
   color: var(--text);
   border-radius: 20px;
-  font-size: 11px;
+  font-size: 16px; /* HIG: 16px prevents iOS auto-zoom */
   font-family: var(--font-mono);
   box-sizing: border-box;
 }
@@ -82,7 +82,7 @@
   cursor: pointer;
   text-align: left;
   box-sizing: border-box;
-  transition: background .12s, color .12s;
+  transition: background var(--duration-fast), color var(--duration-fast);
 }
 .dr-band-item:hover { background: var(--bg2); color: var(--text); }
 .dr-band-item.active { background: var(--bg2); color: var(--accent); font-weight: 700; }
@@ -114,12 +114,12 @@
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 16px; /* HIG: 16px prevents iOS auto-zoom */
   outline: none;
   border-radius: 6px;
   padding: .32rem .5rem;
   border: 1px solid var(--border);
-  transition: border-color .15s, background .15s;
+  transition: border-color var(--duration-fast), background var(--duration-fast);
   box-sizing: border-box;
 }
 #egfr-input:focus { border-color: var(--accent); background: var(--card); }
@@ -161,14 +161,14 @@
   white-space: nowrap;
   width: 100%;
   justify-content: space-between;
-  transition: border-color .15s, color .15s;
+  transition: border-color var(--duration-fast), color var(--duration-fast);
   box-sizing: border-box;
 }
 .dr-drop-btn:hover { color: var(--text); border-color: var(--border-hi); }
 .dr-drop-arrow {
   font-size: 8px;
   opacity: .55;
-  transition: transform .18s ease;
+  transition: transform var(--duration-fast) ease;
   margin-left: .15rem;
 }
 .dr-filter-drop.open .dr-drop-arrow { transform: rotate(180deg); }
@@ -226,7 +226,7 @@
   cursor: pointer;
   text-align: left;
   box-sizing: border-box;
-  transition: background .12s, color .12s;
+  transition: background var(--duration-fast), color var(--duration-fast);
 }
 .dr-drop-item:hover { background: var(--bg2); color: var(--text); }
 .dr-drop-item.active { background: var(--bg); color: var(--text); font-weight: 700; }
@@ -247,7 +247,7 @@
   color: var(--text);
   padding: 4px 8px;
   border-radius: 6px;
-  font-size: 11px;
+  font-size: 16px; /* HIG: 16px prevents iOS auto-zoom */
   font-family: var(--font-mono);
 }
 /* Badges */
@@ -425,7 +425,7 @@
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+  transition: transform var(--duration-normal), box-shadow var(--duration-normal), background var(--duration-normal);
   box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 .dr-card:hover {
@@ -439,7 +439,7 @@
   top: 0; left: 0; right: 0;
   height: 3px;
   background: var(--accent);
-  transition: transform .22s ease;
+  transition: transform var(--duration-normal) ease;
   transform: scaleX(0);
   transform-origin: left;
   z-index: 1;
@@ -537,7 +537,7 @@
   justify-content: center;
   opacity: 0;
   pointer-events: none;
-  transition: opacity .22s ease;
+  transition: opacity var(--duration-normal) ease;
 }
 .dr-overlay.open {
   opacity: 1;
@@ -556,7 +556,7 @@
   border: 1px solid var(--border);
   border-radius: 16px;
   transform: translateY(28px);
-  transition: transform .22s ease;
+  transition: transform var(--duration-normal) ease;
   overscroll-behavior: contain;
   scrollbar-width: thin;
   scrollbar-color: var(--border-hi) transparent;
@@ -635,7 +635,7 @@
     cursor: pointer;
     display: flex;
     align-items: center;
-    transition: all 0.2s;
+    transition: all var(--duration-normal);
   }
   .drm-close:hover {
     background: rgba(255, 68, 68, 0.1);
@@ -665,7 +665,7 @@
   cursor: pointer;
   white-space: nowrap;
   border-bottom: 2px solid transparent;
-  transition: color .15s, border-color .15s;
+  transition: color var(--duration-fast), border-color var(--duration-fast);
   flex-shrink: 0;
 }
 .drm-tab:hover { color: var(--text2); }
