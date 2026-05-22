@@ -217,7 +217,14 @@
 
     var summary = document.createElement('summary');
     summary.className = 'ref-summary';
-    summary.textContent = '📚 Daftar Referensi (' + pageOrder.length + ')';
+    summary.innerHTML =
+      '<svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor"' +
+      ' stroke-width="2" stroke-linecap="round" stroke-linejoin="round"' +
+      ' style="flex-shrink:0;vertical-align:middle">' +
+      '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>' +
+      '<path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>' +
+      '</svg>' +
+      ' Daftar Referensi (' + pageOrder.length + ')';
     detailsEl.appendChild(summary);
 
     var list = document.createElement('ol');

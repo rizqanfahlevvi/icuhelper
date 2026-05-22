@@ -12,7 +12,7 @@
    - CSS + images        → Cache-first    (stable, optimise speed)
    ============================================================ */
 
-var CACHE_VERSION = 'icu-helper-v2.0.20260519e';   /* ← bump on each deploy */
+var CACHE_VERSION = 'icu-helper-v2.0.20260522';   /* ← bump on each deploy */
 var CACHE_NAME    = CACHE_VERSION;
 
 /* Paths that MUST always be fresh from the network.
@@ -27,7 +27,6 @@ var NETWORK_FIRST_PATTERNS = [
 var STATIC_ASSETS = [
   /* Root */
   './index.html',
-  './referensi.html',
   './manifest.json',
 
   /* CSS */
@@ -36,10 +35,10 @@ var STATIC_ASSETS = [
   /* Pages — depth 1 */
   './pages/abg.html',
   './pages/drug-reference.html',
-  './pages/ekg.html',
   './pages/cairan.html',
   './pages/kalkulator.html',
   './pages/monitoring.html',
+  './pages/referensi.html',
   './pages/setting.html',
   './pages/skoring.html',
   './pages/teori.html',

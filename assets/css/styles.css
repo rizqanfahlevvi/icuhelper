@@ -1596,7 +1596,7 @@ body.sb-collapsed .sb-feedback { margin: 10px auto 4px; padding: 0; width: 34px;
 }
 .ref-summary::-webkit-details-marker { display: none; }
 .ref-summary::before {
-  content:     'â–¶';
+  content:     '\25B6';
   font-size:   9px;
   color:       var(--accent);
   transition:  transform 0.2s;

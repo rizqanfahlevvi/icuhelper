@@ -38,9 +38,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (term !== '') {
           const content = acc.querySelector('.theory-content');
           const btn = acc.querySelector('.theory-btn');
-          if (content && !content.classList.contains('show')) {
-            content.classList.add('show');
-            if (btn) btn.classList.add('active');
+          if (content && !content.classList.contains('visible')) {
+            content.classList.add('visible');
+            if (btn) btn.classList.add('open');
           }
         }
       } else {

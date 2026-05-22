@@ -592,7 +592,7 @@ function switchACBC(n) {
 function importFromABG(panel) {
   // Read values from the main ABG form (always in display unit; we read raw inputs)
   const ph    = parseFloat(document.getElementById('abgPH')?.value);
-  const pco2Raw = parseFloat(document.getElementById('abgPaCO2')?.value);
+  const pco2Raw = parseFloat(document.getElementById('abgCO2')?.value);
   const hco3Raw = parseFloat(document.getElementById('abgHCO3')?.value);
   const naRaw   = parseFloat(document.getElementById('abgNa')?.value);
   const clRaw   = parseFloat(document.getElementById('abgCl')?.value);

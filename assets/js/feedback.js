@@ -467,7 +467,7 @@
        tidak punya masalah ini — params tetap ada setelah redirect.
     ─────────────────────────────────────────────────────────────── */
     var qs = [
-      'type='      + encodeURIComponent(typeObj.emoji + ' ' + typeObj.label),
+      'type='      + encodeURIComponent(typeObj.label),
       'nama='      + encodeURIComponent(nama || '-'),
       'page='      + encodeURIComponent(document.title),
       'url='       + encodeURIComponent(location.href),
