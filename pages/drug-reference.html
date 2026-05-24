@@ -44,7 +44,7 @@
   color: var(--text);
   border-radius: 20px;
   font-size: 16px; /* HIG: 16px prevents iOS auto-zoom */
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   box-sizing: border-box;
 }
 #drug-search:focus { border-color: var(--accent); outline: none; }
@@ -212,7 +212,7 @@
   align-items: center;
   gap: .5rem;
   width: 100%;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 11px;
   font-weight: 500;
   padding: .42rem .7rem;
@@ -236,7 +236,7 @@
   align-items: center;
   font-size: 11px;
   color: var(--muted);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
 }
 #drug-sort {
   background: var(--card);
@@ -245,7 +245,7 @@
   padding: 4px 8px;
   border-radius: 6px;
   font-size: 16px; /* HIG: 16px prevents iOS auto-zoom */
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
 }
 /* Badges */
 .badge {
@@ -303,7 +303,7 @@
 }
 .drug-panel-summary {
   padding: 10px 14px;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 11.5px;
   font-weight: 700;
   color: var(--accent);
@@ -446,7 +446,7 @@
 .dr-card.egfr-flagged::before { background: #ffd700; }
 
 .dr-coll {
-  padding: .75rem .9rem;
+  padding: .9rem 1rem;
 }
 .dr-name-row {
   display: flex;
@@ -456,8 +456,8 @@
   margin-bottom: .2rem;
 }
 .dr-name {
-  font-family: var(--font-mono);
-  font-size: 12px;
+  font-family: var(--font-sans);
+  font-size: 14px;
   font-weight: 700;
   color: var(--text);
   line-height: 1.3;
@@ -472,8 +472,8 @@
   align-items: center;
 }
 .dr-class {
-  font-family: var(--font-mono);
-  font-size: 9.5px;
+  font-family: var(--font-sans);
+  font-size: 11.5px;
   color: var(--text3);
   margin-bottom: .15rem;
   white-space: nowrap;
@@ -481,8 +481,8 @@
   text-overflow: ellipsis;
 }
 .dr-brand {
-  font-family: var(--font-mono);
-  font-size: 9.5px;
+  font-family: var(--font-sans);
+  font-size: 11.5px;
   color: var(--accent);
   margin-bottom: .18rem;
   white-space: nowrap;
@@ -491,7 +491,7 @@
 }
 .dr-dose {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 10.5px;
   color: var(--text3);
   line-height: 1.35;
   margin-top: .1rem;
@@ -516,7 +516,7 @@
   grid-column: 1 / -1;
   text-align: center;
   padding: 3rem 1rem;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 12px;
   color: var(--text3);
 }
@@ -600,7 +600,7 @@
 }
 .drm-head-info { flex: 1; min-width: 0; }
 .drm-name {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 16px;
   font-weight: 700;
   color: var(--text);
@@ -608,7 +608,7 @@
   margin-bottom: .25rem;
 }
 .drm-class {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 10.5px;
   color: var(--text3);
   margin-bottom: .3rem;
@@ -652,7 +652,7 @@
 }
 .drm-tabs::-webkit-scrollbar { display: none; }
 .drm-tab {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 10.5px;
   font-weight: 600;
   padding: .5rem .85rem;
@@ -677,7 +677,7 @@
 
 /* Content inside panels */
 .drm-sec-lbl {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 9px;
   font-weight: 700;
   text-transform: uppercase;
