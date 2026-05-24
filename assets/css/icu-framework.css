@@ -1,3 +1,1594 @@
+/* ================================================================
+   icu-framework.css — ICU Helper CSS Framework
+   Merged from: design-system.css + layout.css + components.css
+   Load order: icu-framework.css → styles.css
+   ================================================================ */
+
+/* ── DESIGN SYSTEM — Tokens, typography scale, color palette, motion tokens  */
+
+/* ============================================================
+   ICU Helper — design-system.css · v1.0
+   Apple HIG Design Token Foundation for Clinical Web App
+
+   LOAD ORDER (in every HTML <head>):
+     1. design-system.css   ← this file (tokens)
+     2. styles.css          ← existing components (uses aliases below)
+
+   STRUCTURE:
+     §1  Typography tokens
+     §2  Spacing scale (8pt grid)
+     §3  Border radius
+     §4  Shadows
+     §5  Motion
+     §6  Layout & touch targets
+     §7  Light mode colors
+     §8  Dark mode colors
+     §9  OS-level dark mode fallback (no JS)
+     §10 Backward-compat aliases (old token names → new tokens)
+     §11 Base utilities (.data-value, focus, reduced-motion)
+   ============================================================ */
+
+
+/* ============================================================
+   §1  TYPOGRAPHY
+   ============================================================ */
+:root {
+  /* Font families */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+               "Inter", system-ui, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo,
+               "Cascadia Code", monospace;
+
+  /* Type scale — Apple HIG (rem, base 16px) */
+  --text-large-title:  2.125rem;   /* 34px — page hero titles */
+  --text-title1:       1.75rem;    /* 28px — section titles */
+  --text-title2:       1.375rem;   /* 22px — card headers */
+  --text-title3:       1.25rem;    /* 20px — sub-section headers */
+  --text-headline:     1.0625rem;  /* 17px — label above inputs, strong body */
+  --text-body:         1.0625rem;  /* 17px — primary body text */
+  --text-callout:      1rem;       /* 16px — secondary body */
+  --text-subhead:      0.9375rem;  /* 15px — table cells, card content */
+  --text-footnote:     0.8125rem;  /* 13px — metadata, secondary labels */
+  --text-caption1:     0.75rem;    /* 12px — badges, tags, citations */
+  --text-caption2:     0.6875rem;  /* 11px — overlines, data-dense labels */
+
+  /* Font weights */
+  --weight-regular:    400;
+  --weight-medium:     500;
+  --weight-semibold:   600;
+  --weight-bold:       700;
+
+  /* Line heights */
+  --leading-tight:     1.2;   /* headings */
+  --leading-snug:      1.35;  /* callouts, labels */
+  --leading-normal:    1.5;   /* body text */
+  --leading-relaxed:   1.65;  /* dense clinical lists */
+
+  /* Letter spacing */
+  --tracking-tight:    -0.02em;   /* large titles */
+  --tracking-normal:   -0.011em;  /* body */
+  --tracking-wide:     0.06em;    /* uppercase labels (SYSTOLE, SpO₂) */
+  --tracking-wider:    0.10em;    /* nav/section overlines */
+}
+
+
+/* ============================================================
+   §2  SPACING SCALE — 8pt grid
+   ============================================================ */
+:root {
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+  --space-16:  64px;
+
+  /* Content margins — responsive */
+  --margin-compact:  16px;   /* mobile ≤ 600px */
+  --margin-regular:  24px;   /* tablet 601–1024px */
+  --margin-wide:     32px;   /* desktop > 1024px */
+}
+
+
+/* ============================================================
+   §3  BORDER RADIUS
+   ============================================================ */
+:root {
+  --radius-xs:   6px;    /* tags, badges, small chips */
+  --radius-sm:   10px;   /* inputs, small cards */
+  --radius-md:   12px;   /* standard cards (iOS card) */
+  --radius-lg:   16px;   /* large cards, modals */
+  --radius-xl:   22px;   /* hero cards */
+  --radius-2xl:  28px;   /* sheet bottom radius */
+  --radius-full: 9999px; /* pill buttons, tags */
+}
+
+
+/* ============================================================
+   §4  SHADOWS
+   Light mode: subtle elevation
+   Dark mode: almost none (black bg absorbs depth)
+   ============================================================ */
+:root {
+  /* Light mode defaults */
+  --shadow-sm:    0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md:    0 1px 3px rgba(0,0,0,0.08), 0 8px 24px -8px rgba(0,0,0,0.12);
+  --shadow-lg:    0 1px 3px rgba(0,0,0,0.06), 0 16px 40px -12px rgba(0,0,0,0.18);
+  --shadow-lift:  0 2px 6px rgba(0,0,0,0.08), 0 12px 36px -10px rgba(0,0,0,0.14);
+
+  /* Semantic accent shadows */
+  --shadow-accent-blue:   0 4px 14px rgba(0,122,255,0.25);
+  --shadow-accent-green:  0 4px 14px rgba(52,199,89,0.25);
+  --shadow-accent-red:    0 4px 14px rgba(255,59,48,0.25);
+  --shadow-accent-orange: 0 4px 14px rgba(255,149,0,0.25);
+}
+
+[data-theme="dark"] {
+  --shadow-sm:   0 1px 2px rgba(0,0,0,0.40);
+  --shadow-md:   0 1px 3px rgba(0,0,0,0.50), 0 8px 24px -8px rgba(0,0,0,0.60);
+  --shadow-lg:   0 2px 6px rgba(0,0,0,0.60), 0 16px 40px -12px rgba(0,0,0,0.70);
+  --shadow-lift: 0 2px 6px rgba(0,0,0,0.50), 0 16px 40px -10px rgba(0,0,0,0.80);
+
+  --shadow-accent-blue:   0 4px 14px rgba(10,132,255,0.35);
+  --shadow-accent-green:  0 4px 14px rgba(48,209,88,0.30);
+  --shadow-accent-red:    0 4px 14px rgba(255,69,58,0.30);
+  --shadow-accent-orange: 0 4px 14px rgba(255,159,10,0.30);
+}
+
+
+/* ============================================================
+   §5  MOTION
+   Default: off. Only interactive elements opt in.
+   ============================================================ */
+:root {
+  /* Duration */
+  --duration-instant:  100ms;
+  --duration-fast:     150ms;
+  --duration-normal:   250ms;
+  --duration-slow:     350ms;
+  --duration-sidebar:  300ms;
+
+  /* Easing */
+  --ease-standard:  cubic-bezier(0.4, 0.0, 0.2, 1);  /* material standard */
+  --ease-decel:     cubic-bezier(0.0, 0.0, 0.2, 1);  /* enter */
+  --ease-accel:     cubic-bezier(0.4, 0.0, 1.0, 1);  /* exit */
+  --ease-bounce:    cubic-bezier(0.34, 1.56, 0.64, 1); /* spring bounce */
+  --ease-spring:    cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Utility transitions — apply to interactive elements only */
+.interactive {
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    border-color     var(--duration-fast) var(--ease-standard),
+    color            var(--duration-fast) var(--ease-standard),
+    opacity          var(--duration-fast) var(--ease-standard);
+}
+.card-pressable:active {
+  transform: scale(0.98);
+  transition: transform var(--duration-instant) var(--ease-standard);
+}
+
+
+/* ============================================================
+   §6  LAYOUT & TOUCH TARGETS
+   ============================================================ */
+:root {
+  /* Navigation shell */
+  --topbar-height:       56px;
+  --topbar-height-large: 64px;  /* desktop */
+  --sidebar-width:       280px;
+  --sidebar-width-icon:  64px;
+
+  /* Minimum touch targets — Apple HIG §Adaptivity and Layout */
+  --touch-target-min:    44px;
+
+  /* Breakpoints (read-only reference — use in @media only) */
+  --bp-compact:   430px;   /* iPhone SE / mini */
+  --bp-regular:   744px;   /* iPad mini portrait */
+  --bp-medium:    1024px;  /* iPad landscape / small desktop */
+  --bp-wide:      1280px;  /* desktop */
+}
+
+
+/* ============================================================
+   §7  COLOR TOKENS — Light mode
+   Source: Apple Human Interface Guidelines
+   systemBackground = #F2F2F7, secondarySystemBackground = #FFFFFF
+   ============================================================ */
+:root,
+[data-theme="light"] {
+
+  /* ── Backgrounds ─────────────────────────────────── */
+  --color-background:           #F2F2F7;  /* systemGroupedBackground */
+  --color-background-secondary: #FFFFFF;  /* secondarySystemGroupedBackground */
+  --color-background-tertiary:  #EFEFF4;  /* tertiarySystemGroupedBackground */
+  --color-surface:              #FFFFFF;  /* systemBackground (cards) */
+  --color-surface-raised:       #F2F2F7;  /* elevated surface */
+
+  /* ── Labels ──────────────────────────────────────── */
+  --color-label-primary:   #000000;
+  --color-label-secondary: rgba(60, 60, 67, 0.75);
+  --color-label-tertiary:  rgba(60, 60, 67, 0.50);
+  --color-label-quaternary:rgba(60, 60, 67, 0.25);
+
+  /* ── Fills (tonal backgrounds) ───────────────────── */
+  --color-fill:            rgba(120, 120, 128, 0.20);
+  --color-fill-secondary:  rgba(120, 120, 128, 0.16);
+  --color-fill-tertiary:   rgba(118, 118, 128, 0.12);
+  --color-fill-quaternary: rgba(116, 116, 128, 0.08);
+
+  /* ── Separator ───────────────────────────────────── */
+  --color-separator:        rgba(60, 60, 67, 0.29);
+  --color-separator-opaque: #C6C6C8;
+
+  /* ── Accent colors ───────────────────────────────── */
+  --color-accent-blue:    #007AFF;
+  --color-accent-green:   #34C759;
+  --color-accent-red:     #FF3B30;
+  --color-accent-orange:  #FF9500;
+  --color-accent-yellow:  #FFCC00;
+  --color-accent-teal:    #5AC8FA;
+  --color-accent-indigo:  #5856D6;
+  --color-accent-purple:  #AF52DE;
+  --color-accent-pink:    #FF2D55;
+
+  /* ── Clinical semantic colors ────────────────────── */
+  --color-clinical-normal:   #248A3D;  /* accessible green on white */
+  --color-clinical-warning:  #B25000;  /* accessible orange on white */
+  --color-clinical-critical: #D70015;  /* accessible red on white */
+  --color-clinical-info:     #005ECC;  /* accessible blue on white */
+
+  /* ── Tinted backgrounds for clinical callouts ────── */
+  --color-normal-bg:   rgba(52, 199, 89,  0.12);
+  --color-warning-bg:  rgba(255, 149, 0,  0.12);
+  --color-critical-bg: rgba(255, 59, 48,  0.12);
+  --color-info-bg:     rgba(0, 122, 255,  0.10);
+  --color-teal-bg:     rgba(90, 200, 250, 0.12);
+  --color-purple-bg:   rgba(175, 82, 222, 0.12);
+
+  /* ── Nav chrome ──────────────────────────────────── */
+  --color-nav-bg:     rgba(242, 242, 247, 0.72);
+  --color-nav-border: rgba(60, 60, 67, 0.13);
+
+  /* ── Scrollbar ───────────────────────────────────── */
+  --color-scrollbar-track: #F2F2F7;
+  --color-scrollbar-thumb: #C6C6C8;
+
+  /* ── Toggle ──────────────────────────────────────── */
+  --color-toggle-track: #E5E5EA;
+  --color-toggle-knob:  #FFFFFF;
+}
+
+
+/* ============================================================
+   §8  COLOR TOKENS — Dark mode
+   True Black for OLED. High contrast system colors.
+   ============================================================ */
+[data-theme="dark"] {
+
+  /* ── Backgrounds ─────────────────────────────────── */
+  --color-background:           #000000;
+  --color-background-secondary: #1C1C1E;
+  --color-background-tertiary:  #2C2C2E;
+  --color-surface:              #1C1C1E;
+  --color-surface-raised:       #2C2C2E;
+
+  /* ── Labels ──────────────────────────────────────── */
+  --color-label-primary:    #FFFFFF;
+  --color-label-secondary:  rgba(235, 235, 245, 0.60);
+  --color-label-tertiary:   rgba(235, 235, 245, 0.30);
+  --color-label-quaternary: rgba(235, 235, 245, 0.18);
+
+  /* ── Fills ───────────────────────────────────────── */
+  --color-fill:            rgba(255, 255, 255, 0.10);
+  --color-fill-secondary:  rgba(255, 255, 255, 0.08);
+  --color-fill-tertiary:   rgba(255, 255, 255, 0.06);
+  --color-fill-quaternary: rgba(255, 255, 255, 0.04);
+
+  /* ── Separator ───────────────────────────────────── */
+  --color-separator:        rgba(84, 84, 88, 0.65);
+  --color-separator-opaque: #38383A;
+
+  /* ── Accent colors ───────────────────────────────── */
+  --color-accent-blue:    #0A84FF;
+  --color-accent-green:   #30D158;
+  --color-accent-red:     #FF453A;
+  --color-accent-orange:  #FF9F0A;
+  --color-accent-yellow:  #FFD60A;
+  --color-accent-teal:    #40CBE0;
+  --color-accent-indigo:  #5E5CE6;
+  --color-accent-purple:  #BF5AF2;
+  --color-accent-pink:    #FF375F;
+
+  /* ── Clinical semantic colors ────────────────────── */
+  --color-clinical-normal:   #30D158;
+  --color-clinical-warning:  #FF9F0A;
+  --color-clinical-critical: #FF453A;
+  --color-clinical-info:     #0A84FF;
+
+  /* ── Tinted backgrounds ──────────────────────────── */
+  --color-normal-bg:   rgba(48, 209, 88,  0.15);
+  --color-warning-bg:  rgba(255, 159, 10, 0.15);
+  --color-critical-bg: rgba(255, 69, 58,  0.15);
+  --color-info-bg:     rgba(10, 132, 255, 0.15);
+  --color-teal-bg:     rgba(64, 203, 224, 0.12);
+  --color-purple-bg:   rgba(191, 90, 242, 0.12);
+
+  /* ── Nav chrome ──────────────────────────────────── */
+  --color-nav-bg:     rgba(28, 28, 30, 0.72);
+  --color-nav-border: rgba(84, 84, 88, 0.65);
+
+  /* ── Scrollbar ───────────────────────────────────── */
+  --color-scrollbar-track: #000000;
+  --color-scrollbar-thumb: #3A3A3C;
+
+  /* ── Toggle ──────────────────────────────────────── */
+  --color-toggle-track: #3A3A3C;
+  --color-toggle-knob:  #FFFFFF;
+}
+
+
+/* ============================================================
+   §9  OS-LEVEL DARK MODE FALLBACK
+   Fires before JS sets data-theme — prevents FOUC on direct
+   dark-mode OS users. Mirrors §8 exactly.
+   ============================================================ */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+
+    --color-background:           #000000;
+    --color-background-secondary: #1C1C1E;
+    --color-background-tertiary:  #2C2C2E;
+    --color-surface:              #1C1C1E;
+    --color-surface-raised:       #2C2C2E;
+
+    --color-label-primary:    #FFFFFF;
+    --color-label-secondary:  rgba(235, 235, 245, 0.60);
+    --color-label-tertiary:   rgba(235, 235, 245, 0.30);
+    --color-label-quaternary: rgba(235, 235, 245, 0.18);
+
+    --color-fill:            rgba(255, 255, 255, 0.10);
+    --color-fill-secondary:  rgba(255, 255, 255, 0.08);
+    --color-fill-tertiary:   rgba(255, 255, 255, 0.06);
+    --color-fill-quaternary: rgba(255, 255, 255, 0.04);
+
+    --color-separator:        rgba(84, 84, 88, 0.65);
+    --color-separator-opaque: #38383A;
+
+    --color-accent-blue:    #0A84FF;
+    --color-accent-green:   #30D158;
+    --color-accent-red:     #FF453A;
+    --color-accent-orange:  #FF9F0A;
+    --color-accent-yellow:  #FFD60A;
+    --color-accent-teal:    #40CBE0;
+    --color-accent-indigo:  #5E5CE6;
+    --color-accent-purple:  #BF5AF2;
+    --color-accent-pink:    #FF375F;
+
+    --color-clinical-normal:   #30D158;
+    --color-clinical-warning:  #FF9F0A;
+    --color-clinical-critical: #FF453A;
+    --color-clinical-info:     #0A84FF;
+
+    --color-normal-bg:   rgba(48, 209, 88,  0.15);
+    --color-warning-bg:  rgba(255, 159, 10, 0.15);
+    --color-critical-bg: rgba(255, 69, 58,  0.15);
+    --color-info-bg:     rgba(10, 132, 255, 0.15);
+    --color-teal-bg:     rgba(64, 203, 224, 0.12);
+    --color-purple-bg:   rgba(191, 90, 242, 0.12);
+
+    --color-nav-bg:     rgba(28, 28, 30, 0.72);
+    --color-nav-border: rgba(84, 84, 88, 0.65);
+
+    --color-scrollbar-track: #000000;
+    --color-scrollbar-thumb: #3A3A3C;
+
+    --color-toggle-track: #3A3A3C;
+    --color-toggle-knob:  #FFFFFF;
+
+    --shadow-sm:   0 1px 2px rgba(0,0,0,0.40);
+    --shadow-md:   0 1px 3px rgba(0,0,0,0.50), 0 8px 24px -8px rgba(0,0,0,0.60);
+    --shadow-lg:   0 2px 6px rgba(0,0,0,0.60), 0 16px 40px -12px rgba(0,0,0,0.70);
+    --shadow-lift: 0 2px 6px rgba(0,0,0,0.50), 0 16px 40px -10px rgba(0,0,0,0.80);
+
+    --shadow-accent-blue:   0 4px 14px rgba(10,132,255,0.35);
+    --shadow-accent-green:  0 4px 14px rgba(48,209,88,0.30);
+    --shadow-accent-red:    0 4px 14px rgba(255,69,58,0.30);
+    --shadow-accent-orange: 0 4px 14px rgba(255,159,10,0.30);
+  }
+}
+
+
+/* ============================================================
+   §10 BACKWARD-COMPAT ALIASES
+   Maps old token names (used throughout styles.css)
+   to new semantic tokens. DO NOT remove until styles.css
+   and all pages are fully migrated to --color-* names.
+   ============================================================ */
+:root,
+[data-theme="light"] {
+  /* Backgrounds */
+  --bg:         var(--color-background);
+  --bg2:        var(--color-background-secondary);
+  --card:       var(--color-surface);
+  --card-hover: var(--color-surface-raised);
+
+  /* Separators */
+  --border:     var(--color-separator);
+  --border-hi:  var(--color-separator-opaque);
+  --border2:    var(--color-separator);
+
+  /* Labels */
+  --text:  var(--color-label-primary);
+  --text2: var(--color-label-secondary);
+  --text3: var(--color-label-tertiary);
+  --text4: var(--color-label-quaternary);
+  --muted: var(--color-label-secondary);
+
+  /* Accent — primary action = Apple Blue */
+  --accent:       var(--color-accent-blue);
+  --accent-glow:  rgba(0, 122, 255, 0.20);
+  --accent-dim:   rgba(0, 122, 255, 0.10);
+  --accent-dim2:  rgba(0, 122, 255, 0.18);
+
+  /* Secondary accent = Apple Green */
+  --accent2:      var(--color-accent-green);
+  --accent2-dim:  rgba(52, 199, 89, 0.12);
+
+  /* Semantic states */
+  --ok:         var(--color-clinical-normal);
+  --ok-dim:     var(--color-normal-bg);
+  --warn:       var(--color-clinical-warning);
+  --warn-dim:   var(--color-warning-bg);
+  --danger:     var(--color-clinical-critical);
+  --danger-dim: var(--color-critical-bg);
+
+  /* Color palette (legacy names) */
+  --blue:      var(--color-accent-blue);
+  --blue-bg:   var(--color-info-bg);
+  --teal:      #006A96;         /* accessible teal on white */
+  --teal-bg:   var(--color-teal-bg);
+  --amber:     var(--color-clinical-warning);
+  --amber-bg:  var(--color-warning-bg);
+  --red:       var(--color-clinical-critical);
+  --red-bg:    var(--color-critical-bg);
+  --green:     var(--color-clinical-normal);
+  --green-bg:  var(--color-normal-bg);
+  --purple:    #8944AB;         /* accessible purple on white */
+  --purple-bg: var(--color-purple-bg);
+  --coral:     var(--color-clinical-critical);
+  --coral-bg:  var(--color-critical-bg);
+  --orange:    var(--color-clinical-warning);
+  --orange-bg: var(--color-warning-bg);
+  --gray:      rgba(60, 60, 67, 0.60);
+  --gray-bg:   rgba(120, 120, 128, 0.12);
+
+  /* Nav */
+  --nav-bg:     var(--color-nav-bg);
+  --nav-border: var(--color-nav-border);
+
+  /* Scrollbar */
+  --scrollbar-track: var(--color-scrollbar-track);
+  --scrollbar-thumb: var(--color-scrollbar-thumb);
+
+  /* Toggle */
+  --toggle-bg:   var(--color-toggle-track);
+  --toggle-knob: var(--color-toggle-knob);
+  --toggle-text: var(--color-label-secondary);
+
+  /* Fonts */
+  --font-display: var(--font-sans);
+
+  /* Radii (old names → new) */
+  --r: var(--radius-sm);  /* most common: 10px */
+
+  /* Shadows (old → new) */
+  --shadow-card:  var(--shadow-md);
+  --shadow-hover: var(--shadow-lift);
+
+  /* Layout */
+  --tb-h:   var(--topbar-height);
+  --sb-w:   var(--sidebar-width);
+  --sb-cw:  var(--sidebar-width-icon);
+
+  /* Button foreground */
+  --btn-fg: #FFFFFF;
+}
+
+[data-theme="dark"] {
+  /* Backgrounds */
+  --bg:         var(--color-background);
+  --bg2:        var(--color-background-secondary);
+  --card:       var(--color-surface);
+  --card-hover: var(--color-surface-raised);
+
+  /* Separators */
+  --border:     var(--color-separator);
+  --border-hi:  var(--color-separator-opaque);
+  --border2:    var(--color-separator);
+
+  /* Labels */
+  --text:  var(--color-label-primary);
+  --text2: var(--color-label-secondary);
+  --text3: var(--color-label-tertiary);
+  --text4: var(--color-label-quaternary);
+  --muted: var(--color-label-secondary);
+
+  /* Accent */
+  --accent:       var(--color-accent-blue);
+  --accent-glow:  rgba(10, 132, 255, 0.30);
+  --accent-dim:   rgba(10, 132, 255, 0.15);
+  --accent-dim2:  rgba(10, 132, 255, 0.22);
+
+  --accent2:      var(--color-accent-green);
+  --accent2-dim:  rgba(48, 209, 88, 0.15);
+
+  --ok:         var(--color-clinical-normal);
+  --ok-dim:     var(--color-normal-bg);
+  --warn:       var(--color-clinical-warning);
+  --warn-dim:   var(--color-warning-bg);
+  --danger:     var(--color-clinical-critical);
+  --danger-dim: var(--color-critical-bg);
+
+  --blue:      var(--color-accent-blue);
+  --blue-bg:   var(--color-info-bg);
+  --teal:      var(--color-accent-teal);
+  --teal-bg:   var(--color-teal-bg);
+  --amber:     var(--color-accent-yellow);
+  --amber-bg:  rgba(255, 214, 10, 0.15);
+  --red:       var(--color-accent-red);
+  --red-bg:    var(--color-critical-bg);
+  --green:     var(--color-accent-green);
+  --green-bg:  var(--color-normal-bg);
+  --purple:    var(--color-accent-purple);
+  --purple-bg: var(--color-purple-bg);
+  --coral:     var(--color-accent-red);
+  --coral-bg:  var(--color-critical-bg);
+  --orange:    var(--color-accent-orange);
+  --orange-bg: var(--color-warning-bg);
+  --gray:      #8E8E93;
+  --gray-bg:   rgba(142, 142, 147, 0.15);
+
+  --nav-bg:     var(--color-nav-bg);
+  --nav-border: var(--color-nav-border);
+
+  --scrollbar-track: var(--color-scrollbar-track);
+  --scrollbar-thumb: var(--color-scrollbar-thumb);
+
+  --toggle-bg:   var(--color-toggle-track);
+  --toggle-knob: var(--color-toggle-knob);
+  --toggle-text: var(--color-label-secondary);
+
+  --font-display: var(--font-sans);
+  --r:            var(--radius-sm);
+
+  --shadow-card:  var(--shadow-md);
+  --shadow-hover: var(--shadow-lift);
+  --shadow-accent: var(--shadow-accent-blue);
+
+  --tb-h:   var(--topbar-height);
+  --sb-w:   var(--sidebar-width);
+  --sb-cw:  var(--sidebar-width-icon);
+
+  --btn-fg: #FFFFFF;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --bg: var(--color-background);
+    --bg2: var(--color-background-secondary);
+    --card: var(--color-surface);
+    --card-hover: var(--color-surface-raised);
+    --border: var(--color-separator);
+    --border-hi: var(--color-separator-opaque);
+    --border2: var(--color-separator);
+    --text: var(--color-label-primary);
+    --text2: var(--color-label-secondary);
+    --text3: var(--color-label-tertiary);
+    --text4: var(--color-label-quaternary);
+    --muted: var(--color-label-secondary);
+    --accent: var(--color-accent-blue);
+    --accent-glow: rgba(10,132,255,0.30);
+    --accent-dim: rgba(10,132,255,0.15);
+    --accent-dim2: rgba(10,132,255,0.22);
+    --accent2: var(--color-accent-green);
+    --accent2-dim: rgba(48,209,88,0.15);
+    --ok: var(--color-clinical-normal);
+    --ok-dim: var(--color-normal-bg);
+    --warn: var(--color-clinical-warning);
+    --warn-dim: var(--color-warning-bg);
+    --danger: var(--color-clinical-critical);
+    --danger-dim: var(--color-critical-bg);
+    --blue: var(--color-accent-blue);
+    --blue-bg: var(--color-info-bg);
+    --teal: var(--color-accent-teal);
+    --teal-bg: var(--color-teal-bg);
+    --amber: var(--color-accent-yellow);
+    --amber-bg: rgba(255,214,10,0.15);
+    --red: var(--color-accent-red);
+    --red-bg: var(--color-critical-bg);
+    --green: var(--color-accent-green);
+    --green-bg: var(--color-normal-bg);
+    --purple: var(--color-accent-purple);
+    --purple-bg: var(--color-purple-bg);
+    --orange: var(--color-accent-orange);
+    --orange-bg: var(--color-warning-bg);
+    --gray: #8E8E93;
+    --gray-bg: rgba(142,142,147,0.15);
+    --nav-bg: var(--color-nav-bg);
+    --nav-border: var(--color-nav-border);
+    --scrollbar-track: var(--color-scrollbar-track);
+    --scrollbar-thumb: var(--color-scrollbar-thumb);
+    --toggle-bg: var(--color-toggle-track);
+    --toggle-knob: var(--color-toggle-knob);
+    --font-display: var(--font-sans);
+    --r: var(--radius-sm);
+    --shadow-card: var(--shadow-md);
+    --shadow-hover: var(--shadow-lift);
+    --shadow-accent: var(--shadow-accent-blue);
+    --tb-h: var(--topbar-height);
+    --sb-w: var(--sidebar-width);
+    --sb-cw: var(--sidebar-width-icon);
+    --btn-fg: #FFFFFF;
+  }
+}
+
+
+/* ============================================================
+   §11 BASE UTILITIES
+   ============================================================ */
+
+/* ── Clinical data values — monospace only for numbers ─── */
+/*
+   Apply to: lab values, doses, parameters, numerical results.
+   NOT for UI text, labels, or headings.
+
+   Usage:
+     <span class="data-value">7.38</span>
+     <span class="data-value critical">PaO₂ 48</span>
+     <span class="data-value normal">SpO₂ 98%</span>
+*/
+.data-value {
+  font-family:     var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+  letter-spacing:  0;
+  font-size:       inherit;
+  font-weight:     var(--weight-semibold);
+  color:           var(--color-label-primary);
+}
+.data-value.normal   { color: var(--color-clinical-normal); }
+.data-value.warning  { color: var(--color-clinical-warning); }
+.data-value.critical { color: var(--color-clinical-critical); }
+.data-value.info     { color: var(--color-clinical-info); }
+
+/* Large result display (calculator outputs) */
+.data-value-lg {
+  font-family:     var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size:       var(--text-title2);
+  font-weight:     var(--weight-bold);
+  letter-spacing:  -0.01em;
+  line-height:     var(--leading-tight);
+}
+.data-value-xl {
+  font-family:     var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size:       var(--text-title1);
+  font-weight:     var(--weight-bold);
+  letter-spacing:  -0.02em;
+  line-height:     var(--leading-tight);
+}
+
+/* ── Focus ring — WCAG AA keyboard navigation ─────────── */
+/*
+   Applied via :focus-visible so mouse users don't see it.
+   All interactive elements inherit this.
+*/
+:focus-visible {
+  outline:        2px solid var(--color-accent-blue);
+  outline-offset: 2px;
+  border-radius:  var(--radius-xs);
+}
+
+/* Remove default focus ring where :focus-visible is supported */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ── Reduced motion ───────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration:        0.01ms !important;
+    animation-iteration-count: 1      !important;
+    transition-duration:       0.01ms !important;
+    scroll-behavior:           auto   !important;
+  }
+
+  /* Specifically disable brand animations */
+  .brand-dot       { animation: none !important; }
+  .badge-dot       { animation: none !important; }
+  .pulse-dot       { animation: none !important; }
+  .hero-bg-glow,
+  .hero-bg-glow2   { display: none; }
+}
+
+/* ── Typography utilities ─────────────────────────────── */
+.text-large-title { font-size: var(--text-large-title); font-weight: var(--weight-bold);     line-height: var(--leading-tight);  letter-spacing: var(--tracking-tight); }
+.text-title1      { font-size: var(--text-title1);      font-weight: var(--weight-bold);     line-height: var(--leading-tight); }
+.text-title2      { font-size: var(--text-title2);      font-weight: var(--weight-bold);     line-height: var(--leading-tight); }
+.text-title3      { font-size: var(--text-title3);      font-weight: var(--weight-semibold); line-height: var(--leading-snug); }
+.text-headline    { font-size: var(--text-headline);    font-weight: var(--weight-semibold); line-height: var(--leading-snug); }
+.text-body        { font-size: var(--text-body);        font-weight: var(--weight-regular);  line-height: var(--leading-normal); }
+.text-callout     { font-size: var(--text-callout);     font-weight: var(--weight-regular);  line-height: var(--leading-normal); }
+.text-subhead     { font-size: var(--text-subhead);     font-weight: var(--weight-regular);  line-height: var(--leading-normal); }
+.text-footnote    { font-size: var(--text-footnote);    font-weight: var(--weight-regular);  line-height: var(--leading-normal); }
+.text-caption     { font-size: var(--text-caption1);    font-weight: var(--weight-regular);  line-height: var(--leading-snug); }
+
+/* Color utilities */
+.text-primary   { color: var(--color-label-primary); }
+.text-secondary { color: var(--color-label-secondary); }
+.text-tertiary  { color: var(--color-label-tertiary); }
+.text-accent    { color: var(--color-accent-blue); }
+.text-normal    { color: var(--color-clinical-normal); }
+.text-warning   { color: var(--color-clinical-warning); }
+.text-critical  { color: var(--color-clinical-critical); }
+.text-info      { color: var(--color-clinical-info); }
+
+/* Spacing utilities */
+.mt-1 { margin-top: var(--space-1); }
+.mt-2 { margin-top: var(--space-2); }
+.mt-3 { margin-top: var(--space-3); }
+.mt-4 { margin-top: var(--space-4); }
+.mb-1 { margin-bottom: var(--space-1); }
+.mb-2 { margin-bottom: var(--space-2); }
+.mb-3 { margin-bottom: var(--space-3); }
+.mb-4 { margin-bottom: var(--space-4); }
+.p-4  { padding: var(--space-4); }
+
+/* Screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── LAYOUT — Top bar, sidebar, page shell, breadcrumb, responsive grid  */
+
+/* ============================================================
+   ICU Helper — layout.css · v1.0 · Apple HIG Layout Shell
+   Step 3 of HIG refactor — layout structure only.
+
+   LOAD ORDER:
+     1. design-system.css  (tokens)
+     2. layout.css         ← this file (shell layout)
+     3. components.css     (UI components)
+     4. styles.css         (page-specific + legacy)
+
+   CONTAINS:
+     §1  Reset & base
+     §2  Scrollbar
+     §3  Theme transition overlay
+     §4  Topbar
+     §5  Sidebar
+     §6  Sidebar — collapsed state
+     §7  Sidebar — collapsed popover
+     §8  Overlay (mobile)
+     §9  Page header
+     §10 Breadcrumb
+     §11 Hide legacy nav
+     §12 Back-to-top + PWA install button
+     §13 Typography base
+     §14 Responsive layout
+
+   HIG CHANGES vs old styles.css:
+     • Hamburger button: 36×36 → 44×44 (--touch-target-min)
+     • Sidebar links: ~35px → min-height 44px
+     • Body font-size: 14px → 15px (--text-subhead, bedside readability)
+     • Transitions: literal 0.15s/0.35s → --duration-fast/--duration-normal
+     • Sidebar transition: --duration-sidebar
+     • page-header: removed decorative ::before/::after radial blobs
+     • Back-to-top: 38×38 → 44×44
+   ============================================================ */
+
+
+/* ============================================================
+   §1  RESET & BASE
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-background);
+  color: var(--color-label-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-subhead); /* 15px — HIG: more readable at bedside */
+  line-height: var(--leading-normal);
+  font-feature-settings: "cv11", "ss01", "ss03";
+  letter-spacing: var(--tracking-normal);
+  /* Use --duration-normal instead of literal 0.35s */
+  transition:
+    background var(--duration-normal) var(--ease-standard),
+    color       var(--duration-normal) var(--ease-standard);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Layout when nav.js sidebar is active */
+body.has-sidebar {
+  max-width: none;
+  margin: 0;
+  padding: calc(var(--tb-h) + var(--space-1)) var(--space-6) var(--space-16) calc(var(--sb-w) + var(--space-6));
+  transition: padding-left var(--duration-normal) var(--ease-standard);
+}
+
+body.has-sidebar.sb-collapsed {
+  padding-left: calc(var(--sb-cw) + var(--space-6));
+}
+
+@media (max-width: 768px) {
+  body.has-sidebar,
+  body.has-sidebar.sb-collapsed {
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+  }
+}
+
+
+/* ============================================================
+   §2  SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-scrollbar-track, var(--scrollbar-track)); }
+::-webkit-scrollbar-thumb {
+  background: var(--color-scrollbar-thumb, var(--scrollbar-thumb));
+  border-radius: 3px;
+}
+
+
+/* ============================================================
+   §3  THEME TRANSITION OVERLAY
+   Prevents FOUC flash during light/dark switch.
+   ============================================================ */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: var(--color-background);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 9999;
+  /* Use --duration-fast instead of literal 0.15s */
+  transition: opacity var(--duration-fast) var(--ease-standard);
+}
+body.transitioning::after {
+  opacity: 0.4;
+}
+
+
+/* ============================================================
+   §4  TOPBAR
+   Fixed top navigation bar. z-index 300 sits above sidebar (200).
+   ============================================================ */
+#icu-topbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--tb-h);
+  background: var(--color-nav-bg);
+  border-bottom: 1px solid var(--color-nav-border);
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0 var(--space-4);
+  z-index: 300;
+  transition:
+    background    var(--duration-normal) var(--ease-standard),
+    border-color  var(--duration-normal) var(--ease-standard);
+}
+
+/* Hamburger — HIG: minimum 44×44 touch target */
+.tb-ham {
+  width: var(--touch-target-min);   /* 44px — was 36px */
+  height: var(--touch-target-min);  /* 44px — was 36px */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--radius-xs);
+  padding: 0;
+  transition: background var(--duration-fast) var(--ease-standard);
+  flex-shrink: 0;
+}
+.tb-ham:hover {
+  background: var(--color-fill);
+}
+.tb-ham span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--color-label-primary);
+  border-radius: 2px;
+  transition:
+    transform var(--duration-normal) var(--ease-standard),
+    opacity   var(--duration-fast)   var(--ease-standard);
+  transform-origin: center;
+}
+/* Animated X state when sidebar open */
+.tb-ham.is-active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.tb-ham.is-active span:nth-child(2) { opacity: 0; }
+.tb-ham.is-active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Brand link */
+.tb-brand {
+  font-size: 13px;
+  font-weight: var(--weight-bold);
+  color: var(--accent);
+  text-decoration: none;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  letter-spacing: 0.08em;
+  transition: color var(--duration-normal) var(--ease-standard);
+}
+
+/* Right side cluster (clock, theme toggle, etc.) */
+.tb-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+/* Live clock badge */
+.tb-clock {
+  font-size: 12px;
+  font-weight: var(--weight-semibold);
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  background: var(--accent-dim);
+  border: 1px solid rgba(0, 255, 136, 0.2);
+  border-radius: var(--radius-xs);
+  padding: 4px 10px;
+  white-space: nowrap;
+  line-height: 1;
+  user-select: none;
+}
+[data-theme="light"] .tb-clock {
+  color: var(--accent);
+  border-color: rgba(0, 153, 77, 0.25);
+}
+@media (max-width: 480px) {
+  .tb-clock { font-size: 10px; padding: 3px 7px; }
+}
+
+
+/* ============================================================
+   §5  SIDEBAR
+   Fixed left panel. width transitions use --duration-sidebar.
+   ============================================================ */
+#icu-sidebar {
+  position: fixed;
+  top: var(--tb-h);
+  left: 0;
+  bottom: 0;
+  width: var(--sb-w);
+  background: var(--color-nav-bg);
+  border-right: 1px solid var(--color-separator);
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  z-index: 200;
+  /* HIG: sidebar uses --duration-sidebar (300ms) */
+  transition:
+    width     var(--duration-sidebar) var(--ease-standard),
+    transform var(--duration-sidebar) var(--ease-standard);
+}
+
+/* Scrollable nav area */
+.sb-nav {
+  padding: var(--space-2) 0;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-separator-opaque) transparent;
+}
+#icu-sidebar::-webkit-scrollbar { width: 4px; }
+#icu-sidebar::-webkit-scrollbar-thumb {
+  background: var(--color-separator-opaque);
+  border-radius: 2px;
+}
+
+/* Sidebar item wrapper */
+.sb-item {
+  position: relative;
+}
+
+/* Sidebar link — HIG: min-height 44px touch target */
+.sb-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* HIG: min-height 44px — was ~35px (padding: 9px 14px) */
+  min-height: var(--touch-target-min);
+  padding: 0 var(--space-3) 0 var(--space-3);
+  text-decoration: none;
+  color: var(--color-label-primary);
+  font-size: 13px;
+  font-weight: var(--weight-medium);
+  background: none;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  white-space: nowrap;
+  border-left: 3px solid transparent;
+  transition:
+    background var(--duration-fast) var(--ease-standard),
+    color      var(--duration-fast) var(--ease-standard);
+}
+.sb-link:hover {
+  background: var(--color-fill);
+  color: var(--color-accent-blue);
+}
+.sb-link.active {
+  background: var(--color-fill-secondary);
+  color: var(--color-accent-blue);
+  font-weight: var(--weight-semibold);
+  border-left-color: var(--color-accent-blue);
+}
+
+/* Icon in sidebar */
+.sb-icon {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2px;
+  flex-shrink: 0;
+  margin-right: 4px;
+}
+
+/* Text label */
+.sb-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Inline chevron indicator (CSS-drawn) */
+.sb-chev {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-right: 2px solid var(--color-label-tertiary);
+  border-bottom: 2px solid var(--color-label-tertiary);
+  transform: rotate(-45deg);
+  transition: transform var(--duration-fast) var(--ease-standard);
+  margin-bottom: 2px;
+}
+.sb-item.open .sb-chev {
+  transform: rotate(45deg);
+}
+
+/* Row layout: main link + separate chevron expand button */
+.sb-link-row {
+  display: flex;
+  align-items: stretch;
+}
+.sb-link-row .sb-link {
+  flex: 1;
+}
+.sb-chev-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 var(--space-3);
+  color: var(--color-label-tertiary);
+  display: flex;
+  align-items: center;
+  border-left: 3px solid transparent;
+  flex-shrink: 0;
+  transition:
+    background var(--duration-fast) var(--ease-standard),
+    color      var(--duration-fast) var(--ease-standard);
+}
+.sb-chev-btn:hover {
+  background: var(--color-fill);
+  color: var(--color-accent-blue);
+}
+
+/* Accordion sub-links */
+.sb-subs {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height var(--duration-normal) var(--ease-standard);
+}
+.sb-item.open .sb-subs {
+  max-height: 600px;
+}
+
+/* Sub-link items */
+.sb-sub-link {
+  display: block;
+  padding: 7px var(--space-3) 7px 46px;
+  font-size: 12px;
+  color: var(--color-label-secondary);
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-left: 3px solid transparent;
+  transition:
+    color      var(--duration-fast) var(--ease-standard),
+    background var(--duration-fast) var(--ease-standard);
+}
+.sb-sub-link:hover {
+  color: var(--color-accent-blue);
+  background: var(--color-fill);
+}
+.sb-sub-link.active {
+  color: var(--color-accent-blue);
+  font-weight: var(--weight-semibold);
+  background: var(--color-fill-secondary);
+  border-left-color: var(--color-accent-blue);
+}
+
+/* Feedback pill at bottom of sidebar */
+.sb-feedback {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: var(--space-2) var(--space-3) var(--space-4);
+  padding: 0 var(--space-3) 0 11px;
+  height: 34px;
+  border-radius: var(--radius-full);
+  border: 1.5px solid var(--color-separator-opaque);
+  background: var(--color-surface);
+  color: var(--color-label-secondary);
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition:
+    border-color var(--duration-fast) var(--ease-standard),
+    color        var(--duration-fast) var(--ease-standard),
+    background   var(--duration-fast) var(--ease-standard),
+    box-shadow   var(--duration-fast) var(--ease-standard);
+}
+.sb-feedback:hover {
+  border-color: var(--color-accent-blue);
+  color: var(--color-accent-blue);
+  background: var(--color-surface-raised);
+  box-shadow: var(--shadow-accent-blue);
+}
+.sb-feedback .sb-icon {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2px;
+  flex-shrink: 0;
+  margin-right: 4px;
+}
+
+
+/* ============================================================
+   §6  SIDEBAR — COLLAPSED STATE
+   Icon-only mode. width = --sb-cw (64px).
+   ============================================================ */
+body.sb-collapsed #icu-sidebar {
+  width: var(--sb-cw);
+}
+
+/* Hide text/chevron content when collapsed */
+body.sb-collapsed .sb-label,
+body.sb-collapsed .sb-chev,
+body.sb-collapsed .sb-subs {
+  display: none;
+}
+body.sb-collapsed .sb-chev-btn {
+  display: none;
+}
+
+/* Collapsed link — center icon only */
+body.sb-collapsed .sb-link {
+  justify-content: center;
+  padding: 10px;
+  border-left: none;
+}
+body.sb-collapsed .sb-link.active {
+  border-left: none;
+  border-radius: var(--radius-xs);
+  margin: 1px var(--space-1);
+  width: auto;
+}
+body.sb-collapsed .sb-icon {
+  width: 22px;
+  height: 22px;
+  margin-right: 0;
+}
+
+/* Collapsed feedback — icon only, centered */
+body.sb-collapsed .sb-feedback .sb-label {
+  display: none;
+}
+body.sb-collapsed .sb-feedback {
+  margin: 10px auto 4px;
+  padding: 0;
+  width: 34px;
+  justify-content: center;
+}
+
+
+/* ============================================================
+   §7  SIDEBAR — COLLAPSED POPOVER
+   Appears on hover over collapsed sidebar items.
+   ============================================================ */
+body.sb-collapsed .sb-item:hover .sb-pop {
+  display: block;
+}
+
+.sb-pop {
+  display: none;
+  position: absolute;
+  left: var(--sb-cw);
+  top: 0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-separator-opaque);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  min-width: 180px;
+  box-shadow: var(--shadow-lift);
+  z-index: 250;
+  padding: var(--space-1) 0;
+}
+
+.sb-pop-title {
+  padding: var(--space-2) var(--space-3) 6px;
+  font-size: 11px;
+  font-weight: var(--weight-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-label-tertiary);
+  border-bottom: 1px solid var(--color-separator);
+  margin-bottom: 2px;
+}
+
+.sb-pop-link {
+  display: block;
+  padding: 7px var(--space-3);
+  font-size: 12px;
+  color: var(--color-label-primary);
+  text-decoration: none;
+  transition:
+    background var(--duration-fast) var(--ease-standard),
+    color      var(--duration-fast) var(--ease-standard);
+}
+.sb-pop-link:hover {
+  background: var(--color-fill);
+  color: var(--color-accent-blue);
+}
+
+
+/* ============================================================
+   §8  OVERLAY (mobile backdrop)
+   Shown behind sidebar on mobile when sb-open class is set.
+   ============================================================ */
+#icu-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 190;
+  transition: all var(--duration-normal) var(--ease-standard);
+}
+
+/* Mobile: sidebar slides in from left */
+@media (max-width: 768px) {
+  #icu-sidebar {
+    transform: translateX(-100%);
+    width: var(--sb-w) !important;
+    box-shadow: none;
+  }
+  body.sb-open #icu-sidebar {
+    transform: translateX(0);
+    box-shadow: var(--shadow-lift);
+  }
+}
+
+
+/* ============================================================
+   §9  PAGE HEADER
+   HIG: removed decorative ::before / ::after radial gradient
+   blobs — they distract from clinical content and are not HIG.
+   ============================================================ */
+.page-header {
+  position: relative;
+  overflow: hidden;
+  padding: var(--space-3) 0 var(--space-4);
+  margin-bottom: var(--space-5);
+  border-bottom: 1px solid var(--color-separator);
+}
+
+/* NO ::before / ::after radial glows — removed per HIG guidelines */
+
+.page-header h1 {
+  font-size: 20px;
+  font-weight: var(--weight-bold);
+  margin-bottom: 4px;
+  color: var(--color-label-primary);
+}
+
+.page-header .subtitle {
+  color: var(--color-label-secondary);
+  font-size: 13px;
+}
+
+
+/* ============================================================
+   §10 BREADCRUMB
+   ============================================================ */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 18px;
+  font-size: 12px;
+}
+
+.bc-link {
+  color: var(--color-accent-blue);
+  text-decoration: none;
+  font-weight: var(--weight-medium);
+  transition: opacity var(--duration-fast) var(--ease-standard);
+}
+.bc-link:hover {
+  opacity: 0.7;
+  text-decoration: underline;
+}
+
+.bc-sep {
+  color: var(--color-label-tertiary);
+  margin: 0 2px;
+  font-size: 13px;
+  line-height: 1;
+}
+
+.bc-current {
+  color: var(--color-label-secondary);
+  font-weight: var(--weight-medium);
+}
+
+
+/* ============================================================
+   §11 HIDE LEGACY NAV
+   nav.js is always present — legacy tab-bars are unused.
+   ============================================================ */
+.hbar,
+.tab-bar,
+.subtab-bar {
+  display: none !important;
+}
+
+
+/* ============================================================
+   §12 BACK-TO-TOP + PWA INSTALL BUTTON
+   ============================================================ */
+
+/* Back-to-top — HIG: 44×44 touch target (was 38×38) */
+#back-to-top {
+  position: fixed;
+  bottom: 22px;
+  right: 18px;
+  z-index: 200;
+  width: var(--touch-target-min);   /* 44px — was 38px */
+  height: var(--touch-target-min);  /* 44px — was 38px */
+  border-radius: var(--radius-full);
+  background: var(--color-accent-blue);
+  color: #ffffff;
+  border: none;
+  font-size: 18px;
+  line-height: var(--touch-target-min);
+  text-align: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-accent-blue);
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity   var(--duration-normal) var(--ease-standard),
+    transform var(--duration-normal) var(--ease-standard);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#back-to-top.visible {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+#back-to-top:hover {
+  opacity: 0.85;
+}
+
+/* PWA Install button — hidden until beforeinstallprompt fires */
+#pwa-install-btn {
+  display: none; /* stays hidden until prompt available */
+  align-items: center;
+  gap: 5px;
+  position: fixed;
+  bottom: 22px;
+  right: 70px; /* adjusted: back-to-top is now 44px + 8px gap = 70px */
+  z-index: 200;
+  height: 32px;
+  padding: 0 10px 0 8px;
+  border-radius: var(--radius-full);
+  border: 1.5px solid var(--color-separator-opaque);
+  background: var(--color-surface);
+  color: var(--color-label-secondary);
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity   var(--duration-normal) var(--ease-standard),
+    transform var(--duration-normal) var(--ease-standard);
+  pointer-events: none;
+}
+/* Step 1: prompt available → flex but still invisible */
+#pwa-install-btn.pwa-ready { display: flex; }
+/* Step 2: scroll > 300 → visible */
+#pwa-install-btn.pwa-ready.visible {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+#pwa-install-btn:hover {
+  border-color: var(--color-accent-blue);
+  color: var(--color-accent-blue);
+  box-shadow: var(--shadow-accent-blue);
+}
+#pwa-install-btn .pwa-icon {
+  font-size: 13px;
+  line-height: 1;
+}
+
+
+/* ============================================================
+   §13 TYPOGRAPHY BASE
+   Minimal set — mirrors what was in styles.css layout section.
+   Detailed typography stays in styles.css / components.css.
+   ============================================================ */
+h1 {
+  font-size: 22px;
+  font-weight: var(--weight-bold);
+  margin-bottom: 4px;
+}
+
+h3 {
+  font-size: 14px;
+  font-weight: var(--weight-semibold);
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  color: var(--color-label-secondary);
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+/* Section overline (e.g. "HEMODYNAMICS", "ABG") */
+.sec {
+  font-size: 11px;
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  color: var(--color-label-secondary);
+  border-bottom: 1px solid var(--color-separator);
+  padding-bottom: 6px;
+  margin: 28px 0 14px;
+}
+
+
+/* ============================================================
+   §14 RESPONSIVE LAYOUT
+   ============================================================ */
+
+/* iPhone SE / mini — 430px and below */
+@media (max-width: 430px) {
+  body.has-sidebar,
+  body.has-sidebar.sb-collapsed {
+    padding-left: var(--space-3);
+    padding-right: var(--space-3);
+    padding-bottom: var(--space-10);
+  }
+
+  /* Back-to-top stays in corner but with safe area inset */
+  #back-to-top {
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    right: 14px;
+  }
+  #pwa-install-btn {
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    right: 64px;
+  }
+}
+
+/* Tablet / mobile — 768px and below */
+@media (max-width: 768px) {
+  /* body padding overrides already set in §1 */
+
+  /* Ensure topbar fills full width (no sidebar offset) */
+  #icu-topbar {
+    left: 0;
+    right: 0;
+  }
+
+  /* Overlay is shown by JS adding display:flex when sb-open */
+  body.sb-open #icu-overlay {
+    display: block;
+  }
+
+  /* Page header tighter on mobile */
+  .page-header {
+    padding: var(--space-2) 0 var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+  .page-header h1 {
+    font-size: 18px;
+  }
+
+  /* Breadcrumb wraps gracefully */
+  .breadcrumb {
+    margin-bottom: var(--space-3);
+  }
+}
+
+/* Desktop — sidebar always visible, no overlay needed */
+@media (min-width: 769px) {
+  #icu-overlay {
+    display: none !important;
+  }
+}
+
+/* ── COMPONENTS — Cards, tables, forms, tags, buttons, calculators  */
+
 /* ============================================================
    ICU Helper — components.css · v1.0 · Apple HIG Components
    Step 2 of HIG refactor — all UI components extracted from
