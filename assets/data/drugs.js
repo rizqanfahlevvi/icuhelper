@@ -142,12 +142,12 @@ const ICU_DRUGS = {
     special_notes: "Extended infusion: larutkan dalam 100–250 mL NS. Superior pada Pseudomonas/Acinetobacter dengan MIC borderline."
   },
   renal_adjustment: {
-    ge60:   { dose: "1–2g",  interval: "q8j",  note: "Dosis penuh" },
-    r30_60: { dose: "1g",    interval: "q12j", note: "Kurangi frekuensi" },
-    r15_30: { dose: "500mg", interval: "q12j", note: "Kurangi dosis dan frekuensi" },
-    r_lt15: { dose: "500mg", interval: "q24j", note: "Monitor neurotoksisitas ketat" },
-    hd:     { dose: "500mg", interval: "q24j", note: "Berikan SETELAH sesi HD. Suplementasi 500mg post-HD." },
-    crrt:   { dose: "500mg–1g", interval: "q12j", note: "Sesuaikan dengan effluent rate CRRT." },
+    ge60:   { dose: "1–2g",  interval: "q8j",  route: null, note: "Dosis penuh" },
+    r30_60: { dose: "1g",    interval: "q12j", route: null, note: "Kurangi frekuensi" },
+    r15_30: { dose: "500mg", interval: "q12j", route: "Pertimbangkan prolonged infusion 3–4j (T>MIC optimal pada eGFR rendah dengan kuman curiga resisten)", note: "Kurangi dosis dan frekuensi" },
+    r_lt15: { dose: "500mg", interval: "q24j", route: null, note: "Monitor neurotoksisitas ketat" },
+    hd:     { dose: "500mg", interval: "q24j", route: "Berikan SETELAH sesi HD", note: "Suplementasi 500mg post-HD. Terdialisis bermakna." },
+    crrt:   { dose: "500mg–1g", interval: "q12j", route: null, note: "Sesuaikan dengan effluent rate CRRT." },
     badge: "adjust",
     dialyzable: true,
     monitoring_renal: "Tanda neurotoksisitas (myoklonus, kejang) jika eGFR <30 dan dosis tidak diturunkan"
@@ -2564,12 +2564,12 @@ const ICU_DRUGS = {
     special_notes: "⚠ GUNAKAN D5W — presipitat dengan NS. Perifer hanya konsentrasi <2 mg/mL. Flebitis sangat umum via vena perifer — gunakan CVC."
   },
   renal_adjustment: {
-    ge60:   { dose: "Normal", interval: "Normal", note: "" },
-    r30_60: { dose: "Normal", interval: "Normal", note: "" },
-    r15_30: { dose: "Normal", interval: "Normal", note: "Tidak memerlukan penyesuaian dosis" },
-    r_lt15: { dose: "Normal", interval: "Normal", note: "Ekskresi renal minimal — t½ tidak berubah bermakna" },
-    hd:     { dose: "Normal", interval: "Normal", note: "Tidak terdialisis (t½ panjang, volume distribusi besar)" },
-    crrt:   { dose: "Normal", interval: "Normal", note: "" },
+    ge60:   { dose: "Normal", interval: "Normal", route: null, note: "" },
+    r30_60: { dose: "Normal", interval: "Normal", route: null, note: "" },
+    r15_30: { dose: "Normal", interval: "Normal", route: null, note: "Tidak memerlukan penyesuaian dosis" },
+    r_lt15: { dose: "Normal", interval: "Normal", route: "Batasi durasi infus IV — propylene glycol (pelarut amiodarone IV) akumulasi pada gagal ginjal berat, nefrotoksik", note: "Ekskresi renal minimal — t½ tidak berubah bermakna" },
+    hd:     { dose: "Normal", interval: "Normal", route: "Tidak terdialisis (Vd sangat besar, t½ 40–55 hari)", note: "HD tidak mengeliminasi amiodarone secara bermakna" },
+    crrt:   { dose: "Normal", interval: "Normal", route: null, note: "" },
     badge: "safe",
     dialyzable: false,
     monitoring_renal: "Tidak memerlukan penyesuaian pada gagal ginjal — ekskresi utama feses"
@@ -3186,12 +3186,12 @@ const ICU_DRUGS = {
     special_notes: "⚠ Red Man Syndrome: melambatkan infus, premedikasi difenhidramin. BUKAN alergi — dapat dilanjutkan dengan infus lebih lambat."
   },
   renal_adjustment: {
-    ge60:   { dose: "15–20 mg/kg", interval: "q8–12j", note: "" },
-    r30_60: { dose: "15 mg/kg",    interval: "q12–24j", note: "Monitoring level/AUC lebih ketat" },
-    r15_30: { dose: "15 mg/kg",    interval: "q24–48j", note: "Risiko akumulasi dan nefrotoksisitas" },
-    r_lt15: { dose: "Loading 25 mg/kg, lalu dosis berdasar level", interval: "Monitor setiap 48–72j", note: "Highly variable — gunakan TDM" },
-    hd:     { dose: "Loading 25 mg/kg post-HD, lalu suplementasi per level", interval: "Post-HD monitoring", note: "Terdialisis 30–50% tergantung membran" },
-    crrt:   { dose: "15–20 mg/kg q24–48j", interval: "Monitor level setiap 24–48j", note: "CRRT meningkatkan clearance vankomisin" },
+    ge60:   { dose: "15–20 mg/kg", interval: "q8–12j",       route: null, note: "" },
+    r30_60: { dose: "15 mg/kg",    interval: "q12–24j",       route: null, note: "Monitoring level/AUC lebih ketat" },
+    r15_30: { dose: "15 mg/kg",    interval: "q24–48j",       route: "Pertimbangkan continuous infusion (target kadar steady-state 20–25 mg/L) untuk AUC/MIC optimal", note: "Risiko akumulasi dan nefrotoksisitas" },
+    r_lt15: { dose: "Loading 25 mg/kg, lalu dosis berdasar level", interval: "Monitor setiap 48–72j", route: "Continuous infusion disukai bila TDM tersedia. Target AUC/MIC 400–600.", note: "Highly variable — gunakan TDM" },
+    hd:     { dose: "Loading 25 mg/kg post-HD, lalu suplementasi per level", interval: "Post-HD monitoring", route: "Berikan SETELAH HD. Monitor level pre-HD berikutnya.", note: "Terdialisis 30–50% tergantung jenis membran" },
+    crrt:   { dose: "15–20 mg/kg q24–48j", interval: "Monitor level setiap 24–48j", route: null, note: "CRRT meningkatkan clearance vankomisin" },
     badge: "adjust",
     dialyzable: true,
     monitoring_renal: "TDM (therapeutic drug monitoring) WAJIB pada gagal ginjal. Trough atau AUC setiap 2–3 hari."
@@ -3510,12 +3510,12 @@ const ICU_DRUGS = {
     special_notes: "Once-daily dosing: 15–20 mg/kg IV q24j. Peak 30 menit post-infus target 56–64 mcg/mL. Durasi maksimum 5–7 hari untuk mengurangi nefrotoksisitas."
   },
   renal_adjustment: {
-    ge60:   { dose: "15–20 mg/kg", interval: "q24j", note: "" },
-    r30_60: { dose: "15 mg/kg",    interval: "q36–48j", note: "Perpanjang interval berdasar trough" },
-    r15_30: { dose: "10 mg/kg",    interval: "q48–72j", note: "Monitor trough <5 mcg/mL sebelum dosis berikut" },
-    r_lt15: { dose: "Hindari atau dosis tunggal saja", interval: "Monitor trough ketat", note: "Akumulasi dramatis" },
-    hd:     { dose: "Dosis tunggal post-HD berdasar trough", interval: "Post-HD saja", note: "Terdialisis 50–70%" },
-    crrt:   { dose: "10 mg/kg", interval: "q24–48j berdasar trough", note: "CRRT meningkatkan clearance" },
+    ge60:   { dose: "15–20 mg/kg", interval: "q24j",       route: "Extended-interval dosing — satu dosis besar per hari (once-daily), BUKAN multiple daily doses", note: "" },
+    r30_60: { dose: "15 mg/kg",    interval: "q36–48j",    route: "Tetap once-daily extended-interval — perpanjang interval berdasar trough, jangan bagi jadi 2–3 dosis/hari", note: "Perpanjang interval berdasar trough" },
+    r15_30: { dose: "10 mg/kg",    interval: "q48–72j",    route: "Cari alternatif antibiotik jika tersedia. Jika tetap dipakai: SATU dosis per interval, monitor trough ketat.", note: "Monitor trough <5 mcg/mL sebelum dosis berikut" },
+    r_lt15: { dose: "Hindari atau dosis tunggal saja", interval: "Monitor trough ketat", route: "HINDARI jika ada alternatif (beta-laktam, karbapenem). Jika mutlak perlu: dosis tunggal saja.", note: "Akumulasi dramatis — nefrotoksisitas dan ototoksisitas tinggi" },
+    hd:     { dose: "Dosis tunggal post-HD berdasar trough", interval: "Post-HD saja", route: "Berikan SETELAH sesi HD (terdialisis 50–70%). Dosis berikutnya berdasar trough pre-HD.", note: "Terdialisis 50–70% — suplementasi post-HD" },
+    crrt:   { dose: "10 mg/kg", interval: "q24–48j berdasar trough", route: null, note: "CRRT meningkatkan clearance — monitor trough" },
     badge: "reduce",
     dialyzable: true,
     monitoring_renal: "Trough <5 mcg/mL sebelum dosis berikutnya. Kreatinin setiap 48 jam. Hindari jika eGFR <30 jika ada alternatif."
@@ -3837,12 +3837,12 @@ const ICU_DRUGS = {
     special_notes: "Bioavailabilitas PO = IV → switch oral segera jika toleransi baik. Identifikasi spesies Candida WAJIB sebelum atau selama terapi — ganti echinocandin jika C. glabrata/krusei."
   },
   renal_adjustment: {
-    ge60:   { dose: "Loading 800 mg → 400 mg/hari", interval: "q24j", note: "" },
-    r30_60: { dose: "Loading 800 mg → 200 mg/hari", interval: "q24j", note: "Kurangi 50% maintenance" },
-    r15_30: { dose: "Loading 800 mg → 200 mg/hari", interval: "q24j", note: "" },
-    r_lt15: { dose: "Loading 800 mg → 100–200 mg/hari", interval: "q24j", note: "Akumulasi signifikan" },
-    hd:     { dose: "400 mg post-HD (dosis penuh)", interval: "Post-HD saja", note: "Terdialisis 50% — berikan setelah HD" },
-    crrt:   { dose: "200–400 mg/hari", interval: "q24j", note: "CRRT meningkatkan clearance" },
+    ge60:   { dose: "Loading 800 mg → 400 mg/hari", interval: "q24j", route: null, note: "" },
+    r30_60: { dose: "Loading 800 mg → 200 mg/hari", interval: "q24j", route: "Alihkan ke oral jika GI berfungsi (bioavailabilitas oral flukonazol 90% — setara IV)", note: "Kurangi 50% maintenance" },
+    r15_30: { dose: "Loading 800 mg → 200 mg/hari", interval: "q24j", route: "Oral lebih disukai — mengurangi beban cairan IV pada pasien oliguria/anuria", note: "Akumulasi signifikan — dosis maintenance diturunkan" },
+    r_lt15: { dose: "Loading 800 mg → 100–200 mg/hari", interval: "q24j", route: "Oral jika memungkinkan. Hindari IV jika tidak mutlak diperlukan.", note: "Akumulasi signifikan" },
+    hd:     { dose: "400 mg post-HD (dosis penuh)", interval: "Post-HD saja", route: "Berikan SETELAH HD — terdialisis 50%. Oral vs IV setara bioavailabilitas.", note: "Terdialisis 50% — berikan setelah HD" },
+    crrt:   { dose: "200–400 mg/hari", interval: "q24j", route: null, note: "CRRT meningkatkan clearance" },
     badge: "reduce",
     dialyzable: true,
     monitoring_renal: "Kurangi maintenance 50% pada eGFR <30. Dosis loading tetap penuh."
@@ -4273,12 +4273,12 @@ const ICU_DRUGS = {
     special_notes: "⚠ Hidrasi adekuat WAJIB — infus 0.9% NS 1–2 L/hari selama terapi untuk mencegah kristaluria. Infus MINIMAL 1 JAM — kristaluria pada infus cepat."
   },
   renal_adjustment: {
-    ge60:   { dose: "10 mg/kg", interval: "q8j",  note: "" },
-    r30_60: { dose: "10 mg/kg", interval: "q12j", note: "Perpanjang interval" },
-    r15_30: { dose: "10 mg/kg", interval: "q24j", note: "Akumulasi bermakna" },
-    r_lt15: { dose: "5 mg/kg",  interval: "q24j", note: "Risiko neurotoksisitas tinggi" },
-    hd:     { dose: "5 mg/kg post-HD", interval: "Post-HD saja", note: "Terdialisis 60% — berikan setelah HD" },
-    crrt:   { dose: "5–7.5 mg/kg", interval: "q12–24j", note: "Sesuaikan dengan effluent rate" },
+    ge60:   { dose: "10 mg/kg", interval: "q8j",  route: "Infus IV >1j. Hidrasi adekuat ≥500 mL NaCl 0.9% sebelum dan sesudah infus (mencegah kristaluria).", note: "" },
+    r30_60: { dose: "10 mg/kg", interval: "q12j", route: "Perpanjang infus >1j. Hidrasi ≥1L/dosis wajib. Pertimbangkan oral valasiklovir jika non-ensefalitis.", note: "Perpanjang interval" },
+    r15_30: { dose: "10 mg/kg", interval: "q24j", route: "Oral valasiklovir lebih aman untuk infeksi non-ensefalitis (hindari kristaluria). Jika IV wajib: infus lambat >2j + hidrasi agresif.", note: "Akumulasi bermakna — risiko neurotoksisitas" },
+    r_lt15: { dose: "5 mg/kg",  interval: "q24j", route: "Oral valasiklovir disukai (tanpa risiko kristaluria). Jika IV harus: infus >2j + hidrasi IV intensif + monitor urin output.", note: "Risiko neurotoksisitas dan kristaluria tinggi" },
+    hd:     { dose: "5 mg/kg post-HD", interval: "Post-HD saja", route: "Berikan SETELAH HD (terdialisis 60%). Oral valasiklovir post-HD sebagai alternatif.", note: "Terdialisis 60% — suplementasi post-HD" },
+    crrt:   { dose: "5–7.5 mg/kg", interval: "q12–24j", route: null, note: "Sesuaikan dengan effluent rate" },
     badge: "reduce",
     dialyzable: true,
     monitoring_renal: "Penyesuaian dosis wajib pada gagal ginjal. Hidrasi adekuat mencegah kristaluria. Monitor kreatinin setiap 48 jam."
@@ -4747,12 +4747,12 @@ const ICU_DRUGS = {
     special_notes: "CARA Trial (NEJM 2011): Infusi kontinu vs bolus — tidak ada perbedaan signifikan outcome. Pilih berdasarkan kemudahan titrasi. Pantau hipovolemia."
   },
   renal_adjustment: {
-    ge60: "Dosis normal",
-    r30_60: "Tingkatkan dosis — ekskresi tubular berkurang, memerlukan konsentrasi intralumen lebih tinggi",
-    r15_30: "Dosis lebih tinggi diperlukan (40–80 mg bolus atau infusi 20–40 mg/jam) — respon berkurang",
-    r_lt15: "Dosis sangat tinggi (80–200 mg bolus). Pertimbangkan terapi pengganti ginjal jika refrakter.",
-    hd: "Tidak efektif saat sesi HD (klirens cepat). Bolus pasca-HD lebih efektif.",
-    crrt: "Dapat diberikan bersama CRRT untuk tambahan diuresis residu — titrasi individual",
+    ge60:   { dose: "Normal (20–40 mg)", interval: "q6–12j atau prn", route: "IV bolus atau oral", note: "Dosis normal" },
+    r30_60: { dose: "Naikkan dosis 50–100%", interval: "q6–12j", route: "IV bolus — ekskresi tubular berkurang, perlu dosis lebih tinggi untuk mencapai konsentrasi intralumen adekuat", note: "" },
+    r15_30: { dose: "40–80 mg bolus atau infusi 20–40 mg/jam", interval: "Monitor respons diuresis", route: "Infusi kontinu 20–40 mg/jam lebih efektif daripada bolus intermiten pada GFR sangat rendah", note: "Respons berkurang — eskalasi dosis diperlukan" },
+    r_lt15: { dose: "80–200 mg", interval: "Monitor respons", route: "Infusi kontinu diutamakan (20–40 mg/jam). Bolus hanya jika infusi tidak tersedia. Pertimbangkan RRT jika refrakter.", note: "Resistensi diuretik sering terjadi — pertimbangkan terapi pengganti ginjal" },
+    hd:     { dose: "—", interval: "—", route: "TIDAK efektif saat sesi HD (diklirens cepat oleh dialisis). Berikan bolus SETELAH HD jika diuresis residu masih ada.", note: "Gunakan furosemid post-HD untuk manfaat optimal" },
+    crrt:   { dose: "Titrasi individual", interval: "Kontinu", route: "Dapat diberikan bersama CRRT untuk tambahan diuresis residu — tidak bersaing dengan ultrafiltrasi mekanik", note: "" },
     badge: "adjust",
     dialyzable: true,
     monitoring_renal: "Monitor urine output (target sesuai klinis), kreatinin, elektrolit tiap 4–8 jam"
@@ -6002,12 +6002,12 @@ const ICU_DRUGS = {
     special_notes: "Bioavailabilitas PO 99% — switch IV ke PO segera jika toleransi baik. Untuk Pseudomonas: 750 mg lebih efektif, pertimbangkan kombinasi."
   },
   renal_adjustment: {
-    ge60:   { dose: "500–750 mg", interval: "q24j", note: "Dosis penuh" },
-    r30_60: { dose: "500 mg hari 1, lalu 250 mg", interval: "q24j", note: "Atau 750 mg hari 1, lalu 500 mg q24j" },
-    r15_30: { dose: "250–500 mg hari 1, lalu 250 mg", interval: "q48j", note: "Penyesuaian signifikan diperlukan" },
-    r_lt15: { dose: "250 mg hari 1, lalu 250 mg", interval: "q48j", note: "Monitor ketat" },
-    hd:     { dose: "250 mg hari 1, lalu 250 mg", interval: "q48j", note: "Tidak terdialisis secara signifikan. Berikan setelah HD." },
-    crrt:   { dose: "250–500 mg", interval: "q24j", note: "Sesuaikan dengan effluent rate" },
+    ge60:   { dose: "500–750 mg", interval: "q24j", route: null, note: "Dosis penuh" },
+    r30_60: { dose: "500 mg hari 1, lalu 250 mg", interval: "q24j", route: "Alihkan ke oral 500 mg jika GI berfungsi (bioavailabilitas oral levofloksasin 99% — setara IV)", note: "Atau 750 mg hari 1, lalu 500 mg q24j" },
+    r15_30: { dose: "250–500 mg hari 1, lalu 250 mg", interval: "q48j", route: "Oral lebih disukai — bioavailabilitas 99%, mengurangi beban cairan IV", note: "Penyesuaian signifikan diperlukan" },
+    r_lt15: { dose: "250 mg hari 1, lalu 250 mg", interval: "q48j", route: "Oral jika GI berfungsi. Monitor tanda neurotoksisitas dan tendinopati.", note: "Monitor ketat — risiko neurotoksisitas meningkat" },
+    hd:     { dose: "250 mg hari 1, lalu 250 mg", interval: "q48j", route: "Berikan SETELAH HD. Tidak terdialisis bermakna — dosis rutin per jadwal HD.", note: "Tidak terdialisis secara signifikan" },
+    crrt:   { dose: "250–500 mg", interval: "q24j", route: null, note: "Sesuaikan dengan effluent rate" },
     badge: "adjust",
     dialyzable: false,
     monitoring_renal: "Penyesuaian dosis wajib pada eGFR <50. Monitor tanda neurotoksisitas."
