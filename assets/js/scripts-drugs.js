@@ -541,13 +541,20 @@
         { key: 'crrt',   label: 'CRRT' }
       ];
       h += '<table class="drm-renal-tbl">';
-      h += '<thead><tr><th>eGFR</th><th>Penyesuaian</th></tr></thead><tbody>';
+      h += '<thead><tr><th>eGFR</th><th>Dosis</th><th>Interval</th><th>Cara Pemberian</th></tr></thead><tbody>';
       bands.forEach(function(b) {
         var a = ra[b.key] || '';
         var isActive = (currentBand === b.key) || (currentBand === 'all' && b.key === 'ge60');
         h += '<tr' + (isActive ? ' class="active-band"' : '') + '>';
         h += '<td><strong>' + esc(b.label) + '</strong></td>';
-        h += '<td>' + esc(typeof a === 'string' ? a : (a.dose || a.note || '—')) + '</td>';
+        if (typeof a === 'string') {
+          h += '<td colspan="3">' + esc(a) + '</td>';
+        } else {
+          var caraPemberian = [a.route, a.note].filter(Boolean).join(' — ');
+          h += '<td>' + esc(a.dose || '—') + '</td>';
+          h += '<td>' + esc(a.interval || '—') + '</td>';
+          h += '<td>' + esc(caraPemberian || '—') + '</td>';
+        }
         h += '</tr>';
       });
       h += '</tbody></table>';

@@ -716,7 +716,7 @@
 .drm-protocol { font-size: 11px; color: var(--text2); margin-top: .4rem; padding-top: .4rem; border-top: 1px solid rgba(255,68,68,.2); }
 
 /* Renal table inside modal */
-.drm-renal-tbl { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: .4rem; }
+.drm-renal-tbl { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: .4rem; table-layout: fixed; }
 .drm-renal-tbl th {
   background: var(--bg2);
   padding: 5px 8px;
@@ -726,7 +726,11 @@
   color: var(--text3);
   border-bottom: 1px solid var(--border);
 }
-.drm-renal-tbl td { padding: 5px 8px; border-bottom: 1px solid rgba(255,255,255,.04); vertical-align: top; }
+.drm-renal-tbl th:nth-child(1) { width: 13%; }
+.drm-renal-tbl th:nth-child(2) { width: 20%; }
+.drm-renal-tbl th:nth-child(3) { width: 18%; }
+.drm-renal-tbl th:nth-child(4) { width: 49%; }
+.drm-renal-tbl td { padding: 5px 8px; border-bottom: 1px solid rgba(255,255,255,.04); vertical-align: top; word-break: break-word; }
 .drm-renal-tbl tr.active-band td { background: rgba(0,255,136,.06); color: var(--text); font-weight: 600; }
 .drm-renal-tbl tr.active-band td:first-child { color: var(--accent); }
 
