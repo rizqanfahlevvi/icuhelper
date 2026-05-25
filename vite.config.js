@@ -14,7 +14,7 @@ const htmlFiles = glob.sync('**/*.html', {
 
 const input = Object.fromEntries(
   htmlFiles.map(file => [
-    file.replace(/\.html$/, '').replace(/\//g, '_'),
+    file.replace(/\.html$/, '').replace(/[/\\]/g, '_'),
     path.resolve(__dirname, file)
   ])
 )
@@ -45,7 +45,7 @@ export default defineConfig({
       injectRegister: null,
       manifest: false,
       workbox: {
-        globPatterns: ['**/*.{html,css}'],
+        globPatterns: ['**/*.{html,css,js}'],
         runtimeCaching: [
           {
             urlPattern: /\/assets\/data\//,
