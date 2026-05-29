@@ -424,21 +424,60 @@ function calcKCorr(){
 
   let html='';
   if(k<3.5){
-    const def=k<3.0?(3.5-k)*200:(3.5-k)*100;
+    const bwFactor=(bw&&bw>0)?(bw/70):1;
+    const defLow=(3.5-k)*100*bwFactor;
+    const defHigh=(3.5-k)*200*bwFactor;
+    const defMid=(defLow+defHigh)/2;
+    const bwNote=(!bw||bw<=0)?'<span style="color:var(--amber)">⚠ BB belum diisi — estimasi untuk 70 kg</span>':'BB-adjusted (BB '+bw+' kg, \xd7'+bwFactor.toFixed(2)+')';
+    const maxDayWard=bw>0?(bw*1).toFixed(0)+'–'+(bw*2).toFixed(0):'—';
+    const maxDayICU=bw>0?(bw*3).toFixed(0):'—';
+    const maxDayHtml=bw>0?'<div class="info" style="font-size:12px;margin-top:8px;line-height:1.8"><strong>Batas dosis harian KCl (BB '+bw+' kg):</strong><br>Rawat biasa / perifer: max <strong>'+maxDayWard+' mEq/hari</strong> (0.5–1 mEq/kg/hari)<br>ICU sentral + EKG monitor: max <strong>'+maxDayICU+' mEq/hari</strong> (3 mEq/kg/hari)</div>':'';
+    const phase1=Math.max(10,Math.round(defMid*0.4/10)*10);
+    const recheckTime=k<2.5?'1–2':'2–4';
     const maxRate=access==='perifer'?10:20;
     const maxConc=access==='perifer'?40:80;
     const sev=k<2.5?'Berat (<2.5 mEq/L)':k<3.0?'Sedang (2.5–2.9)':'Ringan (3.0–3.4)';
     const cls=k<2.5?'red':'amber';
     html=`<div class="result-grid">
       <div class="result-card" style="border-color:var(--${cls})"><div class="result-label">K Serum</div><div class="result-value" style="color:var(--${cls})">${k}</div><div class="result-sub">mEq/L — Hipokalemia ${sev}</div></div>
-      <div class="result-card"><div class="result-label">Estimasi Defisit K</div><div class="result-value">${def.toFixed(0)}</div><div class="result-sub">mEq total (estimasi)</div></div>
+      <div class="result-card"><div class="result-label">Estimasi Defisit K</div><div class="result-value" style="font-size:22px">${defLow.toFixed(0)}–${defHigh.toFixed(0)}</div><div class="result-sub">mEq total · ${bwNote}</div></div>
       <div class="result-card"><div class="result-label">Rate max (${access})</div><div class="result-value">${maxRate}</div><div class="result-sub">mEq/jam KCl</div></div>
       <div class="result-card"><div class="result-label">Konsentrasi max</div><div class="result-value">${maxConc}</div><div class="result-sub">mEq/100 mL</div></div>
     </div>
+    ${maxDayHtml}
     <div class="cc ${cls}" style="margin-top:10px"><div class="ct">Hipokalemia ${sev}</div>
-    <p>Defisit total ±${def.toFixed(0)} mEq. Koreksi via ${access==='perifer'?'vena perifer':'vena sentral dengan monitor EKG'}:<br>
+    <p>Defisit estimasi <strong>${defLow.toFixed(0)}–${defHigh.toFixed(0)} mEq</strong>${bw>0?' (BB '+bw+' kg, skala BB/70)':''}. Koreksi via ${access==='perifer'?'vena perifer':'vena sentral dengan monitor EKG'}:<br>
     KCl max <strong>${maxRate} mEq/jam</strong>, konsentrasi max <strong>${maxConc} mEq/100 mL</strong>.<br>
-    ${k<3.0?'⚠ Monitor EKG kontinyu. Koreksi Mg serum jika hipomagnesemia ikut menyertai (Mg sering menyebabkan hipokalemia refrakter).':'Cek ulang K serum setelah tiap 20–40 mEq KCl intravena.'}</p></div>`;
+    ${k<3.0?'⚠ Monitor EKG kontinyu. Koreksi Mg serum jika hipomagnesemia ikut menyertai (Mg sering menyebabkan hipokalemia refrakter).':'Cek ulang K serum setelah tiap 20–40 mEq KCl intravena.'}</p></div>
+    <div style="border:1px solid var(--amber);border-radius:10px;padding:12px;margin-top:8px;background:rgba(255,160,0,0.07)">
+      <div style="font-weight:700;color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:12px;margin-bottom:6px">📋 STRATEGI PEMBERIAN BERTAHAP (Clinical Best Practice)</div>
+      <div style="font-size:12px;line-height:1.9">
+        → <strong>Sesi 1:</strong> Berikan ~${phase1} mEq terlebih dahulu (40% estimasi defisit)<br>
+        → <strong>Cek K serum</strong> setelah ${recheckTime} jam<br>
+        → <strong>Sesi 2:</strong> Evaluasi ulang — lanjutkan jika K masih &lt;3.5 mEq/L<br>
+        <span style="color:var(--amber)">⚠ Jangan berikan seluruh estimasi defisit sekaligus — distribusi K ke intrasel memerlukan 4–6 jam</span>
+      </div>
+    </div>`;
+  html+=`<details style="margin-top:8px">
+    <summary style="cursor:pointer;font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600;padding:8px 12px;background:var(--card);border:1px solid var(--border-hi);border-radius:8px;list-style:none">
+      📋 Panduan Praktis Pemberian KCl — Mixing &amp; Timing ▼
+    </summary>
+    <div style="padding:10px 12px;border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;background:var(--card);font-size:12px;line-height:1.9">
+      <strong style="color:var(--accent)">Via Vena Perifer:</strong><br>
+      → KCl 10–20 mEq + <strong>NS 0.9%</strong> 100 mL → pompa infus 1–2 jam (max 10 mEq/jam)<br>
+      → Max konsentrasi: 40 mEq/100 mL | Wajib pompa infus, bukan tetes bebas<br>
+      → Gunakan <strong>NS</strong> — bukan D5W (glukosa → insulin release → K shift intrasel transien → risiko overcorrection)<br>
+      → RL mengandung 4 mEq/L K — bukan first choice untuk koreksi K aktif<br><br>
+      <strong style="color:var(--accent)">Via Vena Sentral (ICU):</strong><br>
+      → KCl 20–40 mEq + NS 100 mL → 1–4 jam, max 20 mEq/jam (wajib EKG monitor)<br>
+      → Syringe pump tanpa pengencer: KCl 7.46% = <strong>1 mEq/mL</strong><br>
+      &nbsp;&nbsp;Rate: 5–10 mEq/jam standar | max 20 mEq/jam dengan EKG kontinyu<br>
+      → <span style="color:var(--red)">TIDAK BOLEH syringe pump tanpa pengencer via perifer</span> — phlebitis berat, risiko aritmia<br><br>
+      <strong style="color:var(--accent)">Kapan Cek Ulang K Serum:</strong><br>
+      → K &lt;2.5: tiap <strong>1–2 jam</strong> | K 2.5–3.0: tiap <strong>2–4 jam</strong> | K 3.0–3.5: tiap <strong>4–6 jam</strong>
+      <div class="formula-note" style="margin-top:8px">📚 Kraft MD. Am J Health-Syst Pharm 2005;62:1663 · ASHP 2020 · Palmer BF. NEJM 2020;382:2152 · Gennari FJ. Am J Med 1998;104:367</div>
+    </div>
+  </details>`;
   }else if(k>5.0){
     const sev=k>6.5?'Berat (>6.5) — EMERGENSI':k>6.0?'Berat (6.0–6.5)':'Sedang (5.1–6.0)';
     html=`<div class="result-grid">
@@ -495,7 +534,7 @@ function calcKCorr(){
   }
 
   html+=phHtml;
-  html+=`<div class="formula-note" style="margin-top:6px">Defisit K: setiap ↓0.1 mEq/L ≈ 100–200 mEq defisit total. Efek pH: ±6 mEq/L K per unit pH. &nbsp;|&nbsp; Macdonald JE. Heart 2004;90:1098 · Kovesdy CP. Kidney Int 2023 · Palmer BF. NEJM 2020;382:2152</div>`;
+  html+=`<div class="formula-note" style="margin-top:6px">Defisit K: ↓0.1 mEq/L ≈ 100–200 mEq defisit/70kg (BB-adjusted: ×BB/70). Efek pH: ±6 mEq/L K per unit pH. &nbsp;|&nbsp; Palmer BF. NEJM 2020;382:2152 · Gennari FJ. Am J Med 1998;104:367 · Kraft MD. Am J Health-Syst Pharm 2005 · Macdonald JE. Heart 2004;90:1098</div>`;
   document.getElementById('k-result-content').innerHTML=html;
   document.getElementById('k-results').classList.remove('hidden');
 }
