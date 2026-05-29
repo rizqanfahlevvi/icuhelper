@@ -550,6 +550,20 @@ function calcKCorr(){
           → <strong>NaHCO₃ 8.4%: 50 mEq IV dalam 5 menit</strong> — hanya jika asidosis metabolik pH &lt;7.2
         </div>
         <div class="formula-note">📚 Kovesdy CP. Kidney Int 2023 · Alfonzo AV. Nephrol Dial Transplant 2006;21:3474</div>
+        <div style="margin-top:10px;border-top:1px solid rgba(255,160,0,0.3);padding-top:10px">
+          <div style="font-weight:700;color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:11px;margin-bottom:4px">⏱ ALTERNATIF — INFUS KONTINU (ICU / Perioperatif)</div>
+          <div style="font-size:12px;line-height:1.9">
+            → Indikasi: K 5.5–6.5 tanpa EKG emergency; atau pasca-bolus untuk sustained control<br>
+            → <strong>Regular insulin 1.5–2 IU/jam</strong> via syringe pump selama 6 jam<br>
+            → Prep syringe pump: Regular insulin 50 IU + NS 48 mL = <strong>1 IU/mL</strong> → set rate 1.5–2 mL/jam<br>
+            → Pairing glukosa:<br>
+            &nbsp;&nbsp;<strong>Opsi A (NPO/puasa):</strong> D10W 50–100 mL/jam berjalan bersamaan<br>
+            &nbsp;&nbsp;<strong>Opsi B (dapat oral/sudah ada infus glukosa):</strong> cek GDS q1–2j, koreksi PRN<br>
+            → Stop jika: K &lt;4.5 mEq/L ATAU GDS &lt;100 mg/dL<br>
+            → K q2–4j · GDS q1–2j selama infus · Total dosis 6 jam = 9–12 IU
+          </div>
+          <div class="formula-note" style="margin-top:6px">📚 Dépret F. Ann Intensive Care 2019;9:32 · Kovesdy CP. Rev Endocr Metab Disord 2017;18:41 · Miller's Anesthesia 9th ed (2019) Ch.47</div>
+        </div>
       </div>
       <div style="border:2px solid var(--teal,#22d3ee);border-radius:10px;padding:12px;margin-top:8px;background:rgba(34,211,238,0.07)">
         <div style="font-weight:700;color:var(--teal,#22d3ee);font-family:'JetBrains Mono',monospace;font-size:12px;margin-bottom:6px">🔵 STEP 3 — ELIMINASI K DARI TUBUH</div>
@@ -564,8 +578,9 @@ function calcKCorr(){
       <div style="border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-top:8px;background:var(--card);font-size:12px;line-height:1.8">
         <strong style="font-family:'JetBrains Mono',monospace">MONITORING SELAMA TERAPI:</strong><br>
         → EKG kontinyu selama K >6.0 mEq/L<br>
-        → Cek K serum ulang 1–2 jam setelah terapi<br>
-        → Cek glukosa 30 menit setelah insulin (risiko hipoglikemia)
+        → K serum ulang 1–2 jam setelah bolus, atau tiap 2–4 jam selama infus kontinu<br>
+        → Insulin bolus: cek glukosa 30 menit setelah (risiko hipoglikemia akut)<br>
+        → Insulin infus kontinu: cek glukosa tiap 1–2 jam — stop infus jika GDS &lt;100 mg/dL
       </div>`;
     }
   }else{
