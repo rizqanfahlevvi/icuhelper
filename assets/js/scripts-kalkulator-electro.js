@@ -370,6 +370,27 @@ function calcNaCorr(){
         <div class="formula-note" style="margin-top:8px">📚 Sterns RH. NEJM 2015;372:55 · Verbalis JG. Am J Med 2013;126:S1</div>
       </div>
     </details>`;
+  html+=`<details style="margin-top:8px">
+    <summary style="cursor:pointer;font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600;padding:8px 12px;background:var(--card);border:1px solid var(--border-hi);border-radius:8px;list-style:none">
+      📋 Panduan Praktis Pemberian NaCl 3% ▼
+    </summary>
+    <div style="padding:10px 12px;border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;background:var(--card);font-size:12px;line-height:1.9">
+      <strong style="color:var(--accent)">Kandungan NaCl 3%:</strong><br>
+      → Konsentrasi: 513 mEq/L ≈ <strong>0.5 mEq Na per mL</strong><br>
+      → Sediaan: botol 500 mL ready-to-use atau per pharmacy preparation<br>
+      → <strong>Wajib pompa infus</strong> — bukan tetes bebas (rate presisi kritis)<br><br>
+      <strong style="color:var(--accent)">Rute pemberian:</strong><br>
+      → Perifer: boleh untuk bolus emergensi (150 mL/20 mnt) atau infus jangka pendek<br>
+      → Sentral (CVC): dianjurkan untuk infus berkelanjutan &gt;6 jam<br><br>
+      <strong style="color:var(--accent)">Monitoring selama koreksi aktif:</strong><br>
+      → Cek Na serum tiap <strong>2–4 jam</strong><br>
+      → Kronik: STOP/lambatkan jika Na sudah naik 6 mEq/L dalam 24 jam<br>
+      → Akut: batas aman 10–12 mEq/L per 24 jam, tetap monitor ketat<br>
+      → Kaji neurologis tiap 2–4 jam: kesadaran, kejang, tanda herniasi<br>
+      → Risiko ODS tinggi: hiponatremia kronik + malnutrisi + hipokalemia + alkoholisme
+      <div class="formula-note" style="margin-top:8px">📚 Sterns RH. NEJM 2015;372:55 · Spasovski G (ERBP). Nephrol Dial Transplant 2014 · Hoorn EJ. NEJM 2023;388:2340</div>
+    </div>
+  </details>`;
 
   }else if(na>145){
     const wdef=tbw*(na/naT-1);
@@ -380,6 +401,24 @@ function calcNaCorr(){
     html+=`<div class="cc amber" style="margin-top:10px"><div class="ct">Hipernatremia — Na ${na} mEq/L</div>
     <p>Water deficit: <strong>${wdef.toFixed(2)} L</strong>. Gunakan D5W atau NaCl 0.45%. <strong>Koreksi max 0.5 mEq/L/jam atau 10 mEq/L/hari</strong> (risiko edema serebral).<br>
     Rate: ${rateW.toFixed(0)} mL/jam selama 48 jam. Monitor Na tiap 4–6 jam.</p></div>`;
+  html+=`<details style="margin-top:8px">
+    <summary style="cursor:pointer;font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600;padding:8px 12px;background:var(--card);border:1px solid var(--border-hi);border-radius:8px;list-style:none">
+      📋 Panduan Praktis Koreksi Hipernatremia ▼
+    </summary>
+    <div style="padding:10px 12px;border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;background:var(--card);font-size:12px;line-height:1.9">
+      <strong style="color:var(--accent)">Pilihan cairan bebas (free water):</strong><br>
+      → <strong>D5W</strong>: 1 L = ~1 L free water — pilihan utama<br>
+      → <strong>NaCl 0.45%</strong>: 1 L = ~0.5 L free water — jika hiperglikemia atau DM<br>
+      → Oral / NGT: jika pasien dapat minum atau NGT berfungsi, free water enteral lebih fisiologis<br><br>
+      <strong style="color:var(--accent)">Monitoring:</strong><br>
+      → Cek Na serum tiap <strong>4–6 jam</strong><br>
+      → Target: Na turun ≤0.5 mEq/L/jam atau ≤10 mEq/L/24 jam<br>
+      → Evaluasi penyebab ongoing: demam, hiperventilasi, poliuria, kehilangan GI<br>
+      → Jika poliuria + urin sangat encer: curiga Diabetes Insipidus — uji DDAVP 1–2 μg SC/IV<br>
+      → Pasang kateter urin untuk monitoring output per jam
+      <div class="formula-note" style="margin-top:8px">📚 Adrogue HJ. NEJM 2000;342:1581 · Hoorn EJ. NEJM 2023;388:2340</div>
+    </div>
+  </details>`;
   }else{
     html+='</div>';
     html+=`<div class="cc teal" style="margin-top:10px"><div class="ct">Na Normal (135–145 mEq/L)</div><p>Tidak diperlukan koreksi Na.</p></div>`;
@@ -607,6 +646,49 @@ function calcCaCorr(){
   }
 
   html+=`<div class="cc ${ccls}" style="margin-top:10px"><div class="ct">${cl}</div><p>${tx}</p></div>`;
+  if(useCa<8.5){
+    html+=`<details style="margin-top:8px">
+    <summary style="cursor:pointer;font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600;padding:8px 12px;background:var(--card);border:1px solid var(--border-hi);border-radius:8px;list-style:none">
+      📋 Panduan Praktis Pemberian Kalsium IV ▼
+    </summary>
+    <div style="padding:10px 12px;border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;background:var(--card);font-size:12px;line-height:1.9">
+      <strong style="color:var(--accent)">Ca Glukonat 10% (1 ampul = 10 mL = 93 mg Ca²⁺ = 4.65 mEq):</strong><br>
+      → Emergensi (tetani/seizure): 1–2 ampul (10–20 mL) IV pelan 5–10 mnt + EKG monitor<br>
+      → Koreksi sedang: 1 ampul dalam 100 mL NS/D5W → infus 30 mnt–1 jam<br>
+      → Maintenans: 5 ampul (50 mL) dalam 500 mL D5W → 4–6 jam (12.5 mL/jam)<br>
+      → Via perifer: OK, namun hati-hati ekstravasasi (phlebitis)<br><br>
+      <strong style="color:var(--accent)">Ca Klorida 10% (1 ampul = 10 mL = 273 mg Ca²⁺ = 13.6 mEq — 3× lebih poten):</strong><br>
+      → <span style="color:var(--red)">HANYA via CVC</span> — nekrosis jaringan berat jika ekstravasasi perifer<br>
+      → Indikasi: syok hipovolemik berat, henti jantung, transfusi masif<br><br>
+      <strong style="color:var(--accent)">Monitoring &amp; Perhatian:</strong><br>
+      → EKG monitor selama bolus (risiko bradikardi, QT pendek, aritmia)<br>
+      → Cek Ca ionized ulang <strong>2–4 jam</strong> setelah bolus IV<br>
+      → Jangan campur Ca dengan NaHCO₃ atau fosfat dalam satu jalur IV (presipitasi)<br>
+      → Pasien digitalis: Ca IV potensasi toksisitas digoksin — lambatkan rate, monitor EKG ketat
+      <div class="formula-note" style="margin-top:8px">📚 Cooper MS. BMJ 2003;326:417 · Dickerson RN. Pharmacotherapy 2004;24:1501 · Bushinsky DA. Lancet 1998</div>
+    </div>
+  </details>`;
+  }else if(useCa>10.5){
+    html+=`<details style="margin-top:8px">
+    <summary style="cursor:pointer;font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600;padding:8px 12px;background:var(--card);border:1px solid var(--border-hi);border-radius:8px;list-style:none">
+      📋 Panduan Praktis Tatalaksana Hiperkalsemia ▼
+    </summary>
+    <div style="padding:10px 12px;border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;background:var(--card);font-size:12px;line-height:1.9">
+      <strong style="color:var(--accent)">Hidrasi agresif (prioritas pertama):</strong><br>
+      → NaCl 0.9% 200–500 mL/jam (sesuai toleransi jantung) — pasang kateter urin<br>
+      → Target urine output: 100–150 mL/jam<br>
+      → Furosemide 20–40 mg IV <strong>hanya setelah euvolemia</strong> — jangan diberikan sebelum volume cukup<br><br>
+      <strong style="color:var(--accent)">Terapi tambahan (hiperkalsemia berat atau terkait keganasan):</strong><br>
+      → Kalsitonin 4–8 IU/kg SC/IM tiap 12 jam — onset cepat (4–6 jam), efek tachyphylaxis dalam 48 jam<br>
+      → Zoledronic acid 4 mg IV dalam 15 mnt — onset 48–72 jam, efek tahan lama<br>
+      → Denosumab 120 mg SC — alternatif jika gagal ginjal (tidak tergantung renal clearance)<br><br>
+      <strong style="color:var(--accent)">Monitoring:</strong><br>
+      → Cek Ca serum tiap 6–12 jam selama terapi aktif<br>
+      → Monitor EKG: hiperkalsemia → QT pendek, PR panjang, blok konduksi
+      <div class="formula-note" style="margin-top:8px">📚 Hypercalcemia of Malignancy. NEJM 2005;352:373 · Endocrine Society Guidelines 2022</div>
+    </div>
+  </details>`;
+  }
   html+=`<div class="formula-note" style="margin-top:8px">Ca terkoreksi = Ca total + 0.8 × (4 − Albumin) · Estimasi Ca ionized ≈ Ca terkoreksi × 0.25 (±pH adj 0.05 mmol/L per 0.1 unit pH) &nbsp;|&nbsp; Payne RB. BMJ 1973 · Cooper MS. BMJ 2003;326:417 · Dickerson RN. Pharmacotherapy 2004;24:1501 · Bushinsky DA. Lancet 1998</div>`;
   document.getElementById('ca-result-content').innerHTML=html;
   document.getElementById('ca-results').classList.remove('hidden');
@@ -652,6 +734,30 @@ function calcMgCorr(){
     <p>${regime}<br>${extra}${renalNote}<br>
     <strong>Monitoring:</strong> Mg serum tiap 12–24 jam · Refleks patella · SpO₂ · Urine output (pastikan cukup sebelum koreksi).</p></div>`;
     html+=`<div class="info" style="font-size:12px;margin-top:8px"><strong>💡 Koreksi hipokalemia/hipokalsemia refrakter:</strong> Jika K atau Ca tidak naik meski dikoreksi, periksa dan koreksi Mg terlebih dahulu — hipomagnesemia menyebabkan gangguan handling K dan Ca di tubulus.</div>`;
+    html+=`<details style="margin-top:8px">
+    <summary style="cursor:pointer;font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600;padding:8px 12px;background:var(--card);border:1px solid var(--border-hi);border-radius:8px;list-style:none">
+      📋 Panduan Praktis Pemberian MgSO₄ ▼
+    </summary>
+    <div style="padding:10px 12px;border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;background:var(--card);font-size:12px;line-height:1.9">
+      <strong style="color:var(--accent)">Sediaan MgSO₄:</strong><br>
+      → MgSO₄ 20%: 1 ampul 10 mL = <strong>2 g = 16.2 mEq Mg²⁺</strong><br>
+      → MgSO₄ 40%: 1 ampul 25 mL = 10 g = 81 mEq Mg²⁺ (encerkan sebelum pakai)<br>
+      → MgSO₄ 1 g = 4 mmol = 8.1 mEq Mg²⁺<br><br>
+      <strong style="color:var(--accent)">Cara pengenceran &amp; rate:</strong><br>
+      → Emergensi (tetani/torsades/eklampsia):<br>
+      &nbsp;&nbsp;2–4 g dalam 100 mL NS → habis 15–20 menit via pompa<br>
+      → Koreksi sedang/berat (asimtomatis):<br>
+      &nbsp;&nbsp;2–4 g dalam 250 mL NS → 4–6 jam (rate ~40–60 mL/jam)<br>
+      → Oral (hipomagnesemia ringan/stabil): MgO 500 mg 2–3× sehari (perhatikan efek diare)<br>
+      → <span style="color:var(--red)">TIDAK BOLEH bolus IV tanpa pengencer</span> — risiko cardiac arrest<br><br>
+      <strong style="color:var(--accent)">Monitoring wajib selama infus MgSO₄:</strong><br>
+      → Refleks patella tiap 1–2 jam: <strong>jika hilang → STOP infus segera</strong> (tanda Mg toksik)<br>
+      → SpO₂ dan frekuensi napas tiap 30 menit (Mg >5 mEq/L → depresi napas)<br>
+      → Urine output: pastikan ≥25 mL/jam sebelum dan selama koreksi (Mg diekskresi ginjal)<br>
+      → Antidot toksisitas Mg: <strong>Ca glukonat 10% 10–20 mL IV pelan (2–3 menit)</strong>
+      <div class="formula-note" style="margin-top:8px">📚 Glasdam SM. AACN Adv Crit Care 2012 · de Baaij JH. Physiol Rev 2015;95:791 · Swaminathan R. Clin Biochem Rev 2003;24:47</div>
+    </div>
+  </details>`;
   }else{
     html+=`<div class="cc ${mg>2.5?'amber':'teal'}" style="margin-top:10px"><div class="ct">${mg>2.5?'Hipermagnesemia':'Mg Normal'} — Mg ${mg} mg/dL</div>
     <p>${mg>2.5?`Hentikan semua sumber Mg eksogen. ${mg>4?'Gejala berat (>4 mg/dL): Ca glukonat 10% 1g IV sebagai antidot (10 mL dalam 3 mnt). Pertimbangkan hemodialisis jika sangat berat atau gagal ginjal.':'Monitor gejala (nausea, kelemahan, penurunan refleks).'}`:
