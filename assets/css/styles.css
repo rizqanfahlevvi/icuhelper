@@ -2117,4 +2117,65 @@ body.sb-collapsed .sb-feedback { margin: 10px auto 4px; padding: 0; width: 34px;
   transform: translateX(100%);
 }
 
+/* ============================================================
+   FONT SIZE LEVELS — data-fontsize on <html>
+   xs · sm · md (default) · lg · xl
+   Di styles.css agar !important kalahkan semua hardcoded px
+   ============================================================ */
+
+/* ── XS ── */
+[data-fontsize="xs"] body,
+[data-fontsize="xs"] p,
+[data-fontsize="xs"] li { font-size: 12px !important; }
+[data-fontsize="xs"] td, [data-fontsize="xs"] th,
+[data-fontsize="xs"] .cc p, [data-fontsize="xs"] .cc li,
+[data-fontsize="xs"] .info, [data-fontsize="xs"] .warn,
+[data-fontsize="xs"] .formula-note, [data-fontsize="xs"] .ct,
+[data-fontsize="xs"] .subsec, [data-fontsize="xs"] .badge,
+[data-fontsize="xs"] h3, [data-fontsize="xs"] .subtitle { font-size: 11px !important; }
+[data-fontsize="xs"] .result-value { font-size: 20px !important; }
+[data-fontsize="xs"] .input-row label { font-size: 12px !important; }
+
+/* ── SM ── */
+[data-fontsize="sm"] body,
+[data-fontsize="sm"] p,
+[data-fontsize="sm"] li { font-size: 13px !important; }
+[data-fontsize="sm"] td, [data-fontsize="sm"] th,
+[data-fontsize="sm"] .cc p, [data-fontsize="sm"] .cc li,
+[data-fontsize="sm"] .info, [data-fontsize="sm"] .warn,
+[data-fontsize="sm"] .formula-note, [data-fontsize="sm"] .ct,
+[data-fontsize="sm"] .subsec, [data-fontsize="sm"] .badge,
+[data-fontsize="sm"] h3, [data-fontsize="sm"] .subtitle { font-size: 12px !important; }
+[data-fontsize="sm"] .result-value { font-size: 22px !important; }
+[data-fontsize="sm"] .input-row label { font-size: 13px !important; }
+
+/* ── MD = default, no overrides ── */
+
+/* ── LG ── */
+[data-fontsize="lg"] body,
+[data-fontsize="lg"] p,
+[data-fontsize="lg"] li { font-size: 16px !important; }
+[data-fontsize="lg"] td, [data-fontsize="lg"] th,
+[data-fontsize="lg"] .cc p, [data-fontsize="lg"] .cc li,
+[data-fontsize="lg"] .info, [data-fontsize="lg"] .warn,
+[data-fontsize="lg"] .formula-note, [data-fontsize="lg"] .ct,
+[data-fontsize="lg"] h3, [data-fontsize="lg"] .subtitle { font-size: 15px !important; }
+[data-fontsize="lg"] .subsec, [data-fontsize="lg"] .badge { font-size: 13px !important; }
+[data-fontsize="lg"] .result-value { font-size: 28px !important; }
+[data-fontsize="lg"] .input-row label { font-size: 15px !important; }
+[data-fontsize="lg"] .calc-title { font-size: 16px !important; }
+
+/* ── XL ── */
+[data-fontsize="xl"] body,
+[data-fontsize="xl"] p,
+[data-fontsize="xl"] li { font-size: 18px !important; }
+[data-fontsize="xl"] td, [data-fontsize="xl"] th,
+[data-fontsize="xl"] .cc p, [data-fontsize="xl"] .cc li,
+[data-fontsize="xl"] .info, [data-fontsize="xl"] .warn,
+[data-fontsize="xl"] .formula-note, [data-fontsize="xl"] .ct,
+[data-fontsize="xl"] h3, [data-fontsize="xl"] .subtitle { font-size: 17px !important; }
+[data-fontsize="xl"] .subsec, [data-fontsize="xl"] .badge { font-size: 14px !important; }
+[data-fontsize="xl"] .result-value { font-size: 32px !important; }
+[data-fontsize="xl"] .input-row label { font-size: 17px !important; }
+[data-fontsize="xl"] .calc-title { font-size: 18px !important; }
 

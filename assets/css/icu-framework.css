@@ -1449,40 +1449,36 @@ body.sb-collapsed .sb-item:hover .sb-pop {
 #font-size-ctrl {
   position: fixed;
   bottom: 22px;
-  right: 72px; /* 18px + 44px back-to-top + 10px */
+  right: 72px;
   z-index: 200;
   display: flex;
-  gap: 4px;
+  gap: 6px;
   align-items: center;
 }
 #fs-minus,
 #fs-plus {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: var(--radius-full);
-  background: var(--color-surface, var(--card));
-  border: 1.5px solid var(--color-separator-opaque, var(--border));
-  color: var(--color-label-secondary, var(--muted));
-  font-size: 11px;
+  background: var(--color-accent-blue);
+  color: #ffffff;
+  border: none;
+  font-size: 13px;
   font-weight: 700;
   font-family: inherit;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--shadow-md);
-  transition: background var(--duration-fast), color var(--duration-fast), border-color var(--duration-fast), opacity var(--duration-fast);
+  box-shadow: var(--shadow-accent-blue);
+  transition: opacity var(--duration-fast);
   user-select: none;
 }
 #fs-minus:hover,
-#fs-plus:hover {
-  background: var(--color-accent-blue);
-  border-color: var(--color-accent-blue);
-  color: #ffffff;
-}
+#fs-plus:hover { opacity: 0.85; }
 #fs-minus:disabled,
 #fs-plus:disabled {
-  opacity: 0.3;
+  opacity: 0.30;
   cursor: not-allowed;
   pointer-events: none;
 }
@@ -3622,81 +3618,3 @@ body.sb-collapsed .sb-feedback { margin: 10px auto 4px; padding: 0; width: 34px;
   transform: translateX(100%);
 }
 
-/* ============================================================
-   FONT SIZE LEVELS — data-fontsize attribute on <html>
-   xs (12px) · sm (13px) · md (15px, default) · lg (17px) · xl (19px)
-   ============================================================ */
-
-/* ── XS (−3px) ── */
-[data-fontsize="xs"] body { font-size: 12px; }
-[data-fontsize="xs"] p,
-[data-fontsize="xs"] li { font-size: 12px; }
-[data-fontsize="xs"] td,
-[data-fontsize="xs"] th { font-size: 11px; }
-[data-fontsize="xs"] .info,
-[data-fontsize="xs"] .warn,
-[data-fontsize="xs"] .cc p,
-[data-fontsize="xs"] .formula-note { font-size: 11px; }
-[data-fontsize="xs"] .input-row label { font-size: 12px; }
-[data-fontsize="xs"] .result-label,
-[data-fontsize="xs"] .result-sub { font-size: 11px; }
-[data-fontsize="xs"] .result-value { font-size: 20px; }
-[data-fontsize="xs"] .subsec { font-size: 10px; }
-[data-fontsize="xs"] .calc-title { font-size: 13px; }
-
-/* ── SM (−2px) ── */
-[data-fontsize="sm"] body { font-size: 13px; }
-[data-fontsize="sm"] p,
-[data-fontsize="sm"] li { font-size: 13px; }
-[data-fontsize="sm"] td,
-[data-fontsize="sm"] th { font-size: 12px; }
-[data-fontsize="sm"] .info,
-[data-fontsize="sm"] .warn,
-[data-fontsize="sm"] .cc p,
-[data-fontsize="sm"] .formula-note { font-size: 12px; }
-[data-fontsize="sm"] .input-row label { font-size: 13px; }
-[data-fontsize="sm"] .result-label,
-[data-fontsize="sm"] .result-sub { font-size: 12px; }
-[data-fontsize="sm"] .result-value { font-size: 22px; }
-[data-fontsize="sm"] .subsec { font-size: 11px; }
-[data-fontsize="sm"] .calc-title { font-size: 14px; }
-
-/* ── MD = default, no overrides needed ── */
-
-/* ── LG (+2px) ── */
-[data-fontsize="lg"] body { font-size: 17px; }
-[data-fontsize="lg"] p,
-[data-fontsize="lg"] li { font-size: 15px; }
-[data-fontsize="lg"] td,
-[data-fontsize="lg"] th { font-size: 14px; }
-[data-fontsize="lg"] .info,
-[data-fontsize="lg"] .warn,
-[data-fontsize="lg"] .cc p,
-[data-fontsize="lg"] .formula-note { font-size: 14px; }
-[data-fontsize="lg"] .input-row label { font-size: 15px; }
-[data-fontsize="lg"] .result-label,
-[data-fontsize="lg"] .result-sub { font-size: 14px; }
-[data-fontsize="lg"] .result-value { font-size: 28px; }
-[data-fontsize="lg"] .subsec { font-size: 13px; }
-[data-fontsize="lg"] .theory-content li,
-[data-fontsize="lg"] .theory-content p { font-size: 14px; }
-[data-fontsize="lg"] .calc-title { font-size: 16px; }
-
-/* ── XL (+4px) ── */
-[data-fontsize="xl"] body { font-size: 19px; }
-[data-fontsize="xl"] p,
-[data-fontsize="xl"] li { font-size: 17px; }
-[data-fontsize="xl"] td,
-[data-fontsize="xl"] th { font-size: 16px; }
-[data-fontsize="xl"] .info,
-[data-fontsize="xl"] .warn,
-[data-fontsize="xl"] .cc p,
-[data-fontsize="xl"] .formula-note { font-size: 16px; }
-[data-fontsize="xl"] .input-row label { font-size: 17px; }
-[data-fontsize="xl"] .result-label,
-[data-fontsize="xl"] .result-sub { font-size: 16px; }
-[data-fontsize="xl"] .result-value { font-size: 32px; }
-[data-fontsize="xl"] .subsec { font-size: 14px; }
-[data-fontsize="xl"] .theory-content li,
-[data-fontsize="xl"] .theory-content p { font-size: 16px; }
-[data-fontsize="xl"] .calc-title { font-size: 18px; }
