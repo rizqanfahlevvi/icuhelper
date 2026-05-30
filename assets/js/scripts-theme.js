@@ -67,23 +67,12 @@ function applyFontSize(size) {
   if (_FS_LEVELS.indexOf(size) === -1) size = 'md';
   document.documentElement.setAttribute('data-fontsize', size);
   localStorage.setItem('icu-fontsize', size);
-  var idx = _FS_LEVELS.indexOf(size);
-  var minus = document.getElementById('fs-minus');
-  var plus  = document.getElementById('fs-plus');
-  if (minus) minus.disabled = idx === 0;
-  if (plus)  plus.disabled  = idx === _FS_LEVELS.length - 1;
+  var slider = document.getElementById('fs-slider');
+  if (slider) slider.value = _FS_LEVELS.indexOf(size);
 }
 function getFontSize() {
   var v = localStorage.getItem('icu-fontsize');
   return _FS_LEVELS.indexOf(v) !== -1 ? v : 'md';
-}
-function incFontSize() {
-  var idx = _FS_LEVELS.indexOf(document.documentElement.getAttribute('data-fontsize') || 'md');
-  if (idx < _FS_LEVELS.length - 1) applyFontSize(_FS_LEVELS[idx + 1]);
-}
-function decFontSize() {
-  var idx = _FS_LEVELS.indexOf(document.documentElement.getAttribute('data-fontsize') || 'md');
-  if (idx > 0) applyFontSize(_FS_LEVELS[idx - 1]);
 }
 /* Anti-FOUC: runs synchronously in <head> before first paint */
 applyFontSize(getFontSize());
@@ -131,10 +120,30 @@ document.addEventListener('DOMContentLoaded', function () {
     if (inst) inst.classList.toggle('visible', scrolled);
   }, { passive: true });
 
-  /* Wire font size buttons created by nav.js + sync disabled state */
-  var fsMinus = document.getElementById('fs-minus');
-  var fsPlus  = document.getElementById('fs-plus');
-  if (fsMinus) fsMinus.onclick = decFontSize;
-  if (fsPlus)  fsPlus.onclick  = incFontSize;
+  /* Font size slider — created by nav.js */
+  var fsToggle = document.getElementById('fs-toggle');
+  var fsPanel  = document.getElementById('fs-panel');
+  var fsSlider = document.getElementById('fs-slider');
+  if (fsToggle && fsPanel) {
+    fsToggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var open = fsPanel.classList.toggle('open');
+      fsToggle.classList.toggle('active', open);
+    });
+  }
+  if (fsSlider) {
+    fsSlider.addEventListener('input', function () {
+      applyFontSize(_FS_LEVELS[parseInt(this.value)]);
+    });
+  }
+  document.addEventListener('click', function (e) {
+    var panel = document.getElementById('fs-panel');
+    var ctrl  = document.getElementById('ph-font-ctrl');
+    if (panel && ctrl && !ctrl.contains(e.target)) {
+      panel.classList.remove('open');
+      var t = document.getElementById('fs-toggle');
+      if (t) t.classList.remove('active');
+    }
+  });
   applyFontSize(getFontSize());
 });

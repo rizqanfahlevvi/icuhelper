@@ -269,9 +269,18 @@
         '<h1>' + title + '</h1>' +
         '<p class="subtitle" style="margin-bottom:0">' + activePage.subtitle + '</p>' +
       '</div>' +
-      '<div class="ph-font-ctrl">' +
-        '<button id="fs-minus" title="Perkecil font">A−</button>' +
-        '<button id="fs-plus"  title="Perbesar font">A+</button>' +
+      '<div class="ph-font-ctrl" id="ph-font-ctrl">' +
+        '<button id="fs-toggle" class="fs-toggle-btn" title="Ukuran Font">Aa</button>' +
+        '<div id="fs-panel" class="fs-panel">' +
+          '<span class="fs-lbl-s">Aa</span>' +
+          '<div class="fs-slider-wrap">' +
+            '<input type="range" id="fs-slider" min="0" max="4" step="1" list="fs-ticks">' +
+            '<datalist id="fs-ticks">' +
+              '<option value="0"><option value="1"><option value="2"><option value="3"><option value="4">' +
+            '</datalist>' +
+          '</div>' +
+          '<span class="fs-lbl-l">Aa</span>' +
+        '</div>' +
       '</div>';
     return el;
   }
