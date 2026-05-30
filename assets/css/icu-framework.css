@@ -990,30 +990,6 @@ body.transitioning::after {
 }
 
 
-/* Font size toggle button */
-.tb-font-btn {
-  background: transparent;
-  border: 1px solid var(--color-separator, rgba(128,128,128,0.3));
-  border-radius: 6px;
-  color: var(--color-label-secondary, var(--muted));
-  font-size: 12px;
-  font-weight: 700;
-  font-family: inherit;
-  padding: 4px 7px;
-  cursor: pointer;
-  min-width: 32px;
-  min-height: 28px;
-  line-height: 1;
-  white-space: nowrap;
-  user-select: none;
-  transition: background var(--duration-fast), color var(--duration-fast), border-color var(--duration-fast);
-}
-.tb-font-btn:hover,
-.tb-font-btn:active {
-  background: var(--color-fill-tertiary, var(--card));
-  color: var(--color-label-primary, var(--text));
-  border-color: var(--accent);
-}
 
 /* ============================================================
    §5  SIDEBAR
@@ -1469,13 +1445,55 @@ body.sb-collapsed .sb-item:hover .sb-pop {
 }
 
 /* PWA Install button — hidden until beforeinstallprompt fires */
+/* Font size floating control */
+#font-size-ctrl {
+  position: fixed;
+  bottom: 22px;
+  right: 72px; /* 18px + 44px back-to-top + 10px */
+  z-index: 200;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+#fs-minus,
+#fs-plus {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface, var(--card));
+  border: 1.5px solid var(--color-separator-opaque, var(--border));
+  color: var(--color-label-secondary, var(--muted));
+  font-size: 11px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-md);
+  transition: background var(--duration-fast), color var(--duration-fast), border-color var(--duration-fast), opacity var(--duration-fast);
+  user-select: none;
+}
+#fs-minus:hover,
+#fs-plus:hover {
+  background: var(--color-accent-blue);
+  border-color: var(--color-accent-blue);
+  color: #ffffff;
+}
+#fs-minus:disabled,
+#fs-plus:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 #pwa-install-btn {
   display: none; /* stays hidden until prompt available */
   align-items: center;
   gap: 5px;
   position: fixed;
   bottom: 22px;
-  right: 70px; /* adjusted: back-to-top is now 44px + 8px gap = 70px */
+  right: 156px; /* shifted left to make room for font-size-ctrl */
   z-index: 200;
   height: 32px;
   padding: 0 10px 0 8px;
@@ -1569,9 +1587,13 @@ h3 {
     bottom: calc(16px + env(safe-area-inset-bottom, 0px));
     right: 14px;
   }
+  #font-size-ctrl {
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    right: 66px;
+  }
   #pwa-install-btn {
     bottom: calc(16px + env(safe-area-inset-bottom, 0px));
-    right: 64px;
+    right: 148px;
   }
 }
 
@@ -3602,43 +3624,79 @@ body.sb-collapsed .sb-feedback { margin: 10px auto 4px; padding: 0; width: 34px;
 
 /* ============================================================
    FONT SIZE LEVELS — data-fontsize attribute on <html>
-   Levels: normal (default) | large | xlarge
+   xs (12px) · sm (13px) · md (15px, default) · lg (17px) · xl (19px)
    ============================================================ */
 
-/* ── LARGE (+2px) ── */
-[data-fontsize="large"] body { font-size: 17px; }
-[data-fontsize="large"] p,
-[data-fontsize="large"] li { font-size: 15px; }
-[data-fontsize="large"] td,
-[data-fontsize="large"] th { font-size: 14px; }
-[data-fontsize="large"] .info,
-[data-fontsize="large"] .warn,
-[data-fontsize="large"] .cc p,
-[data-fontsize="large"] .formula-note { font-size: 14px; }
-[data-fontsize="large"] .input-row label { font-size: 15px; }
-[data-fontsize="large"] .result-label,
-[data-fontsize="large"] .result-sub { font-size: 14px; }
-[data-fontsize="large"] .result-value { font-size: 28px; }
-[data-fontsize="large"] .subsec { font-size: 13px; }
-[data-fontsize="large"] .theory-content li,
-[data-fontsize="large"] .theory-content p { font-size: 14px; }
-[data-fontsize="large"] .calc-title { font-size: 16px; }
+/* ── XS (−3px) ── */
+[data-fontsize="xs"] body { font-size: 12px; }
+[data-fontsize="xs"] p,
+[data-fontsize="xs"] li { font-size: 12px; }
+[data-fontsize="xs"] td,
+[data-fontsize="xs"] th { font-size: 11px; }
+[data-fontsize="xs"] .info,
+[data-fontsize="xs"] .warn,
+[data-fontsize="xs"] .cc p,
+[data-fontsize="xs"] .formula-note { font-size: 11px; }
+[data-fontsize="xs"] .input-row label { font-size: 12px; }
+[data-fontsize="xs"] .result-label,
+[data-fontsize="xs"] .result-sub { font-size: 11px; }
+[data-fontsize="xs"] .result-value { font-size: 20px; }
+[data-fontsize="xs"] .subsec { font-size: 10px; }
+[data-fontsize="xs"] .calc-title { font-size: 13px; }
 
-/* ── X-LARGE (+4px) ── */
-[data-fontsize="xlarge"] body { font-size: 19px; }
-[data-fontsize="xlarge"] p,
-[data-fontsize="xlarge"] li { font-size: 17px; }
-[data-fontsize="xlarge"] td,
-[data-fontsize="xlarge"] th { font-size: 16px; }
-[data-fontsize="xlarge"] .info,
-[data-fontsize="xlarge"] .warn,
-[data-fontsize="xlarge"] .cc p,
-[data-fontsize="xlarge"] .formula-note { font-size: 16px; }
-[data-fontsize="xlarge"] .input-row label { font-size: 17px; }
-[data-fontsize="xlarge"] .result-label,
-[data-fontsize="xlarge"] .result-sub { font-size: 16px; }
-[data-fontsize="xlarge"] .result-value { font-size: 32px; }
-[data-fontsize="xlarge"] .subsec { font-size: 14px; }
-[data-fontsize="xlarge"] .theory-content li,
-[data-fontsize="xlarge"] .theory-content p { font-size: 16px; }
-[data-fontsize="xlarge"] .calc-title { font-size: 18px; }
+/* ── SM (−2px) ── */
+[data-fontsize="sm"] body { font-size: 13px; }
+[data-fontsize="sm"] p,
+[data-fontsize="sm"] li { font-size: 13px; }
+[data-fontsize="sm"] td,
+[data-fontsize="sm"] th { font-size: 12px; }
+[data-fontsize="sm"] .info,
+[data-fontsize="sm"] .warn,
+[data-fontsize="sm"] .cc p,
+[data-fontsize="sm"] .formula-note { font-size: 12px; }
+[data-fontsize="sm"] .input-row label { font-size: 13px; }
+[data-fontsize="sm"] .result-label,
+[data-fontsize="sm"] .result-sub { font-size: 12px; }
+[data-fontsize="sm"] .result-value { font-size: 22px; }
+[data-fontsize="sm"] .subsec { font-size: 11px; }
+[data-fontsize="sm"] .calc-title { font-size: 14px; }
+
+/* ── MD = default, no overrides needed ── */
+
+/* ── LG (+2px) ── */
+[data-fontsize="lg"] body { font-size: 17px; }
+[data-fontsize="lg"] p,
+[data-fontsize="lg"] li { font-size: 15px; }
+[data-fontsize="lg"] td,
+[data-fontsize="lg"] th { font-size: 14px; }
+[data-fontsize="lg"] .info,
+[data-fontsize="lg"] .warn,
+[data-fontsize="lg"] .cc p,
+[data-fontsize="lg"] .formula-note { font-size: 14px; }
+[data-fontsize="lg"] .input-row label { font-size: 15px; }
+[data-fontsize="lg"] .result-label,
+[data-fontsize="lg"] .result-sub { font-size: 14px; }
+[data-fontsize="lg"] .result-value { font-size: 28px; }
+[data-fontsize="lg"] .subsec { font-size: 13px; }
+[data-fontsize="lg"] .theory-content li,
+[data-fontsize="lg"] .theory-content p { font-size: 14px; }
+[data-fontsize="lg"] .calc-title { font-size: 16px; }
+
+/* ── XL (+4px) ── */
+[data-fontsize="xl"] body { font-size: 19px; }
+[data-fontsize="xl"] p,
+[data-fontsize="xl"] li { font-size: 17px; }
+[data-fontsize="xl"] td,
+[data-fontsize="xl"] th { font-size: 16px; }
+[data-fontsize="xl"] .info,
+[data-fontsize="xl"] .warn,
+[data-fontsize="xl"] .cc p,
+[data-fontsize="xl"] .formula-note { font-size: 16px; }
+[data-fontsize="xl"] .input-row label { font-size: 17px; }
+[data-fontsize="xl"] .result-label,
+[data-fontsize="xl"] .result-sub { font-size: 16px; }
+[data-fontsize="xl"] .result-value { font-size: 32px; }
+[data-fontsize="xl"] .subsec { font-size: 14px; }
+[data-fontsize="xl"] .theory-content li,
+[data-fontsize="xl"] .theory-content p { font-size: 16px; }
+[data-fontsize="xl"] .calc-title { font-size: 18px; }

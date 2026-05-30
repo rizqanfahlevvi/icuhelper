@@ -56,19 +56,34 @@ function toggleTheme() {
 }
 
 /* ── FONT SIZE ── */
-var _FS_LEVELS = ['normal', 'large', 'xlarge'];
+var _FS_LEVELS = ['xs', 'sm', 'md', 'lg', 'xl'];
+/* Migrate old keys from previous 3-level system */
+(function () {
+  var map = { 'normal': 'md', 'large': 'lg', 'xlarge': 'xl' };
+  var v = localStorage.getItem('icu-fontsize');
+  if (v && map[v]) localStorage.setItem('icu-fontsize', map[v]);
+})();
 function applyFontSize(size) {
-  if (_FS_LEVELS.indexOf(size) === -1) size = 'normal';
+  if (_FS_LEVELS.indexOf(size) === -1) size = 'md';
   document.documentElement.setAttribute('data-fontsize', size);
   localStorage.setItem('icu-fontsize', size);
-  var btn = document.getElementById('tb-font-btn');
-  if (btn) btn.textContent = size === 'xlarge' ? 'A++' : size === 'large' ? 'A+' : 'A';
+  var idx = _FS_LEVELS.indexOf(size);
+  var minus = document.getElementById('fs-minus');
+  var plus  = document.getElementById('fs-plus');
+  if (minus) minus.disabled = idx === 0;
+  if (plus)  plus.disabled  = idx === _FS_LEVELS.length - 1;
 }
-function getFontSize() { return localStorage.getItem('icu-fontsize') || 'normal'; }
-function cycleFontSize() {
-  var cur = document.documentElement.getAttribute('data-fontsize') || 'normal';
-  var idx = (_FS_LEVELS.indexOf(cur) + 1) % _FS_LEVELS.length;
-  applyFontSize(_FS_LEVELS[idx]);
+function getFontSize() {
+  var v = localStorage.getItem('icu-fontsize');
+  return _FS_LEVELS.indexOf(v) !== -1 ? v : 'md';
+}
+function incFontSize() {
+  var idx = _FS_LEVELS.indexOf(document.documentElement.getAttribute('data-fontsize') || 'md');
+  if (idx < _FS_LEVELS.length - 1) applyFontSize(_FS_LEVELS[idx + 1]);
+}
+function decFontSize() {
+  var idx = _FS_LEVELS.indexOf(document.documentElement.getAttribute('data-fontsize') || 'md');
+  if (idx > 0) applyFontSize(_FS_LEVELS[idx - 1]);
 }
 /* Anti-FOUC: runs synchronously in <head> before first paint */
 applyFontSize(getFontSize());
@@ -115,4 +130,19 @@ document.addEventListener('DOMContentLoaded', function () {
     var inst = document.getElementById('pwa-install-btn');
     if (inst) inst.classList.toggle('visible', scrolled);
   }, { passive: true });
+
+  /* Font size control — floating pill beside back-to-top */
+  var fsc = document.createElement('div');
+  fsc.id = 'font-size-ctrl';
+  var fm = document.createElement('button');
+  fm.id = 'fs-minus'; fm.title = 'Perkecil font'; fm.textContent = 'A−';
+  fm.onclick = decFontSize;
+  var fp = document.createElement('button');
+  fp.id = 'fs-plus'; fp.title = 'Perbesar font'; fp.textContent = 'A+';
+  fp.onclick = incFontSize;
+  fsc.appendChild(fm);
+  fsc.appendChild(fp);
+  document.body.appendChild(fsc);
+  /* Sync disabled state with current level */
+  applyFontSize(getFontSize());
 });
