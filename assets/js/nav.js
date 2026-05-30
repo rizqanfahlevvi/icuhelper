@@ -265,8 +265,14 @@
       ? (activePage.label + ' — ' + activeSub.label)
       : activePage.title;
     el.innerHTML =
-      '<h1>' + title + '</h1>' +
-      '<p class="subtitle" style="margin-bottom:0">' + activePage.subtitle + '</p>';
+      '<div class="ph-title">' +
+        '<h1>' + title + '</h1>' +
+        '<p class="subtitle" style="margin-bottom:0">' + activePage.subtitle + '</p>' +
+      '</div>' +
+      '<div class="ph-font-ctrl">' +
+        '<button id="fs-minus" title="Perkecil font">A−</button>' +
+        '<button id="fs-plus"  title="Perbesar font">A+</button>' +
+      '</div>';
     return el;
   }
 

@@ -1336,13 +1336,18 @@ body.sb-collapsed .sb-item:hover .sb-pop {
    ============================================================ */
 .page-header {
   position: relative;
-  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
   padding: var(--space-3) 0 var(--space-4);
   margin-bottom: var(--space-5);
   border-bottom: 1px solid var(--color-separator);
 }
 
 /* NO ::before / ::after radial glows — removed per HIG guidelines */
+
+.ph-title { flex: 1; min-width: 0; }
 
 .page-header h1 {
   font-size: 20px;
@@ -1354,6 +1359,42 @@ body.sb-collapsed .sb-item:hover .sb-pop {
 .page-header .subtitle {
   color: var(--color-label-secondary);
   font-size: 13px;
+}
+
+/* Font size controls — inline with page title */
+.ph-font-ctrl {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+#fs-minus,
+#fs-plus {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background: var(--color-accent-blue);
+  color: #ffffff;
+  border: none;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-accent-blue);
+  transition: opacity var(--duration-fast);
+  user-select: none;
+}
+#fs-minus:hover,
+#fs-plus:hover { opacity: 0.80; }
+#fs-minus:disabled,
+#fs-plus:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 
@@ -1445,51 +1486,13 @@ body.sb-collapsed .sb-item:hover .sb-pop {
 }
 
 /* PWA Install button — hidden until beforeinstallprompt fires */
-/* Font size floating control */
-#font-size-ctrl {
-  position: fixed;
-  bottom: 22px;
-  right: 72px;
-  z-index: 200;
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
-#fs-minus,
-#fs-plus {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-full);
-  background: var(--color-accent-blue);
-  color: #ffffff;
-  border: none;
-  font-size: 13px;
-  font-weight: 700;
-  font-family: inherit;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--shadow-accent-blue);
-  transition: opacity var(--duration-fast);
-  user-select: none;
-}
-#fs-minus:hover,
-#fs-plus:hover { opacity: 0.85; }
-#fs-minus:disabled,
-#fs-plus:disabled {
-  opacity: 0.30;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
 #pwa-install-btn {
   display: none; /* stays hidden until prompt available */
   align-items: center;
   gap: 5px;
   position: fixed;
   bottom: 22px;
-  right: 156px; /* shifted left to make room for font-size-ctrl */
+  right: 70px; /* back-to-top is 44px + 8px gap = 70px */
   z-index: 200;
   height: 32px;
   padding: 0 10px 0 8px;
@@ -1583,13 +1586,9 @@ h3 {
     bottom: calc(16px + env(safe-area-inset-bottom, 0px));
     right: 14px;
   }
-  #font-size-ctrl {
-    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
-    right: 66px;
-  }
   #pwa-install-btn {
     bottom: calc(16px + env(safe-area-inset-bottom, 0px));
-    right: 148px;
+    right: 64px;
   }
 }
 

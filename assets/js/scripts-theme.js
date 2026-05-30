@@ -131,18 +131,10 @@ document.addEventListener('DOMContentLoaded', function () {
     if (inst) inst.classList.toggle('visible', scrolled);
   }, { passive: true });
 
-  /* Font size control — floating pill beside back-to-top */
-  var fsc = document.createElement('div');
-  fsc.id = 'font-size-ctrl';
-  var fm = document.createElement('button');
-  fm.id = 'fs-minus'; fm.title = 'Perkecil font'; fm.textContent = 'A−';
-  fm.onclick = decFontSize;
-  var fp = document.createElement('button');
-  fp.id = 'fs-plus'; fp.title = 'Perbesar font'; fp.textContent = 'A+';
-  fp.onclick = incFontSize;
-  fsc.appendChild(fm);
-  fsc.appendChild(fp);
-  document.body.appendChild(fsc);
-  /* Sync disabled state with current level */
+  /* Wire font size buttons created by nav.js + sync disabled state */
+  var fsMinus = document.getElementById('fs-minus');
+  var fsPlus  = document.getElementById('fs-plus');
+  if (fsMinus) fsMinus.onclick = decFontSize;
+  if (fsPlus)  fsPlus.onclick  = incFontSize;
   applyFontSize(getFontSize());
 });
