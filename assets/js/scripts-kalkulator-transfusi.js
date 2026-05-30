@@ -6,6 +6,17 @@
    ============================================================ */
 
 /* ──────────────────────────────────────────────────────────────
+   THEORY DROPDOWN
+   ────────────────────────────────────────────────────────────── */
+function toggleTheory(id){
+  const btn=event.currentTarget;
+  const content=document.getElementById('theory-'+id);
+  if(!content)return;
+  btn.classList.toggle('open');
+  content.classList.toggle('visible');
+}
+
+/* ──────────────────────────────────────────────────────────────
    UNIT TOGGLE — Fibrinogen (mg/dL ↔ g/L)
    ────────────────────────────────────────────────────────────── */
 var _kalcUT = {
@@ -66,6 +77,7 @@ function calcPRC(){
   html+=`<div class="result-card" style="border-color:var(--red)"><div class="result-label">Jumlah Kolf PRC</div><div class="result-value" style="color:var(--red)">${kolf}</div><div class="result-sub">kolf (1 kolf ≈ 250 mL)</div></div>`;
   html+=`<div class="result-card"><div class="result-label">ΔHb per 1 Kolf</div><div class="result-value">+${dHbPerKolf}</div><div class="result-sub">g/dL estimasi</div></div>`;
   html+=`<div class="result-card"><div class="result-label">EBV</div><div class="result-value">${(ebv/1000).toFixed(2)}</div><div class="result-sub">L (${sex==='m'?70:65} mL/kg)</div></div>`;
+  html+=`<div class="result-card"><div class="result-label">Kecepatan Infus</div><div class="result-value" style="font-size:14px">${Math.round(volPRC/2)}<span style="font-size:11px"> mL/jam</span></div><div class="result-sub">standar (2 jam/kolf) · risiko tinggi: ${Math.round(volPRC/3)} mL/jam (3 jam)</div></div>`;
   html+='</div>';
 
   html+=`<div class="cc red" style="margin-top:10px"><div class="ct">Kebutuhan PRC: ${kolf} kolf (${Math.round(volPRC)} mL)</div>
@@ -88,6 +100,18 @@ function calcPRC(){
   }
 
   html+=`<div class="formula-note" style="margin-top:6px">Volume PRC = ΔHb × BB × 4 (k=4). 1 kolf PRC ≈ 250 mL, Hct 55–80%. &nbsp;|&nbsp; Stainsby D. Br J Haematol 2006;135:301 · AABB Technical Manual 20th ed.</div>`;
+
+  if(kolf>=4){
+    html+=`<div class="warn" style="margin-top:10px;font-size:12px">
+      <strong>⚠ Pertimbangkan Suplementasi Ca-Glukonat (Transfusi ≥4 Kolf)</strong><br>
+      Sitrat dalam produk darah mengikat Ca²⁺ ionisasi → hipokalsemia → disfungsi miokard + koagulopati.<br>
+      <strong>Dosis:</strong> Ca-Glukonas 10% 1 g IV (10 mL) per 4 kolf &nbsp;|&nbsp;
+      <strong>Target iCa²⁺:</strong> ≥ 1,1 mmol/L &nbsp;|&nbsp;
+      <strong>Cek iCa:</strong> tiap 30–60 mnt<br>
+      <strong>Cara pemberian:</strong> encerkan dalam 10 mL NaCl 0,9% → berikan IV PELAN 3–5 menit via jalur TERPISAH dari darah.<br>
+      <em style="font-size:11px">Rossaint R. Eur J Anaesthesiol 2023;40:343 · Inaba K. J Trauma Acute Care Surg 2013;75:416</em>
+    </div>`;
+  }
 
   document.getElementById('prc-result-content').innerHTML=html;
   document.getElementById('prc-results').classList.remove('hidden');
@@ -116,6 +140,18 @@ function calcWB(){
   1 kolf WB 450 mL ↑ Hb ±${dHbPerKolf} g/dL pada pasien ${bb} kg (lebih rendah dari PRC karena Hct lebih rendah).<br>
   <strong>Catatan:</strong> WB jarang tersedia di BDRS Indonesia — biasanya segera diproses menjadi komponen (PRC + FFP + TC).</p></div>`;
   html+=`<div class="formula-note" style="margin-top:8px">Volume WB = ΔHb × BB × 6 (k=6, Hct WB ≈ 38–45%). 1 kolf WB ≈ 450 mL. &nbsp;|&nbsp; AABB Technical Manual 20th ed. 2020</div>`;
+
+  if(kolf>=4){
+    html+=`<div class="warn" style="margin-top:10px;font-size:12px">
+      <strong>⚠ Pertimbangkan Suplementasi Ca-Glukonat (Transfusi ≥4 Kolf)</strong><br>
+      Sitrat dalam produk darah mengikat Ca²⁺ ionisasi → hipokalsemia → disfungsi miokard + koagulopati.<br>
+      <strong>Dosis:</strong> Ca-Glukonas 10% 1 g IV (10 mL) per 4 kolf &nbsp;|&nbsp;
+      <strong>Target iCa²⁺:</strong> ≥ 1,1 mmol/L &nbsp;|&nbsp;
+      <strong>Cek iCa:</strong> tiap 30–60 mnt<br>
+      <strong>Cara pemberian:</strong> encerkan dalam 10 mL NaCl 0,9% → berikan IV PELAN 3–5 menit via jalur TERPISAH dari darah.<br>
+      <em style="font-size:11px">Rossaint R. Eur J Anaesthesiol 2023;40:343 · Inaba K. J Trauma Acute Care Surg 2013;75:416</em>
+    </div>`;
+  }
 
   document.getElementById('wb-result-content').innerHTML=html;
   document.getElementById('wb-results').classList.remove('hidden');
