@@ -6,6 +6,17 @@
    ============================================================ */
 
 /* ──────────────────────────────────────────────────────────────
+   THEORY DROPDOWN
+   ────────────────────────────────────────────────────────────── */
+function toggleTheory(id){
+  const btn=event.currentTarget;
+  const content=document.getElementById('theory-'+id);
+  if(!content)return;
+  btn.classList.toggle('open');
+  content.classList.toggle('visible');
+}
+
+/* ──────────────────────────────────────────────────────────────
    UNIT TOGGLE — Fibrinogen (mg/dL ↔ g/L)
    ────────────────────────────────────────────────────────────── */
 var _kalcUT = {
