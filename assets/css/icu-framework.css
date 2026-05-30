@@ -990,6 +990,31 @@ body.transitioning::after {
 }
 
 
+/* Font size toggle button */
+.tb-font-btn {
+  background: transparent;
+  border: 1px solid var(--color-separator, rgba(128,128,128,0.3));
+  border-radius: 6px;
+  color: var(--color-label-secondary, var(--muted));
+  font-size: 12px;
+  font-weight: 700;
+  font-family: inherit;
+  padding: 4px 7px;
+  cursor: pointer;
+  min-width: 32px;
+  min-height: 28px;
+  line-height: 1;
+  white-space: nowrap;
+  user-select: none;
+  transition: background var(--duration-fast), color var(--duration-fast), border-color var(--duration-fast);
+}
+.tb-font-btn:hover,
+.tb-font-btn:active {
+  background: var(--color-fill-tertiary, var(--card));
+  color: var(--color-label-primary, var(--text));
+  border-color: var(--accent);
+}
+
 /* ============================================================
    §5  SIDEBAR
    Fixed left panel. width transitions use --duration-sidebar.
@@ -3574,3 +3599,46 @@ body.sb-collapsed .sb-feedback { margin: 10px auto 4px; padding: 0; width: 34px;
 .view-mode-slider.is-carousel {
   transform: translateX(100%);
 }
+
+/* ============================================================
+   FONT SIZE LEVELS — data-fontsize attribute on <html>
+   Levels: normal (default) | large | xlarge
+   ============================================================ */
+
+/* ── LARGE (+2px) ── */
+[data-fontsize="large"] body { font-size: 17px; }
+[data-fontsize="large"] p,
+[data-fontsize="large"] li { font-size: 15px; }
+[data-fontsize="large"] td,
+[data-fontsize="large"] th { font-size: 14px; }
+[data-fontsize="large"] .info,
+[data-fontsize="large"] .warn,
+[data-fontsize="large"] .cc p,
+[data-fontsize="large"] .formula-note { font-size: 14px; }
+[data-fontsize="large"] .input-row label { font-size: 15px; }
+[data-fontsize="large"] .result-label,
+[data-fontsize="large"] .result-sub { font-size: 14px; }
+[data-fontsize="large"] .result-value { font-size: 28px; }
+[data-fontsize="large"] .subsec { font-size: 13px; }
+[data-fontsize="large"] .theory-content li,
+[data-fontsize="large"] .theory-content p { font-size: 14px; }
+[data-fontsize="large"] .calc-title { font-size: 16px; }
+
+/* ── X-LARGE (+4px) ── */
+[data-fontsize="xlarge"] body { font-size: 19px; }
+[data-fontsize="xlarge"] p,
+[data-fontsize="xlarge"] li { font-size: 17px; }
+[data-fontsize="xlarge"] td,
+[data-fontsize="xlarge"] th { font-size: 16px; }
+[data-fontsize="xlarge"] .info,
+[data-fontsize="xlarge"] .warn,
+[data-fontsize="xlarge"] .cc p,
+[data-fontsize="xlarge"] .formula-note { font-size: 16px; }
+[data-fontsize="xlarge"] .input-row label { font-size: 17px; }
+[data-fontsize="xlarge"] .result-label,
+[data-fontsize="xlarge"] .result-sub { font-size: 16px; }
+[data-fontsize="xlarge"] .result-value { font-size: 32px; }
+[data-fontsize="xlarge"] .subsec { font-size: 14px; }
+[data-fontsize="xlarge"] .theory-content li,
+[data-fontsize="xlarge"] .theory-content p { font-size: 16px; }
+[data-fontsize="xlarge"] .calc-title { font-size: 18px; }

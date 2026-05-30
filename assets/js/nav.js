@@ -184,6 +184,7 @@
       '</a>' +
       '<div class="tb-right">' +
         '<div class="tb-clock" id="tb-clock">--:--:--</div>' +
+        '<button class="tb-font-btn" id="tb-font-btn" title="Ukuran Font" onclick="cycleFontSize()">A</button>' +
         '<div class="toggle-wrap">' +
           '<span class="toggle-label" id="toggle-lbl">Dark</span>' +
           '<label class="toggle-switch" title="Toggle Light/Dark">' +
@@ -406,6 +407,9 @@
     });
     if (typeof applyTheme === 'function' && typeof getTheme === 'function') {
       applyTheme(getTheme());
+    }
+    if (typeof applyFontSize === 'function' && typeof getFontSize === 'function') {
+      applyFontSize(getFontSize());
     }
   });
 

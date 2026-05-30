@@ -55,6 +55,24 @@ function toggleTheme() {
   applyTheme(next);
 }
 
+/* ── FONT SIZE ── */
+var _FS_LEVELS = ['normal', 'large', 'xlarge'];
+function applyFontSize(size) {
+  if (_FS_LEVELS.indexOf(size) === -1) size = 'normal';
+  document.documentElement.setAttribute('data-fontsize', size);
+  localStorage.setItem('icu-fontsize', size);
+  var btn = document.getElementById('tb-font-btn');
+  if (btn) btn.textContent = size === 'xlarge' ? 'A++' : size === 'large' ? 'A+' : 'A';
+}
+function getFontSize() { return localStorage.getItem('icu-fontsize') || 'normal'; }
+function cycleFontSize() {
+  var cur = document.documentElement.getAttribute('data-fontsize') || 'normal';
+  var idx = (_FS_LEVELS.indexOf(cur) + 1) % _FS_LEVELS.length;
+  applyFontSize(_FS_LEVELS[idx]);
+}
+/* Anti-FOUC: runs synchronously in <head> before first paint */
+applyFontSize(getFontSize());
+
 /* Expand / collapse all theory dropdowns */
 function toggleAllTheory(btn) {
   var expanding = btn.dataset.state !== 'open';
