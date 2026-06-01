@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Airway &amp; Intubasi — ICU/ER Helper</title><link rel="stylesheet" href="../../assets/css/icu-framework.css">
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<script>
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn" href="../kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">⚙️ Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📈 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🌬️ Weaning</a>
+  <a class="tab-btn" href="../ekg.html">🫀 EKG</a>
+  <a class="tab-btn active" href="teori-airway.html">📖 Teori</a>
+  <a class="tab-btn" href="../skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+
+<nav class="subtab-bar">
+  <a class="subtab-btn" href="teori-impending.html">⚠️ Impending</a>
+  <a class="subtab-btn" href="teori-gagalnapas.html">🫁 Gagal Napas</a>
+  <a class="subtab-btn" href="teori-fisiologi.html">🔬 Fisiologi</a>
+  <a class="subtab-btn" href="teori-sepsis.html">🦠 Sepsis</a>
+  <a class="subtab-btn" href="teori-b1b6.html">📋 B1–B6</a>
+  <a class="subtab-btn active" href="teori-airway.html">🩺 Airway</a>
+</nav>
+
+<!-- ===== OVERVIEW ===== -->
+<div class="sec">5 Pertanyaan Sebelum Intubasi — Pre-Intubation Decision Framework</div>
+
+<div class="cc teal">
+  <div class="ct">Framework 5 Pertanyaan — Jawab Ini Sebelum Setiap Intubasi</div>
+  <p>Framework ini membantu klinisi membuat keputusan terstruktur sebelum intubasi, mengurangi kesalahan sistemik dan meningkatkan <em>first-pass success rate</em>. Berlaku untuk semua setting: ICU, IGD, dan bangsal.</p>
+  <ol style="padding-left:18px;line-height:2;margin-top:8px">
+    <li><strong>Apakah intubasi benar-benar diperlukan?</strong></li>
+    <li><strong>Apakah airway sulit?</strong></li>
+    <li><strong>Bagaimana kondisi fisiologis pasien?</strong></li>
+    <li><strong>Apa rencana utama?</strong></li>
+    <li><strong>Apa rencana cadangan?</strong></li>
+  </ol>
+</div>
+
+<!-- ===== PERTANYAAN 1 ===== -->
+<div class="sec">Pertanyaan 1 — Apakah Intubasi Benar-Benar Diperlukan?</div>
+<div class="card">
+  <div class="subsec">5 Indikasi Intubasi (Walls, 6th ed. 2023)</div>
+  <table>
+    <tr><th style="width:28%">Indikasi</th><th style="width:36%">Contoh Klinis</th><th>Catatan</th></tr>
+    <tr>
+      <td><strong>1. Failure to maintain airway patency</strong></td>
+      <td>GCS ≤8, stridor berat, obstruksi mekanik (tumor, abses leher), angioedema progresif</td>
+      <td>Posisi lateral/prone dulu jika masih ada refleks. Intubasi segera bila obstruksi parsial memburuk.</td>
+    </tr>
+    <tr>
+      <td><strong>2. Failure to protect airway</strong></td>
+      <td>Gag reflex hilang, aspirasi aktif, muntah berulang tanpa kontrol, GCS &lt;8 dengan banyak sekret</td>
+      <td>Suction dulu, pertimbangkan NGT. Bukan indikasi mutlak bila pasien masih bisa batuk efektif.</td>
+    </tr>
+    <tr>
+      <td><strong>3. Failure to ventilate</strong></td>
+      <td>PCO₂ ↑ progresif meski NIV, respiratory exhaustion (RR >35 + fatigue), pH &lt;7.20 hiperkapnia</td>
+      <td>Trial NIV 1–2 jam pada PPOK (pH 7.25–7.35). Gagal atau memburuk → intubasi segera.</td>
+    </tr>
+    <tr>
+      <td><strong>4. Failure to oxygenate</strong></td>
+      <td>SpO₂ &lt;90% meski HFNC/NIV maksimal, P/F &lt;100–150 refrakter, ARDS berat</td>
+      <td>Trial NIV/HFNC pada ARDS ringan-sedang. P/F &lt;150 dengan NIV tidak membaik 1–2 jam → intubasi.</td>
+    </tr>
+    <tr>
+      <td><strong>5. Anticipated deterioration</strong></td>
+      <td>GBS dengan VC &lt;20 mL/kg, trauma inhalasi, epiglottitis, angioedema progresif, luka bakar wajah/leher</td>
+      <td>Intubasi elektif selagi mudah jauh lebih aman dari emergensi saat jalan napas sudah kritis.</td>
+    </tr>
+  </table>
+
+  <div class="subsec" style="margin-top:14px">Kapan Pertimbangkan Alternatif Dulu?</div>
+  <table>
+    <tr><th>Kondisi</th><th>Alternatif Pertama</th><th>Batas Waktu Trial</th></tr>
+    <tr><td>SpO₂ 90–95%, usaha napas sedang</td><td>HFNC 40–60 L/mnt FiO₂ 0,6–1,0</td><td>1–2 jam; evaluasi ROX index (≥4,88 = baik)</td></tr>
+    <tr><td>Eksaserbasi PPOK, pH 7,25–7,35</td><td>NIV BiPAP (IPAP 14–18, EPAP 4–6)</td><td>1–2 jam; bila pH tidak membaik → intubasi</td></tr>
+    <tr><td>Edema paru kardiogenik</td><td>NIV CPAP 5–10 cmH₂O atau BiPAP</td><td>30–60 menit; SpO₂ &lt;88% persisten → intubasi</td></tr>
+    <tr><td>Imunokompromis + infiltrat paru</td><td>HFNC atau NIV (hindari intubasi bila bisa)</td><td>Ketat — mortalitas tinggi bila terintubasi</td></tr>
+  </table>
+
+  <div class="warn" style="margin-top:10px;font-size:12px">
+    <strong>⚠ Kontraindikasi Relatif NIV:</strong> Kesadaran menurun tidak kooperatif · Vomiting aktif · Obstruksi mekanik · Perdarahan aktif saluran napas · Tidak mampu melindungi airway
+  </div>
+  <div class="formula-note" style="margin-top:10px">
+    Brown CA III et al. <em>Walls Manual of Emergency Airway Management</em> 6th ed. 2023 · Rochwerg B et al. (ERS/ATS NIV). <em>Eur Respir J</em> 2017;50:1602426 · Roca O et al. (ROX). <em>AJRCCM</em> 2019;199:1368
+  </div>
+</div>
+
+<!-- ===== PERTANYAAN 2 ===== -->
+<div class="sec">Pertanyaan 2 — Apakah Airway Sulit? (LEMON Assessment)</div>
+<div class="card">
+  <div class="subsec">LEMON — Penilaian Sistematis Airway Sulit</div>
+  <table>
+    <tr><th style="width:5%">Huruf</th><th style="width:22%">Kriteria</th><th style="width:35%">Cara Penilaian</th><th>Prediksi Sulit Bila...</th></tr>
+    <tr>
+      <td><strong>L</strong></td>
+      <td>Look externally</td>
+      <td>Amati wajah, leher, mulut, proporsi tubuh</td>
+      <td>Trauma wajah/leher, obesitas morbid (BMI &gt;40), janggut tebal, leher pendek/tebal, trismus, deformitas kongenital</td>
+    </tr>
+    <tr>
+      <td><strong>E</strong></td>
+      <td>Evaluate 3-3-2 rule</td>
+      <td>Hitung dengan lebar jari pemeriksa:<br>· Jarak interincisor (buka mulut)<br>· Chin-to-hyoid (dagu ke os hyoid)<br>· Thyroid-to-mouth floor (kartilago tiroid ke dasar mulut)</td>
+      <td>&lt;3 jari interincisor · &lt;3 jari chin-to-hyoid · &lt;2 jari thyroid-to-mouth floor</td>
+    </tr>
+    <tr>
+      <td><strong>M</strong></td>
+      <td>Mallampati score</td>
+      <td>Posisi duduk, buka mulut maksimal, lidah menjulur, tanpa fonasi. Nilai struktur yang terlihat.</td>
+      <td>Kelas III atau IV (lihat tabel Mallampati)</td>
+    </tr>
+    <tr>
+      <td><strong>O</strong></td>
+      <td>Obstruction / Obesity</td>
+      <td>Inspeksi, palpasi, auskultasi leher. Tanya riwayat stridor.</td>
+      <td>Abses peritonsilar/retrofaring, angioedema, epiglottitis, tumor leher, stridor, BMI &gt;40</td>
+    </tr>
+    <tr>
+      <td><strong>N</strong></td>
+      <td>Neck mobility</td>
+      <td>Minta fleksi + ekstensi maksimal kepala. Normal: ekstensi 35°+.</td>
+      <td>Rigid, spondylosis servikal berat, cervical collar/halo, obese neck, fibrosis pasca radioterapi</td>
+    </tr>
+  </table>
+
+  <div class="subsec" style="margin-top:14px">Mallampati Classification</div>
+  <table>
+    <tr><th>Kelas</th><th>Struktur Terlihat</th><th>Implikasi Laryngoskopi</th></tr>
+    <tr><td><strong>I</strong></td><td>Uvula, tonsil, palatum mole, palatum durum terlihat penuh</td><td>Mudah — Cormack-Lehane Grade I/II hampir pasti</td></tr>
+    <tr><td><strong>II</strong></td><td>Uvula, palatum mole &amp; durum terlihat; tonsil tertutup sebagian</td><td>Umumnya mudah</td></tr>
+    <tr><td><strong>III</strong></td><td>Hanya dasar uvula dan palatum mole terlihat</td><td>Kemungkinan sulit — pertimbangkan VL atau bougie</td></tr>
+    <tr><td><strong>IV</strong></td><td>Hanya palatum durum terlihat, uvula tidak terlihat sama sekali</td><td>Diprediksi sulit — VL atau awake intubation</td></tr>
+  </table>
+
+  <div class="subsec" style="margin-top:14px">Interpretasi LEMON — Implikasi Klinis</div>
+  <table>
+    <tr><th>Jumlah Kriteria Positif</th><th>Strategi yang Direkomendasikan</th></tr>
+    <tr><td>0–1 positif</td><td>Airway diprediksi mudah — DL atau VL, pilih sesuai ketersediaan dan preferensi operator</td></tr>
+    <tr><td>2–3 positif</td><td>Airway diprediksi sulit — <strong>VL sebagai pilihan utama</strong>, siapkan bougie, backup SGA</td></tr>
+    <tr><td>4–5 positif</td><td>Airway sangat sulit — pertimbangkan <strong>awake intubation</strong>, alert spesialis/anestesi, siapkan surgical airway</td></tr>
+  </table>
+
+  <div class="info" style="font-size:12px;margin-top:8px">
+    Tidak ada alat prediksi tunggal yang sempurna. LEMON digunakan sebagai <em>gestalt</em> klinis — satu kriteria sangat positif (misal angioedema masif) sudah cukup untuk mengubah strategi.
+  </div>
+  <div class="formula-note" style="margin-top:8px">
+    Reed MJ et al. <em>Emerg Med J</em> 2005;22:99 · <em>Anesth Pain Med</em> 2024 (PMC11078223) — validasi LEMON vs IDS 2024 · Brown CA NEJM 2023;389:1943
+  </div>
+</div>
+
+<!-- ===== PERTANYAAN 3 ===== -->
+<div class="sec">Pertanyaan 3 — Kondisi Fisiologis Pasien (Pre-Intubation Optimization)</div>
+<div class="card">
+  <div class="subsec">"The Physiologically Difficult Airway"</div>
+  <p style="font-size:13px;margin-bottom:10px">Bukan hanya tentang anatomi — pasien dengan cadangan fisiologis terbatas berisiko tinggi mengalami kardiovaskular kolaps pasca induksi. Identifikasi dan optimasi <strong>sebelum</strong> memberikan obat.</p>
+
+  <table>
+    <tr><th style="width:18%">Domain</th><th style="width:22%">Masalah</th><th>Optimasi Sebelum Intubasi</th></tr>
+    <tr>
+      <td><strong>Oksigenasi</strong></td>
+      <td>SpO₂ &lt;93% baseline</td>
+      <td>
+        <strong>Head up 20–25°</strong> (semua pasien, kecuali kontraindikasi)<br>
+        <strong>NIV BiPAP/CPAP</strong> — superior vs HFNC untuk mencegah desaturasi (FLORALI-2, <em>Lancet Respir Med</em> 2019;7:e26; meta-analisis 11 RCT, <em>Frontiers Med</em> 2024)<br>
+        <strong>HFNC 60 L/mnt FiO₂ 100%</strong> bila NIV tidak toleran<br>
+        <strong>Apneic oxygenation</strong> via nasal kanul 15 L/mnt selama prosedur laryngoskopi
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Hemodinamik</strong></td>
+      <td>MAP &lt;65 mmHg atau hipotensi relatif</td>
+      <td>
+        <strong>Push-dose epinefrin</strong> 10–20 mcg IV bolus tiap 2–5 mnt (encerkan 1 mg/10 mL → 0,1 mg/mL; ambil 0,1–0,2 mL lalu encerkan lagi bila perlu) — manfaat BP ada, outcome mortality masih kontroversial (2024 meta-analysis)<br>
+        <strong>Push-dose efedrin</strong> 5–10 mg IV sebagai alternatif<br>
+        <strong>Norepinefrin</strong> 0,1–0,3 mcg/kg/mnt dimulai sebelum induksi bila hipotensi jelas<br>
+        Bolus cairan 250–500 mL sebelum induksi bila hypovolemia nyata
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Metabolik</strong></td>
+      <td>pH &lt;7,1 + PCO₂ &lt;35 (asidosis metabolik terkompensasi)</td>
+      <td>
+        <strong>NaHCO₃ 100 mEq IV</strong> slow infusion sebelum intubasi<br>
+        Pasca intubasi: <strong>pertahankan minute ventilation</strong> (RR × VT) sesuai pre-intubasi — jangan biarkan RR turun mendadak pada asidosis metabolik terkompensasi (hilangnya kompensasi respiratorik → pH jatuh drastis)
+      </td>
+    </tr>
+  </table>
+
+  <div class="warn" style="margin-top:12px">
+    <strong>⚠ Jangan mengintubasi pasien hipotensi yang belum diresusitasi.</strong> Induksi anestesi menghilangkan tonus simpatis → vasodilatasimasif → cardiac arrest pada pasien dengan cadangan rendah. Mulai vasopressor atau berikan bolus cairan dahulu.
+  </div>
+  <div class="formula-note" style="margin-top:10px">
+    Frat JP et al. (FLORALI-2). <em>Lancet Respir Med</em> 2019;7:e26 · Zhong M et al. <em>Frontiers Medicine</em> 2024; DOI:10.3389/fmed.2024.1379369 · <em>Diseases</em> 2024 (prophylactic vasopressors meta-analysis) · Brown CA III et al. <em>Walls Manual</em> 6th ed. 2023 (Ch: Physiologically Difficult Airway)
+  </div>
+</div>
+
+<!-- ===== PERTANYAAN 4 ===== -->
+<div class="sec">Pertanyaan 4 — Rencana Utama</div>
+<div class="card">
+  <div class="subsec">Elemen Rencana Utama</div>
+  <table>
+    <tr><th style="width:25%">Elemen</th><th>Pertimbangan & Rekomendasi</th></tr>
+    <tr>
+      <td><strong>Operator</strong></td>
+      <td>Siapa yang memiliki <em>first-pass success rate</em> tertinggi di ruangan? Jika ada perbedaan pengalaman, operator senior yang memimpin.</td>
+    </tr>
+    <tr>
+      <td><strong>Teknik laryngoskopi</strong></td>
+      <td>
+        <strong>Video laryngoscopy (VL)</strong> sebagai default pilihan pertama — meta-analisis terbaru (Araújo et al. <em>Critical Care</em> 2024): VL secara konsisten memberikan first-pass success lebih tinggi dan intubasi esofagus lebih rendah vs direct laryngoscopy (DL) di ICU.<br>
+        DL bila VL tidak tersedia atau kontraindikasi.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Posisi pasien</strong></td>
+      <td><strong>Ear-to-sternal-notch alignment</strong> — daun telinga sejajar sternal notch (lurus horizontal). Pada obesitas: gunakan ramping position dengan bantal/selimut di bawah bahu-kepala. Head up 20–25°.</td>
+    </tr>
+    <tr>
+      <td><strong>Teknik RSI</strong></td>
+      <td>
+        <strong>RSI Standard:</strong> Fentanyl 1–3 mcg/kg IV → (ketamine 1–2 mg/kg <em>atau</em> etomidate 0,3 mg/kg) → suksinilkolin 1,5 mg/kg <em>atau</em> rocuronium 1,2 mg/kg<br>
+        <strong>RSI Modifikasi:</strong> Tanpa NMB bila kontraindikasi (hiperkalsemia, cedera medula spinalis &gt;72 jam, rhabdomiolisis, hiperkalemia berat untuk suksinilkolin)<br>
+        <strong>Awake intubation:</strong> Bila predicted very difficult airway — topikalisasi lidokain, sedasi minimal, pasien kooperatif
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Equipment checklist</strong></td>
+      <td>Laryngoscope (ukuran blade sesuai) · ETT 7,0–8,0 (laki-laki) / 6,5–7,5 (perempuan) · Stylet/bougie SELALU siap · BVM + PEEP valve · Suction aktif · Syringe cuff · Magill forceps · Konfirmasi: ETCO₂ + capnografi</td>
+    </tr>
+  </table>
+
+  <div class="info" style="font-size:12px;margin-top:8px">
+    <strong>First-pass success &gt;95%</strong> dikaitkan dengan penurunan mortalitas in-hospital. Setiap attempt tambahan meningkatkan risiko komplikasi: desaturasi, trauma, edema, cardiac arrest.
+  </div>
+  <div class="formula-note" style="margin-top:8px">
+    Brown CA. <em>NEJM</em> 2023;389:1943 · Araújo et al. <em>Critical Care</em> 2024; DOI:10.1186/s13054-023-04727-9 · Apfelbaum JL et al. (ASA DAA). <em>Anesthesiology</em> 2022;136:31
+  </div>
+</div>
+
+<!-- ===== PERTANYAAN 5 ===== -->
+<div class="sec">Pertanyaan 5 — Rencana Cadangan (Failed Airway &amp; CICO)</div>
+<div class="card">
+  <div class="subsec">Definisi Failed Airway</div>
+  <div class="cc red" style="margin-bottom:12px">
+    <div class="ct">Failed airway = salah satu kondisi berikut:</div>
+    <ul style="margin:0;padding-left:18px">
+      <li>≥3 usaha intubasi oleh operator terbaik yang tersedia, ATAU</li>
+      <li>SpO₂ &lt;90% dan tidak bisa mempertahankan oksigenasi, ATAU</li>
+      <li><strong>Cannot Intubate, Cannot Oxygenate (CICO)</strong> — airway rescue total gagal</li>
+    </ul>
+  </div>
+
+  <div class="subsec">Hierarki Rencana Cadangan — Plan A–D (DAS 2025)</div>
+  <table>
+    <tr><th style="width:12%">Plan</th><th style="width:28%">Tindakan</th><th>Detail</th></tr>
+    <tr>
+      <td><strong>Plan A</strong></td>
+      <td>Intubasi trakea via oral (DL atau VL)</td>
+      <td>Maks 3 attempt. Setiap attempt: optimasi posisi, ukuran blade, operator. Gunakan bougie sejak attempt ke-2 bila Cormack-Lehane III–IV.</td>
+    </tr>
+    <tr>
+      <td><strong>Plan B</strong></td>
+      <td>Supraglottic Airway (SGA)</td>
+      <td>LMA, i-gel, atau SGA lain untuk <strong>rescue oxygenation</strong>. Masukkan bila intubasi gagal atau saat menunggu eskalasi bantuan. Bukan solusi definitif tapi jembatan kritis.</td>
+    </tr>
+    <tr>
+      <td><strong>Plan C</strong></td>
+      <td>Face mask ventilation + BVM</td>
+      <td>Kembali ke ventilasi dasar dengan BVM 2-tangan + PEEP valve. Pertahankan oksigenasi sementara eskalasi bantuan dipanggil.</td>
+    </tr>
+    <tr>
+      <td><strong>Plan D</strong></td>
+      <td>Emergency Front-of-Neck Airway (eFONA)</td>
+      <td>Scalpel-finger-bougie cricothyrotomy. Tindakan definitif pada CICO. Jangan tunda bila SGA gagal dan oksigenasi tidak bisa dipertahankan.</td>
+    </tr>
+  </table>
+
+  <div class="subsec" style="margin-top:14px">CICO Protocol — Langkah-Langkah eFONA</div>
+  <div class="warn" style="margin-bottom:10px">
+    <strong>⚠ Narrow-bore cannula cricothyrotomy (14G) TIDAK lagi direkomendasikan</strong> sebagai Plan D — DAS 2025 mendeprekasi teknik ini karena failure rate ~60% (jet ventilation pressure-related barotrauma, kinking, dislodgement). <strong>Surgical eFONA (scalpel-bougie) = standar saat ini.</strong>
+  </div>
+  <table>
+    <tr><th style="width:8%">Langkah</th><th>Tindakan</th></tr>
+    <tr><td><strong>1</strong></td><td><strong>Declare CICO</strong> secara verbal: "This is a CICO situation. I need help NOW."</td></tr>
+    <tr><td><strong>2</strong></td><td><strong>Call for help</strong> — hubungi anestesi/bedah segera. Pertahankan SGA untuk rescue oxygenation sementara.</td></tr>
+    <tr><td><strong>3</strong></td><td><strong>Identifikasi membran krikotiroid</strong> — palpasi: kartilago tiroid → membran krikotiroid → kartilago krikoid (lekukan di bawah tiroid).</td></tr>
+    <tr><td><strong>4</strong></td><td><strong>Insisi horizontal</strong> 1–1,5 cm dengan scalpel #10 pada membran krikotiroid. Incisi langsung masuk lumen.</td></tr>
+    <tr><td><strong>5</strong></td><td><strong>Finger entry</strong> — masukkan jari ke dalam insisi untuk memperlebar lumen dan konfirmasi posisi.</td></tr>
+    <tr><td><strong>6</strong></td><td><strong>Bougie masuk</strong> — arahkan bougie ke bawah (trachea distal). Konfirmasi: sentuh tracheal rings.</td></tr>
+    <tr><td><strong>7</strong></td><td><strong>ETT 6,0 cuff</strong> dimasukkan melalui bougie. Cuff dikembangkan. Ventilasi + konfirmasi ETCO₂ + auskultasi.</td></tr>
+  </table>
+
+  <div class="info" style="font-size:12px;margin-top:8px">
+    Waktu ideal eFONA bila sudah terlatih: &lt;60–90 detik. Practice on task trainer/simulator secara berkala — skill ini cepat memudar tanpa latihan.
+  </div>
+
+  <div class="subsec" style="margin-top:12px">Brief Tim Sebelum Mulai</div>
+  <ul>
+    <li>Nyatakan rencana utama kepada seluruh tim sebelum membuka obat.</li>
+    <li>Tunjuk siapa yang pegang SGA, siapa yang handle CICO kit, siapa yang call for help.</li>
+    <li><strong>"Never surprise your team"</strong> — rencana cadangan harus disepakati bersama, bukan diumumkan saat sudah dalam situasi darurat.</li>
+    <li>Konfirmasi: suction ON, BVM siap, ETT cuff sudah dicek, ETCO₂ dipasang.</li>
+  </ul>
+
+  <div class="formula-note" style="margin-top:10px">
+    Ahmad I et al. (DAS 2025). <em>Br J Anaesth</em> 2025; DOI:10.1016/j.bja.2025.10.006 — menggantikan DAS 2015; Plan A–D terbaru, eFONA sebagai standar Plan D · Apfelbaum JL et al. (ASA DAA). <em>Anesthesiology</em> 2022;136:31 · Frerk C et al. (DAS 2015). <em>Br J Anaesth</em> 2015;115:827
+  </div>
+</div>
+
+<script src="../../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../../assets/js/feedback.js"></script>
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.1 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+  <script src="../../assets/data/references.js"></script>
+  <script src="../../assets/js/scripts-citations.js"></script>
+</body>
+</html>
