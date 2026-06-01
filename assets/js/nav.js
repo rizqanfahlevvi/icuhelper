@@ -45,13 +45,14 @@
       id: 'teori', icon: 'book-open', label: 'Teori',
       href: 'pages/teori.html',
       title: 'Teori — Fisiologi & Patofisiologi ICU',
-      subtitle: 'Gagal Napas · Fisiologi Paru · ARDS · Sepsis · B1–B6 · v2.0 — 2026',
+      subtitle: 'Gagal Napas · Fisiologi Paru · ARDS · Sepsis · B1–B6 · Airway & Intubasi · v2.0 — 2026',
       subs: [
         { label: 'Impending Gagal Napas',    href: 'pages/teori/teori-impending.html' },
         { label: 'Fisiologi Pernapasan',     href: 'pages/teori/teori-fisiologi.html' },
         { label: 'Gagal Napas & ARDS',       href: 'pages/teori/teori-gagalnapas.html' },
         { label: 'Sepsis & Syok Septik',     href: 'pages/teori/teori-sepsis.html' },
-        { label: 'B1–B6 Bedside Assessment', href: 'pages/teori/teori-b1b6.html' }
+        { label: 'B1–B6 Bedside Assessment', href: 'pages/teori/teori-b1b6.html' },
+        { label: 'Airway & Intubasi',        href: 'pages/teori/teori-airway.html' }
       ]
     },
     {
