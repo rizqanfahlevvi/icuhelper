@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAT · SBT · VAP Bundle — ICU/ER Helper</title><link rel="stylesheet" href="../../assets/css/icu-framework.css">
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<script>
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn" href="../kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">⚙️ Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📈 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🌬️ Weaning</a>
+  <a class="tab-btn" href="../ekg.html">🫀 EKG</a>
+  <a class="tab-btn active" href="teori-sat-sbt-vap.html">📖 Teori</a>
+  <a class="tab-btn" href="../skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+
+<nav class="subtab-bar">
+  <a class="subtab-btn" href="teori-impending.html">⚠️ Impending</a>
+  <a class="subtab-btn" href="teori-gagalnapas.html">🫁 Gagal Napas</a>
+  <a class="subtab-btn" href="teori-fisiologi.html">🔬 Fisiologi</a>
+  <a class="subtab-btn" href="teori-sepsis.html">🦠 Sepsis</a>
+  <a class="subtab-btn" href="teori-b1b6.html">📋 B1–B6</a>
+  <a class="subtab-btn" href="teori-airway.html">🩺 Airway</a>
+  <a class="subtab-btn active" href="teori-sat-sbt-vap.html">🔄 SAT/SBT/VAP</a>
+</nav>
+
+<!-- ===== OVERVIEW: ABCDEF BUNDLE ===== -->
+<div class="sec">ICU Liberation — ABCDEF Bundle</div>
+
+<div class="cc teal">
+  <div class="ct">ABCDEF Bundle — Pendekatan Terstruktur Manajemen Pasien Ventilator</div>
+  <p>Bundle ini dirancang untuk mencegah komplikasi jangka panjang akibat IMV: delirium, kelemahan otot, ICU-acquired weakness, dan ketergantungan ventilator. Implementasi simultan dari seluruh elemen lebih efektif daripada parsial.</p>
+  <table style="margin-top:10px">
+    <tr><th style="width:8%">Huruf</th><th style="width:25%">Komponen</th><th>Tujuan Utama</th></tr>
+    <tr><td><strong>A</strong></td><td>Assess &amp; manage <strong>Pain</strong></td><td>CPOT ≤2 atau NRS ≤3; analgesia dulu sebelum sedasi (<em>analgesia-first</em>)</td></tr>
+    <tr><td><strong>B</strong></td><td><strong>Both</strong> SAT + SBT (koordinasi)</td><td>Minimalkan sedasi · percepat weaning · kurangi ventilator-days</td></tr>
+    <tr><td><strong>C</strong></td><td><strong>Choice</strong> of analgesia &amp; sedation</td><td>Target RASS −1 sampai 0 (light sedation); pilih dexmedetomidine atau propofol; hindari benzodiazepin</td></tr>
+    <tr><td><strong>D</strong></td><td>Assess, prevent &amp; manage <strong>Delirium</strong></td><td>CAM-ICU atau ICDSC 2× sehari; mobilisasi awal; pertahankan siklus siang-malam</td></tr>
+    <tr><td><strong>E</strong></td><td><strong>Early mobility</strong> &amp; Exercise</td><td>Fisioterapi aktif sejak hari ke-1–2; hindari tirah baring total</td></tr>
+    <tr><td><strong>F</strong></td><td><strong>Family</strong> engagement &amp; empowerment</td><td>Libatkan keluarga dalam ronde; edukasi kondisi; dukungan psikososial</td></tr>
+  </table>
+  <div class="formula-note" style="margin-top:8px">
+    Marra A et al. <em>Crit Care Med</em> 2017;45:171 · Devlin JW et al. (PADIS). <em>Crit Care Med</em> 2018;46:e825
+  </div>
+</div>
+
+<!-- ===== SAT ===== -->
+<div class="sec">SAT — Spontaneous Awakening Trial (Daily Sedation Interruption)</div>
+<div class="card">
+  <div class="subsec">Mengapa SAT Penting?</div>
+  <p style="font-size:13px;margin-bottom:10px">Over-sedasi di ICU dikaitkan dengan durasi IMV lebih lama, insidens delirium lebih tinggi, dan mortalitas meningkat. SAT — penghentian sedasi harian yang terstruktur — terbukti mengurangi durasi ventilator 2–3 hari dan ICU LOS 3–4 hari (Kress JP, <em>NEJM</em> 2000).</p>
+
+  <div class="subsec">Safety Screen SAT — Syarat untuk Memulai</div>
+  <p style="font-size:12px;margin-bottom:6px">SAT <strong>TIDAK dilakukan</strong> bila ada salah satu kondisi berikut:</p>
+  <table>
+    <tr><th style="width:35%">Kondisi (GAGAL Screen)</th><th>Alasan / Tindak Lanjut</th></tr>
+    <tr><td>Kejang aktif atau baru dalam 24 jam</td><td>Sedasi dipertahankan — risiko rekurensi</td></tr>
+    <tr><td>CIWA-Ar &gt;10 (alcohol withdrawal)</td><td>Titrasi benzodiazepin tetap berlanjut</td></tr>
+    <tr><td>Agitasi berat (RASS +3 atau +4)</td><td>Atasi agitasi dulu, nilai ulang</td></tr>
+    <tr><td>Sedasi untuk indikasi khusus (ICP monitoring, status epileptikus, hipertermia maligna)</td><td>Konsultasi SpAnestesi/SpSaraf</td></tr>
+    <tr><td>Mendapat NMB (paralitik) aktif</td><td>Tunggu hingga NMB habis; SAT tidak bermakna</td></tr>
+    <tr><td>FiO₂ &gt;70% atau PEEP &gt;12 cmH₂O</td><td>Kondisi paru belum stabil; risiko desaturasi saat interupsi</td></tr>
+    <tr><td>Vasopressor eskalasi atau instabilitas hemodinamik aktif</td><td>Tunda SAT; agitasi pasca interupsi memperburuk hemodinamik</td></tr>
+  </table>
+
+  <div class="subsec" style="margin-top:14px">Cara Melakukan SAT</div>
+  <ol style="font-size:13px;line-height:1.9;padding-left:18px;margin-bottom:10px">
+    <li>Hentikan semua infus sedasi (propofol, midazolam, dexmedetomidine).</li>
+    <li>Pertahankan analgesia (fentanyl/morfin) — jangan ikut dihentikan.</li>
+    <li>Amati pasien setiap 30 menit selama maksimal 4 jam.</li>
+    <li>Nilai apakah pasien <strong>lulus SAT</strong> (lihat kriteria di bawah).</li>
+    <li>Bila lulus → lanjutkan ke assessment SBT.</li>
+    <li>Bila gagal → restart sedasi di <strong>50% dosis sebelumnya</strong>, evaluasi ulang esok hari.</li>
+  </ol>
+
+  <div class="subsec">Kriteria LULUS SAT</div>
+  <p style="font-size:12px;margin-bottom:6px">Pasien dinyatakan lulus bila <strong>mata terbuka saat dipanggil</strong> DAN setidaknya mengikuti 1 perintah:</p>
+  <table>
+    <tr><th>Perintah Sederhana</th><th>Tanda Gagal (hentikan SAT, restart sedasi 50%)</th></tr>
+    <tr><td>Buka mata · Genggam tangan · Julurkan lidah · Lihat ke sisi tertentu</td><td>SpO₂ &lt;88% · Agitasi RASS ≥+3 · RR &gt;35 bpm persisten · Nyeri tidak terkontrol · Tanda distres akut</td></tr>
+  </table>
+
+  <div class="info" style="font-size:12px;margin-top:8px">
+    Penelitian ABC Trial (Girard TD et al. <em>Lancet</em> 2008) menunjukkan koordinasi SAT → SBT setiap hari mengurangi mortalitas 28 hari (HR 0,68; p=0,01) vs SBT saja. <strong>Tidak ada peningkatan signifikan self-extubation berbahaya</strong> pada grup SAT terkoordinasi.
+  </div>
+  <div class="formula-note" style="margin-top:8px">
+    Kress JP et al. <em>NEJM</em> 2000;342:1471 · Girard TD et al. (ABC Trial). <em>Lancet</em> 2008;371:126 · Devlin JW et al. (PADIS). <em>Crit Care Med</em> 2018;46:e825
+  </div>
+</div>
+
+<!-- ===== SBT ===== -->
+<div class="sec">SBT — Spontaneous Breathing Trial</div>
+<div class="card">
+  <div class="subsec">Konsep Dasar SBT</div>
+  <p style="font-size:13px;margin-bottom:10px">SBT adalah uji coba pernapasan mandiri selama 30–120 menit dengan dukungan ventilator minimal atau tanpa dukungan sama sekali. Tujuannya menilai apakah pasien mampu bernapas secara independen dan siap untuk ekstubasi. SBT harus dilakukan setiap hari pada pasien yang memenuhi syarat.</p>
+
+  <div class="subsec">Safety Screen SBT — Syarat Sebelum Memulai</div>
+  <table>
+    <tr><th style="width:45%">Kriteria LOLOS Screen (semua harus terpenuhi)</th><th>Catatan</th></tr>
+    <tr><td>Penyebab gagal napas membaik atau teratasi</td><td>Penilaian klinis; tidak ada kelainan baru</td></tr>
+    <tr><td>Hemodinamik stabil: MAP ≥65 tanpa eskalasi vasopressor</td><td>Vasopressor dosis stabil/rendah masih boleh</td></tr>
+    <tr><td>SpO₂ ≥90% dengan FiO₂ ≤50% dan PEEP ≤8 cmH₂O</td><td>Kriteria paling penting — cadangan oksigenasi cukup</td></tr>
+    <tr><td>Sedasi ringan atau lulus SAT (RASS −1 sampai +1)</td><td>Pasien harus dapat bernapas secara inisiatif sendiri</td></tr>
+    <tr><td>Tidak ada bronkospasme aktif berat</td><td>Bronkodilator pre-SBT bila ada riwayat</td></tr>
+    <tr><td>Tidak ada rencana operasi dalam 24 jam</td><td>Hindari ekstubasi pra-operatif tidak perlu</td></tr>
+  </table>
+
+  <div class="subsec" style="margin-top:14px">Metode SBT</div>
+  <table>
+    <tr><th style="width:22%">Metode</th><th style="width:35%">Setting</th><th>Kelebihan / Kekurangan</th></tr>
+    <tr>
+      <td><strong>T-piece</strong></td>
+      <td>ETT disambungkan ke sumber O₂ tanpa ventilator (atau ventilator dalam mode CPAP 0 + PS 0)</td>
+      <td>Ujian paling murni kapasitas pernapasan mandiri. Tidak ada dukungan sama sekali. Risiko: kelelahan lebih cepat pada pasien lemah.</td>
+    </tr>
+    <tr>
+      <td><strong>PSV rendah</strong> (paling umum di ICU)</td>
+      <td>PS 5–8 cmH₂O + PEEP 5 cmH₂O</td>
+      <td>Mengatasi resistensi ETT (~4–6 cmH₂O). Lebih nyaman. RCT JAMA 2021 (Burns): non-inferior vs T-piece, tren ke arah manfaat. Sering digunakan sebagai default ICU.</td>
+    </tr>
+    <tr>
+      <td><strong>CPAP</strong></td>
+      <td>CPAP 5 cmH₂O, PS 0</td>
+      <td>Alternatif tanpa inspiratory support. Lebih sulit vs PSV tapi menghilangkan PEEP = 0 pada spontan murni.</td>
+    </tr>
+  </table>
+
+  <div class="subsec" style="margin-top:14px">RSBI — Rapid Shallow Breathing Index</div>
+  <div class="cc blue" style="margin-bottom:10px">
+    <div class="ct">RSBI = f / VT (L)</div>
+    <p>f = frekuensi napas spontan (bpm) · VT = tidal volume dalam liter · Diukur di <strong>awal SBT</strong> pada dukungan minimal (T-piece atau PS rendah)</p>
+    <table style="margin-top:8px">
+      <tr><th>RSBI</th><th>Interpretasi</th><th>Probabilitas Sukses Ekstubasi</th></tr>
+      <tr><td>&lt;80</td><td>Sangat menguntungkan</td><td>Tinggi (~80–90%)</td></tr>
+      <tr><td>80–105</td><td>Intermediate — pertimbangkan klinis keseluruhan</td><td>Sedang</td></tr>
+      <tr><td>&gt;105</td><td>Diprediksi gagal</td><td>Rendah; pertimbangkan tunda SBT</td></tr>
+    </table>
+  </div>
+
+  <div class="subsec">Durasi &amp; Kriteria LULUS SBT</div>
+  <p style="font-size:12px;margin-bottom:6px"><strong>Durasi:</strong> 30 menit (pasien tanpa risiko) hingga 120 menit (pasien dengan penyakit paru berat atau percobaan pertama).</p>
+  <table>
+    <tr><th>Parameter</th><th>Kriteria LULUS</th><th>Tanda GAGAL → hentikan SBT</th></tr>
+    <tr><td>SpO₂</td><td>≥90% (atau PaO₂ ≥60 mmHg)</td><td>&lt;88% persisten</td></tr>
+    <tr><td>Frekuensi napas</td><td>&lt;35 bpm stabil</td><td>≥35 bpm &gt;5 menit</td></tr>
+    <tr><td>Heart rate</td><td>&lt;140 bpm, tanpa aritmia baru</td><td>Aritmia baru atau HR ≥140</td></tr>
+    <tr><td>Tekanan darah</td><td>SBP 90–180 mmHg</td><td>SBP &lt;90 atau &gt;180 mmHg</td></tr>
+    <tr><td>Usaha napas</td><td>Tidak ada pola pernapasan paradoks</td><td>Penggunaan otot aksesori berat, paradoks abdominal-thoraks</td></tr>
+    <tr><td>Kesadaran &amp; agitasi</td><td>Tidak ada agitasi berat</td><td>RASS ≥+3 atau distres nyata</td></tr>
+    <tr><td>pH arteri</td><td>≥7,32</td><td>&lt;7,32 (bila diukur)</td></tr>
+  </table>
+
+  <div class="warn" style="margin-top:10px">
+    <strong>⚠ SBT Gagal ≠ Ekstubasi Gagal</strong> — Bila SBT gagal, kembali ke mode ventilasi penuh, cari penyebab (nyeri, sekresi, bronkospasme, hipervolemia, gangguan neuromuskuler), dan ulangi SBT esok hari. Jangan mencoba ekstubasi paksa setelah SBT gagal.
+  </div>
+  <div class="formula-note" style="margin-top:10px">
+    Yang KL &amp; Tobin MJ. <em>NEJM</em> 1991;324:1445 · Burns KEA et al. (PSV vs T-piece RCT). <em>JAMA</em> 2021;325:777 · Girard TD et al. (ABC Trial). <em>Lancet</em> 2008;371:126 · Esteban A et al. <em>NEJM</em> 1995;332:345
+  </div>
+</div>
+
+<!-- ===== EXTUBATION READINESS ===== -->
+<div class="sec">Penilaian Kesiapan Ekstubasi (Pasca SBT Lulus)</div>
+<div class="card">
+  <p style="font-size:13px;margin-bottom:10px">Lulus SBT tidak otomatis berarti siap ekstubasi. Nilai <strong>4 domain</strong> berikut sebelum melepas ETT:</p>
+
+  <table>
+    <tr><th style="width:25%">Domain</th><th style="width:35%">Cara Penilaian</th><th>Pertimbangan</th></tr>
+    <tr>
+      <td><strong>1. Kemampuan batuk</strong></td>
+      <td>Minta pasien batuk kuat; nilai kekuatan suara dan tekanan. Cough Peak Flow &gt;60 L/mnt (bila tersedia alat).</td>
+      <td>Batuk lemah → risiko retensi sekret, pneumonia post-ekstubasi. Pertimbangkan extubation to HFNC.</td>
+    </tr>
+    <tr>
+      <td><strong>2. Beban sekresi</strong></td>
+      <td>Frekuensi suction dalam 2 jam terakhir. Jumlah dan viskositas sekret.</td>
+      <td>Suction &gt;4× per jam atau sekret sangat kental → tunda ekstubasi</td>
+    </tr>
+    <tr>
+      <td><strong>3. Status neurologis</strong></td>
+      <td>Apakah pasien dapat mengikuti 4 perintah sederhana? (Buka mata, lihat, genggam, julurkan lidah)</td>
+      <td>GCS ≥8 minimal, lebih disukai ≥10. Pasien afasia/koma tapi batuk kuat bisa dipertimbangkan kasus per kasus.</td>
+    </tr>
+    <tr>
+      <td><strong>4. Cuff Leak Test</strong></td>
+      <td>Deflasikan cuff ETT; nilai apakah ada kebocoran udara saat ventilasi (dapat terdengar atau diukur).</td>
+      <td>Tidak ada bocoran (cuff leak negative) → risiko post-extubation stridor. Pertimbangkan deksametason atau metilprednisolon IV 12–24 jam sebelum ekstubasi. Indikasi kuat: intubasi &gt;6 hari, perempuan, ETT kecil relatif, &gt;3 attempt intubasi.</td>
+    </tr>
+  </table>
+
+  <div class="cc teal" style="margin-top:12px">
+    <div class="ct">Ekstubasi ke HFNC — Strategi Preventif pada Risiko Tinggi</div>
+    <p>Pada pasien risiko tinggi re-intubasi (COPD, CHF, usia &gt;65, RSBI borderline, batuk sedang), ekstubasi langsung ke HFNC 40–60 L/mnt lebih superior dibandingkan O₂ konvensional dalam mencegah re-intubasi (Hernández G et al. <em>JAMA</em> 2016;315:1354). NIV post-ekstubasi untuk pasien COPD juga terbukti efektif (Ferrer M et al. <em>Lancet</em> 2009;374:1082).</p>
+  </div>
+  <div class="formula-note" style="margin-top:8px">
+    Hernández G et al. <em>JAMA</em> 2016;315:1354 · Ferrer M et al. <em>Lancet</em> 2009;374:1082 · Thille AW et al. <em>NEJM</em> 2022;386:1657 (post-extubation NIV/HFNC CPAP RCT)
+  </div>
+</div>
+
+<!-- ===== VAP BUNDLE ===== -->
+<div class="sec">VAP — Ventilator-Associated Pneumonia</div>
+<div class="card">
+  <div class="subsec">Definisi &amp; Dampak Klinis</div>
+  <p style="font-size:13px;margin-bottom:10px">VAP adalah pneumonia yang timbul ≥48 jam setelah intubasi dan awal ventilasi mekanik. Insiden: 6–52% pasien IMV. Attributable mortality: 13–25%. Memperpanjang ICU LOS rata-rata 6–10 hari. Biaya tinggi dan sebagian besar <strong>dapat dicegah</strong> dengan implementasi bundle yang konsisten.</p>
+
+  <div class="subsec">Kriteria Diagnosis VAP (CDC/NHSN)</div>
+  <table>
+    <tr><th>Kriteria</th><th>Detail</th></tr>
+    <tr><td>Durasi ventilasi</td><td>Terventilasi ≥2 hari kalender pada saat onset atau hari sebelumnya</td></tr>
+    <tr><td>Radiologis</td><td>CXR/CT: infiltrat baru atau progresif, konsolidasi, kavitasi (bila baseline CXR bersih)</td></tr>
+    <tr><td>Klinis (≥2 dari 3)</td><td>Demam &gt;38°C atau hipotermia &lt;36°C · Leukositosis ≥12.000 atau leukopenia &lt;4.000 · Sekret purulen baru atau perubahan sifat sekret</td></tr>
+    <tr><td>Mikrobial</td><td>BAL ≥10⁴ CFU/mL · Endotrakeal aspirat ≥10⁵ CFU/mL · PSB ≥10³ CFU/mL</td></tr>
+  </table>
+
+  <div class="subsec" style="margin-top:14px">VAP Prevention Bundle — Komponen &amp; Rasionale</div>
+  <table>
+    <tr><th style="width:5%">#</th><th style="width:30%">Intervensi</th><th style="width:15%">Kekuatan Bukti</th><th>Rasionale &amp; Catatan</th></tr>
+    <tr>
+      <td><strong>1</strong></td>
+      <td>Elevasi kepala tempat tidur <strong>30–45°</strong></td>
+      <td>Kuat (SHEA/IDSA 2022)</td>
+      <td>Mencegah mikroaspirasi sekret orofaring &amp; isi lambung. Kontraindikasi relatif: hemodinamik tidak stabil, fraktur spinal, operasi abdominal baru.</td>
+    </tr>
+    <tr>
+      <td><strong>2</strong></td>
+      <td><strong>SAT harian</strong> (sedation holiday)</td>
+      <td>Kuat</td>
+      <td>Mengurangi durasi IMV → mengurangi exposure total ventilator → menurunkan risiko VAP. Lihat seksi SAT di atas.</td>
+    </tr>
+    <tr>
+      <td><strong>3</strong></td>
+      <td><strong>SBT harian</strong></td>
+      <td>Kuat</td>
+      <td>Setiap hari ventilasi mekanik adalah risiko VAP tambahan. SBT mempercepat weaning dan ekstubasi.</td>
+    </tr>
+    <tr>
+      <td><strong>4</strong></td>
+      <td><strong>Perawatan mulut dengan klorheksidin 0,12%</strong> (2× sehari)</td>
+      <td>Moderat (kontroversial pada jantung)</td>
+      <td>Mengurangi kolonisasi orofaring → mencegah aspirasi kuman ke paru. Hati-hati pada pasien bedah jantung (meta-analisis 2014 menunjukkan peningkatan mortalitas — mekanisme belum jelas). SHEA/IDSA 2022: tetap direkomendasikan untuk ICU non-jantung.</td>
+    </tr>
+    <tr>
+      <td><strong>5</strong></td>
+      <td><strong>Drainase sekret subglotis</strong> (SSD/CASS)</td>
+      <td>Kuat — jika ETT tersedia</td>
+      <td>ETT dengan port suction di atas cuff memungkinkan aspirasi sekret yang menggenang sebelum masuk ke paru. Mengurangi VAP ~50% bila ventilasi diperkirakan &gt;48 jam. Bila tidak ada ETT khusus, tidak bisa dilakukan retroaktif.</td>
+    </tr>
+    <tr>
+      <td><strong>6</strong></td>
+      <td><strong>Tekanan cuff ETT 20–30 cmH₂O</strong></td>
+      <td>Kuat</td>
+      <td>Cuff terlalu rendah &lt;20 cmH₂O → mikroaspirasi melalui lipatan cuff. Cuff terlalu tinggi &gt;30 cmH₂O → iskemia mukosa trakea. Ukur dengan manometer, bukan dengan "feel". Frekuensi cek: setiap 8–12 jam atau sesuai protokol.</td>
+    </tr>
+    <tr>
+      <td><strong>7</strong></td>
+      <td><strong>Sirkuit ventilator — jangan diganti rutin</strong></td>
+      <td>Kuat (negatif — jangan lakukan)</td>
+      <td>Penggantian rutin tiap 48–72 jam tidak mengurangi VAP dan justru meningkatkan risiko kontaminasi saat penggantian. Ganti hanya bila rusak, bocor, atau terkontaminasi secara visual. Kelola kondensat dengan hati-hati (tiriskan menjauhi pasien).</td>
+    </tr>
+    <tr>
+      <td><strong>8</strong></td>
+      <td>Profilaksis DVT</td>
+      <td>Standar ICU</td>
+      <td>Farmakologis (heparin/LMWH) + mekanik (stoking kompresi/IPC). Pasien ICU berisiko tinggi DVT-PE.</td>
+    </tr>
+    <tr>
+      <td><strong>9</strong></td>
+      <td>Profilaksis PUD</td>
+      <td>Standar pada risiko tinggi</td>
+      <td>PPI atau H₂ blocker pada pasien IMV &gt;48 jam, koagulopati, riwayat ulkus. Hindari penggunaan berlebihan → risiko C. difficile.</td>
+    </tr>
+  </table>
+
+  <div class="info" style="margin-top:10px">
+    <strong>Implementasi bundle secara konsisten</strong> (bukan parsial) dikaitkan dengan penurunan VAP 50–70% (IHI VAP Bundle data). Audit kepatuhan harian diperlukan — dokumentasi setiap elemen per shift.
+  </div>
+</div>
+
+<!-- ===== TERAPI VAP ===== -->
+<div class="sec">Terapi VAP — Pendekatan Empiris &amp; Definitif</div>
+<div class="card">
+  <div class="subsec">Prinsip Pengobatan VAP</div>
+  <p style="font-size:13px;margin-bottom:10px">Mulai antibiotik empiris segera setelah spesimen diambil (jangan tunda pengambilan spesimen). De-eskalasi <strong>wajib</strong> dilakukan setelah kultur tersedia (24–72 jam). Durasi standar: <strong>7–8 hari</strong> (bukan 14–21 hari seperti praktek lama) — tidak terbukti lebih superior dengan durasi lebih panjang.</p>
+
+  <div class="subsec">Stratifikasi Risiko MDR</div>
+  <table>
+    <tr><th style="width:40%">Faktor Risiko MDR / MRSA</th><th>Implikasi</th></tr>
+    <tr><td>Antibiotik IV dalam 90 hari terakhir</td><td rowspan="4">Pertimbangkan cakupan MRSA + MDR Gram negatif (termasuk <em>Pseudomonas aeruginosa</em>)</td></tr>
+    <tr><td>Rawat inap &gt;5 hari sebelum onset VAP</td></tr>
+    <tr><td>ICU dengan prevalensi MRSA lokal tinggi (&gt;10–20%)</td></tr>
+    <tr><td>Imunosupresi (kemoterapi, transplantasi, steroid kronik)</td></tr>
+    <tr><td>Tidak ada faktor risiko MDR</td><td>Cakupan monoterapi yang lebih sempit cukup</td></tr>
+  </table>
+
+  <div class="subsec" style="margin-top:14px">Pilihan Antibiotik Empiris VAP</div>
+  <table>
+    <tr><th style="width:30%">Strategi</th><th style="width:35%">Pilihan Utama</th><th>Catatan</th></tr>
+    <tr>
+      <td><strong>Tanpa risiko MDR / MRSA</strong></td>
+      <td>Piperacillin-tazobactam 4,5 g IV q6h<br><em>atau</em> Cefepime 2 g IV q8h<br><em>atau</em> Meropenem 1 g IV q8h (bila curiga ESBL)</td>
+      <td>Monoterapi; de-eskalasi setelah kultur</td>
+    </tr>
+    <tr>
+      <td><strong>Dengan risiko MRSA</strong></td>
+      <td>+ Vancomycin 15–20 mg/kg IV q8–12h (target AUC 400–600)<br><em>atau</em> Linezolid 600 mg IV q12h</td>
+      <td>Linezolid mungkin lebih baik penetrasi paru (ATTAIN trial)</td>
+    </tr>
+    <tr>
+      <td><strong>Dengan risiko MDR Pseudomonas / GNB</strong></td>
+      <td>Dua agen anti-pseudomonal: misal cefepime + amikacin<br><em>atau</em> pip-tazo + ciprofloxacin</td>
+      <td>De-eskalasi segera setelah sensitivitas diketahui</td>
+    </tr>
+  </table>
+
+  <div class="warn" style="margin-top:10px">
+    <strong>⚠ Perhatian lokal:</strong> Pola resistensi sangat bervariasi antar fasilitas. Gunakan data antibiogram lokal rumah sakit sebagai panduan utama dalam pemilihan empiris, bukan hanya guideline nasional.
+  </div>
+  <div class="formula-note" style="margin-top:10px">
+    Klompas M et al. (SHEA/IDSA). <em>Infect Control Hosp Epidemiol</em> 2022;43:e1 · Kalil AC et al. (IDSA/ATS HAP-VAP). <em>Clin Infect Dis</em> 2016;63:e61 · Papazian L et al. <em>Ann Intensive Care</em> 2020;10:139 · Marra A et al. <em>Crit Care Med</em> 2017;45:171
+  </div>
+</div>
+
+<script src="../../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../../assets/js/feedback.js"></script>
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.1 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+  <script src="../../assets/data/references.js"></script>
+  <script src="../../assets/js/scripts-citations.js"></script>
+</body>
+</html>
