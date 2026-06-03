@@ -141,6 +141,14 @@ function calcBasal() {
     'Restriksi rasional mengurangi risiko fluid overload'
   );
 
+  html += '<div style="margin-top:10px;padding:8px 12px;border-radius:6px;' +
+    'border:1px solid var(--accent-dim2);background:var(--accent-dim);' +
+    'font-size:11px;color:var(--text2);line-height:1.6">' +
+    '📌 <strong>Ini adalah baseline saja.</strong> Lanjutkan ke <strong>Box 2</strong> ' +
+    'untuk menambahkan koreksi IWL, demam, diaforesis, dan output tambahan — ' +
+    'total akhir akan mencerminkan pendekatan <strong>30–40 mL/kg/hari</strong> yang lazim dipakai.' +
+    '</div>';
+
   el.innerHTML = html;
   el.classList.remove('hidden');
 }
@@ -162,8 +170,9 @@ function calcKoreksi() {
     el.classList.remove('hidden'); return;
   }
 
-  /* 1. Maintenance basal ICU — standar 25 mL/kg/hari */
-  var maintenance = bw * 25;
+  /* 1. Maintenance basal ICU — baca dari Box 1 jika tersedia, default 25 */
+  var b1Target = parseInt(document.getElementById('b1-target').value, 10) || 25;
+  var maintenance = bw * b1Target;
 
   /* 2. IWL base per ventilasi (mL/hari) */
   var iwlBase;
@@ -203,7 +212,7 @@ function calcKoreksi() {
   /* Render */
   var html = '';
   html += divider('Komponen Cairan');
-  html += resultRow('Maintenance basal ICU (25 mL/kg/hari)', _f(maintenance), 'mL/hari');
+  html += resultRow('Maintenance basal ICU (' + b1Target + ' mL/kg/hari)', _f(maintenance), 'mL/hari');
   html += resultRow('IWL basal — ' + vent, _f(iwlBase), 'mL/hari', false, iwlLabel);
 
   if (tempCorr > 0)
@@ -227,6 +236,11 @@ function calcKoreksi() {
   html += divider('TOTAL KEBUTUHAN (target net balance = 0)');
   html += resultRow('TOTAL per hari', _f(total), 'mL/hari', true);
   html += resultRow('Rate IV (single maintenance line)', _f(ratePerHr, 1), 'mL/jam', true);
+  html += resultRow(
+    'Total per kgBB',
+    _f(total / bw, 1), 'mL/kg/hari', false,
+    'Rentang praktis intensivist: 30–40 mL/kg/hari (semua komponen tergabung)'
+  );
 
   /* ROSE konteks jika ada */
   if (activeROSE) {
