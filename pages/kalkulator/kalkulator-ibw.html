@@ -44,6 +44,7 @@
   <a class="subtab-btn" href="kalkulator-transfusi.html">🩸 Transfusi</a>
 </nav>
 
+<div id="ibw-session-bar" style="margin-bottom:8px"></div>
 <div class="calc-box">
     <div class="calc-title"><span>⚖️</span> Kalkulator IBW & Parameter Awal Ventilator</div>
     <div class="grid2" style="gap:10px">
@@ -98,6 +99,12 @@
 <!-- SUB: DRUG -->
 
 <script src="../../assets/js/scripts-kalkulator-ibw.js"></script>
+<script type="module">
+  import { autoFillForm, bindFormToSession, renderSessionBar } from '../../assets/ts/patient-session.ts'
+  renderSessionBar('ibw-session-bar')
+  autoFillForm({ ibwHeight: 'tinggiBadan', ibwActual: 'beratBadan', ibwAge: 'usia' })
+  bindFormToSession({ ibwHeight: 'tinggiBadan', ibwActual: 'beratBadan', ibwAge: 'usia' })
+</script>
 <script src="../../assets/js/nav.js"></script>
 <div id="feedback-root"></div>
 <script src="../../assets/js/feedback.js"></script>

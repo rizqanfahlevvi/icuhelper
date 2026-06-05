@@ -32,6 +32,7 @@
   <a class="tab-btn" href="../referensi.html">📚 Referensi</a>
 </nav>
 
+<div id="abg-session-bar" style="margin-bottom:8px"></div>
 <div class="calc-box">
   <div class="calc-title"><span>🩸</span> ABG Interpreter Lengkap — 6 Langkah + Metabolik + Oksigenasi</div>
   <div class="info" style="margin-bottom:12px">Masukkan seluruh parameter untuk interpretasi sistematis: asam-basa, kompensasi, anion gap, delta-delta, P/F ratio, OI, ROX index, klasifikasi gagal napas, dan saran klinis.</div>
@@ -477,6 +478,12 @@
 
 <script src="../assets/js/scripts-abg.js"></script>
 <script type="module" src="../assets/ts/ai-abg.ts"></script>
+<script type="module">
+  import { autoFillForm, bindFormToSession, renderSessionBar } from '../assets/ts/patient-session.ts'
+  renderSessionBar('abg-session-bar')
+  autoFillForm({ abgPH: 'ph', abgCO2: 'pco2', abgHCO3: 'hco3', abgO2: 'po2' })
+  bindFormToSession({ abgPH: 'ph', abgCO2: 'pco2', abgHCO3: 'hco3', abgO2: 'po2' })
+</script>
 <script src="../assets/js/nav.js"></script>
 <div id="feedback-root"></div>
 <script src="../assets/js/feedback.js"></script>
