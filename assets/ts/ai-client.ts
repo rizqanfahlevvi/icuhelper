@@ -128,9 +128,10 @@ export function createAiPanel(containerId: string, title: string): {
     container.appendChild(panel)
   }
 
-  const body     = panel.querySelector<HTMLElement>('.ai-panel-body')!
-  const loader   = panel.querySelector<HTMLElement>('.ai-panel-loader')!
-  const errorEl  = panel.querySelector<HTMLElement>('.ai-panel-error')!
+  const body    = panel.querySelector<HTMLElement>('.ai-panel-body')
+  const loader  = panel.querySelector<HTMLElement>('.ai-panel-loader')
+  const errorEl = panel.querySelector<HTMLElement>('.ai-panel-error')
+  if (!body || !loader || !errorEl) throw new Error('AI panel HTML structure incomplete')
 
   return {
     show:    () => { panel!.classList.remove('hidden') },

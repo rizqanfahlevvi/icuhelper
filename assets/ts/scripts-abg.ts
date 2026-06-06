@@ -27,6 +27,13 @@ interface CompensationResult {
   ref: string
 }
 
+// ─── Clinical thresholds ─────────────────────────────────────
+
+const AG_NORMAL_HIGH      = 12  // mEq/L — normal Anion Gap ceiling
+const AG_CORRECTED_HIGH   = 14  // mEq/L — albumin-corrected AG ceiling (Figge formula)
+const AG_SEVERE_ACIDOSIS  = 7.20 // pH threshold for severe acidemia
+const AG_SEVERE_ALKALOSIS = 7.55 // pH threshold for severe alkalemia
+
 // ─── Unit config ─────────────────────────────────────────────
 
 const UNIT_DEFAULTS: Record<AbgParam, string> = {
@@ -276,10 +283,10 @@ export function calcABG(): void {
   // ── Langkah 1: Status pH ──────────────────────────────────
   let phStatus: string, phColor: string, phClass: string
   if (pH < 7.35) {
-    phStatus = pH < 7.20 ? 'Asidemia BERAT (pH <7.20)' : 'Asidemia'
+    phStatus = pH < AG_SEVERE_ACIDOSIS ? `Asidemia BERAT (pH <${AG_SEVERE_ACIDOSIS})` : 'Asidemia'
     phColor = 'var(--red)'; phClass = 'abg-severe'
   } else if (pH > 7.45) {
-    phStatus = pH > 7.55 ? 'Alkalemia BERAT (pH >7.55)' : 'Alkalemia'
+    phStatus = pH > AG_SEVERE_ALKALOSIS ? `Alkalemia BERAT (pH >${AG_SEVERE_ALKALOSIS})` : 'Alkalemia'
     phColor = 'var(--amber)'; phClass = 'abg-mild'
   } else {
     phStatus = 'pH Normal (7.35–7.45)'
@@ -356,7 +363,7 @@ export function calcABG(): void {
   if (na !== null && cl !== null) {
     const ag     = na - (cl + hco3)
     const agCorr = alb !== null ? ag + 2.5 * (4 - alb) : null
-    agHigh = agCorr !== null ? agCorr > 14 : ag > 12
+    agHigh = agCorr !== null ? agCorr > AG_CORRECTED_HIGH : ag > AG_NORMAL_HIGH
     let agNote = `AG = ${na} − (${cl} + ${hco3}) = ${ag} mEq/L (Normal 8–12)`
     if (agCorr !== null) agNote += ` · AG terkoreksi albumin: ${agCorr.toFixed(1)} (Albumin ${alb!.toFixed(1)} g/dL)`
     let ddNote = ''
@@ -772,8 +779,6 @@ export function calcAlk(): void {
 type DisorderKey = 'am' | 'alm' | 'ar' | 'arc' | 'alr' | 'alrc'
 
 export function calcKompensasi(): void {
-  const _ph      = parseFloat(getInputEl('acbc3-ph')?.value ?? '')
-  void _ph
   const pco2     = parseFloat(getInputEl('acbc3-pco2')?.value ?? '')
   const hco3     = parseFloat(getInputEl('acbc3-hco3')?.value ?? '')
   const disorder = (getEl<HTMLSelectElement>('acbc3-disorder')?.value ?? '') as DisorderKey | ''

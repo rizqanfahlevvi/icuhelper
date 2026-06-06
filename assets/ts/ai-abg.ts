@@ -44,7 +44,7 @@ function readAbgForm(): AbgSnapshot | null {
 
   const ph   = getVal('abgPH')
   const hco3 = getVal('abgHCO3')
-  if (!ph || !pco2 || !hco3) return null
+  if (ph === undefined || pco2 === undefined || hco3 === undefined) return null
 
   const kondisi = (document.getElementById('abgKondisi') as HTMLSelectElement)?.value ?? 'umum'
 
@@ -162,19 +162,14 @@ export async function runAbgAi(): Promise<void> {
     return
   }
 
-  let panel: ReturnType<typeof createAiPanel>
-  try {
-    panel = createAiPanel(AI_ABG_CONTAINER, 'Analisis AI — ABG Interpreter')
-  } catch {
-    // Container belum ada, buat dulu
-    const container = document.getElementById(AI_ABG_CONTAINER)
-    if (!container) {
-      const div = document.createElement('div')
-      div.id = AI_ABG_CONTAINER
-      document.getElementById('abg-results')?.insertAdjacentElement('afterend', div)
-    }
-    panel = createAiPanel(AI_ABG_CONTAINER, 'Analisis AI — ABG Interpreter')
+  if (!document.getElementById(AI_ABG_CONTAINER)) {
+    const div = document.createElement('div')
+    div.id = AI_ABG_CONTAINER
+    const anchor = document.getElementById('abg-results') ?? document.querySelector('.calc-box')
+    if (!anchor) { alert('Gagal membuat panel AI: elemen anchor tidak ditemukan.'); return }
+    anchor.insertAdjacentElement('afterend', div)
   }
+  const panel = createAiPanel(AI_ABG_CONTAINER, 'Analisis AI — ABG Interpreter')
 
   panel.show()
   panel.reset()

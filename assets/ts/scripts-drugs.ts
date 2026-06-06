@@ -3,7 +3,13 @@
    Depends on: ICU_DRUGS (assets/data/drugs.js)
    ============================================================ */
 
-/* ── Inline drug-database shape (sufficient for this module) ── */
+/*
+ * Inline drug-database shapes below are intentionally looser than types.ts —
+ * drugs.js uses optional/partial fields that don't fully satisfy the strict
+ * types.ts Drug interface. These local interfaces match the actual data shape.
+ * Do NOT replace with imports from types.ts without first ensuring drugs.js
+ * conforms to the strict schema.
+ */
 interface RenalDoseEntry {
   dose?: string;
   interval?: string;
