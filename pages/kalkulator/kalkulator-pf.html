@@ -48,7 +48,7 @@
     <div class="calc-title"><span>📈</span> Kalkulator P/F Ratio, OI & Klasifikasi ARDS</div>
     <div class="grid2" style="gap:10px">
       <div>
-        <div class="input-row"><label>PaO₂ (mmHg)</label><input type="number" id="pfPaO2" placeholder="cth: 80" min="20" max="600"></div>
+        <div class="input-row"><label>PaO₂ (mmHg)</label><input type="number" inputmode="decimal" id="pfPaO2" placeholder="cth: 80" min="20" max="600"></div>
         <div class="input-row" style="align-items:flex-start">
           <label style="padding-top:6px">FiO₂</label>
           <div style="flex:1">
@@ -57,7 +57,7 @@
               <button class="fio2-mode-btn" id="pf-fio2-btn-lowflow" onclick="setFiO2ModeFor('pf','lowflow')">💨 Low-Flow O₂</button>
             </div>
             <div id="pf-fio2-direct-wrap">
-              <input type="number" id="pf-fio2-direct" step="0.01" min="0.21" max="1.0" placeholder="0.21–1.0" oninput="syncFiO2DirectFor('pf')" style="width:100%">
+              <input type="number" inputmode="decimal" id="pf-fio2-direct" step="0.01" min="0.21" max="1.0" placeholder="0.21–1.0" oninput="syncFiO2DirectFor('pf')" style="width:100%">
             </div>
             <div id="pf-fio2-lowflow-wrap" style="display:none">
               <select id="pf-o2-device" onchange="estimateFiO2For('pf')" class="abg-lowflow-input">
@@ -71,13 +71,13 @@
                 <option value="venturi40">Venturi 40%</option>
                 <option value="venturi60">Venturi 60%</option>
               </select>
-              <input type="number" id="pf-o2-flow" placeholder="Flow (L/menit)" min="1" max="15" step="0.5" oninput="estimateFiO2For('pf')" class="abg-lowflow-input">
+              <input type="number" inputmode="decimal" id="pf-o2-flow" placeholder="Flow (L/menit)" min="1" max="15" step="0.5" oninput="estimateFiO2For('pf')" class="abg-lowflow-input">
               <div id="pf-fio2-est" class="abg-fio2-est"></div>
             </div>
             <input type="hidden" id="pf-fio2">
           </div>
         </div>
-        <div class="input-row"><label>MAP ventilator (cmH₂O)</label><input type="number" id="pfMAP" placeholder="cth: 14" min="0" max="50"></div>
+        <div class="input-row"><label>MAP ventilator (cmH₂O)</label><input type="number" inputmode="decimal" id="pfMAP" placeholder="cth: 14" min="0" max="50"></div>
         <div class="input-row" style="align-items:flex-start">
           <label style="padding-top:6px">SpO₂ / SaO₂ (%)</label>
           <div style="flex:1">
@@ -86,12 +86,12 @@
               <button class="fio2-mode-btn" id="pf-spo2-btn-abg" onclick="setSpo2SourceFor('pf','abg')">🔬 SaO₂ (ABG)</button>
             </div>
             <div class="spo2-source-note" id="pf-spo2-note">Pulse ox ±2–4% dari SaO₂; tidak akurat pada vasokonstrisi perifer, methHb, COHb tinggi. Gunakan SaO₂ dari ABG jika tersedia untuk OSI yang lebih akurat (Jubran A, Crit Care 2015).</div>
-            <input type="number" id="pfSpO2" step="1" min="50" max="100" placeholder="cth: 94" style="width:100%">
+            <input type="number" inputmode="decimal" id="pfSpO2" step="1" min="50" max="100" placeholder="cth: 94" style="width:100%">
           </div>
         </div>
-        <div class="input-row"><label>Pplat (cmH₂O)</label><input type="number" id="pfPplat" placeholder="opsional" min="0" max="60"></div>
-        <div class="input-row"><label>PEEP (cmH₂O)</label><input type="number" id="pfPEEP" placeholder="opsional" min="0" max="30"></div>
-        <div class="input-row"><label>PaCO₂ (mmHg)</label><input type="number" id="pfPaCO2" placeholder="opsional (untuk Tipe I/II)" min="10" max="150"></div>
+        <div class="input-row"><label>Pplat (cmH₂O)</label><input type="number" inputmode="decimal" id="pfPplat" placeholder="opsional" min="0" max="60"></div>
+        <div class="input-row"><label>PEEP (cmH₂O)</label><input type="number" inputmode="decimal" id="pfPEEP" placeholder="opsional" min="0" max="30"></div>
+        <div class="input-row"><label>PaCO₂ (mmHg)</label><input type="number" inputmode="decimal" id="pfPaCO2" placeholder="opsional (untuk Tipe I/II)" min="10" max="150"></div>
       </div>
       <div>
         <div class="info" style="margin-top:4px;font-size:12px">

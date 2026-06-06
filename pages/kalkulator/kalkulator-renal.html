@@ -55,21 +55,21 @@
       <div class="input-row" style="flex-direction:column;align-items:flex-start;gap:4px">
         <label>Ureum serum</label>
         <div style="display:flex;gap:6px;align-items:center">
-          <input type="number" id="uBUN-ureum-mgdl" placeholder="cth: 45" step="0.1" min="0" oninput="convertUreum('mgdl')" style="width:110px">
+          <input type="number" inputmode="decimal" id="uBUN-ureum-mgdl" placeholder="cth: 45" step="0.1" min="0" oninput="convertUreum('mgdl')" style="width:110px">
           <span class="unit">mg/dL</span>
         </div>
       </div>
       <div class="input-row" style="flex-direction:column;align-items:flex-start;gap:4px">
         <label>Ureum serum</label>
         <div style="display:flex;gap:6px;align-items:center">
-          <input type="number" id="uBUN-ureum-mmol" placeholder="cth: 7.5" step="0.1" min="0" oninput="convertUreum('mmol')" style="width:110px">
+          <input type="number" inputmode="decimal" id="uBUN-ureum-mmol" placeholder="cth: 7.5" step="0.1" min="0" oninput="convertUreum('mmol')" style="width:110px">
           <span class="unit">mmol/L</span>
         </div>
       </div>
       <div class="input-row" style="flex-direction:column;align-items:flex-start;gap:4px">
         <label>BUN (setara, read-only)</label>
         <div style="display:flex;gap:6px;align-items:center">
-          <input type="number" id="uBUN-bun" placeholder="—" step="0.1" readonly style="width:110px;background:var(--bg);color:var(--muted)">
+          <input type="number" inputmode="decimal" id="uBUN-bun" placeholder="—" step="0.1" readonly style="width:110px;background:var(--bg);color:var(--muted)">
           <span class="unit">mg/dL</span>
         </div>
       </div>
@@ -85,11 +85,11 @@
         <div class="input-row"><label>Jenis kelamin</label>
           <select id="egfr-sex"><option value="m">Laki-laki</option><option value="f">Perempuan</option></select>
         </div>
-        <div class="input-row"><label>Usia</label><input type="number" id="egfr-age" placeholder="cth: 55" min="18" max="120"><span class="unit">tahun</span></div>
-        <div class="input-row"><label>Berat badan <span style="font-size:10px;color:var(--muted)">(utk CG)</span></label><input type="number" id="egfr-bw" placeholder="cth: 65"><span class="unit">kg</span></div>
-        <div class="input-row"><label>Kreatinin serum</label><div class="input-unit-wrap"><input type="number" id="egfr-scr" placeholder="cth: 1.2" step="0.01" min="0"><button class="unit-toggle-btn" data-unit="egfr-scr" onclick="toggleKalcUnit('egfr-scr')">mg/dL</button></div></div>
-        <div class="input-row"><label>Cystatin C <span style="font-size:10px;color:var(--muted)">(opsional)</span></label><input type="number" id="egfr-cysc" placeholder="opsional" step="0.01" min="0"><span class="unit">mg/L</span></div>
-        <div class="input-row"><label>Ureum serum <span style="font-size:10px;color:var(--muted)">(opsional)</span></label><input type="number" id="egfr-ureum" placeholder="opsional" step="0.1" min="0"><span class="unit">mg/dL</span></div>
+        <div class="input-row"><label>Usia</label><input type="number" inputmode="decimal" id="egfr-age" placeholder="cth: 55" min="18" max="120"><span class="unit">tahun</span></div>
+        <div class="input-row"><label>Berat badan <span style="font-size:10px;color:var(--muted)">(utk CG)</span></label><input type="number" inputmode="decimal" id="egfr-bw" placeholder="cth: 65"><span class="unit">kg</span></div>
+        <div class="input-row"><label>Kreatinin serum</label><div class="input-unit-wrap"><input type="number" inputmode="decimal" id="egfr-scr" placeholder="cth: 1.2" step="0.01" min="0"><button class="unit-toggle-btn" data-unit="egfr-scr" onclick="toggleKalcUnit('egfr-scr')">mg/dL</button></div></div>
+        <div class="input-row"><label>Cystatin C <span style="font-size:10px;color:var(--muted)">(opsional)</span></label><input type="number" inputmode="decimal" id="egfr-cysc" placeholder="opsional" step="0.01" min="0"><span class="unit">mg/L</span></div>
+        <div class="input-row"><label>Ureum serum <span style="font-size:10px;color:var(--muted)">(opsional)</span></label><input type="number" inputmode="decimal" id="egfr-ureum" placeholder="opsional" step="0.1" min="0"><span class="unit">mg/dL</span></div>
       </div>
       <div>
         <div class="info" style="margin-top:4px;font-size:12px">
@@ -115,14 +115,14 @@
     <div class="grid2" style="gap:10px">
       <div>
         <div class="subsec">Berdasarkan Kreatinin Serum</div>
-        <div class="input-row"><label>SCr baseline</label><div class="input-unit-wrap"><input type="number" id="aki-scr-base" placeholder="cth: 0.9" step="0.01"><button class="unit-toggle-btn" data-unit="aki-scr-base" onclick="toggleKalcUnit('aki-scr-base')">mg/dL</button></div></div>
-        <div class="input-row"><label>SCr saat ini</label><div class="input-unit-wrap"><input type="number" id="aki-scr-now" placeholder="cth: 2.1" step="0.01"><button class="unit-toggle-btn" data-unit="aki-scr-now" onclick="toggleKalcUnit('aki-scr-now')">mg/dL</button></div></div>
+        <div class="input-row"><label>SCr baseline</label><div class="input-unit-wrap"><input type="number" inputmode="decimal" id="aki-scr-base" placeholder="cth: 0.9" step="0.01"><button class="unit-toggle-btn" data-unit="aki-scr-base" onclick="toggleKalcUnit('aki-scr-base')">mg/dL</button></div></div>
+        <div class="input-row"><label>SCr saat ini</label><div class="input-unit-wrap"><input type="number" inputmode="decimal" id="aki-scr-now" placeholder="cth: 2.1" step="0.01"><button class="unit-toggle-btn" data-unit="aki-scr-now" onclick="toggleKalcUnit('aki-scr-now')">mg/dL</button></div></div>
       </div>
       <div>
         <div class="subsec">Berdasarkan Urine Output</div>
-        <div class="input-row"><label>Berat badan</label><input type="number" id="aki-bw" placeholder="cth: 65"><span class="unit">kg</span></div>
-        <div class="input-row"><label>Volume urin</label><input type="number" id="aki-uo-vol" placeholder="cth: 150"><span class="unit">mL</span></div>
-        <div class="input-row"><label>Durasi observasi</label><input type="number" id="aki-uo-hr" placeholder="cth: 6"><span class="unit">jam</span></div>
+        <div class="input-row"><label>Berat badan</label><input type="number" inputmode="decimal" id="aki-bw" placeholder="cth: 65"><span class="unit">kg</span></div>
+        <div class="input-row"><label>Volume urin</label><input type="number" inputmode="decimal" id="aki-uo-vol" placeholder="cth: 150"><span class="unit">mL</span></div>
+        <div class="input-row"><label>Durasi observasi</label><input type="number" inputmode="decimal" id="aki-uo-hr" placeholder="cth: 6"><span class="unit">jam</span></div>
       </div>
     </div>
     <button class="calc-btn" onclick="calcAKI()">Tentukan Staging AKI</button>
@@ -135,15 +135,15 @@
     <div class="grid2" style="gap:10px">
       <div>
         <div class="subsec">Serum</div>
-        <div class="input-row"><label>Na serum</label><input type="number" id="fena-sna" placeholder="cth: 138"><span class="unit">mEq/L</span></div>
-        <div class="input-row"><label>Kreatinin serum</label><div class="input-unit-wrap"><input type="number" id="fena-scr" placeholder="cth: 2.1" step="0.01"><button class="unit-toggle-btn" data-unit="fena-scr" onclick="toggleKalcUnit('fena-scr')">mg/dL</button></div></div>
-        <div class="input-row"><label>Ureum serum <span style="font-size:10px;color:var(--muted)">(FEUrea)</span></label><input type="number" id="fena-sureum" placeholder="opsional" step="0.1"><span class="unit">mg/dL</span></div>
+        <div class="input-row"><label>Na serum</label><input type="number" inputmode="decimal" id="fena-sna" placeholder="cth: 138"><span class="unit">mEq/L</span></div>
+        <div class="input-row"><label>Kreatinin serum</label><div class="input-unit-wrap"><input type="number" inputmode="decimal" id="fena-scr" placeholder="cth: 2.1" step="0.01"><button class="unit-toggle-btn" data-unit="fena-scr" onclick="toggleKalcUnit('fena-scr')">mg/dL</button></div></div>
+        <div class="input-row"><label>Ureum serum <span style="font-size:10px;color:var(--muted)">(FEUrea)</span></label><input type="number" inputmode="decimal" id="fena-sureum" placeholder="opsional" step="0.1"><span class="unit">mg/dL</span></div>
       </div>
       <div>
         <div class="subsec">Urin (spot urine)</div>
-        <div class="input-row"><label>Na urin</label><input type="number" id="fena-una" placeholder="cth: 80"><span class="unit">mEq/L</span></div>
-        <div class="input-row"><label>Kreatinin urin</label><div class="input-unit-wrap"><input type="number" id="fena-ucr" placeholder="cth: 120"><button class="unit-toggle-btn" data-unit="fena-ucr" onclick="toggleKalcUnit('fena-ucr')">mg/dL</button></div></div>
-        <div class="input-row"><label>Ureum urin <span style="font-size:10px;color:var(--muted)">(FEUrea)</span></label><input type="number" id="fena-uureum" placeholder="opsional" step="0.1"><span class="unit">mg/dL</span></div>
+        <div class="input-row"><label>Na urin</label><input type="number" inputmode="decimal" id="fena-una" placeholder="cth: 80"><span class="unit">mEq/L</span></div>
+        <div class="input-row"><label>Kreatinin urin</label><div class="input-unit-wrap"><input type="number" inputmode="decimal" id="fena-ucr" placeholder="cth: 120"><button class="unit-toggle-btn" data-unit="fena-ucr" onclick="toggleKalcUnit('fena-ucr')">mg/dL</button></div></div>
+        <div class="input-row"><label>Ureum urin <span style="font-size:10px;color:var(--muted)">(FEUrea)</span></label><input type="number" inputmode="decimal" id="fena-uureum" placeholder="opsional" step="0.1"><span class="unit">mg/dL</span></div>
       </div>
     </div>
     <div class="info" style="font-size:12px;margin-top:4px">
@@ -158,10 +158,10 @@
     <div class="calc-title"><span>💧</span> Osmolalitas Serum &amp; Osmol Gap</div>
     <div class="grid2" style="gap:10px">
       <div>
-        <div class="input-row"><label>Na serum</label><input type="number" id="osm-na" placeholder="cth: 138"><span class="unit">mEq/L</span></div>
-        <div class="input-row"><label>Glukosa</label><div class="input-unit-wrap"><input type="number" id="osm-glu" placeholder="cth: 180"><button class="unit-toggle-btn" data-unit="osm-glu" onclick="toggleKalcUnit('osm-glu')">mg/dL</button></div></div>
-        <div class="input-row"><label>Ureum serum</label><input type="number" id="osm-ureum" placeholder="cth: 45" step="0.1"><span class="unit">mg/dL</span></div>
-        <div class="input-row"><label>Osmolalitas terukur <span style="font-size:10px;color:var(--muted)">(opsional)</span></label><input type="number" id="osm-measured" placeholder="opsional" step="1"><span class="unit">mOsm/kg</span></div>
+        <div class="input-row"><label>Na serum</label><input type="number" inputmode="decimal" id="osm-na" placeholder="cth: 138"><span class="unit">mEq/L</span></div>
+        <div class="input-row"><label>Glukosa</label><div class="input-unit-wrap"><input type="number" inputmode="decimal" id="osm-glu" placeholder="cth: 180"><button class="unit-toggle-btn" data-unit="osm-glu" onclick="toggleKalcUnit('osm-glu')">mg/dL</button></div></div>
+        <div class="input-row"><label>Ureum serum</label><input type="number" inputmode="decimal" id="osm-ureum" placeholder="cth: 45" step="0.1"><span class="unit">mg/dL</span></div>
+        <div class="input-row"><label>Osmolalitas terukur <span style="font-size:10px;color:var(--muted)">(opsional)</span></label><input type="number" inputmode="decimal" id="osm-measured" placeholder="opsional" step="1"><span class="unit">mOsm/kg</span></div>
       </div>
       <div>
         <div class="info" style="margin-top:4px;font-size:12px">
@@ -188,17 +188,17 @@
     <div>
       <div class="input-row">
         <label>BUN <span style="font-size:10px;color:var(--muted)">(atau masukkan Ureum)</span></label>
-        <input type="number" id="buncr-bun" placeholder="cth: 42" step="0.1">
+        <input type="number" inputmode="decimal" id="buncr-bun" placeholder="cth: 42" step="0.1">
         <span class="unit">mg/dL</span>
       </div>
       <div class="input-row" style="margin-top:2px">
         <label style="font-size:10px;color:var(--muted)">— atau Ureum serum —</label>
-        <input type="number" id="buncr-ureum" placeholder="cth: 90" step="0.1" oninput="buncrConvUreum()">
+        <input type="number" inputmode="decimal" id="buncr-ureum" placeholder="cth: 90" step="0.1" oninput="buncrConvUreum()">
         <span class="unit">mg/dL</span>
       </div>
       <div class="input-row" style="margin-top:8px">
         <label>Kreatinin serum</label>
-        <div class="input-unit-wrap"><input type="number" id="buncr-cr" placeholder="cth: 1.8" step="0.01"><button class="unit-toggle-btn" data-unit="buncr-cr" onclick="toggleKalcUnit('buncr-cr')">mg/dL</button></div>
+        <div class="input-unit-wrap"><input type="number" inputmode="decimal" id="buncr-cr" placeholder="cth: 1.8" step="0.01"><button class="unit-toggle-btn" data-unit="buncr-cr" onclick="toggleKalcUnit('buncr-cr')">mg/dL</button></div>
       </div>
     </div>
     <div>

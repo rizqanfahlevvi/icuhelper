@@ -52,9 +52,9 @@
         <div class="input-row"><label>Jenis kelamin</label>
           <select id="ibwSex"><option value="m">Laki-laki</option><option value="f">Perempuan</option></select>
         </div>
-        <div class="input-row"><label>Tinggi badan</label><input type="number" id="ibwHeight" placeholder="cth: 165" min="100" max="220"><span class="unit">cm</span></div>
-        <div class="input-row"><label>Berat badan aktual</label><input type="number" id="ibwActual" placeholder="cth: 70" min="20" max="250"><span class="unit">kg</span></div>
-        <div class="input-row"><label>Usia</label><input type="number" id="ibwAge" placeholder="cth: 45" min="15" max="120"><span class="unit">tahun</span></div>
+        <div class="input-row"><label>Tinggi badan</label><input type="number" inputmode="decimal" id="ibwHeight" placeholder="cth: 165" min="100" max="220"><span class="unit">cm</span></div>
+        <div class="input-row"><label>Berat badan aktual</label><input type="number" inputmode="decimal" id="ibwActual" placeholder="cth: 70" min="20" max="250"><span class="unit">kg</span></div>
+        <div class="input-row"><label>Usia</label><input type="number" inputmode="decimal" id="ibwAge" placeholder="cth: 45" min="15" max="120"><span class="unit">tahun</span></div>
         <div class="input-row"><label>Kondisi klinis</label>
           <select id="ibwCondition">
             <option value="normal">Umum / Post-op</option>
@@ -64,7 +64,7 @@
             <option value="neuro">Neuromuskular (GBS/MG)</option>
           </select>
         </div>
-        <div class="input-row"><label>Hb aktual <span style="font-size:10px;color:var(--muted)">(opsional)</span></label><input type="number" id="ibwHb" placeholder="opsional, untuk MABL" step="0.1" min="0"><span class="unit">g/dL</span></div>
+        <div class="input-row"><label>Hb aktual <span style="font-size:10px;color:var(--muted)">(opsional)</span></label><input type="number" inputmode="decimal" id="ibwHb" placeholder="opsional, untuk MABL" step="0.1" min="0"><span class="unit">g/dL</span></div>
       </div>
       <div>
         <div class="info" style="margin-top:4px">
@@ -104,6 +104,25 @@
   renderSessionBar('ibw-session-bar')
   autoFillForm({ ibwHeight: 'tinggiBadan', ibwActual: 'beratBadan', ibwAge: 'usia' })
   bindFormToSession({ ibwHeight: 'tinggiBadan', ibwActual: 'beratBadan', ibwAge: 'usia' })
+</script>
+<script type="module">
+  import { addExportButton, exportIbwResult } from '../../assets/ts/export-pdf.ts'
+  // Pasang tombol export saat elemen hasil menjadi visible (class 'hidden' dihapus)
+  const ibwResultsEl = document.getElementById('ibw-results')
+  if (ibwResultsEl) {
+    const observer = new MutationObserver(() => {
+      if (!ibwResultsEl.classList.contains('hidden')) {
+        addExportButton('#ibw-results', exportIbwResult)
+        observer.disconnect()
+      }
+    })
+    observer.observe(ibwResultsEl, { attributes: true, attributeFilter: ['class'] })
+  }
+</script>
+<script type="module">
+  import { registerPageShortcuts, showShortcutHint } from '../../assets/ts/keyboard-shortcuts.ts'
+  registerPageShortcuts('ibw')
+  showShortcutHint()
 </script>
 <script src="../../assets/js/nav.js"></script>
 <div id="feedback-root"></div>
