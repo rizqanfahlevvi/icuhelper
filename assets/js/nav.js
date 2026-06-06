@@ -309,6 +309,33 @@
     return el;
   }
 
+  /* ---- Build: bottom nav (mobile only) ---------------------- */
+  var BOTTOM_NAV = [
+    { id: 'index',     icon: 'home',           label: 'Home',      href: 'index.html' },
+    { id: 'kalkulator',icon: 'calculator',     label: 'Kalkulator',href: 'pages/kalkulator/kalkulator-ibw.html' },
+    { id: 'abg',       icon: 'activity',       label: 'ABG',       href: 'pages/abg.html' },
+    { id: 'skoring',   icon: 'clipboard-list', label: 'Skoring',   href: 'pages/skoring.html' },
+    { id: 'drug_ref',  icon: 'pill',           label: 'Obat',      href: 'pages/drug-reference.html' }
+  ];
+
+  function buildBottomNav() {
+    var el = document.createElement('nav');
+    el.id = 'icu-bottom-nav';
+    el.setAttribute('aria-label', 'Navigasi utama');
+    var html = '';
+    for (var i = 0; i < BOTTOM_NAV.length; i++) {
+      var item = BOTTOM_NAV[i];
+      var isAct = activePage.id === item.id;
+      html +=
+        '<a class="bn-item' + (isAct ? ' active' : '') + '" href="' + rel(item.href) + '">' +
+          '<i data-lucide="' + item.icon + '" class="bn-icon"></i>' +
+          '<span class="bn-label">' + item.label + '</span>' +
+        '</a>';
+    }
+    el.innerHTML = html;
+    return el;
+  }
+
   /* ---- Build: mobile overlay -------------------------------- */
   function buildOverlay() {
     var el = document.createElement('div');
@@ -349,6 +376,10 @@
   document.body.insertBefore(overlay, document.body.firstChild);
   document.body.insertBefore(sidebar, document.body.firstChild);
   document.body.insertBefore(topbar,  document.body.firstChild);
+
+  /* Bottom nav — append to body so it stacks at bottom */
+  var bottomNav = buildBottomNav();
+  document.body.appendChild(bottomNav);
 
   /* Index page has its own hero section — skip generic page header */
   if (activePage.id !== 'index') {
@@ -424,6 +455,21 @@
     if (typeof applyTheme === 'function' && typeof getTheme === 'function') {
       applyTheme(getTheme());
     }
+
+    /* Auto-scroll to results when a calc button is clicked (mobile UX) */
+    if (window.innerWidth < 769) {
+      document.querySelectorAll('.calc-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          setTimeout(function () {
+            var results = document.querySelector('[id$="-results"]:not(.hidden), .result-grid:not(:empty), #abg-result:not(:empty)');
+            if (results) {
+              var top = results.getBoundingClientRect().top + window.pageYOffset - 80;
+              window.scrollTo({ top: top, behavior: 'smooth' });
+            }
+          }, 120);
+        }, true);
+      });
+    }
   });
 
   /* ---- PWA: inject manifest + load pwa.js ------------------- */
@@ -453,12 +499,12 @@
       document.head.appendChild(mani);
     }
 
-    /* Load lucide.js once */
+    /* Load lucide shim (inline SVG, ~4KB vs 284KB) */
     if (!document.getElementById('lucide-script')) {
       var sL = document.createElement('script');
       sL.id = 'lucide-script';
-      sL.src = base + 'assets/js/lucide.min.js';
-      sL.onload = function() { if(window.lucide) lucide.createIcons(); };
+      sL.src = base + 'assets/js/lucide-shim.js';
+      sL.onload = function() { if(window.lucide) window.lucide.createIcons(); };
       document.head.appendChild(sL);
     }
 
