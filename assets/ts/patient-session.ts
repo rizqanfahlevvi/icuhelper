@@ -63,9 +63,7 @@ export function autoFillForm(map: Record<string, keyof PatientSession>): void {
   for (const [elementId, sessionKey] of Object.entries(map)) {
     const el = document.getElementById(elementId);
     if (!(el instanceof HTMLInputElement)) {
-      if (process.env.NODE_ENV !== 'production') {
-        console.warn(`[patient-session] autoFillForm: #${elementId} tidak ditemukan atau bukan input`)
-      }
+      console.warn(`[patient-session] autoFillForm: #${elementId} tidak ditemukan atau bukan input`)
       continue;
     }
     if (el.value.trim() !== '') continue;
@@ -80,9 +78,7 @@ export function bindFormToSession(map: Record<string, keyof PatientSession>): vo
   for (const [elementId, sessionKey] of Object.entries(map)) {
     const el = document.getElementById(elementId);
     if (!(el instanceof HTMLInputElement)) {
-      if (process.env.NODE_ENV !== 'production') {
-        console.warn(`[patient-session] bindFormToSession: #${elementId} tidak ditemukan atau bukan input`)
-      }
+      console.warn(`[patient-session] bindFormToSession: #${elementId} tidak ditemukan atau bukan input`)
       continue;
     }
 
