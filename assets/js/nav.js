@@ -455,6 +455,21 @@
     if (typeof applyTheme === 'function' && typeof getTheme === 'function') {
       applyTheme(getTheme());
     }
+
+    /* Auto-scroll to results when a calc button is clicked (mobile UX) */
+    if (window.innerWidth < 769) {
+      document.querySelectorAll('.calc-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          setTimeout(function () {
+            var results = document.querySelector('[id$="-results"]:not(.hidden), .result-grid:not(:empty), #abg-result:not(:empty)');
+            if (results) {
+              var top = results.getBoundingClientRect().top + window.pageYOffset - 80;
+              window.scrollTo({ top: top, behavior: 'smooth' });
+            }
+          }, 120);
+        }, true);
+      });
+    }
   });
 
   /* ---- PWA: inject manifest + load pwa.js ------------------- */
