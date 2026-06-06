@@ -948,9 +948,24 @@
 
 <script src="../assets/data/drugs.js"></script>
 <script src="../assets/js/scripts-drugs.js"></script>
+<script type="module" src="../assets/ts/ai-vasopressor.ts"></script>
 <script src="../assets/data/references.js"></script>
 <script src="../assets/js/scripts-citations.js"></script>
 <script src="../assets/js/nav.js"></script>
 <script>function closeDrugModal(){var o=document.getElementById('drug-overlay');if(o)o.classList.remove('open');document.body.style.overflow='';}</script>
+
+<!-- Drug Interaction Checker -->
+<div class="calc-box" style="margin-top:12px">
+  <div class="calc-title"><span>⚠️</span> Drug Interaction Checker</div>
+  <div class="info">Cek interaksi antar obat berdasarkan database ICU Helper. Masukkan 2–4 nama obat.</div>
+  <div id="drug-interaction-checker"></div>
+</div>
+<script type="module">
+  import { initInteractionChecker } from '../assets/ts/drug-interaction.ts'
+  document.addEventListener('DOMContentLoaded', () => {
+    const db = (window as unknown as Record<string, unknown>)['ICU_DRUGS'] as Record<string, import('../assets/ts/drug-interaction.ts').DrugEntry> ?? {}
+    initInteractionChecker('drug-interaction-checker', db)
+  })
+</script>
 </body>
 </html>

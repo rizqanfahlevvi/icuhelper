@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Protocol Builder — ICU Helper</title><link rel="stylesheet" href="../assets/css/icu-framework.css">
+<link rel="stylesheet" href="../assets/css/styles.css">
+<script>
+/* Anti-FOUC: apply saved theme before paint */
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../index.html">🏠 Home</a>
+  <a class="tab-btn" href="kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="ekg.html">📈 EKG</a>
+  <a class="tab-btn" href="teori.html">📖 Teori</a>
+  <a class="tab-btn" href="skoring.html">📋 Skoring</a>
+  <a class="tab-btn active" href="protocol.html">📝 Protocol</a>
+  <a class="tab-btn" href="../referensi.html">📚 Referensi</a>
+</nav>
+
+<div id="pb-root"></div>
+
+<script type="module">
+import '../assets/ts/patient-session.ts'
+import { renderProtocolBuilder } from '../assets/ts/protocol-builder.ts'
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderProtocolBuilder('pb-root')
+})
+</script>
+
+<script src="../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../assets/js/feedback.js"></script>
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.1 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+  <script src="../assets/data/references.js"></script>
+  <script src="../assets/js/scripts-citations.js"></script>
+</body>
+</html>

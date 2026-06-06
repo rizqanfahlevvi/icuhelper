@@ -32,6 +32,7 @@
   <a class="tab-btn" href="../referensi.html">📚 Referensi</a>
 </nav>
 
+<div id="abg-session-bar" style="margin-bottom:8px"></div>
 <div class="calc-box">
   <div class="calc-title"><span>🩸</span> ABG Interpreter Lengkap — 6 Langkah + Metabolik + Oksigenasi</div>
   <div class="info" style="margin-bottom:12px">Masukkan seluruh parameter untuk interpretasi sistematis: asam-basa, kompensasi, anion gap, delta-delta, P/F ratio, OI, ROX index, klasifikasi gagal napas, dan saran klinis.</div>
@@ -39,11 +40,11 @@
   <div class="grid2" style="gap:10px;margin-bottom:12px">
     <div>
       <div class="subsec">Parameter Dasar</div>
-      <div class="input-row"><label>pH</label><input type="number" id="abgPH" step="0.01" min="6.5" max="8.0" placeholder="7.35–7.45"></div>
-      <div class="input-row"><label>PaCO₂</label><div class="input-unit-wrap"><input type="number" id="abgCO2" step="1" min="10" max="150" placeholder="35–45"><button class="unit-toggle-btn" data-unit="paco2" onclick="toggleUnit('paco2')">mmHg</button></div></div>
-      <div class="input-row"><label>PaO₂ (mmHg)</label><input type="number" id="abgO2" step="1" min="10" max="600" placeholder="80–100"></div>
-      <div class="input-row"><label>HCO₃⁻</label><div class="input-unit-wrap"><input type="number" id="abgHCO3" step="0.1" min="5" max="60" placeholder="22–26"><button class="unit-toggle-btn" data-unit="hco3" onclick="toggleUnit('hco3')">mmol/L</button></div></div>
-      <div class="input-row"><label>BE (mEq/L)</label><input type="number" id="abgBE" step="0.1" min="-30" max="30" placeholder="-2 s/d +2"></div>
+      <div class="input-row"><label>pH</label><input type="number" inputmode="decimal" id="abgPH" step="0.01" min="6.5" max="8.0" placeholder="7.35–7.45"></div>
+      <div class="input-row"><label>PaCO₂</label><div class="input-unit-wrap"><input type="number" inputmode="decimal" id="abgCO2" step="1" min="10" max="150" placeholder="35–45"><button class="unit-toggle-btn" data-unit="paco2" onclick="toggleUnit('paco2')">mmHg</button></div></div>
+      <div class="input-row"><label>PaO₂ (mmHg)</label><input type="number" inputmode="decimal" id="abgO2" step="1" min="10" max="600" placeholder="80–100"></div>
+      <div class="input-row"><label>HCO₃⁻</label><div class="input-unit-wrap"><input type="number" inputmode="decimal" id="abgHCO3" step="0.1" min="5" max="60" placeholder="22–26"><button class="unit-toggle-btn" data-unit="hco3" onclick="toggleUnit('hco3')">mmol/L</button></div></div>
+      <div class="input-row"><label>BE (mEq/L)</label><input type="number" inputmode="decimal" id="abgBE" step="0.1" min="-30" max="30" placeholder="-2 s/d +2"></div>
     </div>
     <div>
       <div class="subsec">Parameter Oksigenasi & Elektrolit</div>
@@ -55,7 +56,7 @@
             <button class="fio2-mode-btn" id="spo2BtnABG" onclick="setSpo2Source('abg')">🔬 SaO₂ (ABG)</button>
           </div>
           <div class="spo2-source-note" id="spo2SourceNote">Pulse ox ±2–4% dari SaO₂; dipengaruhi perfusi perifer, methHb, COHb. Tidak akurat pada: peripheral vasoconstriction, methemoglobin, COHb tinggi, nail polish gelap (Jubran A, Crit Care 2015)</div>
-          <input type="number" id="abgSpO2" step="1" min="50" max="100" placeholder="94–99">
+          <input type="number" inputmode="decimal" id="abgSpO2" step="1" min="50" max="100" placeholder="94–99">
         </div>
       </div>
       <div class="input-row">
@@ -66,7 +67,7 @@
             <button class="fio2-mode-btn" id="fio2BtnLowflow" onclick="setFiO2Mode('lowflow')">💨 Low-Flow O₂</button>
           </div>
           <div id="fio2DirectWrap">
-            <input type="number" id="abgFiO2Direct" step="0.01" min="0.21" max="1.0" placeholder="0.21–1.0" oninput="syncFiO2Direct()">
+            <input type="number" inputmode="decimal" id="abgFiO2Direct" step="0.01" min="0.21" max="1.0" placeholder="0.21–1.0" oninput="syncFiO2Direct()">
           </div>
           <div id="fio2LowflowWrap" style="display:none">
             <select id="abgO2Device" onchange="estimateFiO2()" class="abg-lowflow-input">
@@ -80,18 +81,18 @@
               <option value="venturi40">Venturi 40%</option>
               <option value="venturi60">Venturi 60%</option>
             </select>
-            <input type="number" id="abgO2Flow" placeholder="Flow (L/menit)" min="1" max="15" step="0.5" oninput="estimateFiO2()" class="abg-lowflow-input">
+            <input type="number" inputmode="decimal" id="abgO2Flow" placeholder="Flow (L/menit)" min="1" max="15" step="0.5" oninput="estimateFiO2()" class="abg-lowflow-input">
             <div id="abgFiO2Est" class="abg-fio2-est"></div>
           </div>
           <input type="hidden" id="abgFiO2">
         </div>
       </div>
-      <div class="input-row"><label>MAP ventilator (cmH₂O)</label><input type="number" id="abgMAP" step="0.1" min="0" max="50" placeholder="opsional"></div>
-      <div class="input-row"><label>Na⁺</label><div class="input-unit-wrap"><input type="number" id="abgNa" step="1" min="100" max="180" placeholder="135–145"><button class="unit-toggle-btn" data-unit="na" onclick="toggleUnit('na')">mmol/L</button></div></div>
-      <div class="input-row"><label>Cl⁻</label><div class="input-unit-wrap"><input type="number" id="abgCl" step="1" min="70" max="130" placeholder="96–106"><button class="unit-toggle-btn" data-unit="cl" onclick="toggleUnit('cl')">mmol/L</button></div></div>
-      <div class="input-row"><label>Albumin</label><div class="input-unit-wrap"><input type="number" id="abgAlb" step="0.1" min="0" max="6" placeholder="3.5–5 (opsional)"><button class="unit-toggle-btn" data-unit="alb" onclick="toggleUnit('alb')">g/dL</button></div></div>
-      <div class="input-row"><label>Laktat (mmol/L)</label><input type="number" id="abgLaktat" step="0.1" min="0" max="30" placeholder="&lt;2 normal (opsional)"></div>
-      <div class="input-row"><label>RR spontan (/mnt)</label><input type="number" id="abgRR" step="1" min="0" max="60" placeholder="untuk ROX index"></div>
+      <div class="input-row"><label>MAP ventilator (cmH₂O)</label><input type="number" inputmode="decimal" id="abgMAP" step="0.1" min="0" max="50" placeholder="opsional"></div>
+      <div class="input-row"><label>Na⁺</label><div class="input-unit-wrap"><input type="number" inputmode="decimal" id="abgNa" step="1" min="100" max="180" placeholder="135–145"><button class="unit-toggle-btn" data-unit="na" onclick="toggleUnit('na')">mmol/L</button></div></div>
+      <div class="input-row"><label>Cl⁻</label><div class="input-unit-wrap"><input type="number" inputmode="decimal" id="abgCl" step="1" min="70" max="130" placeholder="96–106"><button class="unit-toggle-btn" data-unit="cl" onclick="toggleUnit('cl')">mmol/L</button></div></div>
+      <div class="input-row"><label>Albumin</label><div class="input-unit-wrap"><input type="number" inputmode="decimal" id="abgAlb" step="0.1" min="0" max="6" placeholder="3.5–5 (opsional)"><button class="unit-toggle-btn" data-unit="alb" onclick="toggleUnit('alb')">g/dL</button></div></div>
+      <div class="input-row"><label>Laktat (mmol/L)</label><input type="number" inputmode="decimal" id="abgLaktat" step="0.1" min="0" max="30" placeholder="&lt;2 normal (opsional)"></div>
+      <div class="input-row"><label>RR spontan (/mnt)</label><input type="number" inputmode="decimal" id="abgRR" step="1" min="0" max="60" placeholder="untuk ROX index"></div>
       <div class="input-row"><label>Kondisi klinis</label>
         <select id="abgKondisi">
           <option value="umum">Umum / ICU</option>
@@ -107,6 +108,7 @@
   </div>
   <button class="calc-btn" onclick="calcABG()">Interpretasi ABG</button>
   <button class="calc-btn-sec" onclick="resetABG()">Reset</button>
+  <div id="abg-history-container"></div>
 
   <div id="abg-results" class="hidden" style="margin-top:16px">
     <div id="abg-result-content"></div>
@@ -128,9 +130,9 @@
   <!-- Panel 1: NaHCO3 -->
   <div class="acbc-panel active" id="acbc-p1">
     <button class="acbc-import-btn" onclick="importFromABG(1)">⬇ Import dari ABG Interpreter — HCO₃⁻ aktual</button>
-    <div class="input-row"><label>Berat Badan Ideal (kg)</label><input type="number" id="acbc1-bb" placeholder="e.g. 60" min="1" max="200" step="0.1" oninput="calcBicarb()"></div>
-    <div class="input-row"><label>HCO₃⁻ Aktual (mEq/L)</label><input type="number" id="acbc1-hco3act" placeholder="e.g. 10" min="1" max="50" step="0.1" oninput="calcBicarb()"></div>
-    <div class="input-row"><label>Target HCO₃⁻ (mEq/L)</label><input type="number" id="acbc1-hco3tgt" placeholder="e.g. 18" min="1" max="30" step="0.1" value="18" oninput="calcBicarb()"></div>
+    <div class="input-row"><label>Berat Badan Ideal (kg)</label><input type="number" inputmode="decimal" id="acbc1-bb" placeholder="e.g. 60" min="1" max="200" step="0.1" oninput="calcBicarb()"></div>
+    <div class="input-row"><label>HCO₃⁻ Aktual (mEq/L)</label><input type="number" inputmode="decimal" id="acbc1-hco3act" placeholder="e.g. 10" min="1" max="50" step="0.1" oninput="calcBicarb()"></div>
+    <div class="input-row"><label>Target HCO₃⁻ (mEq/L)</label><input type="number" inputmode="decimal" id="acbc1-hco3tgt" placeholder="e.g. 18" min="1" max="30" step="0.1" value="18" oninput="calcBicarb()"></div>
     <div class="input-row"><label>Jenis Asidosis</label>
       <select id="acbc1-type" onchange="calcBicarb()">
         <option value="met">Asidosis Metabolik</option>
@@ -144,19 +146,19 @@
   <!-- Panel 2: KCl / HCl -->
   <div class="acbc-panel" id="acbc-p2">
     <button class="acbc-import-btn" onclick="importFromABG(2)">⬇ Import dari ABG Interpreter — HCO₃⁻, Cl⁻</button>
-    <div class="input-row"><label>Berat Badan (kg)</label><input type="number" id="acbc2-bb" placeholder="e.g. 60" min="1" max="200" step="0.1" oninput="calcAlk()"></div>
-    <div class="input-row"><label>HCO₃⁻ Aktual (mEq/L)</label><input type="number" id="acbc2-hco3" placeholder="e.g. 38" min="10" max="60" step="0.1" oninput="calcAlk()"></div>
-    <div class="input-row"><label>Kalium K⁺ Serum (mEq/L)</label><input type="number" id="acbc2-k" placeholder="e.g. 2.8" min="1" max="8" step="0.1" oninput="calcAlk()"></div>
-    <div class="input-row"><label>Klorida Cl⁻ Serum (mEq/L)</label><input type="number" id="acbc2-cl" placeholder="e.g. 88" min="50" max="130" step="0.1" oninput="calcAlk()"></div>
+    <div class="input-row"><label>Berat Badan (kg)</label><input type="number" inputmode="decimal" id="acbc2-bb" placeholder="e.g. 60" min="1" max="200" step="0.1" oninput="calcAlk()"></div>
+    <div class="input-row"><label>HCO₃⁻ Aktual (mEq/L)</label><input type="number" inputmode="decimal" id="acbc2-hco3" placeholder="e.g. 38" min="10" max="60" step="0.1" oninput="calcAlk()"></div>
+    <div class="input-row"><label>Kalium K⁺ Serum (mEq/L)</label><input type="number" inputmode="decimal" id="acbc2-k" placeholder="e.g. 2.8" min="1" max="8" step="0.1" oninput="calcAlk()"></div>
+    <div class="input-row"><label>Klorida Cl⁻ Serum (mEq/L)</label><input type="number" inputmode="decimal" id="acbc2-cl" placeholder="e.g. 88" min="50" max="130" step="0.1" oninput="calcAlk()"></div>
     <div id="acbc2-result"></div>
   </div>
 
   <!-- Panel 3: Kompensasi -->
   <div class="acbc-panel" id="acbc-p3">
     <button class="acbc-import-btn" onclick="importFromABG(3)">⬇ Import dari ABG Interpreter — pH, PaCO₂, HCO₃⁻</button>
-    <div class="input-row"><label>pH</label><input type="number" id="acbc3-ph" placeholder="e.g. 7.28" step="0.001" oninput="calcKompensasi()"></div>
-    <div class="input-row"><label>PaCO₂ (mmHg)</label><input type="number" id="acbc3-pco2" placeholder="e.g. 28" step="0.1" oninput="calcKompensasi()"></div>
-    <div class="input-row"><label>HCO₃⁻ Aktual (mEq/L)</label><input type="number" id="acbc3-hco3" placeholder="e.g. 14" step="0.1" oninput="calcKompensasi()"></div>
+    <div class="input-row"><label>pH</label><input type="number" inputmode="decimal" id="acbc3-ph" placeholder="e.g. 7.28" step="0.001" oninput="calcKompensasi()"></div>
+    <div class="input-row"><label>PaCO₂ (mmHg)</label><input type="number" inputmode="decimal" id="acbc3-pco2" placeholder="e.g. 28" step="0.1" oninput="calcKompensasi()"></div>
+    <div class="input-row"><label>HCO₃⁻ Aktual (mEq/L)</label><input type="number" inputmode="decimal" id="acbc3-hco3" placeholder="e.g. 14" step="0.1" oninput="calcKompensasi()"></div>
     <div class="input-row"><label>Gangguan Primer</label>
       <select id="acbc3-disorder" onchange="updateKompLabel(); calcKompensasi()">
         <option value="">— pilih —</option>
@@ -174,10 +176,10 @@
   <!-- Panel 4: Anion Gap + Delta-Delta -->
   <div class="acbc-panel" id="acbc-p4">
     <button class="acbc-import-btn" onclick="importFromABG(4)">⬇ Import dari ABG Interpreter — Na⁺, Cl⁻, HCO₃⁻, Albumin</button>
-    <div class="input-row"><label>Na⁺ (mEq/L)</label><input type="number" id="acbc4-na" placeholder="e.g. 140" step="0.1" oninput="calcAGStandalone()"></div>
-    <div class="input-row"><label>Cl⁻ (mEq/L)</label><input type="number" id="acbc4-cl" placeholder="e.g. 104" step="0.1" oninput="calcAGStandalone()"></div>
-    <div class="input-row"><label>HCO₃⁻ (mEq/L)</label><input type="number" id="acbc4-hco3" placeholder="e.g. 24" step="0.1" oninput="calcAGStandalone()"></div>
-    <div class="input-row"><label>Albumin (g/dL)</label><input type="number" id="acbc4-alb" placeholder="e.g. 4.0" step="0.1" value="4.0" oninput="calcAGStandalone()"></div>
+    <div class="input-row"><label>Na⁺ (mEq/L)</label><input type="number" inputmode="decimal" id="acbc4-na" placeholder="e.g. 140" step="0.1" oninput="calcAGStandalone()"></div>
+    <div class="input-row"><label>Cl⁻ (mEq/L)</label><input type="number" inputmode="decimal" id="acbc4-cl" placeholder="e.g. 104" step="0.1" oninput="calcAGStandalone()"></div>
+    <div class="input-row"><label>HCO₃⁻ (mEq/L)</label><input type="number" inputmode="decimal" id="acbc4-hco3" placeholder="e.g. 24" step="0.1" oninput="calcAGStandalone()"></div>
+    <div class="input-row"><label>Albumin (g/dL)</label><input type="number" inputmode="decimal" id="acbc4-alb" placeholder="e.g. 4.0" step="0.1" value="4.0" oninput="calcAGStandalone()"></div>
     <div id="acbc4-result"></div>
   </div>
 </div>
@@ -476,6 +478,45 @@
 </div>
 
 <script src="../assets/js/scripts-abg.js"></script>
+<script type="module" src="../assets/ts/ai-abg.ts"></script>
+<script type="module">
+  import { initValidation } from '../assets/ts/form-validator.ts'
+  initValidation(['abgPH','abgCO2','abgHCO3','abgO2','abgBE','abgNa','abgCl','abgAlb','abgLaktat','abgSpO2','abgRR'])
+</script>
+<script type="module">
+  import { autoFillForm, bindFormToSession, renderSessionBar } from '../assets/ts/patient-session.ts'
+  renderSessionBar('abg-session-bar')
+  autoFillForm({ abgPH: 'ph', abgCO2: 'pco2', abgHCO3: 'hco3', abgO2: 'po2' })
+  bindFormToSession({ abgPH: 'ph', abgCO2: 'pco2', abgHCO3: 'hco3', abgO2: 'po2' })
+</script>
+<script type="module">
+  import { renderHistoryPanel } from '../assets/ts/calc-history.ts'
+  renderHistoryPanel('abg-history-container', 'abg', (entry) => {
+    Object.entries(entry.inputs).forEach(([id, val]) => {
+      const el = document.getElementById(id)
+      if (el instanceof HTMLInputElement) el.value = val
+    })
+  })
+</script>
+<script type="module">
+  import { addExportButton, exportAbgResult } from '../assets/ts/export-pdf.ts'
+  // Pasang tombol export saat elemen hasil menjadi visible (class 'hidden' dihapus)
+  const abgResultsEl = document.getElementById('abg-results')
+  if (abgResultsEl) {
+    const observer = new MutationObserver(() => {
+      if (!abgResultsEl.classList.contains('hidden')) {
+        addExportButton('#abg-results', exportAbgResult)
+        observer.disconnect()
+      }
+    })
+    observer.observe(abgResultsEl, { attributes: true, attributeFilter: ['class'] })
+  }
+</script>
+<script type="module">
+  import { registerPageShortcuts, showShortcutHint } from '../assets/ts/keyboard-shortcuts.ts'
+  registerPageShortcuts('abg')
+  showShortcutHint()
+</script>
 <script src="../assets/js/nav.js"></script>
 <div id="feedback-root"></div>
 <script src="../assets/js/feedback.js"></script>

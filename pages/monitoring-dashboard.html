@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monitoring Dashboard — ICU Helper</title>
+<link rel="stylesheet" href="../assets/css/icu-framework.css">
+<link rel="stylesheet" href="../assets/css/styles.css">
+<script>
+/* Anti-FOUC: apply saved theme before paint */
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../index.html">🏠 Home</a>
+  <a class="tab-btn" href="kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="setting.html">🫁 Setting</a>
+  <a class="tab-btn active" href="monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="teori.html">📖 Teori</a>
+  <a class="tab-btn" href="skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../referensi.html">📚 Referensi</a>
+</nav>
+
+<div class="jump-nav">
+  <span class="jump-nav-label">Lompat ke:</span>
+  <a class="jump-link" href="monitoring.html">← Monitoring</a>
+  <a class="jump-link" href="#vd-input">📝 Input Data</a>
+  <a class="jump-link" href="#vd-trend-section">📋 Tabel Trend</a>
+  <a class="jump-link" href="#vd-chart-section">📈 Grafik</a>
+</div>
+
+<div id="vd-dashboard-root">
+
+  <!-- ── Header ─────────────────────────────────────────── -->
+  <div class="sec" style="margin-top:20px" id="vd-input">Input Parameter Vital</div>
+
+  <div class="card" style="margin-bottom:16px">
+    <p style="font-size:12px;color:var(--muted);margin-bottom:12px">
+      Catat parameter vital secara manual per timepoint. Setiap klik "Tambah Data" akan menyimpan snapshot dengan timestamp saat ini ke localStorage.
+    </p>
+
+    <form id="vd-form" autocomplete="off">
+      <!-- Vital signs -->
+      <div class="vd-form-grid">
+        <div class="vd-form-group">
+          <label for="vd-spo2">SpO₂ (%)</label>
+          <input type="number" id="vd-spo2" name="spo2" placeholder="mis. 96" min="50" max="100" step="1">
+        </div>
+        <div class="vd-form-group">
+          <label for="vd-hr">HR (bpm)</label>
+          <input type="number" id="vd-hr" name="hr" placeholder="mis. 88" min="0" max="300" step="1">
+        </div>
+        <div class="vd-form-group">
+          <label for="vd-rr">RR (/mnt)</label>
+          <input type="number" id="vd-rr" name="rr" placeholder="mis. 18" min="0" max="80" step="1">
+        </div>
+        <div class="vd-form-group">
+          <label for="vd-map">MAP (mmHg)</label>
+          <input type="number" id="vd-map" name="map" placeholder="mis. 75" min="0" max="200" step="1">
+        </div>
+        <div class="vd-form-group">
+          <label for="vd-temp">Temp (°C)</label>
+          <input type="number" id="vd-temp" name="temp" placeholder="mis. 37.2" min="30" max="43" step="0.1">
+        </div>
+        <div class="vd-form-group">
+          <label for="vd-pplat">Pplat (cmH₂O)</label>
+          <input type="number" id="vd-pplat" name="pplat" placeholder="mis. 22" min="0" max="60" step="1">
+        </div>
+        <div class="vd-form-group">
+          <label for="vd-peep">PEEP (cmH₂O)</label>
+          <input type="number" id="vd-peep" name="peep" placeholder="mis. 8" min="0" max="30" step="1">
+        </div>
+        <div class="vd-form-group">
+          <label for="vd-fio2">FiO₂ (%)</label>
+          <input type="number" id="vd-fio2" name="fio2" placeholder="mis. 40" min="21" max="100" step="1">
+        </div>
+        <div class="vd-form-group">
+          <label for="vd-laktat">Laktat (mmol/L)</label>
+          <input type="number" id="vd-laktat" name="laktat" placeholder="mis. 1.4" min="0" max="20" step="0.1">
+        </div>
+        <div class="vd-form-group">
+          <label for="vd-ph">pH (opsional)</label>
+          <input type="number" id="vd-ph" name="ph" placeholder="mis. 7.38" min="6.5" max="8" step="0.01">
+        </div>
+      </div>
+
+      <div class="vd-note-row">
+        <label for="vd-note">Catatan</label>
+        <input type="text" id="vd-note" name="note" placeholder="Catatan klinis (opsional)" maxlength="120">
+      </div>
+
+      <div class="vd-btn-row">
+        <button type="submit" class="vd-submit-btn">＋ Tambah Data</button>
+        <button type="button" class="vd-print-btn" id="vd-btn-print">🖨 Print</button>
+        <button type="button" class="vd-clear-btn" id="vd-btn-clear">🗑 Hapus Semua</button>
+      </div>
+    </form>
+
+    <div class="vd-range-hint" style="margin-top:12px">
+      Highlight merah jika di luar range:
+      <span>SpO₂ &lt;92</span>
+      <span>HR &lt;50 atau &gt;120</span>
+      <span>RR &gt;30</span>
+      <span>MAP &lt;65</span>
+      <span>Temp &lt;36 atau &gt;38.5</span>
+      <span>Pplat &gt;28</span>
+      <span>Laktat &gt;2</span>
+      <span>pH &lt;7.35 atau &gt;7.45</span>
+    </div>
+  </div>
+
+  <!-- ── Trend Table ─────────────────────────────────────── -->
+  <div class="sec" id="vd-trend-section">Tabel Trend Parameter Vital</div>
+  <div class="card" style="padding:12px">
+    <div id="vd-table-container"></div>
+  </div>
+
+  <!-- ── Chart ──────────────────────────────────────────── -->
+  <div class="sec" id="vd-chart-section">Grafik Trend</div>
+  <div class="card trend-chart-wrap" style="padding:14px">
+    <div class="vd-chart-controls">
+      <label class="vd-chart-check-label">
+        <input type="checkbox" class="vd-chart-check" value="spo2" checked>
+        <span class="vd-chart-check-dot" style="background:#3b82f6"></span> SpO₂
+      </label>
+      <label class="vd-chart-check-label">
+        <input type="checkbox" class="vd-chart-check" value="hr" checked>
+        <span class="vd-chart-check-dot" style="background:#ef4444"></span> HR
+      </label>
+      <label class="vd-chart-check-label">
+        <input type="checkbox" class="vd-chart-check" value="rr">
+        <span class="vd-chart-check-dot" style="background:#f59e0b"></span> RR
+      </label>
+      <label class="vd-chart-check-label">
+        <input type="checkbox" class="vd-chart-check" value="map" checked>
+        <span class="vd-chart-check-dot" style="background:#8b5cf6"></span> MAP
+      </label>
+      <label class="vd-chart-check-label">
+        <input type="checkbox" class="vd-chart-check" value="temp">
+        <span class="vd-chart-check-dot" style="background:#ec4899"></span> Temp
+      </label>
+      <label class="vd-chart-check-label">
+        <input type="checkbox" class="vd-chart-check" value="pplat">
+        <span class="vd-chart-check-dot" style="background:#14b8a6"></span> Pplat
+      </label>
+      <label class="vd-chart-check-label">
+        <input type="checkbox" class="vd-chart-check" value="peep">
+        <span class="vd-chart-check-dot" style="background:#06b6d4"></span> PEEP
+      </label>
+      <label class="vd-chart-check-label">
+        <input type="checkbox" class="vd-chart-check" value="fio2">
+        <span class="vd-chart-check-dot" style="background:#84cc16"></span> FiO₂
+      </label>
+      <label class="vd-chart-check-label">
+        <input type="checkbox" class="vd-chart-check" value="laktat">
+        <span class="vd-chart-check-dot" style="background:#f97316"></span> Laktat
+      </label>
+      <label class="vd-chart-check-label">
+        <input type="checkbox" class="vd-chart-check" value="ph">
+        <span class="vd-chart-check-dot" style="background:#6366f1"></span> pH
+      </label>
+    </div>
+    <canvas id="vd-chart"></canvas>
+  </div>
+
+</div><!-- #vd-dashboard-root -->
+
+<script type="module" src="../assets/ts/monitoring-dashboard.ts"></script>
+<script src="../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../assets/js/feedback.js"></script>
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+  <script src="../assets/data/references.js"></script>
+  <script src="../assets/js/scripts-citations.js"></script>
+</body>
+</html>

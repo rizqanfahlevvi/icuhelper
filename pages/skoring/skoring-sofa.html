@@ -80,7 +80,7 @@
     <div class="grid2" style="gap:16px">
       <div>
         <div class="subsec">🫁 Respirasi</div>
-        <div class="input-row"><label>PaO₂ (mmHg)</label><input type="number" id="sofa-pao2" placeholder="Opsional" min="20" max="600"><span class="opt-tag">opsional</span></div>
+        <div class="input-row"><label>PaO₂ (mmHg)</label><input type="number" inputmode="decimal" id="sofa-pao2" placeholder="Opsional" min="20" max="600"><span class="opt-tag">opsional</span></div>
         <div class="input-row" style="align-items:flex-start">
           <label style="padding-top:6px">FiO₂ <span class="opt-tag">opsional</span></label>
           <div style="flex:1">
@@ -89,7 +89,7 @@
               <button class="fio2-mode-btn" id="sofa-fio2-btn-lowflow" onclick="setFiO2ModeFor('sofa','lowflow')">💨 Low-Flow O₂</button>
             </div>
             <div id="sofa-fio2-direct-wrap">
-              <input type="number" id="sofa-fio2-direct" step="0.01" min="0.21" max="1.0" placeholder="0.21–1.0" oninput="syncFiO2DirectFor('sofa')" style="width:100%">
+              <input type="number" inputmode="decimal" id="sofa-fio2-direct" step="0.01" min="0.21" max="1.0" placeholder="0.21–1.0" oninput="syncFiO2DirectFor('sofa')" style="width:100%">
             </div>
             <div id="sofa-fio2-lowflow-wrap" style="display:none">
               <select id="sofa-o2-device" onchange="estimateFiO2For('sofa')" class="abg-lowflow-input">
@@ -103,7 +103,7 @@
                 <option value="venturi40">Venturi 40%</option>
                 <option value="venturi60">Venturi 60%</option>
               </select>
-              <input type="number" id="sofa-o2-flow" placeholder="Flow (L/menit)" min="1" max="15" step="0.5" oninput="estimateFiO2For('sofa')" class="abg-lowflow-input">
+              <input type="number" inputmode="decimal" id="sofa-o2-flow" placeholder="Flow (L/menit)" min="1" max="15" step="0.5" oninput="estimateFiO2For('sofa')" class="abg-lowflow-input">
               <div id="sofa-fio2-est" class="abg-fio2-est"></div>
             </div>
             <input type="hidden" id="sofa-fio2">
@@ -113,9 +113,9 @@
           <select id="sofa-vent"><option value="">Tidak diketahui</option><option value="yes">Ya</option><option value="no">Tidak</option></select>
         </div>
         <div class="subsec" style="margin-top:14px">🩸 Koagulasi</div>
-        <div class="input-row"><label>Trombosit (×10³/μL)</label><input type="number" id="sofa-plt" placeholder="Opsional" min="0" max="1000"><span class="opt-tag">opsional</span></div>
+        <div class="input-row"><label>Trombosit (×10³/μL)</label><input type="number" inputmode="decimal" id="sofa-plt" placeholder="Opsional" min="0" max="1000"><span class="opt-tag">opsional</span></div>
         <div class="subsec" style="margin-top:14px">🫀 Hepar</div>
-        <div class="input-row"><label>Bilirubin total (mg/dL)</label><input type="number" id="sofa-bili" placeholder="Opsional" step="0.1" min="0" max="50"><span class="opt-tag">opsional</span></div>
+        <div class="input-row"><label>Bilirubin total (mg/dL)</label><input type="number" inputmode="decimal" id="sofa-bili" placeholder="Opsional" step="0.1" min="0" max="50"><span class="opt-tag">opsional</span></div>
       </div>
       <div>
         <div class="subsec">❤️ Kardiovaskular</div>
@@ -131,12 +131,12 @@
           </select>
         </div>
         <div class="subsec" style="margin-top:14px">🧠 SSP (GCS)</div>
-        <div class="input-row"><label>GCS total (3–15)</label><input type="number" id="sofa-gcs" placeholder="Opsional" min="3" max="15"><span class="opt-tag">opsional</span></div>
+        <div class="input-row"><label>GCS total (3–15)</label><input type="number" inputmode="decimal" id="sofa-gcs" placeholder="Opsional" min="3" max="15"><span class="opt-tag">opsional</span></div>
         <div class="subsec" style="margin-top:14px">🫘 Renal</div>
-        <div class="input-row"><label>Kreatinin (mg/dL)</label><input type="number" id="sofa-cr" placeholder="Opsional" step="0.1" min="0" max="30"><span class="opt-tag">opsional</span></div>
-        <div class="input-row"><label>Urine output (mL/24j)</label><input type="number" id="sofa-uo" placeholder="Opsional" min="0" max="6000"><span class="opt-tag">opsional</span></div>
+        <div class="input-row"><label>Kreatinin (mg/dL)</label><input type="number" inputmode="decimal" id="sofa-cr" placeholder="Opsional" step="0.1" min="0" max="30"><span class="opt-tag">opsional</span></div>
+        <div class="input-row"><label>Urine output (mL/24j)</label><input type="number" inputmode="decimal" id="sofa-uo" placeholder="Opsional" min="0" max="6000"><span class="opt-tag">opsional</span></div>
         <div class="subsec" style="margin-top:14px">📊 Untuk Δ SOFA (Sepsis-3)</div>
-        <div class="input-row"><label>SOFA Baseline</label><input type="number" id="sofa-baseline" placeholder="0 jika tidak ada" min="0" max="24"></div>
+        <div class="input-row"><label>SOFA Baseline</label><input type="number" inputmode="decimal" id="sofa-baseline" placeholder="0 jika tidak ada" min="0" max="24"></div>
       </div>
     </div>
     <button class="calc-btn" style="margin-top:12px" onclick="calcSOFA()">🔴 Hitung SOFA Score</button>

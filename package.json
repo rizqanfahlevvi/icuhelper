@@ -6,15 +6,21 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build && node scripts/copy-static.js",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "typecheck:watch": "tsc --noEmit --watch"
   },
   "devDependencies": {
+    "@types/node": "^25.9.1",
     "glob": "^11.0.0",
+    "playwright": "^1.60.0",
+    "typescript": "^6.0.3",
     "vite": "^6.3.5",
     "vite-plugin-pwa": "^0.21.1",
     "workbox-window": "^7.3.0"
   },
   "dependencies": {
+    "@google/genai": "^2.8.0",
     "vite-plugin-static-copy": "^4.1.0"
   }
 }
