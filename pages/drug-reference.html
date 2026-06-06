@@ -963,7 +963,7 @@
 <script type="module">
   import { initInteractionChecker } from '../assets/ts/drug-interaction.ts'
   document.addEventListener('DOMContentLoaded', () => {
-    const db = (window as unknown as Record<string, unknown>)['ICU_DRUGS'] as Record<string, import('../assets/ts/drug-interaction.ts').DrugEntry> ?? {}
+    const db = window['ICU_DRUGS'] || {}
     initInteractionChecker('drug-interaction-checker', db)
   })
 </script>
