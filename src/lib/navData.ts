@@ -78,17 +78,17 @@ export const PAGES: NavItem[] = [
     subs: [],
   },
   {
-    id: 'skoring', icon: 'clipboard-list', label: 'Skoring', href: '/pages/skoring.html',
+    id: 'skoring', icon: 'clipboard-list', label: 'Skoring', to: '/skoring',
     title: 'Skoring ICU',
     subtitle: 'SOFA · APACHE-II · RASS · CAM-ICU · CPIS · Frailty · Candida',
     subs: [
-      { label: 'SOFA Score', href: '/pages/skoring/skoring-sofa.html' },
-      { label: 'APACHE-II', href: '/pages/skoring/skoring-apache.html' },
-      { label: 'RASS — Sedasi', href: '/pages/skoring/skoring-rass.html' },
-      { label: 'CAM-ICU — Delirium', href: '/pages/skoring/skoring-camicu.html' },
-      { label: 'CPIS — VAP', href: '/pages/skoring/skoring-cpis.html' },
-      { label: 'Frailty Scale', href: '/pages/skoring/skoring-bfs.html' },
-      { label: 'Candida Score', href: '/pages/skoring/skoring-candida.html' },
+      { label: 'SOFA Score', to: '/skoring/sofa' },
+      { label: 'APACHE-II', to: '/skoring/apache' },
+      { label: 'RASS — Sedasi', to: '/skoring/rass' },
+      { label: 'CAM-ICU — Delirium', to: '/skoring/camicu' },
+      { label: 'CPIS — VAP', to: '/skoring/cpis' },
+      { label: 'Frailty Scale', to: '/skoring/cfs' },
+      { label: 'Candida Score', to: '/skoring/candida' },
     ],
   },
   {
@@ -122,6 +122,6 @@ export const BOTTOM_NAV: { id: string; icon: string; label: string; to?: string;
   { id: 'index', icon: 'home', label: 'Home', to: '/' },
   { id: 'kalkulator', icon: 'calculator', label: 'Kalkulator', to: '/kalkulator/ibw' },
   { id: 'abg', icon: 'activity', label: 'ABG', to: '/abg' },
-  { id: 'skoring', icon: 'clipboard-list', label: 'Skoring', href: '/pages/skoring.html' },
+  { id: 'skoring', icon: 'clipboard-list', label: 'Skoring', to: '/skoring' },
   { id: 'drug_ref', icon: 'pill', label: 'Obat', href: '/pages/drug-reference.html' },
 ]
