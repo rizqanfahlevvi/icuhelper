@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ICU Helper — App</title>
+<script>
+/* Anti-FOUC: apply saved theme + fontsize before first paint.
+   Mirrors scripts-theme.js (v6 migration) so the React SPA stays
+   visually consistent with the legacy MPA pages. */
+(function () {
+  try {
+    if (localStorage.getItem('icu-v') !== '6') {
+      localStorage.setItem('vent-theme', 'light');
+      localStorage.setItem('icu-v', '6');
+    }
+    var t = localStorage.getItem('vent-theme');
+    if (t !== 'light' && t !== 'dark') t = 'light';
+    document.documentElement.setAttribute('data-theme', t);
+    var fs = localStorage.getItem('icu-fontsize');
+    if (['xs', 'sm', 'md', 'lg', 'xl'].indexOf(fs) === -1) fs = 'md';
+    document.documentElement.setAttribute('data-fontsize', fs);
+  } catch (e) { /* ignore */ }
+})();
+</script>
+</head>
+<body>
+<div id="root"></div>
+<script type="module" src="/src/main.tsx"></script>
+</body>
+</html>
