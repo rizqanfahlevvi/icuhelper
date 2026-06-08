@@ -72,7 +72,7 @@ export const PAGES: NavItem[] = [
     subs: [],
   },
   {
-    id: 'abg', icon: 'activity', label: 'ABG', href: '/pages/abg.html',
+    id: 'abg', icon: 'activity', label: 'ABG', to: '/abg',
     title: 'ABG Interpreter',
     subtitle: 'Analisis Gas Darah 6-Langkah · Delta-Delta · ROX Index · A-a Gradient',
     subs: [],
@@ -121,7 +121,7 @@ export const PAGES: NavItem[] = [
 export const BOTTOM_NAV: { id: string; icon: string; label: string; to?: string; href?: string }[] = [
   { id: 'index', icon: 'home', label: 'Home', to: '/' },
   { id: 'kalkulator', icon: 'calculator', label: 'Kalkulator', to: '/kalkulator/ibw' },
-  { id: 'abg', icon: 'activity', label: 'ABG', href: '/pages/abg.html' },
+  { id: 'abg', icon: 'activity', label: 'ABG', to: '/abg' },
   { id: 'skoring', icon: 'clipboard-list', label: 'Skoring', href: '/pages/skoring.html' },
   { id: 'drug_ref', icon: 'pill', label: 'Obat', href: '/pages/drug-reference.html' },
 ]

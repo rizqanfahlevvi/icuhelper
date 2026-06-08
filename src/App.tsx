@@ -5,6 +5,7 @@ import { Ibw } from './pages/Ibw'
 import { Pf } from './pages/Pf'
 import { Nlr } from './pages/Nlr'
 import { Pump } from './pages/Pump'
+import { Abg } from './pages/Abg'
 import { NotFound } from './pages/NotFound'
 
 export default function App() {
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="kalkulator/pf" element={<Pf />} />
         <Route path="kalkulator/nlr" element={<Nlr />} />
         <Route path="kalkulator/pump" element={<Pump />} />
+        <Route path="abg" element={<Abg />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
