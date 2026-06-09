@@ -20,6 +20,8 @@ import { Weaning } from './pages/Weaning'
 import { CairanIV } from './pages/CairanIV'
 import { Referensi } from './pages/Referensi'
 import { Teori } from './pages/Teori'
+import { Protocol } from './pages/Protocol'
+import { MonitoringDashboard } from './pages/MonitoringDashboard'
 import { NotFound } from './pages/NotFound'
 
 export default function App() {
@@ -48,6 +50,8 @@ export default function App() {
         <Route path="skoring/:sub" element={<Skoring />} />
         <Route path="teori" element={<Teori />} />
         <Route path="teori/:sub" element={<Teori />} />
+        <Route path="protocol" element={<Protocol />} />
+        <Route path="monitoring-dashboard" element={<MonitoringDashboard />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

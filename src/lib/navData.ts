@@ -104,6 +104,14 @@ export const PAGES: NavItem[] = [
     subs: [],
   },
   {
+    id: 'protocol', icon: 'clipboard', label: 'Protocol', to: '/protocol',
+    title: 'Protocol Builder', subtitle: 'Buat & simpan protokol klinis ICU — ARDS · Sepsis · Weaning · VAP', subs: [],
+  },
+  {
+    id: 'monitoring-dashboard', icon: 'trending-up', label: 'Vital Trend', to: '/monitoring-dashboard',
+    title: 'Monitoring Dashboard', subtitle: 'Catat & visualisasikan tren vital signs — SpO₂ · HR · MAP · Laktat', subs: [],
+  },
+  {
     id: 'setting', icon: 'settings', label: 'Setting', to: '/setting',
     title: 'Setting Ventilator',
     subtitle: 'Setting per Kondisi Klinis · ARDS · PPOK · Asma · Sepsis',
