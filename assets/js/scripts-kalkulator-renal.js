@@ -147,6 +147,13 @@ function calcEGFR(){
   html+=`<div class="formula-note" style="margin-top:8px">★ CKD-EPI 2021 race-free adalah formula primer per KDIGO 2024. CG untuk penyesuaian dosis. &nbsp;|&nbsp; Inker LA et al. NEJM 2021;385:1737 · Kidney Int Suppl 2024</div>`;
   document.getElementById('egfr-result-content').innerHTML=html;
   document.getElementById('egfr-results').classList.remove('hidden');
+
+  if(typeof window.saveCalcHistory==='function'){
+    window.saveCalcHistory('egfr',
+      'eGFR '+ckdEPI.toFixed(1)+' mL/mnt · '+st.s,
+      {sex:sex,age:String(age),bw:String(bw||''),scr:String(scr)},
+      'CKD-EPI '+ckdEPI.toFixed(1)+(cg!==null?' · CG '+cg.toFixed(1):'')+' · MDRD '+mdrd.toFixed(1)+' — '+st.l);
+  }
 }
 
 function calcAKI(){
@@ -156,6 +163,7 @@ function calcAKI(){
   const uoVol=parseFloat(document.getElementById('aki-uo-vol').value);
   const uoHr=parseFloat(document.getElementById('aki-uo-hr').value);
   let html='';
+  let histParts=[];
 
   if(!isNaN(scrBase)&&!isNaN(scrNow)){
     const rise=scrNow-scrBase,ratio=scrNow/scrBase;
@@ -164,6 +172,7 @@ function calcAKI(){
     else if(ratio>=2.0){stage=2;slabel='Stage 2 — Sedang';scolor='var(--amber)';scls='mild';}
     else if(rise>=0.3||ratio>=1.5){stage=1;slabel='Stage 1 — Ringan';scolor='var(--orange)';scls='mild';}
     else{stage=0;slabel='Tidak memenuhi kriteria AKI';scolor='var(--teal)';scls='normal';}
+    histParts.push('SCr: '+slabel);
     html+=`<div class="abg-result abg-${scls}">
       <div class="abg-label" style="color:${scolor}">Berdasarkan SCr${stage>0?' — AKI KDIGO Stage '+stage:''}</div>
       <div class="abg-interp">${slabel}</div>
@@ -181,6 +190,7 @@ function calcAKI(){
     else if(rate<0.5&&uoHr>=12){us=2;ul='Stage 2 — UO <0.5 mL/kg/jam ≥12 jam';uc='var(--amber)';ucls='mild';}
     else if(rate<0.5&&uoHr>=6){us=1;ul='Stage 1 — UO <0.5 mL/kg/jam dalam 6–12 jam';uc='var(--orange)';ucls='mild';}
     else{us=0;ul='UO dalam batas normal';uc='var(--teal)';ucls='normal';}
+    histParts.push('UO: '+ul);
     html+=`<div class="abg-result abg-${ucls}" style="margin-top:8px">
       <div class="abg-label" style="color:${uc}">Berdasarkan Urine Output${us>0?' — AKI KDIGO Stage '+us:''}</div>
       <div class="abg-interp">${ul}</div>
@@ -193,6 +203,13 @@ function calcAKI(){
 
   document.getElementById('aki-result-content').innerHTML=html;
   document.getElementById('aki-results').classList.remove('hidden');
+
+  if(histParts.length&&typeof window.saveCalcHistory==='function'){
+    window.saveCalcHistory('aki',
+      'Staging AKI',
+      {scrBase:String(scrBase||''),scrNow:String(scrNow||''),bw:String(bw||''),uoVol:String(uoVol||''),uoHr:String(uoHr||'')},
+      histParts.join(' · '));
+  }
 }
 
 function calcFENa(){
@@ -230,6 +247,13 @@ function calcFENa(){
   html+=`<div class="formula-note" style="margin-top:8px">FENa tidak valid pada pasien diuretik → gunakan FEUrea. &nbsp;|&nbsp; Miller TR. Ann Intern Med 1978;89:47 · Espinal CH. Am Fam Physician 2000</div>`;
   document.getElementById('fena-result-content').innerHTML=html;
   document.getElementById('fena-results').classList.remove('hidden');
+
+  if(typeof window.saveCalcHistory==='function'){
+    window.saveCalcHistory('fena',
+      'FENa '+fena.toFixed(2)+'%',
+      {sna:String(sna),scr:String(scr),una:String(una),ucr:String(ucr),sureum:String(sureum||''),uureum:String(uureum||'')},
+      'FENa '+fena.toFixed(2)+'% — '+fi);
+  }
 }
 
 function calcOsmolality(){
@@ -266,6 +290,13 @@ function calcOsmolality(){
   html+=`<div class="formula-note" style="margin-top:10px"><strong>Kalkulasi:</strong> 2×${na} + ${glu}/18 + ${ureumMmol.toFixed(2)} = <strong>${osmCalc.toFixed(1)} mOsm/kg</strong> — ${oi}<br><span style="color:var(--muted)">BUN/2.8 = Ureum(mmol/L) — formula setara untuk RS yang menggunakan Ureum. Bhagat CI. Ann Clin Biochem 2001</span></div>`;
   document.getElementById('osm-result-content').innerHTML=html;
   document.getElementById('osm-results').classList.remove('hidden');
+
+  if(typeof window.saveCalcHistory==='function'){
+    window.saveCalcHistory('osm',
+      'Osmolalitas '+osmCalc.toFixed(1)+' mOsm/kg',
+      {na:String(na),glu:String(glu),ureum:String(ureum),measured:String(measured||'')},
+      (isNaN(measured)?'':'Osmol gap '+(measured-osmCalc).toFixed(1)+' mOsm/kg · ')+oi);
+  }
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -399,4 +430,11 @@ function calcBUNCr() {
 
   document.getElementById('buncr-result-content').innerHTML = html;
   document.getElementById('buncr-results').classList.remove('hidden');
+
+  if(typeof window.saveCalcHistory==='function'){
+    window.saveCalcHistory('buncr',
+      'Rasio BUN:Cr '+ratio.toFixed(1),
+      {bun:String(bun.toFixed(1)),ureum:String(isNaN(ureumRaw)?'':ureumRaw),cr:String(cr)},
+      title.replace(/\s*\(.*?\)\s*/,' ')+(giBleeding?' · ⚠ curiga perdarahan GI atas':''));
+  }
 }

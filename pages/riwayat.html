@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Riwayat Perhitungan — ICU Helper</title>
+<link rel="stylesheet" href="../assets/css/icu-framework.css">
+<link rel="stylesheet" href="../assets/css/styles.css">
+<script>
+/* Anti-FOUC: apply saved theme before paint */
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../assets/js/scripts-theme.js"></script>
+<style>
+.rw-wrap { max-width: 700px; margin: 0 auto; padding: 16px; }
+.rw-head { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:14px; flex-wrap:wrap; }
+.rw-title { font-size:18px; font-weight:700; color:var(--text); display:flex; align-items:center; gap:8px; }
+.rw-clear-all {
+  font-size:12px; font-weight:600; background:none; border:1px solid var(--border);
+  border-radius:6px; color:var(--muted); padding:6px 12px; cursor:pointer; font-family:inherit;
+}
+.rw-clear-all:hover { border-color:var(--danger); color:var(--danger); }
+.rw-filters { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px; }
+.rw-chip {
+  font-size:12px; font-weight:600; background:var(--bg2); border:1.5px solid var(--border);
+  border-radius:99px; color:var(--muted); padding:5px 12px; cursor:pointer; font-family:inherit;
+  display:flex; align-items:center; gap:5px; transition:all .12s;
+}
+.rw-chip.active { background:var(--accent2-dim); border-color:var(--accent2); color:var(--accent2); }
+.rw-chip:hover { border-color:var(--accent2); }
+.rw-chip .rw-chip-count {
+  background:var(--border); color:var(--text); border-radius:99px;
+  font-size:10px; font-weight:700; min-width:16px; height:16px; padding:0 4px;
+  display:inline-flex; align-items:center; justify-content:center;
+}
+.rw-chip.active .rw-chip-count { background:var(--accent2); color:#fff; }
+
+.rw-item {
+  display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+  padding:12px 14px; border:1px solid var(--border); border-radius:10px;
+  background:var(--card); margin-bottom:8px;
+}
+.rw-item-left { flex:1; min-width:0; }
+.rw-item-badge {
+  display:inline-flex; align-items:center; gap:4px; font-size:10px; font-weight:700;
+  background:var(--accent2-dim); color:var(--accent2); border-radius:99px;
+  padding:2px 8px; margin-bottom:6px;
+}
+.rw-item-label { font-size:13px; font-weight:600; color:var(--text); margin-bottom:3px; }
+.rw-item-summary { font-size:11px; color:var(--muted); line-height:1.55; white-space:pre-wrap; }
+.rw-item-time { font-size:10px; color:var(--muted); margin-top:5px; }
+.rw-item-actions { display:flex; flex-direction:column; gap:5px; flex-shrink:0; align-items:flex-end; }
+.rw-open {
+  padding:5px 10px; font-size:11px; font-weight:600; text-decoration:none;
+  background:var(--accent2-dim); color:var(--accent2); border:1px solid var(--accent2);
+  border-radius:6px; white-space:nowrap;
+}
+.rw-open:hover { background:var(--accent2); color:#fff; }
+.rw-del {
+  padding:5px 9px; font-size:12px; background:none; border:1px solid var(--border);
+  border-radius:6px; color:var(--muted); cursor:pointer; font-family:inherit;
+}
+.rw-del:hover { border-color:var(--danger); color:var(--danger); }
+.rw-empty {
+  text-align:center; color:var(--muted); padding:40px 16px; font-size:13px; line-height:1.6;
+}
+.rw-empty-icon { font-size:38px; display:block; margin-bottom:10px; }
+</style>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../index.html">🏠 Home</a>
+  <a class="tab-btn" href="kalkulator/kalkulator-ibw.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="ekg.html">📈 EKG</a>
+  <a class="tab-btn" href="teori.html">📖 Teori</a>
+  <a class="tab-btn" href="skoring.html">📋 Skoring</a>
+  <a class="tab-btn active" href="riwayat.html">🕓 Riwayat</a>
+  <a class="tab-btn" href="../referensi.html">📚 Referensi</a>
+</nav>
+
+<div class="rw-wrap">
+  <div class="rw-head">
+    <div class="rw-title">🕓 Riwayat Perhitungan</div>
+    <button class="rw-clear-all" id="rw-clear-all" onclick="rwClearAll()">🗑 Hapus Semua</button>
+  </div>
+  <div class="rw-filters" id="rw-filters"></div>
+  <div id="rw-list"></div>
+</div>
+
+<script src="../assets/js/calc-history.js"></script>
+<script>
+(function () {
+  var activeFilter = 'all';
+
+  function meta(module) {
+    return (window.calcHistoryModuleMeta && window.calcHistoryModuleMeta[module])
+      || { label: module, icon: '🧮', href: '' };
+  }
+
+  function render() {
+    var all = window.loadCalcHistory();
+    renderFilters(all);
+    renderList(all);
+    document.getElementById('rw-clear-all').style.display = all.length ? '' : 'none';
+  }
+
+  function renderFilters(all) {
+    var counts = {};
+    all.forEach(function (e) { counts[e.module] = (counts[e.module] || 0) + 1; });
+    var modules = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a]; });
+
+    var box = document.getElementById('rw-filters');
+    box.innerHTML = '';
+    if (!all.length) return;
+
+    function chip(key, label, icon, count) {
+      var b = document.createElement('button');
+      b.className = 'rw-chip' + (activeFilter === key ? ' active' : '');
+      b.innerHTML = (icon ? icon + ' ' : '') + label +
+        ' <span class="rw-chip-count">' + count + '</span>';
+      b.addEventListener('click', function () { activeFilter = key; render(); });
+      box.appendChild(b);
+    }
+
+    chip('all', 'Semua', '', all.length);
+    modules.forEach(function (m) {
+      var mt = meta(m);
+      chip(m, mt.label, mt.icon, counts[m]);
+    });
+  }
+
+  function renderList(all) {
+    var list = activeFilter === 'all'
+      ? all
+      : all.filter(function (e) { return e.module === activeFilter; });
+
+    var box = document.getElementById('rw-list');
+    box.innerHTML = '';
+
+    if (!list.length) {
+      box.innerHTML =
+        '<div class="rw-empty"><span class="rw-empty-icon">🗒️</span>' +
+        'Belum ada riwayat perhitungan.<br>' +
+        'Lakukan perhitungan di kalkulator (mis. ABG atau Renal) — hasilnya otomatis tersimpan di sini.</div>';
+      return;
+    }
+
+    list.forEach(function (entry) {
+      var mt = meta(entry.module);
+
+      var item = document.createElement('div');
+      item.className = 'rw-item';
+
+      var left = document.createElement('div');
+      left.className = 'rw-item-left';
+      left.innerHTML =
+        '<span class="rw-item-badge">' + mt.icon + ' ' + mt.label + '</span>' +
+        '<div class="rw-item-label"></div>' +
+        '<div class="rw-item-summary"></div>' +
+        '<div class="rw-item-time"></div>';
+      left.querySelector('.rw-item-label').textContent = entry.label || '(tanpa label)';
+      left.querySelector('.rw-item-summary').textContent = entry.summary || '';
+      left.querySelector('.rw-item-time').textContent =
+        window.formatCalcHistoryTime ? window.formatCalcHistoryTime(entry.timestamp) : '';
+
+      var actions = document.createElement('div');
+      actions.className = 'rw-item-actions';
+
+      if (mt.href) {
+        var open = document.createElement('a');
+        open.className = 'rw-open';
+        open.href = mt.href;
+        open.textContent = 'Buka ↗';
+        actions.appendChild(open);
+      }
+
+      var del = document.createElement('button');
+      del.className = 'rw-del';
+      del.textContent = '✕';
+      del.title = 'Hapus';
+      del.addEventListener('click', function () {
+        window.deleteCalcHistoryEntry(entry.id);
+        render();
+      });
+      actions.appendChild(del);
+
+      item.appendChild(left);
+      item.appendChild(actions);
+      box.appendChild(item);
+    });
+  }
+
+  window.rwClearAll = function () {
+    if (!confirm('Hapus SEMUA riwayat perhitungan? Tindakan ini tidak dapat dibatalkan.')) return;
+    window.clearCalcHistory();
+    activeFilter = 'all';
+    render();
+  };
+
+  document.addEventListener('DOMContentLoaded', render);
+})();
+</script>
+
+<script src="../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../assets/js/feedback.js"></script>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+</body>
+</html>

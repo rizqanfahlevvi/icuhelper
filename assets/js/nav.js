@@ -146,6 +146,13 @@
       ]
     },
     {
+      id: 'riwayat', icon: 'history', label: 'Riwayat',
+      href: 'pages/riwayat.html',
+      title: 'Riwayat Perhitungan',
+      subtitle: 'Log semua perhitungan kalkulator yang tersimpan di perangkat ini · v2.0 — 2026',
+      subs: []
+    },
+    {
       id: 'referensi', icon: 'book-text', label: 'Referensi',
       href: 'pages/referensi.html',
       title: 'Referensi',
@@ -321,6 +328,7 @@
     { id: 'weaning',    icon: 'arrow-down-circle', label: 'Weaning',   href: 'pages/weaning.html' },
     { id: 'monitoring', icon: 'monitor',           label: 'Monitoring',href: 'pages/monitoring.html' },
     { id: 'setting',    icon: 'settings',          label: 'Setting',   href: 'pages/setting.html' },
+    { id: 'riwayat',    icon: 'history',           label: 'Riwayat',   href: 'pages/riwayat.html' },
     { id: 'referensi',  icon: 'book-text',         label: 'Referensi', href: 'pages/referensi.html' }
   ];
 

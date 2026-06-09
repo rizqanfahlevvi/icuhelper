@@ -41,6 +41,27 @@
     return module ? entries.filter(function (e) { return e.module === module; }) : entries;
   };
 
+  /* Label modul untuk halaman riwayat terpusat. Tambahkan saat
+     menyambungkan kalkulator baru ke saveCalcHistory(). */
+  var MODULE_META = {
+    abg:     { label: 'ABG',           icon: '🩸', href: 'abg.html' },
+    egfr:    { label: 'eGFR',          icon: '🫘', href: 'kalkulator/kalkulator-renal.html' },
+    aki:     { label: 'Staging AKI',   icon: '⚠️', href: 'kalkulator/kalkulator-renal.html' },
+    fena:    { label: 'FENa/FEUrea',   icon: '⚖️', href: 'kalkulator/kalkulator-renal.html' },
+    osm:     { label: 'Osmolalitas',   icon: '💧', href: 'kalkulator/kalkulator-renal.html' },
+    buncr:   { label: 'BUN:Kreatinin', icon: '⚗️', href: 'kalkulator/kalkulator-renal.html' }
+  };
+  window.calcHistoryModuleMeta = MODULE_META;
+
+  window.deleteCalcHistoryEntry = function (id) {
+    writeStorage(readStorage().filter(function (e) { return e.id !== id; }));
+  };
+
+  window.clearCalcHistory = function (module) {
+    if (!module) { writeStorage([]); return; }
+    writeStorage(readStorage().filter(function (e) { return e.module !== module; }));
+  };
+
   /* ── Time format ─────────────────────────────────────────── */
 
   function formatTime(ts) {
@@ -57,6 +78,7 @@
     var mo = String(d.getMonth() + 1).padStart(2, '0');
     return dd + '/' + mo + ' ' + time;
   }
+  window.formatCalcHistoryTime = formatTime;
 
   /* ── Render Panel ────────────────────────────────────────── */
 
