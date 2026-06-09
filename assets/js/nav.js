@@ -316,74 +316,6 @@
     return el;
   }
 
-  /* ---- Build: bottom nav (mobile only) ---------------------- */
-  var BOTTOM_NAV = [
-    { id: 'index',      icon: 'home',             label: 'Home',      href: 'index.html' },
-    { id: 'kalkulator', icon: 'calculator',        label: 'Kalkulator',href: 'pages/kalkulator/kalkulator-ibw.html' },
-    { id: 'abg',        icon: 'activity',          label: 'ABG',       href: 'pages/abg.html' },
-    { id: 'skoring',    icon: 'clipboard-list',    label: 'Skoring',   href: 'pages/skoring.html' },
-    { id: 'drug_ref',   icon: 'pill',              label: 'Obat',      href: 'pages/drug-reference.html' },
-    { id: 'teori',      icon: 'book-open',         label: 'Teori',     href: 'pages/teori.html' },
-    { id: 'cairan',     icon: 'droplet',           label: 'Cairan',    href: 'pages/cairan.html' },
-    { id: 'weaning',    icon: 'arrow-down-circle', label: 'Weaning',   href: 'pages/weaning.html' },
-    { id: 'monitoring', icon: 'monitor',           label: 'Monitoring',href: 'pages/monitoring.html' },
-    { id: 'setting',    icon: 'settings',          label: 'Setting',   href: 'pages/setting.html' },
-    { id: 'riwayat',    icon: 'history',           label: 'Riwayat',   href: 'pages/riwayat.html' },
-    { id: 'referensi',  icon: 'book-text',         label: 'Referensi', href: 'pages/referensi.html' }
-  ];
-
-  var BN_HIDDEN_KEY = 'icu-bn-hidden';
-
-  function buildBottomNav() {
-    var el = document.createElement('nav');
-    el.id = 'icu-bottom-nav';
-    el.setAttribute('aria-label', 'Navigasi utama');
-
-    /* Scroll track */
-    var track = document.createElement('div');
-    track.id = 'bn-track';
-
-    var html = '';
-    for (var i = 0; i < BOTTOM_NAV.length; i++) {
-      var item = BOTTOM_NAV[i];
-      var isAct = activePage.id === item.id;
-      html +=
-        '<a class="bn-item' + (isAct ? ' active' : '') + '" href="' + rel(item.href) + '">' +
-          '<i data-lucide="' + item.icon + '" class="bn-icon"></i>' +
-          '<span class="bn-label">' + item.label + '</span>' +
-        '</a>';
-    }
-    track.innerHTML = html;
-    el.appendChild(track);
-
-    return el;
-  }
-
-  /* Toggle button — separate fixed element, always on screen */
-  function buildBnToggle() {
-    var btn = document.createElement('button');
-    btn.id = 'bn-toggle';
-    btn.setAttribute('aria-label', 'Sembunyikan navigasi');
-    btn.innerHTML = '<i data-lucide="chevron-down" style="width:14px;height:14px"></i>';
-    btn.addEventListener('click', toggleBottomNav);
-    return btn;
-  }
-
-  function toggleBottomNav() {
-    var nav = document.getElementById('icu-bottom-nav');
-    var btn = document.getElementById('bn-toggle');
-    if (!nav) return;
-    var hiding = !nav.classList.contains('bn-hidden');
-    nav.classList.toggle('bn-hidden', hiding);
-    document.body.classList.toggle('bn-nav-hidden', hiding);
-    if (btn) {
-      btn.setAttribute('aria-label', hiding ? 'Tampilkan navigasi' : 'Sembunyikan navigasi');
-      var icon = btn.querySelector('i');
-      if (icon) icon.setAttribute('data-lucide', hiding ? 'chevron-up' : 'chevron-down');
-      if (typeof lucide !== 'undefined') lucide.createIcons();
-    }
-  }
-
   /* ---- Build: mobile overlay -------------------------------- */
   function buildOverlay() {
     var el = document.createElement('div');
@@ -425,12 +357,7 @@
   document.body.insertBefore(sidebar, document.body.firstChild);
   document.body.insertBefore(topbar,  document.body.firstChild);
 
-  /* Bottom nav — append to body so it stacks at bottom */
-  var bottomNav = buildBottomNav();
-  document.body.appendChild(bottomNav);
-
-  var bnToggle = buildBnToggle();
-  document.body.appendChild(bnToggle);
+  /* Bottom nav removed — mobile navigation handled by sidebar (hamburger). */
 
   /* Index page has its own hero section — skip generic page header */
   if (activePage.id !== 'index') {

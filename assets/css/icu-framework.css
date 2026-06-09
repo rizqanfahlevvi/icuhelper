@@ -3795,17 +3795,14 @@ body.sb-collapsed .sb-feedback { margin: 10px auto 4px; padding: 0; width: 34px;
     bottom: calc(60px + env(safe-area-inset-bottom, 0px));
   }
 
-  /* Body padding */
+  /* Body padding (bottom nav removed) */
   body.has-sidebar,
   body.has-sidebar.sb-collapsed {
-    padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px));
-  }
-  body.has-sidebar.bn-nav-hidden {
-    padding-bottom: calc(4px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   }
 
   #back-to-top {
-    bottom: calc(68px + env(safe-area-inset-bottom, 0px)) !important;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px)) !important;
   }
   #pwa-install-btn {
     bottom: calc(68px + env(safe-area-inset-bottom, 0px)) !important;
