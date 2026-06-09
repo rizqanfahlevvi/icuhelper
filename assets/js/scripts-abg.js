@@ -287,6 +287,47 @@ function calcABG() {
     <div class="abg-detail">pH ${pH < 7.40 ? '<7.40 (condong asam)' : pH > 7.40 ? '>7.40 (condong basa)' : '= 7.40'} · PaCO₂ = ${pco2.toFixed(0)} mmHg (N:35–45) · HCO₃⁻ = ${hco3} mmol/L (N:22–26) · BE = ${be}</div>
   </div>`;
 
+  // LANGKAH 2b: STATUS KOMPENSASI (ringkas)
+  let compStatus, compColor, compCls;
+  const bothOpposite = (respAcid && metAlk) || (respAlk && metAcid);
+  if (!acidosis && !alkalosis) {
+    if (!respAcid && !respAlk && !metAcid && !metAlk) {
+      compStatus = 'Tidak ada gangguan — kompensasi tidak applicable';
+      compColor = 'var(--green)'; compCls = 'abg-normal';
+    } else if (bothOpposite) {
+      compStatus = 'TERKOMPENSASI PENUH — pH sudah kembali ke rentang normal';
+      compColor = 'var(--green)'; compCls = 'abg-normal';
+    } else {
+      compStatus = 'Kompensasi dini / belum penuh — pH masih normal, baru satu sistem yang bergeser';
+      compColor = 'var(--amber)'; compCls = 'abg-mild';
+    }
+  } else {
+    let compPresent = false, mixedSame = false;
+    if (acidosis) {
+      if (respAcid && metAcid) mixedSame = true;          // dua-duanya asidosis
+      else if (respAcid)       compPresent = hco3 > 26;   // primer resp → kompensasi metabolik
+      else if (metAcid)        compPresent = pco2 < 35;   // primer metabolik → kompensasi resp
+    } else {
+      if (respAlk && metAlk)   mixedSame = true;          // dua-duanya alkalosis
+      else if (respAlk)        compPresent = hco3 < 22;
+      else if (metAlk)         compPresent = pco2 > 45;
+    }
+    if (mixedSame) {
+      compStatus = 'Gangguan campuran searah — kompensasi tidak applicable (kedua sistem ke arah yang sama)';
+      compColor = 'var(--red)'; compCls = 'abg-severe';
+    } else if (compPresent) {
+      compStatus = 'TERKOMPENSASI SEBAGIAN — sistem lawan sudah mengompensasi, namun pH belum kembali normal';
+      compColor = 'var(--amber)'; compCls = 'abg-mild';
+    } else {
+      compStatus = 'TIDAK TERKOMPENSASI — sistem lawan belum bergeser untuk mengompensasi';
+      compColor = 'var(--red)'; compCls = 'abg-severe';
+    }
+  }
+  html += `<div class="abg-result ${compCls}" style="margin-top:6px">
+    <div class="abg-label" style="color:${compColor}">Status Kompensasi</div>
+    <div class="abg-interp">${compStatus}</div>
+  </div>`;
+
   // LANGKAH 3: KOMPENSASI
   let compNote = '';
   if (respAcid && !respAlk) {
