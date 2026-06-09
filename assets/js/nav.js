@@ -348,23 +348,15 @@
     track.innerHTML = html;
     el.appendChild(track);
 
-    /* Restore hidden state */
-    if (localStorage.getItem(BN_HIDDEN_KEY) === '1') {
-      el.classList.add('bn-hidden');
-    }
-
     return el;
   }
 
-  /* Toggle button is a SEPARATE fixed element so it stays visible even when nav is hidden */
+  /* Toggle button — separate fixed element, always on screen */
   function buildBnToggle() {
     var btn = document.createElement('button');
     btn.id = 'bn-toggle';
     btn.setAttribute('aria-label', 'Sembunyikan navigasi');
-    var hidden = localStorage.getItem(BN_HIDDEN_KEY) === '1';
-    btn.innerHTML = hidden
-      ? '<i data-lucide="chevron-up" style="width:14px;height:14px"></i>'
-      : '<i data-lucide="chevron-down" style="width:14px;height:14px"></i>';
+    btn.innerHTML = '<i data-lucide="chevron-down" style="width:14px;height:14px"></i>';
     btn.addEventListener('click', toggleBottomNav);
     return btn;
   }
@@ -376,7 +368,6 @@
     var hiding = !nav.classList.contains('bn-hidden');
     nav.classList.toggle('bn-hidden', hiding);
     document.body.classList.toggle('bn-nav-hidden', hiding);
-    localStorage.setItem(BN_HIDDEN_KEY, hiding ? '1' : '0');
     if (btn) {
       btn.setAttribute('aria-label', hiding ? 'Tampilkan navigasi' : 'Sembunyikan navigasi');
       var icon = btn.querySelector('i');
@@ -432,9 +423,6 @@
 
   var bnToggle = buildBnToggle();
   document.body.appendChild(bnToggle);
-  if (localStorage.getItem(BN_HIDDEN_KEY) === '1') {
-    document.body.classList.add('bn-nav-hidden');
-  }
 
   /* Index page has its own hero section — skip generic page header */
   if (activePage.id !== 'index') {

@@ -3708,6 +3708,9 @@ body.sb-collapsed .sb-feedback { margin: 10px auto 4px; padding: 0; width: 34px;
 #icu-bottom-nav {
   display: none; /* hidden on desktop */
 }
+#bn-toggle {
+  display: none; /* hidden on desktop */
+}
 
 @media (max-width: 768px) {
   #icu-bottom-nav {
