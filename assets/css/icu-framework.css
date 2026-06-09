@@ -3712,6 +3712,7 @@ body.sb-collapsed .sb-feedback { margin: 10px auto 4px; padding: 0; width: 34px;
 @media (max-width: 768px) {
   #icu-bottom-nav {
     display: flex;
+    flex-direction: column;
     position: fixed;
     bottom: 0;
     left: 0;
@@ -3719,18 +3720,30 @@ body.sb-collapsed .sb-feedback { margin: 10px auto 4px; padding: 0; width: 34px;
     z-index: 900;
     background: var(--card);
     border-top: 1px solid var(--border);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
     box-shadow: 0 -2px 12px rgba(0,0,0,0.15);
+    transition: transform 0.25s ease;
   }
 
+  /* Scrollable track */
+  #bn-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 0 4px;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  #bn-track::-webkit-scrollbar { display: none; }
+
   .bn-item {
-    flex: 1;
+    flex: 0 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 3px;
-    padding: 8px 4px;
+    padding: 8px 10px;
     text-decoration: none;
     color: var(--muted);
     font-size: 10px;
@@ -3738,37 +3751,58 @@ body.sb-collapsed .sb-feedback { margin: 10px auto 4px; padding: 0; width: 34px;
     letter-spacing: 0.02em;
     transition: color 0.15s;
     min-height: 52px;
+    min-width: 56px;
+    scroll-snap-align: start;
   }
 
-  .bn-item.active {
-    color: var(--accent);
+  .bn-item.active { color: var(--accent); }
+  .bn-item:active { opacity: 0.7; }
+
+  .bn-icon { width: 22px; height: 22px; }
+  .bn-label { line-height: 1; white-space: nowrap; }
+
+  /* Hide toggle button — sits at right edge, always visible */
+  #bn-hide-btn {
+    position: absolute;
+    top: -28px;
+    right: 12px;
+    width: 36px;
+    height: 28px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--muted);
+    box-shadow: 0 -2px 6px rgba(0,0,0,0.08);
+    transition: color 0.15s;
+  }
+  #bn-hide-btn:hover { color: var(--text); }
+
+  /* Hidden state — slide nav off screen */
+  #icu-bottom-nav.bn-hidden {
+    transform: translateY(100%);
+  }
+  /* Keep the toggle tab visible even when hidden */
+  #icu-bottom-nav.bn-hidden #bn-hide-btn {
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.15);
   }
 
-  .bn-item:active {
-    opacity: 0.7;
-  }
-
-  .bn-icon {
-    width: 22px;
-    height: 22px;
-  }
-
-  .bn-label {
-    line-height: 1;
-    white-space: nowrap;
-  }
-
-  /* Add bottom padding so content isn't hidden behind bottom nav */
+  /* Body padding */
   body.has-sidebar,
   body.has-sidebar.sb-collapsed {
     padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px));
   }
+  body.has-sidebar.bn-nav-hidden {
+    padding-bottom: 0;
+  }
 
-  /* Back-to-top and install button above bottom nav */
   #back-to-top {
     bottom: calc(68px + env(safe-area-inset-bottom, 0px)) !important;
   }
-
   #pwa-install-btn {
     bottom: calc(68px + env(safe-area-inset-bottom, 0px)) !important;
   }

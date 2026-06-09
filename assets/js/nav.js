@@ -311,17 +311,30 @@
 
   /* ---- Build: bottom nav (mobile only) ---------------------- */
   var BOTTOM_NAV = [
-    { id: 'index',     icon: 'home',           label: 'Home',      href: 'index.html' },
-    { id: 'kalkulator',icon: 'calculator',     label: 'Kalkulator',href: 'pages/kalkulator/kalkulator-ibw.html' },
-    { id: 'abg',       icon: 'activity',       label: 'ABG',       href: 'pages/abg.html' },
-    { id: 'skoring',   icon: 'clipboard-list', label: 'Skoring',   href: 'pages/skoring.html' },
-    { id: 'drug_ref',  icon: 'pill',           label: 'Obat',      href: 'pages/drug-reference.html' }
+    { id: 'index',      icon: 'home',             label: 'Home',      href: 'index.html' },
+    { id: 'kalkulator', icon: 'calculator',        label: 'Kalkulator',href: 'pages/kalkulator/kalkulator-ibw.html' },
+    { id: 'abg',        icon: 'activity',          label: 'ABG',       href: 'pages/abg.html' },
+    { id: 'skoring',    icon: 'clipboard-list',    label: 'Skoring',   href: 'pages/skoring.html' },
+    { id: 'drug_ref',   icon: 'pill',              label: 'Obat',      href: 'pages/drug-reference.html' },
+    { id: 'teori',      icon: 'book-open',         label: 'Teori',     href: 'pages/teori.html' },
+    { id: 'cairan',     icon: 'droplet',           label: 'Cairan',    href: 'pages/cairan.html' },
+    { id: 'weaning',    icon: 'arrow-down-circle', label: 'Weaning',   href: 'pages/weaning.html' },
+    { id: 'monitoring', icon: 'monitor',           label: 'Monitoring',href: 'pages/monitoring.html' },
+    { id: 'setting',    icon: 'settings',          label: 'Setting',   href: 'pages/setting.html' },
+    { id: 'referensi',  icon: 'book-text',         label: 'Referensi', href: 'pages/referensi.html' }
   ];
+
+  var BN_HIDDEN_KEY = 'icu-bn-hidden';
 
   function buildBottomNav() {
     var el = document.createElement('nav');
     el.id = 'icu-bottom-nav';
     el.setAttribute('aria-label', 'Navigasi utama');
+
+    /* Scroll track */
+    var track = document.createElement('div');
+    track.id = 'bn-track';
+
     var html = '';
     for (var i = 0; i < BOTTOM_NAV.length; i++) {
       var item = BOTTOM_NAV[i];
@@ -332,8 +345,40 @@
           '<span class="bn-label">' + item.label + '</span>' +
         '</a>';
     }
-    el.innerHTML = html;
+    track.innerHTML = html;
+    el.appendChild(track);
+
+    /* Hide toggle button */
+    var hideBtn = document.createElement('button');
+    hideBtn.id = 'bn-hide-btn';
+    hideBtn.setAttribute('aria-label', 'Sembunyikan navigasi');
+    hideBtn.innerHTML = '<i data-lucide="chevron-down" style="width:16px;height:16px"></i>';
+    hideBtn.addEventListener('click', toggleBottomNav);
+    el.appendChild(hideBtn);
+
+    /* Restore hidden state */
+    if (localStorage.getItem(BN_HIDDEN_KEY) === '1') {
+      el.classList.add('bn-hidden');
+      hideBtn.setAttribute('aria-label', 'Tampilkan navigasi');
+    }
+
     return el;
+  }
+
+  function toggleBottomNav() {
+    var nav = document.getElementById('icu-bottom-nav');
+    var btn = document.getElementById('bn-hide-btn');
+    if (!nav) return;
+    var hiding = !nav.classList.contains('bn-hidden');
+    nav.classList.toggle('bn-hidden', hiding);
+    localStorage.setItem(BN_HIDDEN_KEY, hiding ? '1' : '0');
+    if (btn) {
+      btn.setAttribute('aria-label', hiding ? 'Tampilkan navigasi' : 'Sembunyikan navigasi');
+      /* Rotate icon */
+      var icon = btn.querySelector('i');
+      if (icon) icon.setAttribute('data-lucide', hiding ? 'chevron-up' : 'chevron-down');
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
   }
 
   /* ---- Build: mobile overlay -------------------------------- */
