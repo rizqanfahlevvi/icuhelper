@@ -10,6 +10,8 @@ import { Skoring } from './pages/Skoring'
 import { Transfusi } from './pages/Transfusi'
 import { Cairan } from './pages/Cairan'
 import { Pulmo } from './pages/Pulmo'
+import { Renal } from './pages/Renal'
+import { Elektro } from './pages/Elektro'
 import { NotFound } from './pages/NotFound'
 
 export default function App() {
@@ -24,6 +26,8 @@ export default function App() {
         <Route path="kalkulator/transfusi" element={<Transfusi />} />
         <Route path="kalkulator/cairan" element={<Cairan />} />
         <Route path="kalkulator/pulmo" element={<Pulmo />} />
+        <Route path="kalkulator/renal" element={<Renal />} />
+        <Route path="kalkulator/elektro" element={<Elektro />} />
         <Route path="abg" element={<Abg />} />
         <Route path="skoring" element={<Skoring />} />
         <Route path="skoring/:sub" element={<Skoring />} />
