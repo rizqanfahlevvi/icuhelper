@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id" data-theme="dark">
 <head>
 <meta charset="UTF-8">
@@ -14,6 +14,122 @@
 })();
 </script>
 <script src="../../assets/js/scripts-theme.js"></script>
+<style>
+/* ── Renal Card Grid ─────────────────────────────────────────── */
+.renal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+  padding: 16px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.renal-card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 12px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.1s, box-shadow 0.15s;
+  text-align: center;
+  user-select: none;
+}
+.renal-card:hover {
+  border-color: var(--accent2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+}
+.renal-card:active { transform: translateY(0); }
+.renal-card-icon { font-size: 28px; line-height: 1; }
+.renal-card-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.35;
+}
+.renal-card-desc {
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+/* ── Modal Overlay ───────────────────────────────────────────── */
+.renal-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 900;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 16px 8px 24px;
+  overflow-y: auto;
+}
+.renal-modal-overlay.open { display: flex; }
+.renal-modal {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  width: 100%;
+  max-width: 640px;
+  position: relative;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.35);
+  margin: auto;
+}
+.renal-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid var(--border);
+  gap: 8px;
+}
+.renal-modal-header-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  flex: 1;
+}
+.renal-modal-close {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--muted);
+  font-size: 16px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.12s, color 0.12s;
+}
+.renal-modal-close:hover { background: var(--card); color: var(--text); }
+.renal-modal-body { padding: 14px 16px 18px; }
+.renal-modal-body .calc-box {
+  margin: 0;
+  border: none;
+  background: none;
+  padding: 0;
+  box-shadow: none;
+}
+
+/* ── HD checklist inside modal ───────────────────────────────── */
+.hd-check-label {
+  display:flex; align-items:flex-start; gap:10px; cursor:pointer;
+  padding:8px 10px; border-radius:6px; border:1px solid var(--border);
+  background:var(--card); font-size:12px; line-height:1.5;
+  transition:border-color var(--duration-fast), background var(--duration-fast);
+}
+.hd-check-label:hover { border-color:var(--accent-dim2); background:var(--accent-dim); }
+.hd-check-label input[type=checkbox] { width:15px; height:15px; margin-top:2px; flex-shrink:0; accent-color:var(--accent); }
+.hd-check-label input:checked + span { color:var(--accent); }
+</style>
 </head>
 <body>
 
@@ -44,238 +160,338 @@
   <a class="subtab-btn" href="kalkulator-transfusi.html">🩸 Transfusi</a>
 </nav>
 
-<!-- Ureum/BUN Converter -->
-  <div class="calc-box">
-    <div class="calc-title"><span>🔄</span> Konversi Ureum ↔ BUN (Live)</div>
-    <div class="info" style="font-size:12px;margin-bottom:12px">
-      RS menggunakan <strong>Ureum serum</strong> (mg/dL atau mmol/L). Masukkan salah satu — nilai lain otomatis dihitung.
-      Konversi digunakan di seluruh kalkulator Renal & Pulmo.
-    </div>
-    <div class="grid3" style="gap:10px">
-      <div class="input-row" style="flex-direction:column;align-items:flex-start;gap:4px">
-        <label>Ureum serum</label>
-        <div style="display:flex;gap:6px;align-items:center">
-          <input type="number" inputmode="decimal" id="uBUN-ureum-mgdl" placeholder="cth: 45" step="0.1" min="0" oninput="convertUreum('mgdl')" style="width:110px">
-          <span class="unit">mg/dL</span>
-        </div>
-      </div>
-      <div class="input-row" style="flex-direction:column;align-items:flex-start;gap:4px">
-        <label>Ureum serum</label>
-        <div style="display:flex;gap:6px;align-items:center">
-          <input type="number" inputmode="decimal" id="uBUN-ureum-mmol" placeholder="cth: 7.5" step="0.1" min="0" oninput="convertUreum('mmol')" style="width:110px">
-          <span class="unit">mmol/L</span>
-        </div>
-      </div>
-      <div class="input-row" style="flex-direction:column;align-items:flex-start;gap:4px">
-        <label>BUN (setara, read-only)</label>
-        <div style="display:flex;gap:6px;align-items:center">
-          <input type="number" inputmode="decimal" id="uBUN-bun" placeholder="—" step="0.1" readonly style="width:110px;background:var(--bg);color:var(--muted)">
-          <span class="unit">mg/dL</span>
-        </div>
-      </div>
-    </div>
-    <div id="ureum-conv-note" class="formula-note hidden" style="margin-top:8px"></div>
+<!-- ── Card Grid ─────────────────────────────────────────────── -->
+<div class="renal-grid">
+  <div class="renal-card" onclick="openRenalModal('modal-ureum')">
+    <div class="renal-card-icon">🔄</div>
+    <div class="renal-card-title">Konversi Ureum ↔ BUN</div>
+    <div class="renal-card-desc">Live converter mg/dL ↔ mmol/L</div>
   </div>
-
-  <!-- eGFR Multi-Formula -->
-  <div class="calc-box">
-    <div class="calc-title"><span>🫘</span> Kalkulator eGFR — CKD-EPI 2021 · Cockcroft-Gault · MDRD</div>
-    <div class="grid2" style="gap:10px">
-      <div>
-        <div class="input-row"><label>Jenis kelamin</label>
-          <select id="egfr-sex"><option value="m">Laki-laki</option><option value="f">Perempuan</option></select>
-        </div>
-        <div class="input-row"><label>Usia</label><input type="number" inputmode="decimal" id="egfr-age" placeholder="cth: 55" min="18" max="120"><span class="unit">tahun</span></div>
-        <div class="input-row"><label>Berat badan <span style="font-size:10px;color:var(--muted)">(utk CG)</span></label><input type="number" inputmode="decimal" id="egfr-bw" placeholder="cth: 65"><span class="unit">kg</span></div>
-        <div class="input-row"><label>Kreatinin serum</label><div class="input-unit-wrap"><input type="number" inputmode="decimal" id="egfr-scr" placeholder="cth: 1.2" step="0.01" min="0"><button class="unit-toggle-btn" data-unit="egfr-scr" onclick="toggleKalcUnit('egfr-scr')">mg/dL</button></div></div>
-        <div class="input-row"><label>Cystatin C <span style="font-size:10px;color:var(--muted)">(opsional)</span></label><input type="number" inputmode="decimal" id="egfr-cysc" placeholder="opsional" step="0.01" min="0"><span class="unit">mg/L</span></div>
-        <div class="input-row"><label>Ureum serum <span style="font-size:10px;color:var(--muted)">(opsional)</span></label><input type="number" inputmode="decimal" id="egfr-ureum" placeholder="opsional" step="0.1" min="0"><span class="unit">mg/dL</span></div>
-      </div>
-      <div>
-        <div class="info" style="margin-top:4px;font-size:12px">
-          <strong>KDIGO 2024:</strong><br>
-          ★ CKD-EPI 2021 race-free → formula primer<br>
-          CKD-EPI Cys-C → jika massa otot abnormal<br>
-          Cockcroft-Gault → penyesuaian dosis obat ICU<br>
-          MDRD → legacy, perbandingan saja<br><br>
-          <strong>Staging CKD (KDIGO 2024):</strong><br>
-          G1 ≥90 · G2 60–89 · G3a 45–59<br>
-          G3b 30–44 · G4 15–29 · G5 &lt;15
-          <span style="font-size:11px;color:var(--muted);display:block;margin-top:4px">Inker LA. NEJM 2021;385:1737 · KDIGO CKD 2024</span>
-        </div>
-      </div>
-    </div>
-    <button class="calc-btn" onclick="calcEGFR()">Hitung eGFR</button>
-    <div id="egfr-results" class="hidden" style="margin-top:14px"><div id="egfr-result-content"></div></div>
+  <div class="renal-card" onclick="openRenalModal('modal-egfr')">
+    <div class="renal-card-icon">🫘</div>
+    <div class="renal-card-title">Kalkulator eGFR</div>
+    <div class="renal-card-desc">CKD-EPI 2021 · CG · MDRD</div>
   </div>
-
-  <!-- AKI Staging -->
-  <div class="calc-box">
-    <div class="calc-title"><span>⚠️</span> Staging AKI — Kriteria KDIGO 2012</div>
-    <div class="grid2" style="gap:10px">
-      <div>
-        <div class="subsec">Berdasarkan Kreatinin Serum</div>
-        <div class="input-row"><label>SCr baseline</label><div class="input-unit-wrap"><input type="number" inputmode="decimal" id="aki-scr-base" placeholder="cth: 0.9" step="0.01"><button class="unit-toggle-btn" data-unit="aki-scr-base" onclick="toggleKalcUnit('aki-scr-base')">mg/dL</button></div></div>
-        <div class="input-row"><label>SCr saat ini</label><div class="input-unit-wrap"><input type="number" inputmode="decimal" id="aki-scr-now" placeholder="cth: 2.1" step="0.01"><button class="unit-toggle-btn" data-unit="aki-scr-now" onclick="toggleKalcUnit('aki-scr-now')">mg/dL</button></div></div>
-      </div>
-      <div>
-        <div class="subsec">Berdasarkan Urine Output</div>
-        <div class="input-row"><label>Berat badan</label><input type="number" inputmode="decimal" id="aki-bw" placeholder="cth: 65"><span class="unit">kg</span></div>
-        <div class="input-row"><label>Volume urin</label><input type="number" inputmode="decimal" id="aki-uo-vol" placeholder="cth: 150"><span class="unit">mL</span></div>
-        <div class="input-row"><label>Durasi observasi</label><input type="number" inputmode="decimal" id="aki-uo-hr" placeholder="cth: 6"><span class="unit">jam</span></div>
-      </div>
-    </div>
-    <button class="calc-btn" onclick="calcAKI()">Tentukan Staging AKI</button>
-    <div id="aki-results" class="hidden" style="margin-top:12px"><div id="aki-result-content"></div></div>
+  <div class="renal-card" onclick="openRenalModal('modal-aki')">
+    <div class="renal-card-icon">⚠️</div>
+    <div class="renal-card-title">Staging AKI</div>
+    <div class="renal-card-desc">Kriteria KDIGO 2012</div>
   </div>
-
-  <!-- FENa / FEUrea -->
-  <div class="calc-box">
-    <div class="calc-title"><span>⚖️</span> FENa &amp; FEUrea — Diferensiasi AKI Pre-renal vs Renal</div>
-    <div class="grid2" style="gap:10px">
-      <div>
-        <div class="subsec">Serum</div>
-        <div class="input-row"><label>Na serum</label><input type="number" inputmode="decimal" id="fena-sna" placeholder="cth: 138"><span class="unit">mEq/L</span></div>
-        <div class="input-row"><label>Kreatinin serum</label><div class="input-unit-wrap"><input type="number" inputmode="decimal" id="fena-scr" placeholder="cth: 2.1" step="0.01"><button class="unit-toggle-btn" data-unit="fena-scr" onclick="toggleKalcUnit('fena-scr')">mg/dL</button></div></div>
-        <div class="input-row"><label>Ureum serum <span style="font-size:10px;color:var(--muted)">(FEUrea)</span></label><input type="number" inputmode="decimal" id="fena-sureum" placeholder="opsional" step="0.1"><span class="unit">mg/dL</span></div>
-      </div>
-      <div>
-        <div class="subsec">Urin (spot urine)</div>
-        <div class="input-row"><label>Na urin</label><input type="number" inputmode="decimal" id="fena-una" placeholder="cth: 80"><span class="unit">mEq/L</span></div>
-        <div class="input-row"><label>Kreatinin urin</label><div class="input-unit-wrap"><input type="number" inputmode="decimal" id="fena-ucr" placeholder="cth: 120"><button class="unit-toggle-btn" data-unit="fena-ucr" onclick="toggleKalcUnit('fena-ucr')">mg/dL</button></div></div>
-        <div class="input-row"><label>Ureum urin <span style="font-size:10px;color:var(--muted)">(FEUrea)</span></label><input type="number" inputmode="decimal" id="fena-uureum" placeholder="opsional" step="0.1"><span class="unit">mg/dL</span></div>
-      </div>
-    </div>
-    <div class="info" style="font-size:12px;margin-top:4px">
-      <strong>Gunakan FEUrea</strong> (bukan FENa) jika pasien mendapat diuretik — FENa tidak valid pada kondisi tersebut.
-    </div>
-    <button class="calc-btn" onclick="calcFENa()">Hitung FENa / FEUrea</button>
-    <div id="fena-results" class="hidden" style="margin-top:12px"><div id="fena-result-content"></div></div>
+  <div class="renal-card" onclick="openRenalModal('modal-fena')">
+    <div class="renal-card-icon">⚖️</div>
+    <div class="renal-card-title">FENa &amp; FEUrea</div>
+    <div class="renal-card-desc">Pre-renal vs Renal AKI</div>
   </div>
-
-  <!-- Osmolalitas -->
-  <div class="calc-box">
-    <div class="calc-title"><span>💧</span> Osmolalitas Serum &amp; Osmol Gap</div>
-    <div class="grid2" style="gap:10px">
-      <div>
-        <div class="input-row"><label>Na serum</label><input type="number" inputmode="decimal" id="osm-na" placeholder="cth: 138"><span class="unit">mEq/L</span></div>
-        <div class="input-row"><label>Glukosa</label><div class="input-unit-wrap"><input type="number" inputmode="decimal" id="osm-glu" placeholder="cth: 180"><button class="unit-toggle-btn" data-unit="osm-glu" onclick="toggleKalcUnit('osm-glu')">mg/dL</button></div></div>
-        <div class="input-row"><label>Ureum serum</label><input type="number" inputmode="decimal" id="osm-ureum" placeholder="cth: 45" step="0.1"><span class="unit">mg/dL</span></div>
-        <div class="input-row"><label>Osmolalitas terukur <span style="font-size:10px;color:var(--muted)">(opsional)</span></label><input type="number" inputmode="decimal" id="osm-measured" placeholder="opsional" step="1"><span class="unit">mOsm/kg</span></div>
-      </div>
-      <div>
-        <div class="info" style="margin-top:4px;font-size:12px">
-          <strong>Formula:</strong><br>
-          2×Na + Glukosa/18 + Ureum/6<br>
-          <span style="color:var(--muted)">(Ureum mg/dL ÷ 6 ≈ mmol/L = BUN/2.8)</span><br><br>
-          <strong>Osmol Gap = Terukur − Kalkulasi</strong><br>
-          Normal: &lt;10 mOsm/kg<br>
-          Gap &gt;10: curiga etanol, metanol, etilenglikol, manitol, propilen glikol
-          <span style="font-size:11px;color:var(--muted);display:block;margin-top:4px">Bhagat CI. Ann Clin Biochem 2001</span>
-        </div>
-      </div>
-    </div>
-    <button class="calc-btn" onclick="calcOsmolality()">Hitung Osmolalitas</button>
-    <div id="osm-results" class="hidden" style="margin-top:12px"><div id="osm-result-content"></div></div>
+  <div class="renal-card" onclick="openRenalModal('modal-osm')">
+    <div class="renal-card-icon">💧</div>
+    <div class="renal-card-title">Osmolalitas &amp; Osmol Gap</div>
+    <div class="renal-card-desc">Serum osmolality calculator</div>
+  </div>
+  <div class="renal-card" onclick="openRenalModal('modal-buncr')">
+    <div class="renal-card-icon">⚗️</div>
+    <div class="renal-card-title">Rasio BUN : Kreatinin</div>
+    <div class="renal-card-desc">Pre-renal vs intrinsik</div>
+  </div>
+  <div class="renal-card" onclick="openRenalModal('modal-hd')">
+    <div class="renal-card-icon">🩺</div>
+    <div class="renal-card-title">Indikasi HD Suportif</div>
+    <div class="renal-card-desc">Checklist KDIGO 2024</div>
   </div>
 </div>
 
-<!-- ===== BUN : KREATININ RATIO ===== -->
-<div class="calc-box">
-  <div class="calc-title"><span>⚗️</span> Rasio BUN : Kreatinin — Pre-renal vs Renal vs Kondisi Khusus</div>
+<!-- ================================================================
+     MODALS
+     ================================================================ -->
 
-  <div class="grid2" style="gap:12px;margin-bottom:12px">
-    <div>
-      <div class="input-row">
-        <label>BUN <span style="font-size:10px;color:var(--muted)">(atau masukkan Ureum)</span></label>
-        <input type="number" inputmode="decimal" id="buncr-bun" placeholder="cth: 42" step="0.1">
-        <span class="unit">mg/dL</span>
-      </div>
-      <div class="input-row" style="margin-top:2px">
-        <label style="font-size:10px;color:var(--muted)">— atau Ureum serum —</label>
-        <input type="number" inputmode="decimal" id="buncr-ureum" placeholder="cth: 90" step="0.1" oninput="buncrConvUreum()">
-        <span class="unit">mg/dL</span>
-      </div>
-      <div class="input-row" style="margin-top:8px">
-        <label>Kreatinin serum</label>
-        <div class="input-unit-wrap"><input type="number" inputmode="decimal" id="buncr-cr" placeholder="cth: 1.8" step="0.01"><button class="unit-toggle-btn" data-unit="buncr-cr" onclick="toggleKalcUnit('buncr-cr')">mg/dL</button></div>
-      </div>
+<!-- Modal: Ureum/BUN -->
+<div class="renal-modal-overlay" id="modal-ureum">
+  <div class="renal-modal">
+    <div class="renal-modal-header">
+      <div class="renal-modal-header-title">🔄 Konversi Ureum ↔ BUN (Live)</div>
+      <button class="renal-modal-close" onclick="closeRenalModal('modal-ureum')">✕</button>
     </div>
-    <div>
-      <div class="info" style="font-size:12px;margin-top:0">
-        <strong>Rentang Normal: 10 – 20</strong><br><br>
-        <span style="color:var(--amber)"><strong>&gt;20</strong></span> → Pre-renal, perdarahan GI atas, hipercatabolisme<br>
-        <span style="color:var(--green)"><strong>10–20</strong></span> → Normal / AKI intrinsik / CKD<br>
-        <span style="color:var(--accent)"><strong>&lt;10</strong></span> → Gagal hati, malnutrisi, SIADH, rhabdomiolisis<br><br>
-        <strong>Catatan:</strong> Ureum (mg/dL) ÷ 2.14 = BUN (mg/dL)<br>
-        <span style="color:var(--muted);font-size:11px">Szabo S. Clin Biochem Rev 2012 · Morgan DB. Clin Nephrol 1977</span>
+    <div class="renal-modal-body">
+      <div class="info" style="font-size:12px;margin-bottom:12px">
+        RS menggunakan <strong>Ureum serum</strong> (mg/dL atau mmol/L). Masukkan salah satu — nilai lain otomatis dihitung.
+        Konversi digunakan di seluruh kalkulator Renal &amp; Pulmo.
       </div>
+      <div class="grid3" style="gap:10px">
+        <div class="input-row" style="flex-direction:column;align-items:flex-start;gap:4px">
+          <label>Ureum serum</label>
+          <div style="display:flex;gap:6px;align-items:center">
+            <input type="number" inputmode="decimal" id="uBUN-ureum-mgdl" placeholder="cth: 45" step="0.1" min="0" oninput="convertUreum('mgdl')" style="width:110px">
+            <span class="unit">mg/dL</span>
+          </div>
+        </div>
+        <div class="input-row" style="flex-direction:column;align-items:flex-start;gap:4px">
+          <label>Ureum serum</label>
+          <div style="display:flex;gap:6px;align-items:center">
+            <input type="number" inputmode="decimal" id="uBUN-ureum-mmol" placeholder="cth: 7.5" step="0.1" min="0" oninput="convertUreum('mmol')" style="width:110px">
+            <span class="unit">mmol/L</span>
+          </div>
+        </div>
+        <div class="input-row" style="flex-direction:column;align-items:flex-start;gap:4px">
+          <label>BUN (setara, read-only)</label>
+          <div style="display:flex;gap:6px;align-items:center">
+            <input type="number" inputmode="decimal" id="uBUN-bun" placeholder="—" step="0.1" readonly style="width:110px;background:var(--bg);color:var(--muted)">
+            <span class="unit">mg/dL</span>
+          </div>
+        </div>
+      </div>
+      <div id="ureum-conv-note" class="formula-note hidden" style="margin-top:8px"></div>
     </div>
-  </div>
-
-  <button class="calc-btn" onclick="calcBUNCr()">Hitung Rasio BUN : Kreatinin</button>
-  <div id="buncr-results" class="hidden" style="margin-top:12px">
-    <div id="buncr-result-content"></div>
   </div>
 </div>
 
-<!-- ===== INDIKASI HD SUPORTIF ===== -->
-<div class="calc-box">
-  <div class="calc-title"><span>🩺</span> Indikasi Hemodialisis (HD) Suportif — Checklist Interaktif</div>
-  <div class="info" style="font-size:12px;margin-bottom:14px">
-    Centang indikasi yang terpenuhi pada pasien. Summary akan muncul otomatis.
-    <br><span style="color:var(--muted)">KDIGO AKI Guidelines 2024 · STARRT-AKI Trial NEJM 2020</span>
-  </div>
-
-  <div class="subsec">🔴 Indikasi ABSOLUT</div>
-  <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
-    <label class="hd-check-label"><input type="checkbox" class="hd-abs" onchange="updateHDSummary()">
-      <span><strong>Uremia simtomatik</strong> — perikarditis uremikum, ensefalopati uremikum, perdarahan uremik</span></label>
-    <label class="hd-check-label"><input type="checkbox" class="hd-abs" onchange="updateHDSummary()">
-      <span><strong>Hiperkalemia refrakter</strong> — K⁺ &gt;6.5 mEq/L dan/atau perubahan EKG (gelombang T tent, PR memanjang, QRS lebar)</span></label>
-    <label class="hd-check-label"><input type="checkbox" class="hd-abs" onchange="updateHDSummary()">
-      <span><strong>Asidosis metabolik refrakter</strong> — pH &lt;7.1 tidak respons terapi standar</span></label>
-    <label class="hd-check-label"><input type="checkbox" class="hd-abs" onchange="updateHDSummary()">
-      <span><strong>Overload cairan refrakter</strong> — edema paru tidak respons diuretik, terutama pada oliguria/anuria</span></label>
-    <label class="hd-check-label"><input type="checkbox" class="hd-abs" onchange="updateHDSummary()">
-      <span><strong>Keracunan/toksin dialisis</strong> — metanol, etilenglikol, litium, asam salisilat, metformin</span></label>
-  </div>
-
-  <div class="subsec">🟡 Indikasi RELATIF</div>
-  <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
-    <label class="hd-check-label"><input type="checkbox" class="hd-rel" onchange="updateHDSummary()">
-      <span><strong>Oliguria persisten &gt;72 jam</strong> — UO &lt;0.5 mL/kg/jam meski sudah optimasi volume dan diuretik</span></label>
-    <label class="hd-check-label"><input type="checkbox" class="hd-rel" onchange="updateHDSummary()">
-      <span><strong>Ureum &gt;80–100 mg/dL</strong> dengan tren naik (atau BUN &gt;40–50 mg/dL)</span></label>
-    <label class="hd-check-label"><input type="checkbox" class="hd-rel" onchange="updateHDSummary()">
-      <span><strong>Kreatinin &gt;10 mg/dL</strong> atau kreatinin naik &gt;0.5 mg/dL/jam</span></label>
-    <label class="hd-check-label"><input type="checkbox" class="hd-rel" onchange="updateHDSummary()">
-      <span><strong>KDIGO Stage 3 AKI</strong> — kreatinin ≥3× baseline, atau kreatinin ≥4.0 mg/dL, atau UO &lt;0.3 mL/kg/jam ≥24 jam, atau anuria ≥12 jam</span></label>
-  </div>
-
-  <div id="hd-summary" style="display:none;margin-top:8px"></div>
-
-  <div class="warn" style="margin-top:12px;font-size:12px">
-    <strong>⏱ Timing HD — STARRT-AKI Trial (NEJM 2020):</strong><br>
-    RCT 3.000 pasien ICU membandingkan HD dini (accelerated) vs standar (delayed). Hasil: <strong>tidak ada perbedaan mortalitas 90 hari</strong> (43.9% vs 43.7%). Kelompok HD dini mendapat lebih banyak HD tanpa manfaat survival.<br>
-    <strong>Kesimpulan klinis: HD tidak perlu dimulai secara rutin berdasarkan angka lab saja — tunggu indikasi klinis yang jelas.</strong>
-    <span style="display:block;margin-top:4px;color:var(--muted)">Bagshaw SM (STARRT-AKI). NEJM 2020;383:240 · KDIGO AKI Guidelines 2024</span>
+<!-- Modal: eGFR -->
+<div class="renal-modal-overlay" id="modal-egfr">
+  <div class="renal-modal">
+    <div class="renal-modal-header">
+      <div class="renal-modal-header-title">🫘 Kalkulator eGFR — CKD-EPI 2021 · Cockcroft-Gault · MDRD</div>
+      <button class="renal-modal-close" onclick="closeRenalModal('modal-egfr')">✕</button>
+    </div>
+    <div class="renal-modal-body">
+      <div class="grid2" style="gap:10px">
+        <div>
+          <div class="input-row"><label>Jenis kelamin</label>
+            <select id="egfr-sex"><option value="m">Laki-laki</option><option value="f">Perempuan</option></select>
+          </div>
+          <div class="input-row"><label>Usia</label><input type="number" inputmode="decimal" id="egfr-age" placeholder="cth: 55" min="18" max="120"><span class="unit">tahun</span></div>
+          <div class="input-row"><label>Berat badan <span style="font-size:10px;color:var(--muted)">(utk CG)</span></label><input type="number" inputmode="decimal" id="egfr-bw" placeholder="cth: 65"><span class="unit">kg</span></div>
+          <div class="input-row"><label>Kreatinin serum</label><div class="input-unit-wrap"><input type="number" inputmode="decimal" id="egfr-scr" placeholder="cth: 1.2" step="0.01" min="0"><button class="unit-toggle-btn" data-unit="egfr-scr" onclick="toggleKalcUnit('egfr-scr')">mg/dL</button></div></div>
+          <div class="input-row"><label>Cystatin C <span style="font-size:10px;color:var(--muted)">(opsional)</span></label><input type="number" inputmode="decimal" id="egfr-cysc" placeholder="opsional" step="0.01" min="0"><span class="unit">mg/L</span></div>
+          <div class="input-row"><label>Ureum serum <span style="font-size:10px;color:var(--muted)">(opsional)</span></label><input type="number" inputmode="decimal" id="egfr-ureum" placeholder="opsional" step="0.1" min="0"><span class="unit">mg/dL</span></div>
+        </div>
+        <div>
+          <div class="info" style="margin-top:4px;font-size:12px">
+            <strong>KDIGO 2024:</strong><br>
+            ★ CKD-EPI 2021 race-free → formula primer<br>
+            CKD-EPI Cys-C → jika massa otot abnormal<br>
+            Cockcroft-Gault → penyesuaian dosis obat ICU<br>
+            MDRD → legacy, perbandingan saja<br><br>
+            <strong>Staging CKD (KDIGO 2024):</strong><br>
+            G1 ≥90 · G2 60–89 · G3a 45–59<br>
+            G3b 30–44 · G4 15–29 · G5 &lt;15
+            <span style="font-size:11px;color:var(--muted);display:block;margin-top:4px">Inker LA. NEJM 2021;385:1737 · KDIGO CKD 2024</span>
+          </div>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcEGFR()">Hitung eGFR</button>
+      <div id="egfr-results" class="hidden" style="margin-top:14px"><div id="egfr-result-content"></div></div>
+    </div>
   </div>
 </div>
 
-<style>
-.hd-check-label {
-  display:flex; align-items:flex-start; gap:10px; cursor:pointer;
-  padding:8px 10px; border-radius:6px; border:1px solid var(--border);
-  background:var(--card); font-size:12px; line-height:1.5;
-  transition:border-color var(--duration-fast), background var(--duration-fast);
-}
-.hd-check-label:hover { border-color:var(--accent-dim2); background:var(--accent-dim); }
-.hd-check-label input[type=checkbox] { width:15px; height:15px; margin-top:2px; flex-shrink:0; accent-color:var(--accent); }
-.hd-check-label input:checked + span { color:var(--accent); }
-</style>
+<!-- Modal: AKI Staging -->
+<div class="renal-modal-overlay" id="modal-aki">
+  <div class="renal-modal">
+    <div class="renal-modal-header">
+      <div class="renal-modal-header-title">⚠️ Staging AKI — Kriteria KDIGO 2012</div>
+      <button class="renal-modal-close" onclick="closeRenalModal('modal-aki')">✕</button>
+    </div>
+    <div class="renal-modal-body">
+      <div class="grid2" style="gap:10px">
+        <div>
+          <div class="subsec">Berdasarkan Kreatinin Serum</div>
+          <div class="input-row"><label>SCr baseline</label><div class="input-unit-wrap"><input type="number" inputmode="decimal" id="aki-scr-base" placeholder="cth: 0.9" step="0.01"><button class="unit-toggle-btn" data-unit="aki-scr-base" onclick="toggleKalcUnit('aki-scr-base')">mg/dL</button></div></div>
+          <div class="input-row"><label>SCr saat ini</label><div class="input-unit-wrap"><input type="number" inputmode="decimal" id="aki-scr-now" placeholder="cth: 2.1" step="0.01"><button class="unit-toggle-btn" data-unit="aki-scr-now" onclick="toggleKalcUnit('aki-scr-now')">mg/dL</button></div></div>
+        </div>
+        <div>
+          <div class="subsec">Berdasarkan Urine Output</div>
+          <div class="input-row"><label>Berat badan</label><input type="number" inputmode="decimal" id="aki-bw" placeholder="cth: 65"><span class="unit">kg</span></div>
+          <div class="input-row"><label>Volume urin</label><input type="number" inputmode="decimal" id="aki-uo-vol" placeholder="cth: 150"><span class="unit">mL</span></div>
+          <div class="input-row"><label>Durasi observasi</label><input type="number" inputmode="decimal" id="aki-uo-hr" placeholder="cth: 6"><span class="unit">jam</span></div>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcAKI()">Tentukan Staging AKI</button>
+      <div id="aki-results" class="hidden" style="margin-top:12px"><div id="aki-result-content"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: FENa / FEUrea -->
+<div class="renal-modal-overlay" id="modal-fena">
+  <div class="renal-modal">
+    <div class="renal-modal-header">
+      <div class="renal-modal-header-title">⚖️ FENa &amp; FEUrea — Diferensiasi AKI Pre-renal vs Renal</div>
+      <button class="renal-modal-close" onclick="closeRenalModal('modal-fena')">✕</button>
+    </div>
+    <div class="renal-modal-body">
+      <div class="grid2" style="gap:10px">
+        <div>
+          <div class="subsec">Serum</div>
+          <div class="input-row"><label>Na serum</label><input type="number" inputmode="decimal" id="fena-sna" placeholder="cth: 138"><span class="unit">mEq/L</span></div>
+          <div class="input-row"><label>Kreatinin serum</label><div class="input-unit-wrap"><input type="number" inputmode="decimal" id="fena-scr" placeholder="cth: 2.1" step="0.01"><button class="unit-toggle-btn" data-unit="fena-scr" onclick="toggleKalcUnit('fena-scr')">mg/dL</button></div></div>
+          <div class="input-row"><label>Ureum serum <span style="font-size:10px;color:var(--muted)">(FEUrea)</span></label><input type="number" inputmode="decimal" id="fena-sureum" placeholder="opsional" step="0.1"><span class="unit">mg/dL</span></div>
+        </div>
+        <div>
+          <div class="subsec">Urin (spot urine)</div>
+          <div class="input-row"><label>Na urin</label><input type="number" inputmode="decimal" id="fena-una" placeholder="cth: 80"><span class="unit">mEq/L</span></div>
+          <div class="input-row"><label>Kreatinin urin</label><div class="input-unit-wrap"><input type="number" inputmode="decimal" id="fena-ucr" placeholder="cth: 120"><button class="unit-toggle-btn" data-unit="fena-ucr" onclick="toggleKalcUnit('fena-ucr')">mg/dL</button></div></div>
+          <div class="input-row"><label>Ureum urin <span style="font-size:10px;color:var(--muted)">(FEUrea)</span></label><input type="number" inputmode="decimal" id="fena-uureum" placeholder="opsional" step="0.1"><span class="unit">mg/dL</span></div>
+        </div>
+      </div>
+      <div class="info" style="font-size:12px;margin-top:4px">
+        <strong>Gunakan FEUrea</strong> (bukan FENa) jika pasien mendapat diuretik — FENa tidak valid pada kondisi tersebut.
+      </div>
+      <button class="calc-btn" onclick="calcFENa()">Hitung FENa / FEUrea</button>
+      <div id="fena-results" class="hidden" style="margin-top:12px"><div id="fena-result-content"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Osmolalitas -->
+<div class="renal-modal-overlay" id="modal-osm">
+  <div class="renal-modal">
+    <div class="renal-modal-header">
+      <div class="renal-modal-header-title">💧 Osmolalitas Serum &amp; Osmol Gap</div>
+      <button class="renal-modal-close" onclick="closeRenalModal('modal-osm')">✕</button>
+    </div>
+    <div class="renal-modal-body">
+      <div class="grid2" style="gap:10px">
+        <div>
+          <div class="input-row"><label>Na serum</label><input type="number" inputmode="decimal" id="osm-na" placeholder="cth: 138"><span class="unit">mEq/L</span></div>
+          <div class="input-row"><label>Glukosa</label><div class="input-unit-wrap"><input type="number" inputmode="decimal" id="osm-glu" placeholder="cth: 180"><button class="unit-toggle-btn" data-unit="osm-glu" onclick="toggleKalcUnit('osm-glu')">mg/dL</button></div></div>
+          <div class="input-row"><label>Ureum serum</label><input type="number" inputmode="decimal" id="osm-ureum" placeholder="cth: 45" step="0.1"><span class="unit">mg/dL</span></div>
+          <div class="input-row"><label>Osmolalitas terukur <span style="font-size:10px;color:var(--muted)">(opsional)</span></label><input type="number" inputmode="decimal" id="osm-measured" placeholder="opsional" step="1"><span class="unit">mOsm/kg</span></div>
+        </div>
+        <div>
+          <div class="info" style="margin-top:4px;font-size:12px">
+            <strong>Formula:</strong><br>
+            2×Na + Glukosa/18 + Ureum/6<br>
+            <span style="color:var(--muted)">(Ureum mg/dL ÷ 6 ≈ mmol/L = BUN/2.8)</span><br><br>
+            <strong>Osmol Gap = Terukur − Kalkulasi</strong><br>
+            Normal: &lt;10 mOsm/kg<br>
+            Gap &gt;10: curiga etanol, metanol, etilenglikol, manitol, propilen glikol
+            <span style="font-size:11px;color:var(--muted);display:block;margin-top:4px">Bhagat CI. Ann Clin Biochem 2001</span>
+          </div>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcOsmolality()">Hitung Osmolalitas</button>
+      <div id="osm-results" class="hidden" style="margin-top:12px"><div id="osm-result-content"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: BUN:Kreatinin -->
+<div class="renal-modal-overlay" id="modal-buncr">
+  <div class="renal-modal">
+    <div class="renal-modal-header">
+      <div class="renal-modal-header-title">⚗️ Rasio BUN : Kreatinin — Pre-renal vs Renal vs Kondisi Khusus</div>
+      <button class="renal-modal-close" onclick="closeRenalModal('modal-buncr')">✕</button>
+    </div>
+    <div class="renal-modal-body">
+      <div class="grid2" style="gap:12px;margin-bottom:12px">
+        <div>
+          <div class="input-row">
+            <label>BUN <span style="font-size:10px;color:var(--muted)">(atau masukkan Ureum)</span></label>
+            <input type="number" inputmode="decimal" id="buncr-bun" placeholder="cth: 42" step="0.1">
+            <span class="unit">mg/dL</span>
+          </div>
+          <div class="input-row" style="margin-top:2px">
+            <label style="font-size:10px;color:var(--muted)">— atau Ureum serum —</label>
+            <input type="number" inputmode="decimal" id="buncr-ureum" placeholder="cth: 90" step="0.1" oninput="buncrConvUreum()">
+            <span class="unit">mg/dL</span>
+          </div>
+          <div class="input-row" style="margin-top:8px">
+            <label>Kreatinin serum</label>
+            <div class="input-unit-wrap"><input type="number" inputmode="decimal" id="buncr-cr" placeholder="cth: 1.8" step="0.01"><button class="unit-toggle-btn" data-unit="buncr-cr" onclick="toggleKalcUnit('buncr-cr')">mg/dL</button></div>
+          </div>
+        </div>
+        <div>
+          <div class="info" style="font-size:12px;margin-top:0">
+            <strong>Rentang Normal: 10 – 20</strong><br><br>
+            <span style="color:var(--amber)"><strong>&gt;20</strong></span> → Pre-renal, perdarahan GI atas, hipercatabolisme<br>
+            <span style="color:var(--green)"><strong>10–20</strong></span> → Normal / AKI intrinsik / CKD<br>
+            <span style="color:var(--accent)"><strong>&lt;10</strong></span> → Gagal hati, malnutrisi, SIADH, rhabdomiolisis<br><br>
+            <strong>Catatan:</strong> Ureum (mg/dL) ÷ 2.14 = BUN (mg/dL)<br>
+            <span style="color:var(--muted);font-size:11px">Szabo S. Clin Biochem Rev 2012 · Morgan DB. Clin Nephrol 1977</span>
+          </div>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcBUNCr()">Hitung Rasio BUN : Kreatinin</button>
+      <div id="buncr-results" class="hidden" style="margin-top:12px">
+        <div id="buncr-result-content"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Indikasi HD -->
+<div class="renal-modal-overlay" id="modal-hd">
+  <div class="renal-modal">
+    <div class="renal-modal-header">
+      <div class="renal-modal-header-title">🩺 Indikasi Hemodialisis (HD) Suportif — Checklist Interaktif</div>
+      <button class="renal-modal-close" onclick="closeRenalModal('modal-hd')">✕</button>
+    </div>
+    <div class="renal-modal-body">
+      <div class="info" style="font-size:12px;margin-bottom:14px">
+        Centang indikasi yang terpenuhi pada pasien. Summary akan muncul otomatis.
+        <br><span style="color:var(--muted)">KDIGO AKI Guidelines 2024 · STARRT-AKI Trial NEJM 2020</span>
+      </div>
+
+      <div class="subsec">🔴 Indikasi ABSOLUT</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+        <label class="hd-check-label"><input type="checkbox" class="hd-abs" onchange="updateHDSummary()">
+          <span><strong>Uremia simtomatik</strong> — perikarditis uremikum, ensefalopati uremikum, perdarahan uremik</span></label>
+        <label class="hd-check-label"><input type="checkbox" class="hd-abs" onchange="updateHDSummary()">
+          <span><strong>Hiperkalemia refrakter</strong> — K⁺ &gt;6.5 mEq/L dan/atau perubahan EKG (gelombang T tent, PR memanjang, QRS lebar)</span></label>
+        <label class="hd-check-label"><input type="checkbox" class="hd-abs" onchange="updateHDSummary()">
+          <span><strong>Asidosis metabolik refrakter</strong> — pH &lt;7.1 tidak respons terapi standar</span></label>
+        <label class="hd-check-label"><input type="checkbox" class="hd-abs" onchange="updateHDSummary()">
+          <span><strong>Overload cairan refrakter</strong> — edema paru tidak respons diuretik, terutama pada oliguria/anuria</span></label>
+        <label class="hd-check-label"><input type="checkbox" class="hd-abs" onchange="updateHDSummary()">
+          <span><strong>Keracunan/toksin dialisis</strong> — metanol, etilenglikol, litium, asam salisilat, metformin</span></label>
+      </div>
+
+      <div class="subsec">🟡 Indikasi RELATIF</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+        <label class="hd-check-label"><input type="checkbox" class="hd-rel" onchange="updateHDSummary()">
+          <span><strong>Oliguria persisten &gt;72 jam</strong> — UO &lt;0.5 mL/kg/jam meski sudah optimasi volume dan diuretik</span></label>
+        <label class="hd-check-label"><input type="checkbox" class="hd-rel" onchange="updateHDSummary()">
+          <span><strong>Ureum &gt;80–100 mg/dL</strong> dengan tren naik (atau BUN &gt;40–50 mg/dL)</span></label>
+        <label class="hd-check-label"><input type="checkbox" class="hd-rel" onchange="updateHDSummary()">
+          <span><strong>Kreatinin &gt;10 mg/dL</strong> atau kreatinin naik &gt;0.5 mg/dL/jam</span></label>
+        <label class="hd-check-label"><input type="checkbox" class="hd-rel" onchange="updateHDSummary()">
+          <span><strong>KDIGO Stage 3 AKI</strong> — kreatinin ≥3× baseline, atau kreatinin ≥4.0 mg/dL, atau UO &lt;0.3 mL/kg/jam ≥24 jam, atau anuria ≥12 jam</span></label>
+      </div>
+
+      <div id="hd-summary" style="display:none;margin-top:8px"></div>
+
+      <div class="warn" style="margin-top:12px;font-size:12px">
+        <strong>⏱ Timing HD — STARRT-AKI Trial (NEJM 2020):</strong><br>
+        RCT 3.000 pasien ICU membandingkan HD dini (accelerated) vs standar (delayed). Hasil: <strong>tidak ada perbedaan mortalitas 90 hari</strong> (43.9% vs 43.7%). Kelompok HD dini mendapat lebih banyak HD tanpa manfaat survival.<br>
+        <strong>Kesimpulan klinis: HD tidak perlu dimulai secara rutin berdasarkan angka lab saja — tunggu indikasi klinis yang jelas.</strong>
+        <span style="display:block;margin-top:4px;color:var(--muted)">Bagshaw SM (STARRT-AKI). NEJM 2020;383:240 · KDIGO AKI Guidelines 2024</span>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
+function openRenalModal(id) {
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeRenalModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+/* Close on overlay click */
+document.querySelectorAll('.renal-modal-overlay').forEach(function(overlay) {
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) closeRenalModal(overlay.id);
+  });
+});
+/* Close on Escape */
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.renal-modal-overlay.open').forEach(function(el) {
+      closeRenalModal(el.id);
+    });
+  }
+});
+
 function updateHDSummary() {
   var abs = document.querySelectorAll('.hd-abs:checked').length;
   var rel = document.querySelectorAll('.hd-rel:checked').length;
@@ -296,10 +512,6 @@ function updateHDSummary() {
     '</div>';
 }
 </script>
-
-<!-- =========================================================== -->
-<!-- SUB: PULMO -->
-<!-- =========================================================== -->
 
 <script src="../../assets/js/scripts-kalkulator-renal.js"></script>
 <script src="../../assets/js/nav.js"></script>
