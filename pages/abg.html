@@ -33,6 +33,9 @@
 </nav>
 
 <div id="abg-session-bar" style="margin-bottom:8px"></div>
+<div class="theory-dropdown">
+<button class="theory-btn abg-drop-btn" onclick="toggleTheory('abg-interpreter')">🩸 ABG Interpreter Lengkap <span class="chevron">▼</span></button>
+<div class="theory-content" id="theory-abg-interpreter" style="padding:0;margin-top:0">
 <div class="calc-box">
   <div class="calc-title"><span>🩸</span> ABG Interpreter Lengkap — 6 Langkah + Metabolik + Oksigenasi</div>
   <div class="info" style="margin-bottom:12px">Masukkan seluruh parameter untuk interpretasi sistematis: asam-basa, kompensasi, anion gap, delta-delta, P/F ratio, OI, ROX index, klasifikasi gagal napas, dan saran klinis.</div>
@@ -114,7 +117,12 @@
     <div id="abg-result-content"></div>
   </div>
 </div>
+</div><!-- /theory-abg-interpreter -->
+</div><!-- /dropdown interpreter -->
 
+<div class="theory-dropdown" style="margin-top:6px">
+<button class="theory-btn abg-drop-btn" onclick="toggleTheory('abg-koreksi')">🧮 Kalkulator Koreksi Asam-Basa <span class="chevron">▼</span></button>
+<div class="theory-content" id="theory-abg-koreksi" style="padding:0;margin-top:0">
 <!-- KALKULATOR KOREKSI ASAM-BASA -->
 <div class="calc-box" style="margin-top:12px">
   <div class="calc-title"><span>🧮</span> Kalkulator Koreksi Asam-Basa</div>
@@ -183,6 +191,8 @@
     <div id="acbc4-result"></div>
   </div>
 </div>
+</div><!-- /theory-abg-koreksi -->
+</div><!-- /dropdown koreksi -->
 
 <!-- DROPDOWN TEORI ABG -->
 <div class="sec">Teori & Referensi ABG</div>
@@ -478,6 +488,16 @@
 </div>
 
 <script src="../assets/js/scripts-abg.js"></script>
+<script>
+/* Auto-open kalkulator dropdowns on load */
+document.addEventListener('DOMContentLoaded', function () {
+  ['abg-interpreter', 'abg-koreksi'].forEach(function (id) {
+    var btn = document.querySelector('[onclick="toggleTheory('' + id + '')"]');
+    var content = document.getElementById('theory-' + id);
+    if (btn && content) { btn.classList.add('open'); content.classList.add('visible'); }
+  });
+});
+</script>
 <script type="module">
   import { initValidation } from '../assets/ts/form-validator.ts'
   initValidation(['abgPH','abgCO2','abgHCO3','abgO2','abgBE','abgNa','abgCl','abgAlb','abgLaktat','abgSpO2','abgRR'])

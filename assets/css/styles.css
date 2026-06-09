@@ -373,6 +373,20 @@ ul li { margin-bottom: 4px; font-size: 13px; }
 .theory-content li { font-size: 12px; }
 .chevron { font-size: 10px; transition: transform var(--duration-fast); }
 .theory-btn.open .chevron { transform: rotate(180deg); }
+
+/* Kalkulator dropdown variant — lebih prominent dari teori biasa */
+.abg-drop-btn {
+  background: var(--card);
+  border: 1.5px solid var(--accent2);
+  color: var(--text);
+  font-size: 13px;
+  padding: 11px 14px;
+  border-radius: 10px;
+}
+.abg-drop-btn:hover { border-color: var(--accent2); color: var(--accent2); background: var(--accent2-dim); }
+.abg-drop-btn.open { border-color: var(--accent2); color: var(--accent2); background: var(--accent2-dim); border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+.abg-drop-btn + .theory-content { border-color: var(--accent2); border-radius: 0 0 10px 10px; }
+
 .ref-tag {
   font-size: 10px; color: var(--accent2); margin-top: 8px; padding: 6px 8px;
   background: var(--accent2-dim); border-radius: 4px; display: block;
