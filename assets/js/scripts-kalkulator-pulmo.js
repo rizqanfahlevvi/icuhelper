@@ -110,6 +110,13 @@ function calcCURB65(){
   html+=`<div class="formula-note" style="margin-top:8px">CURB-65. Lim WS et al. Thorax 2003;58:377 · BTS Guidelines for CAP. Gunakan SMART-COP untuk prediksi kebutuhan vasopressor/ventilasi.</div>`;
   document.getElementById('curb-result-content').innerHTML=html;
   document.getElementById('curb-results').classList.remove('hidden');
+
+  if(typeof window.saveCalcHistory==='function'){
+    window.saveCalcHistory('pulmo',
+      'CURB-65 '+score+'/5 · '+interp,
+      {'curb-c':String(conf),'curb-ureum':String(isNaN(ureumMgdl)?'':ureumMgdl),'curb-rr':String(isNaN(rr)?'':rr),'curb-sbp':String(isNaN(sbp)?'':sbp),'curb-dbp':String(isNaN(dbp)?'':dbp),'curb-age':String(isNaN(age)?'':age)},
+      'CURB-65 skor '+score+'/5 — '+interp);
+  }
 }
 
 function calcPSI(){
@@ -173,6 +180,13 @@ function calcPSI(){
   html+=`<div class="formula-note" style="margin-top:8px">PSI/PORT Score. Fine MJ et al. NEJM 1997;336:243 · Mandell LA (IDSA/ATS) Clin Infect Dis 2007;44:S27</div>`;
   document.getElementById('psi-result-content').innerHTML=html;
   document.getElementById('psi-results').classList.remove('hidden');
+
+  if(typeof window.saveCalcHistory==='function'){
+    window.saveCalcHistory('pulmo',
+      'PSI '+Math.round(score)+' poin · '+pc,
+      {'psi-sex':String(sex),'psi-age':String(age)},
+      'PSI '+pc+' ('+Math.round(score)+' poin) — mortalitas 30-hari '+pmort);
+  }
 }
 
 function calcSMARTCOP(){
@@ -217,6 +231,13 @@ function calcSMARTCOP(){
 
   document.getElementById('sc-result-content').innerHTML=html;
   document.getElementById('sc-results').classList.remove('hidden');
+
+  if(typeof window.saveCalcHistory==='function'){
+    window.saveCalcHistory('pulmo',
+      'SMART-COP '+score+'/11 · '+risk,
+      {'sc-s':String(s),'sc-m':String(m),'sc-a':String(a),'sc-r':String(r),'sc-t':String(t),'sc-c':String(c),'sc-o':String(o),'sc-p':String(p)},
+      'SMART-COP skor '+score+'/11 — '+risk+' (risiko PIIT '+pct+')');
+  }
 }
 
 function updateATSCheck(){
@@ -311,4 +332,11 @@ function calcAAGradient(){
   <div class="formula-note" style="margin-top:8px">West JB. Respiratory Physiology 9th ed. 2012 · Sarkar M. Lung India 2017;34:47</div>`;
   document.getElementById('aa-result-content').innerHTML=html;
   document.getElementById('aa-results').classList.remove('hidden');
+
+  if(typeof window.saveCalcHistory==='function'){
+    window.saveCalcHistory('pulmo',
+      'A-a Gradient '+aaGrad.toFixed(1)+' mmHg',
+      {'aa-fio2':String(fio2),'aa-paco2':String(paco2),'aa-pao2':String(pao2),'aa-patm':String(patm),'aa-age':String(isNaN(aaAge)?'':aaAge)},
+      'A-a gradient '+aaGrad.toFixed(1)+' mmHg (normal ≤'+normalAa.toFixed(0)+') — '+ai);
+  }
 }

@@ -261,6 +261,13 @@ function calcOsmolalitas() {
   var res = document.getElementById('osm-results');
   res.classList.remove('hidden');
   document.getElementById('osm-result-content').innerHTML = html;
+
+  if(typeof window.saveCalcHistory==='function'){
+    window.saveCalcHistory('electro',
+      'Osm efektif '+osmEff.toFixed(1)+' mOsm/kg · '+osmClass,
+      {'osm-na':String(na),'osm-glu':String(glu),'osm-bun':String(isNaN(bunRaw)?'':bunRaw),'osm-measured':String(isNaN(osmMeas)?'':osmMeas)},
+      'Osm terhitung '+osmCalc.toFixed(1)+' · efektif '+osmEff.toFixed(1)+' mOsm/kg — '+osmClass+(osmGap!==null?' · osmol gap '+osmGap.toFixed(1):''));
+  }
 }
 
 function toggleTheory(id){
@@ -428,6 +435,14 @@ function calcNaCorr(){
   html+=`<div class="formula-note" style="margin-top:6px">TBW = ${tbwF*100}% × BB · NaCl 3% = 513 mEq/L (3 mEq/mL) · Formula: Volume = ΔNa × TBW × 1000 / 513 &nbsp;|&nbsp; Adrogue HJ. NEJM 2000;342:1581 · Sterns RH. NEJM 2015;372:55 · Hoorn EJ. NEJM 2023;388:2340</div>`;
   document.getElementById('na-result-content').innerHTML=html;
   document.getElementById('na-results').classList.remove('hidden');
+
+  if(typeof window.saveCalcHistory==='function'){
+    var naStatus=na<135?'Hiponatremia':na>145?'Hipernatremia':'Na normal';
+    window.saveCalcHistory('electro',
+      'Koreksi Na '+na+' mEq/L · '+naStatus,
+      {'na-val':String(na),'na-sex':String(sex),'na-bw':String(bw),'na-glu':String(isNaN(glu)?'':glu)},
+      naStatus+' — Na '+na+' mEq/L (TBW '+tbw.toFixed(1)+' L, onset '+onset+')');
+  }
 }
 
 function calcKCorr(){
@@ -591,6 +606,14 @@ function calcKCorr(){
   html+=`<div class="formula-note" style="margin-top:6px">Defisit K: ↓0.1 mEq/L ≈ 100–200 mEq defisit/70kg (BB-adjusted: ×BB/70). Efek pH: ±6 mEq/L K per unit pH. &nbsp;|&nbsp; Palmer BF. NEJM 2020;382:2152 · Gennari FJ. Am J Med 1998;104:367 · Kraft MD. Am J Health-Syst Pharm 2005 · Macdonald JE. Heart 2004;90:1098</div>`;
   document.getElementById('k-result-content').innerHTML=html;
   document.getElementById('k-results').classList.remove('hidden');
+
+  if(typeof window.saveCalcHistory==='function'){
+    var kStatus=k<3.5?'Hipokalemia':k>5.0?'Hiperkalemia':'K normal';
+    window.saveCalcHistory('electro',
+      'Koreksi K '+k+' mEq/L · '+kStatus,
+      {'k-val':String(k),'k-bw':String(isNaN(bw)?'':bw),'k-ph':String(isNaN(ph)?'':ph),'k-access':String(access)},
+      kStatus+' — K '+k+' mEq/L');
+  }
 }
 
 function calcCaCorr(){
@@ -707,6 +730,13 @@ function calcCaCorr(){
   html+=`<div class="formula-note" style="margin-top:8px">Ca terkoreksi = Ca total + 0.8 × (4 − Albumin) · Estimasi Ca ionized ≈ Ca terkoreksi × 0.25 (±pH adj 0.05 mmol/L per 0.1 unit pH) &nbsp;|&nbsp; Payne RB. BMJ 1973 · Cooper MS. BMJ 2003;326:417 · Dickerson RN. Pharmacotherapy 2004;24:1501 · Bushinsky DA. Lancet 1998</div>`;
   document.getElementById('ca-result-content').innerHTML=html;
   document.getElementById('ca-results').classList.remove('hidden');
+
+  if(typeof window.saveCalcHistory==='function'){
+    window.saveCalcHistory('electro',
+      'Ca terkoreksi '+caCorr.toFixed(2)+' mg/dL',
+      {'ca-val':String(ca),'ca-alb':String(alb),'ca-ion':String(isNaN(caIon)?'':caIon),'ca-ph':String(isNaN(caPh)?'':caPh)},
+      'Ca terkoreksi albumin '+caCorr.toFixed(2)+' mg/dL — '+cl);
+  }
 }
 
 function calcMgCorr(){
@@ -782,4 +812,12 @@ function calcMgCorr(){
   html+=`<div class="formula-note" style="margin-top:8px">MgSO₄ 1g = 4 mmol Mg²⁺. Mg 1 mg/dL ≈ 0.41 mmol/L (atau ÷ 2.43). &nbsp;|&nbsp; Glasdam SM. AACN Adv Crit Care 2012 · de Baaij JH. Physiol Rev 2015;95:791 · Swaminathan R. Clin Biochem Rev 2003;24:47</div>`;
   document.getElementById('mg-result-content').innerHTML=html;
   document.getElementById('mg-results').classList.remove('hidden');
+
+  if(typeof window.saveCalcHistory==='function'){
+    var mgStatus=mg<1.7?'Hipomagnesemia':mg>2.5?'Hipermagnesemia':'Mg normal';
+    window.saveCalcHistory('electro',
+      'Koreksi Mg '+mg+' mg/dL · '+mgStatus,
+      {'mg-val':String(mg),'mg-bw':String(isNaN(bw)?'':bw),'mg-egfr':String(isNaN(egfr)?'':egfr),'mg-symptomatic':String(sym)},
+      mgStatus+' — Mg '+mg+' mg/dL ('+mgMmol+' mmol/L)');
+  }
 }

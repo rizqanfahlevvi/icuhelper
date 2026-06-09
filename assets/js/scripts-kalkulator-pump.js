@@ -127,6 +127,13 @@ function calcPump() {
 
   document.getElementById('pump-result-content').innerHTML = html;
   document.getElementById('pump-results').classList.remove('hidden');
+
+  if (typeof window.saveCalcHistory === 'function') {
+    window.saveCalcHistory('pump',
+      dname + ' ' + rateMlH.toFixed(2) + ' mL/jam',
+      {pumpDrug:String(drug), pumpBB:String(bb), pumpDose:String(dose), pumpVol:String(vol||'')},
+      dname + ' ' + dose + ' ' + unit + (isFlatDose ? '' : ' · BB ' + bb + ' kg') + ' → ' + rateMlH.toFixed(2) + ' mL/jam (durasi ' + duration + ' jam)');
+  }
 }
 
 document.addEventListener('DOMContentLoaded', function() {

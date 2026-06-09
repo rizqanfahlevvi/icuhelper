@@ -180,4 +180,11 @@ function calcIBW(){
     extraDiv.innerHTML=extraCards;
   }
   document.getElementById('ibw-results').classList.remove('hidden');
+
+  if(typeof window.saveCalcHistory==='function'){
+    window.saveCalcHistory('ibw',
+      'IBW '+ibwR.toFixed(1)+' kg',
+      {ibwSex:String(sex),ibwHeight:String(h),ibwActual:String(aBW||''),ibwCondition:String(cond)},
+      'IBW '+ibwR.toFixed(1)+' kg · VT '+vtLowML+'–'+vtHighML+' mL ('+vtLow+'–'+vtHigh+' mL/kg) — '+vtNote);
+  }
 }

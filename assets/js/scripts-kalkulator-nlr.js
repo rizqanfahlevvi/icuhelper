@@ -127,4 +127,21 @@ function calcNLR(){
 
   document.getElementById('nlr-result-content').innerHTML=html;
   document.getElementById('nlr-results').classList.remove('hidden');
+
+  if(typeof window.saveCalcHistory==='function'){
+    var _summ='NLR '+nlr.toFixed(2)+' ('+nlrB.label+')'+
+      (plr!==null?' · PLR '+plr.toFixed(1):'')+
+      (sii!==null?' · SII '+Math.round(sii):'')+
+      (mlr!==null?' · MLR '+mlr.toFixed(2):'')+' — '+nlrInterp;
+    var _inp;
+    if(_nlrMode==='pct'){
+      _inp={mode:'pct',wbc:String(wbc||''),neutPct:String(document.getElementById('nlr-neut-pct').value||''),lymphPct:String(document.getElementById('nlr-lymph-pct').value||''),monoPct:String(document.getElementById('nlr-mono-pct').value||''),plt:String(plt||'')};
+    }else{
+      _inp={mode:'abs',neut:String(neut||''),lymph:String(lymph||''),mono:String(mono||''),plt:String(plt||''),wbc:String(wbc||'')};
+    }
+    window.saveCalcHistory('nlr',
+      'NLR '+nlr.toFixed(2)+' · '+nlrB.label,
+      _inp,
+      _summ);
+  }
 }

@@ -248,6 +248,13 @@ function calcIntubasi(){
 
   document.getElementById('itu-result-content').innerHTML=html;
   document.getElementById('itu-results').classList.remove('hidden');
+
+  if(typeof window.saveCalcHistory==='function'){
+    window.saveCalcHistory('drug',
+      'Intubasi '+sd.label+' · '+bb+' kg',
+      {'itu-bb':String(bb),'itu-scenario':String(sc),'itu-nmb':String(nmbPref),'itu-premed':String(premed)},
+      'RSI '+sd.label+' — induksi '+sd.induction+' · BB '+bb+' kg');
+  }
 }
 
 const drugData={
@@ -306,4 +313,11 @@ function calcDrug(){
   html+=`<div class="formula-note" style="margin-top:8px">BB digunakan: ${bb} kg · Target RASS: ${rass} · Nyeri: ${pain} · Semua dosis berbasis PADIS Guidelines 2018 (Devlin JW, Crit Care Med 2018)</div>`;
   document.getElementById('drug-result-content').innerHTML=html;
   document.getElementById('drug-results').classList.remove('hidden');
+
+  if(typeof window.saveCalcHistory==='function'){
+    window.saveCalcHistory('drug',
+      'Sedasi-Analgesia ICU · '+bb+' kg',
+      {drugBB:String(bb),drugRASS:String(rass),drugPain:String(pain)},
+      'Sedasi-analgesia ICU · BB '+bb+' kg · RASS '+rass+' · nyeri '+pain);
+  }
 }

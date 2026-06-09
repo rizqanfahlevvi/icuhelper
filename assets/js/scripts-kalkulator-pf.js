@@ -86,4 +86,11 @@ function calcPF(){
   }
   document.getElementById('pf-result-content').innerHTML=html;
   document.getElementById('pf-results').classList.remove('hidden');
+
+  if(typeof window.saveCalcHistory==='function'){
+    window.saveCalcHistory('pf',
+      'P/F '+pf.toFixed(0)+' · '+pfClass,
+      {pfPaO2:String(pao2),'pf-fio2':String(fio2),pfMAP:String(map||''),pfSpO2:String(spo2||''),pfPplat:String(pplat||''),pfPEEP:String(peep||'')},
+      'P/F '+pf.toFixed(0)+' mmHg — '+pfClass);
+  }
 }

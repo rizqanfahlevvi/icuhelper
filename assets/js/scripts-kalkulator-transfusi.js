@@ -115,6 +115,13 @@ function calcPRC(){
 
   document.getElementById('prc-result-content').innerHTML=html;
   document.getElementById('prc-results').classList.remove('hidden');
+
+  if(typeof window.saveCalcHistory==='function'){
+    window.saveCalcHistory('transfusi',
+      'PRC '+kolf+' kolf ('+Math.round(volPRC)+' mL)',
+      {hb:String(hb),hbt:String(hbt),bb:String(bb),sex:String(sex||'')},
+      'PRC '+kolf+' kolf ('+Math.round(volPRC)+' mL) · ΔHb '+hb+'→'+hbt+' g/dL (+'+dHb.toFixed(1)+') · ±'+dHbPerKolf+' g/dL per kolf');
+  }
 }
 
 function calcWB(){
@@ -155,6 +162,13 @@ function calcWB(){
 
   document.getElementById('wb-result-content').innerHTML=html;
   document.getElementById('wb-results').classList.remove('hidden');
+
+  if(typeof window.saveCalcHistory==='function'){
+    window.saveCalcHistory('transfusi',
+      'Whole Blood '+kolf+' kolf ('+Math.round(volWB)+' mL)',
+      {hb:String(hb),hbt:String(hbt),bb:String(bb)},
+      'Whole Blood '+kolf+' kolf ('+Math.round(volWB)+' mL) · ΔHb '+hb+'→'+hbt+' g/dL (+'+dHb.toFixed(1)+') · ±'+dHbPerKolf+' g/dL per kolf');
+  }
 }
 
 function calcFFP(){
@@ -189,6 +203,13 @@ function calcFFP(){
 
   document.getElementById('ffp-result-content').innerHTML=html;
   document.getElementById('ffp-results').classList.remove('hidden');
+
+  if(typeof window.saveCalcHistory==='function'){
+    window.saveCalcHistory('transfusi',
+      'FFP '+kolf+' kolf ('+Math.round(volFFP)+' mL)',
+      {bb:String(bb),dose:String(dose),inr:String(inr||'')},
+      'FFP '+kolf+' kolf ('+Math.round(volFFP)+' mL) · dosis '+dose+' mL/kg · rate '+rate+' mL/jam'+(inr?' · INR '+inr:''));
+  }
 }
 
 function calcTC(){
@@ -200,6 +221,7 @@ function calcTC(){
 
   const dPlt=Math.max(0,pltt-plt);
   let html='<div class="result-grid">';
+  let tcLabel,tcSummary;
 
   if(tipe==='rd'){
     const unitStd=Math.ceil(bb/10);
@@ -216,6 +238,8 @@ function calcTC(){
     <p>ΔPlt target: ${plt} → ${pltt} × 10³/μL. Dosis: ${unitRec} unit RD (≈${unitRec*60} mL).<br>
     Estimasi increment: +${Math.min(parseInt(expIncrement),dPlt)} × 10³/μL (1 unit ≈ +5.000–10.000/μL untuk 70 kg).<br>
     Cek platelet 1 jam post-transfusi. CCI target &gt;7.500. Jika CCI rendah → curiga refraktori (HLA/HPA antibodi).</p></div>`;
+    tcLabel='TC Random Donor '+unitRec+' unit';
+    tcSummary='TC Random Donor '+unitRec+' unit ('+volTotal+' mL) · ΔPlt '+plt+'→'+pltt+' ×10³/μL · estimasi +'+Math.min(parseInt(expIncrement),dPlt)+' ×10³/μL';
   }else{
     const expInc=Math.round(45*(70/bb));
     html+=`<div class="result-card" style="border-color:var(--orange)"><div class="result-label">TC Apheresis (SDA)</div><div class="result-value" style="color:var(--orange)">1</div><div class="result-sub">kantong (≈250 mL)</div></div>`;
@@ -226,12 +250,21 @@ function calcTC(){
     <p>1 kantong apheresis = setara 4–6 unit random donor. Estimasi ↑Plt: +${Math.min(expInc,dPlt)} × 10³/μL.<br>
     Keuntungan SDA: donor tunggal (↓ alloimmunisasi, ↓ transmisi infeksi), HLA-matched tersedia jika refraktori.<br>
     Jika target &gt;+50.000 tidak tercapai: pertimbangkan 2 kantong atau HLA-matched SDA.</p></div>`;
+    tcLabel='TC Apheresis 1 kantong';
+    tcSummary='TC Apheresis 1 kantong (250 mL, setara 4–6 unit RD) · ΔPlt '+plt+'→'+pltt+' ×10³/μL · estimasi +'+Math.min(expInc,dPlt)+' ×10³/μL';
   }
 
   html+=`<div class="formula-note" style="margin-top:8px">CCI = (Post−Pre Plt × BSA) / unit. Target CCI &gt;7.500 pada 1 jam · &gt;4.500 pada 24 jam. &nbsp;|&nbsp; Slichter SJ. Hematology ASH 2007 · British Committee 2003</div>`;
 
   document.getElementById('tc-result-content').innerHTML=html;
   document.getElementById('tc-results').classList.remove('hidden');
+
+  if(typeof window.saveCalcHistory==='function'){
+    window.saveCalcHistory('transfusi',
+      tcLabel,
+      {plt:String(plt),pltt:String(pltt),bb:String(bb),tipe:String(tipe||'')},
+      tcSummary);
+  }
 }
 
 function calcCryo(){
@@ -267,4 +300,11 @@ function calcCryo(){
 
   document.getElementById('cryo-result-content').innerHTML=html;
   document.getElementById('cryo-results').classList.remove('hidden');
+
+  if(typeof window.saveCalcHistory==='function'){
+    window.saveCalcHistory('transfusi',
+      'Cryoprecipitate '+kolfRec+' kolf',
+      {fib:String(fib),fibTarget:String(fibTarget),bb:String(bb)},
+      'Cryoprecipitate '+kolfRec+' kolf ('+volTotal+' mL) · fibrinogen '+fib+'→'+fibTarget+' mg/dL · defisit '+Math.round(fibDeficit)+' mg'+(fib<100?' · ⚠ hipofibrinogenemia berat':''));
+  }
 }

@@ -48,8 +48,17 @@
     egfr:    { label: 'eGFR',          icon: '🫘', href: 'kalkulator/kalkulator-renal.html' },
     aki:     { label: 'Staging AKI',   icon: '⚠️', href: 'kalkulator/kalkulator-renal.html' },
     fena:    { label: 'FENa/FEUrea',   icon: '⚖️', href: 'kalkulator/kalkulator-renal.html' },
-    osm:     { label: 'Osmolalitas',   icon: '💧', href: 'kalkulator/kalkulator-renal.html' },
-    buncr:   { label: 'BUN:Kreatinin', icon: '⚗️', href: 'kalkulator/kalkulator-renal.html' }
+    osm:      { label: 'Osmolalitas',   icon: '💧', href: 'kalkulator/kalkulator-renal.html' },
+    buncr:    { label: 'BUN:Kreatinin', icon: '⚗️', href: 'kalkulator/kalkulator-renal.html' },
+    ibw:      { label: 'IBW & Parameter', icon: '⚖️', href: 'kalkulator/kalkulator-ibw.html' },
+    drug:     { label: 'Sedasi & Paralitik', icon: '💊', href: 'kalkulator/kalkulator-drug.html' },
+    pump:     { label: 'Syringe Pump',  icon: '🔬', href: 'kalkulator/kalkulator-pump.html' },
+    pf:       { label: 'P/F & OI',      icon: '📈', href: 'kalkulator/kalkulator-pf.html' },
+    pulmo:    { label: 'Pulmo',         icon: '🫁', href: 'kalkulator/kalkulator-pulmo.html' },
+    electro:  { label: 'ElektroCorr',   icon: '⚡', href: 'kalkulator/kalkulator-electro.html' },
+    nlr:      { label: 'NLR',           icon: '🧫', href: 'kalkulator/kalkulator-nlr.html' },
+    transfusi:{ label: 'Transfusi',     icon: '🩸', href: 'kalkulator/kalkulator-transfusi.html' },
+    cairan:   { label: 'Cairan',        icon: '💧', href: 'kalkulator/kalkulator-cairan.html' }
   };
   window.calcHistoryModuleMeta = MODULE_META;
 

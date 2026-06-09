@@ -261,6 +261,13 @@ function calcKoreksi() {
 
   el.innerHTML = html;
   el.classList.remove('hidden');
+
+  if(typeof window.saveCalcHistory==='function'){
+    window.saveCalcHistory('cairan',
+      'Kebutuhan cairan '+_f(total)+' mL/hari',
+      {bw:String(bw),target:String(b1Target),vent:String(vent||''),temp:String(temp),sweat:String(sweat||''),uo:String(uoTgt),ngt:String(ngt||''),drain:String(drain||''),other:String(other||'')},
+      'Total kebutuhan '+_f(total)+' mL/hari · rate '+_f(ratePerHr,1)+' mL/jam · '+_f(total/bw,1)+' mL/kg/hari'+(activeROSE?' · fase '+activeROSE:''));
+  }
 }
 
 /* ── BOX 3: Balans Kumulatif ─────────────────────────────── */
@@ -343,6 +350,15 @@ function calcCumulative() {
 
   document.getElementById('cb-result').innerHTML = html;
   document.getElementById('cb-result').classList.remove('hidden');
+
+  if(typeof window.saveCalcHistory==='function'){
+    var _cbInp={};
+    ids.forEach(function(id){_cbInp[id]=String(document.getElementById(id).value||'');});
+    window.saveCalcHistory('cairan',
+      'Balans kumulatif '+(cumulative>=0?'+':'')+_f(cumulative)+' mL ('+filledDays.length+' hari)',
+      _cbInp,
+      label+' · kumulatif '+(cumulative>=0?'+':'')+_f(cumulative)+' mL · rata-rata '+(avgBalance>=0?'+':'')+_f(avgBalance)+' mL/hari');
+  }
 }
 
 /* ── BOX 4: Fluid Overload ───────────────────────────────── */
@@ -397,6 +413,13 @@ function calcFluidOverload() {
 
   el.innerHTML = html;
   el.classList.remove('hidden');
+
+  if(typeof window.saveCalcHistory==='function'){
+    window.saveCalcHistory('cairan',
+      'Fluid Overload '+(foPercent>=0?'+':'')+_f(foPercent,1)+'%',
+      {dry:String(dry),current:String(current)},
+      label+' · selisih '+(diffKg>=0?'+':'')+_f(diffKg,1)+' kg ('+(diffML>=0?'+':'')+_f(diffML)+' mL)');
+  }
 }
 
 /* ── BOX 5: Fluid Balance 24 jam ────────────────────────── */
@@ -463,4 +486,11 @@ function calcFluidBalance() {
 
   el.innerHTML = html;
   el.classList.remove('hidden');
+
+  if(typeof window.saveCalcHistory==='function'){
+    window.saveCalcHistory('cairan',
+      'Balance 24 jam '+(balance>=0?'+':'')+_f(balance)+' mL',
+      {iv:String(document.getElementById('fb-iv').value||''),med:String(document.getElementById('fb-med').value||''),nutri:String(document.getElementById('fb-nutri').value||''),bolus:String(document.getElementById('fb-bolus').value||''),oral:String(document.getElementById('fb-oral').value||''),uo:String(document.getElementById('fb-uo').value||''),iwl:String(document.getElementById('fb-iwl').value||''),ngt:String(document.getElementById('fb-ngt').value||''),drain:String(document.getElementById('fb-drain').value||''),other:String(document.getElementById('fb-other').value||'')},
+      label+' · input '+_f(totalIn)+' mL · output '+_f(totalOut)+' mL · balance '+(balance>=0?'+':'')+_f(balance)+' mL'+(activeROSE?' · fase '+activeROSE:''));
+  }
 }
