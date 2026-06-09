@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DKA & HHS (HONK) — Krisis Hiperglikemia — ICU Helper</title>
+<link rel="stylesheet" href="../../assets/css/icu-framework.css">
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<script>
+/* Anti-FOUC: apply saved theme before paint */
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn" href="../kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="../ekg.html">📈 EKG</a>
+  <a class="tab-btn active" href="teori-impending.html">📖 Teori</a>
+  <a class="tab-btn" href="../skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+
+<nav class="subtab-bar">
+  <a class="subtab-btn" href="teori-impending.html">⚠️ Impending Gagal Napas</a>
+  <a class="subtab-btn" href="teori-gagalnapas.html">🫁 Gagal Napas</a>
+  <a class="subtab-btn" href="teori-fisiologi.html">🔬 Fisiologi Ventilasi</a>
+  <a class="subtab-btn" href="teori-sepsis.html">🦠 Sepsis</a>
+  <a class="subtab-btn" href="teori-b1b6.html">📋 B1–B6</a>
+  <a class="subtab-btn" href="teori-airway.html">🩺 Airway &amp; Intubasi</a>
+  <a class="subtab-btn" href="teori-sat-sbt-vap.html">🔄 SAT/SBT/VAP</a>
+  <a class="subtab-btn active" href="teori-dka-hhs.html">🍬 DKA &amp; HHS</a>
+</nav>
+
+<div class="sec">DKA &amp; HHS (HONK) — Krisis Hiperglikemia pada Dewasa</div>
+
+  <!-- DEFINISI BOX -->
+  <div class="cc red">
+    <div class="ct">🍬 Dua Krisis Hiperglikemia Akut — Spektrum, Bukan Dikotomi</div>
+    <div class="grid2" style="margin-top:8px">
+      <div>
+        <p><strong>🔴 DKA (Diabetic Ketoacidosis):</strong></p>
+        <p style="color:var(--text);font-size:13px">Defisiensi insulin <em>absolut/relatif</em> + ↑ hormon kontraregulasi → lipolisis → <strong>ketogenesis</strong> → asidosis metabolik anion gap tinggi. Khas DM tipe 1, namun makin sering pada DM tipe 2 ("ketosis-prone").</p>
+      </div>
+      <div>
+        <p><strong>🟠 HHS (Hyperosmolar Hyperglycemic State) = HONK lama:</strong></p>
+        <p style="color:var(--text);font-size:13px">Insulin masih cukup untuk menekan ketogenesis namun tidak untuk mengontrol glukosa → hiperglikemia ekstrem + diuresis osmotik → <strong>dehidrasi berat &amp; hiperosmolalitas</strong>, ketosis minimal. Khas DM tipe 2 lansia.</p>
+      </div>
+    </div>
+    <p style="margin-top:8px;color:var(--text);font-size:13px"><strong>⚠️ Penting:</strong> Hingga <strong>~⅓ kasus tumpang tindih</strong> (mixed DKA-HHS) — bisa ketoasidosis <em>sekaligus</em> hiperosmolar. Tatalaksana mengikuti komponen yang dominan, dengan kewaspadaan ekstra (mortalitas tertinggi).</p>
+    <p style="margin-top:6px;font-size:12px"><em>📚 Umpierrez GE, et al. <strong>Hyperglycemic Crises in Adults With Diabetes: A Consensus Report</strong> (ADA/EASD/AACE/JBDS/DTN-UK). Diabetes Care 2024;47(8):1257–1275 · Diabetologia 2024 · ADA Standards of Care 2025 · JBDS-IP (UK) DKA 2023 &amp; HHS 2022</em></p>
+  </div>
+
+  <!-- KRITERIA DIAGNOSIS -->
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('dka-kriteria')">📖 Kriteria Diagnosis — DKA vs HHS (Konsensus 2024) <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-dka-kriteria">
+      <div class="subsec">Kriteria Diagnostik (ADA/EASD Consensus 2024)</div>
+      <table>
+        <tr><th>Parameter</th><th>DKA</th><th>HHS</th></tr>
+        <tr><td>Glukosa plasma</td><td>≥200 mg/dL (≥11.1 mmol/L)*</td><td>≥600 mg/dL (≥33.3 mmol/L)</td></tr>
+        <tr><td>Ketonemia (β-hidroksibutirat / BHB)</td><td><strong>≥3.0 mmol/L</strong> (atau keton urin ≥2+)</td><td>&lt;3.0 mmol/L (minimal)</td></tr>
+        <tr><td>pH arteri/vena</td><td>&lt;7.3</td><td>&gt;7.3</td></tr>
+        <tr><td>Bikarbonat (HCO₃⁻)</td><td>&lt;18 mmol/L</td><td>&gt;18 mmol/L</td></tr>
+        <tr><td>Osmolalitas efektif</td><td>Bervariasi</td><td><strong>&gt;300 mOsm/kg</strong></td></tr>
+        <tr><td>Anion gap</td><td>Tinggi (&gt;10–12)</td><td>Bervariasi (sering normal)</td></tr>
+        <tr><td>Status mental</td><td>Bervariasi (sering sadar)</td><td>Sering ↓ (stupor/koma bila osm &gt;320)</td></tr>
+      </table>
+      <p style="margin-top:8px">*<strong>Perubahan kunci konsensus 2024:</strong> ambang glukosa DKA diturunkan ke <strong>≥200 mg/dL</strong>, ambang HCO₃⁻ dinaikkan ke <strong>&lt;18</strong>, dan <strong>BHB ≥3.0 mmol/L</strong> menjadi standar (lebih akurat dari keton urin). Diagnosis dapat ditegakkan tanpa menunggu glukosa sangat tinggi.</p>
+
+      <div class="cc amber" style="margin:10px 0">
+        <div class="ct">⚠️ Euglycemic DKA (euDKA) — Jangan Terlewat!</div>
+        <p style="color:var(--text);font-size:13px">DKA dengan glukosa <strong>&lt;200–250 mg/dL</strong> namun tetap ketoasidosis. Penyebab: <strong>SGLT2 inhibitor</strong> (empagliflozin, dapagliflozin, dll), kehamilan, kelaparan/puasa, penyakit hati, intake karbohidrat sangat rendah, muntah berkepanjangan. <strong>Curigai DKA pada pasien sakit yang memakai SGLT2i meski gula normal</strong> — periksa BHB &amp; AGD.</p>
+      </div>
+
+      <div class="subsec">Klasifikasi Beratnya DKA (berdasarkan asidosis)</div>
+      <table>
+        <tr><th>Derajat</th><th>pH</th><th>HCO₃⁻ (mmol/L)</th><th>Status</th></tr>
+        <tr><td><span class="badge ba">Ringan</span></td><td>7.25–7.30</td><td>15–18</td><td>Sadar</td></tr>
+        <tr><td><span class="badge bo">Sedang</span></td><td>7.00–&lt;7.25</td><td>10–&lt;15</td><td>Sadar/mengantuk</td></tr>
+        <tr><td><span class="badge br">Berat</span></td><td>&lt;7.00</td><td>&lt;10</td><td>Stupor/koma · pertimbangkan ICU</td></tr>
+      </table>
+      <p style="margin-top:8px"><strong>Osmolalitas efektif</strong> = 2 × Na (mmol/L) + Glukosa (mg/dL)/18. Normal 275–295 mOsm/kg. <em>Ureum tidak dimasukkan</em> karena permeabel (tidak menarik air antar-kompartemen).</p>
+      <p style="font-size:12px"><em>📚 Umpierrez GE et al. Diabetes Care 2024;47:1257 · Kitabchi AE et al. Diabetes Care 2009;32:1335 (klasik)</em></p>
+    </div>
+  </div>
+
+  <!-- PATOFISIOLOGI -->
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('dka-patofis')">📖 Patofisiologi &amp; Faktor Pencetus <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-dka-patofis">
+      <div class="subsec">Mekanisme Inti</div>
+      <table>
+        <tr><th>Langkah</th><th>DKA</th><th>HHS</th></tr>
+        <tr><td>Defisiensi insulin</td><td>Absolut/berat</td><td>Relatif (residual cukup menekan lipolisis)</td></tr>
+        <tr><td>Hormon kontraregulasi (glukagon, kortisol, katekolamin, GH)</td><td>↑↑↑</td><td>↑↑</td></tr>
+        <tr><td>Glukoneogenesis &amp; glikogenolisis</td><td>↑↑ → hiperglikemia</td><td>↑↑↑ → hiperglikemia ekstrem</td></tr>
+        <tr><td>Lipolisis → asam lemak bebas → ketogenesis hepatik</td><td><strong>↑↑↑ → ketoasidosis</strong></td><td>Minimal (insulin residual cukup)</td></tr>
+        <tr><td>Diuresis osmotik</td><td>Sedang–berat</td><td><strong>Berat → dehidrasi &amp; hiperosmolar</strong></td></tr>
+        <tr><td>Defisit cairan tipikal</td><td>~100 mL/kg (≈6 L)</td><td>~100–220 mL/kg (≈8–12 L)</td></tr>
+      </table>
+
+      <div class="subsec">Faktor Pencetus (cari &amp; obati!) — Mnemonic "5 I"</div>
+      <ul>
+        <li><strong>Infeksi</strong> (tersering, ~30–50%): pneumonia, ISK, sepsis, kaki diabetik — periksa kultur, CRP/PCT, rontgen.</li>
+        <li><strong>Infark/Iskemia</strong>: ACS, stroke, emboli — EKG &amp; troponin rutin (terutama HHS lansia).</li>
+        <li><strong>Insulin lalai</strong>: putus/kurang dosis, malfungsi pompa, ketidakpatuhan, manipulasi dosis.</li>
+        <li><strong>Iatrogenik/Obat</strong>: kortikosteroid, tiazid, antipsikotik atipikal, <strong>SGLT2i (euDKA)</strong>, kemoterapi, kokain.</li>
+        <li><strong>Inisiasi (onset baru DM)</strong>: presentasi pertama DM tipe 1, atau "ketosis-prone" DM tipe 2.</li>
+      </ul>
+      <p style="margin-top:6px">Lain: pankreatitis akut, kehamilan, dehidrasi/akses air terbatas pada lansia (HHS), bedah besar.</p>
+      <p style="font-size:12px"><em>📚 Umpierrez GE et al. Diabetes Care 2024 · Fayfman M et al. Med Clin North Am 2017;101:587</em></p>
+    </div>
+  </div>
+
+  <!-- PRINSIP TATALAKSANA -->
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('dka-tata')">📖 Prinsip Tatalaksana — Cairan · Kalium · Insulin <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-dka-tata">
+      <div class="cc teal" style="margin-bottom:10px">
+        <div class="ct">🎯 Urutan Prioritas: <strong>Cairan → Kalium → Insulin</strong></div>
+        <p style="color:var(--text);font-size:13px">Resusitasi cairan adalah terapi <strong>lini pertama</strong>. <strong>Jangan mulai insulin sebelum K⁺ diketahui</strong> — insulin mendorong K⁺ intrasel dan dapat mencetuskan hipokalemia &amp; aritmia fatal. Pada HHS, insulin dimulai lebih lambat/lebih rendah.</p>
+      </div>
+
+      <div class="subsec">1️⃣ Cairan (Resusitasi)</div>
+      <ul>
+        <li><strong>Mulai:</strong> NaCl 0.9% — dewasa hemodinamik stabil ~<strong>500–1000 mL/jam</strong> (atau 15–20 mL/kg/jam) pada 1–2 jam pertama; lebih hati-hati pada gagal jantung/ginjal &amp; lansia.</li>
+        <li><strong>Lanjutan — sesuaikan dengan Na terkoreksi:</strong> bila Na terkoreksi normal/tinggi → ganti ke <strong>NaCl 0.45%</strong>; bila Na rendah → lanjut 0.9%.</li>
+        <li><strong>Kristaloid seimbang</strong> (Ringer Laktat/Plasma-Lyte) <em>wajar</em> dan dapat mempercepat resolusi DKA serta mengurangi asidosis hiperkloremik (bukti RCT terbaru — konsensus 2024 menerima sebagai alternatif 0.9%).</li>
+        <li><strong>HHS:</strong> rehidrasi lebih bertahap; target penurunan osmolalitas ≤3–8 mOsm/kg/jam dan Na tidak turun &gt;10 mmol/L per 24 jam (cegah edema serebral &amp; mielinolisis).</li>
+        <li><strong>Na terkoreksi</strong> = Na terukur + 1.6 (atau 2.4) × [(glukosa mg/dL − 100)/100].</li>
+      </ul>
+
+      <div class="subsec">2️⃣ Kalium (K⁺)</div>
+      <table>
+        <tr><th>K⁺ serum (mmol/L)</th><th>Tindakan</th></tr>
+        <tr><td><strong>&lt;3.3</strong></td><td><span class="badge br">TUNDA insulin</span> · beri K⁺ 10–20 mmol/jam sampai ≥3.3, lalu mulai insulin</td></tr>
+        <tr><td><strong>3.3–5.0 (5.2)</strong></td><td>Tambahkan K⁺ <strong>10–20 mmol per liter</strong> cairan; target K⁺ 4–5</td></tr>
+        <tr><td><strong>&gt;5.0 (5.2)</strong></td><td>Jangan beri K⁺ dulu; cek ulang tiap 2 jam</td></tr>
+      </table>
+      <p style="margin-top:6px">Total K⁺ tubuh selalu <em>defisit</em> meski serum awal normal/tinggi (pergeseran ekstrasel akibat asidosis &amp; defisiensi insulin). Pantau K⁺ tiap 2–4 jam. Butuh diuresis adekuat sebelum suplementasi agresif.</p>
+
+      <div class="subsec">3️⃣ Insulin</div>
+      <ul>
+        <li><strong>DKA:</strong> insulin regular IV <strong>fixed-rate 0.1 unit/kg/jam</strong>. Bolus awal (0.1 unit/kg) <em>opsional</em> dan <strong>tidak diperlukan</strong> jika infus dimulai segera (JBDS: tanpa bolus).</li>
+        <li><strong>HHS:</strong> mulai insulin <strong>lebih rendah (0.05 unit/kg/jam)</strong> dan <em>hanya setelah</em> cairan berjalan &amp; K⁺ aman — pada HHS cairan saja sudah menurunkan glukosa; insulin terlalu dini → kolaps osmotik &amp; hipokalemia.</li>
+        <li><strong>Target penurunan glukosa:</strong> 50–75 mg/dL/jam (≈3–4 mmol/L/jam). Jika &lt;50 mg/dL/jam → naikkan laju insulin (cek juga cairan &amp; patensi jalur).</li>
+        <li><strong>Tambahkan dekstrosa</strong> (D5–D10) saat glukosa turun ke <strong>&lt;250 mg/dL (DKA)</strong> / &lt;250–300 (HHS), sambil <strong>insulin diteruskan</strong> sampai ketoasidosis/hiperosmolar teratasi (jangan stop insulin hanya karena gula sudah turun!).</li>
+        <li><strong>DKA ringan–sedang tertentu</strong> (sadar, tanpa syok) dapat dikelola dengan <strong>insulin analog rapid-acting subkutan</strong> tiap 1–2 jam di bangsal/IGD — alternatif hemat ICU (konsensus 2024).</li>
+      </ul>
+      <p style="font-size:12px"><em>📚 Umpierrez GE et al. Diabetes Care 2024;47:1257 · JBDS-IP. Management of DKA in Adults 2023 · JBDS-IP. Management of HHS in Adults 2022</em></p>
+    </div>
+  </div>
+
+  <!-- BIKARBONAT, FOSFAT -->
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('dka-adjunct')">📖 Bikarbonat, Fosfat &amp; Terapi Tambahan <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-dka-adjunct">
+      <div class="subsec">Bikarbonat (NaHCO₃)</div>
+      <ul>
+        <li><strong>Tidak rutin.</strong> Hanya dipertimbangkan bila <strong>pH &lt;7.0</strong> (setelah resusitasi cairan awal) — dan manfaatnya pun belum terbukti memperbaiki luaran.</li>
+        <li>Risiko: hipokalemia memburuk, asidosis SSP paradoksikal, hipoksia jaringan (pergeseran kurva oksihemoglobin), edema serebral, alkalosis rebound.</li>
+        <li>Bila diberikan: dosis kecil (mis. 50–100 mmol dalam cairan), <em>selalu</em> dengan tambahan K⁺ &amp; pantau ketat; hentikan saat pH ≥7.0.</li>
+      </ul>
+      <div class="subsec">Fosfat</div>
+      <ul>
+        <li>Tidak rutin. Pertimbangkan bila <strong>fosfat &lt;1.0 mg/dL</strong> atau ada disfungsi jantung/napas, anemia hemolitik, atau kelemahan otot pernapasan.</li>
+        <li>Suplementasi berlebih → hipokalsemia. Pantau Ca &amp; Mg.</li>
+      </ul>
+      <div class="subsec">Magnesium</div>
+      <ul>
+        <li>Sering defisit; koreksi bila hipomagnesemia (mendukung koreksi K⁺ &amp; Ca).</li>
+      </ul>
+      <div class="subsec">Profilaksis VTE</div>
+      <ul>
+        <li><strong>HHS = risiko trombosis sangat tinggi</strong> (hiperosmolar + dehidrasi + imobilisasi). Berikan <strong>profilaksis VTE</strong> (LMWH) kecuali kontraindikasi. Pertimbangkan juga pada DKA berat yang lama.</li>
+      </ul>
+      <p style="font-size:12px"><em>📚 Umpierrez GE et al. Diabetes Care 2024 · Chua HR et al. (bicarbonate review) · JBDS-IP HHS 2022 (penekanan profilaksis VTE)</em></p>
+    </div>
+  </div>
+
+  <!-- MONITORING & RESOLUSI -->
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('dka-monitor')">📖 Monitoring, Kriteria Resolusi &amp; Transisi ke Subkutan <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-dka-monitor">
+      <div class="subsec">Monitoring</div>
+      <table>
+        <tr><th>Parameter</th><th>Frekuensi</th></tr>
+        <tr><td>Glukosa kapiler/plasma</td><td>Tiap 1 jam</td></tr>
+        <tr><td>β-hidroksibutirat (BHB) — bila tersedia</td><td>Tiap 1–2 jam (penanda resolusi terbaik)</td></tr>
+        <tr><td>Elektrolit (K, Na), AGD/HCO₃⁻, anion gap</td><td>Tiap 2–4 jam</td></tr>
+        <tr><td>Osmolalitas efektif (HHS)</td><td>Tiap 2–4 jam (target turun ≤3–8 mOsm/kg/jam)</td></tr>
+        <tr><td>Status cairan (UO, tanda overload), kesadaran (GCS)</td><td>Kontinu / tiap jam</td></tr>
+      </table>
+
+      <div class="subsec">Kriteria Resolusi</div>
+      <table>
+        <tr><th></th><th>DKA — resolusi</th><th>HHS — resolusi</th></tr>
+        <tr><td>Penanda utama</td><td><strong>BHB &lt;0.6 mmol/L</strong> (atau anion gap normal ≤12)</td><td>Osmolalitas efektif normal &amp; kesadaran pulih</td></tr>
+        <tr><td>pH / HCO₃⁻</td><td>pH &gt;7.3 dan/atau HCO₃⁻ ≥15–18</td><td>—</td></tr>
+        <tr><td>Glukosa</td><td>Umumnya &lt;200–250 mg/dL</td><td>&lt;250–300 mg/dL</td></tr>
+      </table>
+      <p style="margin-top:6px"><strong>Catatan:</strong> glukosa normal ≠ DKA teratasi. Patokan resolusi adalah <strong>hilangnya ketoasidosis</strong> (BHB/anion gap), bukan sekadar gula turun.</p>
+
+      <div class="subsec">Transisi ke Insulin Subkutan</div>
+      <ul>
+        <li>Syarat: kriteria resolusi tercapai, pasien sadar &amp; bisa makan.</li>
+        <li><strong>Overlap wajib:</strong> berikan insulin <strong>basal subkutan 1–2 jam SEBELUM</strong> menghentikan infus IV (mencegah rebound ketoasidosis karena waktu-paruh insulin IV sangat pendek).</li>
+        <li>Lanjutkan regimen basal-bolus (atau dosis sebelumnya bila sudah pakai insulin). <strong>Lanjutkan SGLT2i hanya setelah benar-benar pulih</strong> dan makan normal.</li>
+      </ul>
+      <p style="font-size:12px"><em>📚 Umpierrez GE et al. Diabetes Care 2024 · JBDS-IP DKA 2023</em></p>
+    </div>
+  </div>
+
+  <!-- KOMPLIKASI -->
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('dka-komplikasi')">📖 Komplikasi &amp; Jebakan (Pitfalls) <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-dka-komplikasi">
+      <table>
+        <tr><th>Komplikasi</th><th>Penyebab</th><th>Pencegahan</th></tr>
+        <tr><td><strong>Hipokalemia</strong></td><td>Insulin + bikarbonat tanpa K⁺ adekuat</td><td>Cek K⁺ sebelum insulin; suplementasi sesuai protokol; pantau tiap 2–4 jam</td></tr>
+        <tr><td><strong>Hipoglikemia</strong></td><td>Insulin diteruskan tanpa dekstrosa saat gula turun</td><td>Tambah D5–D10 saat glukosa &lt;250 mg/dL</td></tr>
+        <tr><td><strong>Edema serebral</strong> (terutama anak/dewasa muda)</td><td>Koreksi osmolalitas/Na terlalu cepat, cairan berlebih</td><td>Turunkan glukosa &amp; osm bertahap; waspada nyeri kepala/↓GCS → manitol/salin hipertonik</td></tr>
+        <tr><td><strong>Asidosis hiperkloremik</strong></td><td>Resusitasi NaCl 0.9% volume besar</td><td>Self-limiting; kristaloid seimbang mengurangi risiko</td></tr>
+        <tr><td><strong>Overload cairan / edema paru</strong></td><td>Rehidrasi agresif pada gagal jantung/ginjal/lansia</td><td>Titrasi pada HHS &amp; komorbid; pantau UO &amp; tanda kongesti</td></tr>
+        <tr><td><strong>Tromboemboli (VTE)</strong></td><td>HHS hiperosmolar + dehidrasi</td><td>Profilaksis LMWH</td></tr>
+        <tr><td><strong>Rebound ketoasidosis</strong></td><td>Stop insulin IV tanpa overlap subkutan</td><td>Overlap basal SC 1–2 jam sebelum stop IV</td></tr>
+      </table>
+      <div class="cc amber" style="margin-top:10px">
+        <div class="ct">⚠️ Pitfalls Cepat</div>
+        <ul style="margin:6px 0 0">
+          <li>Jangan tertipu <strong>euDKA</strong> (gula normal pada pengguna SGLT2i) — periksa BHB/AGD.</li>
+          <li>Jangan menilai resolusi dari gula saja — pakai <strong>BHB / anion gap</strong>.</li>
+          <li>Jangan mulai insulin saat <strong>K⁺ &lt;3.3</strong> — koreksi K⁺ dulu.</li>
+          <li>Pada <strong>HHS</strong>: insulin <em>belakangan</em> &amp; lebih rendah; fokus rehidrasi bertahap.</li>
+          <li><strong>Selalu cari pencetus</strong> (infeksi, ACS, stroke) — krisis hiperglikemia jarang "spontan".</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- REFERENSI -->
+  <div class="card" style="margin-top:16px">
+    <div class="subsec">📚 Referensi Utama — Guideline Terbaru</div>
+    <table>
+      <tr><th>Publikasi</th><th>Topik</th><th>Poin Kunci</th></tr>
+      <tr><td><strong>Umpierrez GE, et al. Diabetes Care 2024;47(8):1257–1275</strong> (juga Diabetologia 2024)</td><td>Konsensus ADA/EASD/AACE/JBDS/DTN-UK — Krisis Hiperglikemia Dewasa</td><td>Kriteria DKA baru (glukosa ≥200, HCO₃⁻ &lt;18, BHB ≥3.0); penekanan BHB; euDKA &amp; SGLT2i; kristaloid seimbang; insulin SC untuk DKA ringan–sedang.</td></tr>
+      <tr><td><strong>JBDS-IP (UK). Management of DKA in Adults, 2023</strong></td><td>Protokol DKA Inggris</td><td>Fixed-rate insulin 0.1 unit/kg/jam tanpa bolus; pemantauan BHB; resolusi berbasis keton; transisi SC dengan overlap.</td></tr>
+      <tr><td><strong>JBDS-IP (UK). Management of HHS in Adults, 2022</strong></td><td>Protokol HHS Inggris</td><td>Rehidrasi bertahap, target penurunan osm/Na terkendali, insulin rendah/belakangan, profilaksis VTE.</td></tr>
+      <tr><td><strong>ADA. Standards of Care in Diabetes, 2025</strong></td><td>Standar perawatan diabetes</td><td>Diadopsi kriteria &amp; alur konsensus 2024 untuk krisis hiperglikemia.</td></tr>
+      <tr><td><strong>Kitabchi AE, et al. Diabetes Care 2009;32:1335</strong></td><td>Konsensus ADA klasik (rujukan historis)</td><td>Dasar protokol cairan-kalium-insulin; ambang diagnostik lama (glukosa &gt;250, HCO₃⁻ &lt;18/15).</td></tr>
+    </table>
+    <p style="margin-top:8px;font-size:12px;color:var(--muted)">Untuk panduan klinis — bukan pengganti penilaian klinis. Selalu sesuaikan dengan protokol institusi &amp; kondisi pasien.</p>
+  </div>
+
+<script src="../../assets/js/scripts-teori.js"></script>
+<script src="../../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../../assets/js/feedback.js"></script>
+<!-- ☕ Variant A — Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+  <script src="../../assets/data/references.js"></script>
+  <script src="../../assets/js/scripts-citations.js"></script>
+</body>
+</html>

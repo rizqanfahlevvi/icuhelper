@@ -12,7 +12,7 @@
    - CSS + images        → Cache-first    (stable, optimise speed)
    ============================================================ */
 
-var CACHE_VERSION = 'icu-helper-v2.0.20260609e';   /* ← bump on each deploy */
+var CACHE_VERSION = 'icu-helper-v2.0.20260609f';   /* ← bump on each deploy */
 var CACHE_NAME    = CACHE_VERSION;
 
 /* Paths that MUST always be fresh from the network.
@@ -72,6 +72,9 @@ var STATIC_ASSETS = [
   './pages/teori/teori-gagalnapas.html',
   './pages/teori/teori-impending.html',
   './pages/teori/teori-sepsis.html',
+  './pages/teori/teori-airway.html',
+  './pages/teori/teori-sat-sbt-vap.html',
+  './pages/teori/teori-dka-hhs.html',
 
   /* Icons */
   './assets/img/icon-192.png',

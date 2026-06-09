@@ -53,7 +53,8 @@
         { label: 'Sepsis & Syok Septik',     href: 'pages/teori/teori-sepsis.html' },
         { label: 'B1–B6 Bedside Assessment', href: 'pages/teori/teori-b1b6.html' },
         { label: 'Airway & Intubasi',        href: 'pages/teori/teori-airway.html' },
-        { label: 'SAT · SBT · VAP Bundle',   href: 'pages/teori/teori-sat-sbt-vap.html' }
+        { label: 'SAT · SBT · VAP Bundle',   href: 'pages/teori/teori-sat-sbt-vap.html' },
+        { label: 'DKA & HHS (HONK)',         href: 'pages/teori/teori-dka-hhs.html' }
       ]
     },
     {
