@@ -43,7 +43,7 @@ export const PAGES: NavItem[] = [
     ],
   },
   {
-    id: 'kalkulator', icon: 'calculator', label: 'Kalkulator', href: '/pages/kalkulator.html',
+    id: 'kalkulator', icon: 'calculator', label: 'Kalkulator', to: '/kalkulator/ibw',
     title: 'Kalkulator Klinis',
     subtitle: 'IBW · Sedasi & RSI · Syringe Pump · P/F & OI · Renal · Pulmo · ElektroCorr · NLR · Transfusi · Cairan',
     subs: [
@@ -66,7 +66,7 @@ export const PAGES: NavItem[] = [
     subs: [],
   },
   {
-    id: 'cairan', icon: 'droplet', label: 'Cairan', href: '/pages/cairan.html',
+    id: 'cairan', icon: 'droplet', label: 'Cairan', to: '/cairan-iv',
     title: 'Cairan IV',
     subtitle: 'Kristaloid · Koloid · Maintenance · Nutrisi Parenteral',
     subs: [],
@@ -110,7 +110,7 @@ export const PAGES: NavItem[] = [
     subs: [],
   },
   {
-    id: 'referensi', icon: 'book-text', label: 'Referensi', href: '/pages/referensi.html',
+    id: 'referensi', icon: 'book-text', label: 'Referensi', to: '/referensi',
     title: 'Referensi',
     subtitle: 'Daftar Pustaka Internasional & Lokal Indonesia · Guidelines Terkini',
     subs: [],

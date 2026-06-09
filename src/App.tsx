@@ -17,6 +17,8 @@ import { DrugRef } from './pages/DrugRef'
 import { Setting } from './pages/Setting'
 import { Monitoring } from './pages/Monitoring'
 import { Weaning } from './pages/Weaning'
+import { CairanIV } from './pages/CairanIV'
+import { Referensi } from './pages/Referensi'
 import { NotFound } from './pages/NotFound'
 
 export default function App() {
@@ -38,6 +40,8 @@ export default function App() {
         <Route path="setting" element={<Setting />} />
         <Route path="monitoring" element={<Monitoring />} />
         <Route path="weaning" element={<Weaning />} />
+        <Route path="cairan-iv" element={<CairanIV />} />
+        <Route path="referensi" element={<Referensi />} />
         <Route path="abg" element={<Abg />} />
         <Route path="skoring" element={<Skoring />} />
         <Route path="skoring/:sub" element={<Skoring />} />
