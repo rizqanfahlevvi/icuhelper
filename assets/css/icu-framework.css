@@ -3711,8 +3711,6 @@ body.sb-collapsed .sb-feedback { margin: 10px auto 4px; padding: 0; width: 34px;
 
 @media (max-width: 768px) {
   #icu-bottom-nav {
-    display: flex;
-    flex-direction: column;
     position: fixed;
     bottom: 0;
     left: 0;
@@ -3727,6 +3725,7 @@ body.sb-collapsed .sb-feedback { margin: 10px auto 4px; padding: 0; width: 34px;
   /* Scrollable track */
   #bn-track {
     display: flex;
+    flex-direction: row;
     overflow-x: auto;
     scroll-snap-type: x proximity;
     -webkit-overflow-scrolling: touch;
