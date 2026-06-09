@@ -487,6 +487,7 @@
   </div>
 </div>
 
+<script src="../assets/js/calc-history.js"></script>
 <script src="../assets/js/scripts-abg.js"></script>
 <script type="module">
   import { initValidation } from '../assets/ts/form-validator.ts'
@@ -498,14 +499,27 @@
   autoFillForm({ abgPH: 'ph', abgCO2: 'pco2', abgHCO3: 'hco3', abgO2: 'po2' })
   bindFormToSession({ abgPH: 'ph', abgCO2: 'pco2', abgHCO3: 'hco3', abgO2: 'po2' })
 </script>
-<script type="module">
-  import { renderHistoryPanel } from '../assets/ts/calc-history.ts'
-  renderHistoryPanel('abg-history-container', 'abg', (entry) => {
-    Object.entries(entry.inputs).forEach(([id, val]) => {
-      const el = document.getElementById(id)
-      if (el instanceof HTMLInputElement) el.value = val
-    })
-  })
+<script>
+  /* History panel — vanilla JS */
+  function _abgRestoreEntry(entry) {
+    Object.keys(entry.inputs).forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.value = entry.inputs[id];
+    });
+    /* Expand interpreter dropdown so restored values are visible */
+    var btn = document.querySelector('[onclick="toggleTheory('abg-interpreter')"]');
+    var panel = document.getElementById('theory-abg-interpreter');
+    if (btn && panel && !panel.classList.contains('visible')) {
+      btn.classList.add('open'); panel.classList.add('visible');
+    }
+    /* Scroll to top of calc */
+    var drop = document.querySelector('.theory-dropdown');
+    if (drop) drop.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  window._abgHistoryOnRestore = _abgRestoreEntry;
+  document.addEventListener('DOMContentLoaded', function () {
+    renderCalcHistory('abg-history-container', 'abg', _abgRestoreEntry);
+  });
 </script>
 <script type="module">
   import { addExportButton, exportAbgResult } from '../assets/ts/export-pdf.ts'

@@ -574,6 +574,33 @@ function calcABG() {
   html += `<div class="warn" style="margin-top:8px;margin-bottom:0"><strong>⚠ Disclaimer Klinis</strong> Interpretasi ABG ini adalah panduan sistematis berbasis algoritma standar. Keputusan klinis tetap berdasarkan kondisi pasien secara keseluruhan dan kebijakan institusi. Konfirmasi dengan spesialis pada kasus kompleks.</div>`;
   document.getElementById('abg-result-content').innerHTML = html;
   document.getElementById('abg-results').classList.remove('hidden');
+
+  /* ── Simpan ke history ─────────────────────────────────── */
+  if (typeof window.saveCalcHistory === 'function') {
+    var kondisiLabel = { umum:'Umum/ICU', ards:'ARDS', copd:'PPOK', asthma:'Asma', sepsis:'Sepsis', cardiac:'Ed. Paru Kardiogenik', postop:'Post-Op' };
+    var label = 'pH ' + pH.toFixed(2) + ' · PaCO₂ ' + pco2.toFixed(0) + ' · HCO₃⁻ ' + hco3.toFixed(1);
+    var pfText = (fio2 && po2) ? ' · P/F ' + Math.round(po2/fio2) : '';
+    var summary = (kondisiLabel[kondisi] || kondisi) + pfText;
+    var inputs = {
+      abgPH: String(pH), abgCO2: document.getElementById('abgCO2').value,
+      abgHCO3: document.getElementById('abgHCO3').value,
+      abgO2: document.getElementById('abgO2').value || '',
+      abgBE: document.getElementById('abgBE').value || '',
+      abgSpO2: document.getElementById('abgSpO2').value || '',
+      abgFiO2Direct: document.getElementById('abgFiO2Direct') ? document.getElementById('abgFiO2Direct').value : '',
+      abgNa: document.getElementById('abgNa').value || '',
+      abgCl: document.getElementById('abgCl').value || '',
+      abgAlb: document.getElementById('abgAlb').value || '',
+      abgLaktat: document.getElementById('abgLaktat').value || '',
+      abgRR: document.getElementById('abgRR').value || '',
+      abgKondisi: kondisi
+    };
+    window.saveCalcHistory('abg', label, inputs, summary);
+    /* Re-render panel supaya badge terupdate */
+    if (typeof window._abgHistoryOnRestore === 'function') {
+      window.renderCalcHistory('abg-history-container', 'abg', window._abgHistoryOnRestore);
+    }
+  }
 }
 
 /* ============================================================
