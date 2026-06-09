@@ -60,7 +60,7 @@ export const PAGES: NavItem[] = [
     ],
   },
   {
-    id: 'drug_ref', icon: 'pill', label: 'Drug Ref', href: '/pages/drug-reference.html',
+    id: 'drug_ref', icon: 'pill', label: 'Drug Ref', to: '/drug-ref',
     title: 'Drug Reference ICU',
     subtitle: '~70 obat ICU · eGFR mode · Vasopressor · Antibiotik · High-Alert',
     subs: [],
@@ -123,5 +123,5 @@ export const BOTTOM_NAV: { id: string; icon: string; label: string; to?: string;
   { id: 'kalkulator', icon: 'calculator', label: 'Kalkulator', to: '/kalkulator/ibw' },
   { id: 'abg', icon: 'activity', label: 'ABG', to: '/abg' },
   { id: 'skoring', icon: 'clipboard-list', label: 'Skoring', to: '/skoring' },
-  { id: 'drug_ref', icon: 'pill', label: 'Obat', href: '/pages/drug-reference.html' },
+  { id: 'drug_ref', icon: 'pill', label: 'Obat', to: '/drug-ref' },
 ]
