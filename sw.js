@@ -12,7 +12,7 @@
    - CSS + images        → Cache-first    (stable, optimise speed)
    ============================================================ */
 
-var CACHE_VERSION = 'icu-helper-v2.0.20260609b';   /* ← bump on each deploy */
+var CACHE_VERSION = 'icu-helper-v2.0.20260609c';   /* ← bump on each deploy */
 var CACHE_NAME    = CACHE_VERSION;
 
 /* Paths that MUST always be fresh from the network.
@@ -119,15 +119,11 @@ function networkFirst(req) {
     }
     return res;
   }).catch(function () {
-    /* Offline / network failure → serve cached copy.
-       Never resolve to undefined for a navigation, or the browser
-       shows a frozen/blank page — fall back to the cached homepage. */
-    return caches.match(req).then(function (cached) {
-      if (cached) return cached;
-      var isNav = req.mode === 'navigate' ||
-                  (req.headers.get('accept') || '').includes('text/html');
-      return isNav ? caches.match('./index.html') : Response.error();
-    });
+    /* Offline / network failure → serve the cached copy of THE SAME url
+       only. NEVER fall back to index.html for a different URL: doing so
+       serves the homepage under e.g. /pages/teori.html, whose relative
+       links then compound into /pages/pages/pages/... and freeze. */
+    return caches.match(req);
   });
 }
 
