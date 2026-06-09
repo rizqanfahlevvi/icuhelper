@@ -71,7 +71,7 @@
 }
 .renal-modal-overlay.open { display: flex; }
 .renal-modal {
-  background: var(--bg);
+  background: var(--card);
   border: 1px solid var(--border);
   border-radius: 14px;
   width: 100%;
@@ -117,6 +117,11 @@
   background: none;
   padding: 0;
   box-shadow: none;
+}
+/* Ensure input fields stay visible against the card-colored modal */
+.renal-modal-body .input-row input,
+.renal-modal-body .input-row select {
+  border: 1px solid var(--border);
 }
 
 /* ── HD checklist inside modal ───────────────────────────────── */
