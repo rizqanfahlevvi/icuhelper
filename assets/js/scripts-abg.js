@@ -233,27 +233,58 @@ function calcABG() {
   const acidosis = pH < 7.35, alkalosis = pH > 7.45;
   const respAcid = pco2 > 45, respAlk = pco2 < 35;
   const metAcid  = hco3 < 22 || be < -2, metAlk = hco3 > 26 || be > 2;
+  /* Sisi pH relatif terhadap 7.40 → menentukan gangguan PRIMER pada
+     kasus terkompensasi (pH sudah normal tapi PaCO₂ & HCO₃ keduanya
+     bergeser). Tubuh tidak pernah overkompensasi, jadi sisi pH
+     menunjukkan proses primernya. */
+  const phAcidLean = pH < 7.40;
   let primary = '';
   if (acidosis) {
     if (respAcid && metAcid) primary = 'Mixed: Asidosis Respiratorik + Asidosis Metabolik';
-    else if (respAcid) primary = 'Asidosis Respiratorik Primer';
-    else if (metAcid) primary = 'Asidosis Metabolik Primer';
+    else if (respAcid) primary = metAlk
+      ? 'Asidosis Respiratorik Primer — dengan kompensasi metabolik parsial'
+      : 'Asidosis Respiratorik Primer (kompensasi metabolik belum tampak)';
+    else if (metAcid) primary = respAlk
+      ? 'Asidosis Metabolik Primer — dengan kompensasi respiratorik parsial'
+      : 'Asidosis Metabolik Primer (kompensasi respiratorik belum tampak)';
     else primary = 'Asidemia — penyebab tidak jelas (cek nilai)';
   } else if (alkalosis) {
     if (respAlk && metAlk) primary = 'Mixed: Alkalosis Respiratorik + Alkalosis Metabolik';
-    else if (respAlk) primary = 'Alkalosis Respiratorik Primer';
-    else if (metAlk) primary = 'Alkalosis Metabolik Primer';
+    else if (respAlk) primary = metAcid
+      ? 'Alkalosis Respiratorik Primer — dengan kompensasi metabolik parsial'
+      : 'Alkalosis Respiratorik Primer (kompensasi metabolik belum tampak)';
+    else if (metAlk) primary = respAcid
+      ? 'Alkalosis Metabolik Primer — dengan kompensasi respiratorik parsial'
+      : 'Alkalosis Metabolik Primer (kompensasi respiratorik belum tampak)';
     else primary = 'Alkalemia — penyebab tidak jelas';
   } else {
-    if (respAcid && metAlk) primary = 'pH Normal — Mixed: Asidosis Resp terkompensasi oleh Alkalosis Met';
-    else if (respAlk && metAcid) primary = 'pH Normal — Mixed: Alkalosis Resp terkompensasi oleh Asidosis Met';
-    else if (!respAcid && !respAlk && !metAcid && !metAlk) primary = 'ABG Normal — tidak ada gangguan primer';
-    else primary = 'pH Normal dengan kompensasi atau mixed disorder';
+    // pH NORMAL (7.35–7.45)
+    if (respAcid && metAlk) {
+      primary = phAcidLean
+        ? 'Asidosis Respiratorik TERKOMPENSASI (kronik, mendekati penuh) — primer: Asidosis Respiratorik · cek Langkah 3 untuk menyingkirkan gangguan campuran'
+        : 'Alkalosis Metabolik TERKOMPENSASI — primer: Alkalosis Metabolik · cek Langkah 3 untuk menyingkirkan gangguan campuran';
+    } else if (respAlk && metAcid) {
+      primary = phAcidLean
+        ? 'Asidosis Metabolik TERKOMPENSASI — primer: Asidosis Metabolik · cek Langkah 3 untuk menyingkirkan gangguan campuran'
+        : 'Alkalosis Respiratorik TERKOMPENSASI (kronik) — primer: Alkalosis Respiratorik · cek Langkah 3 untuk menyingkirkan gangguan campuran';
+    } else if (!respAcid && !respAlk && !metAcid && !metAlk) {
+      primary = 'ABG Normal — tidak ada gangguan primer';
+    } else if (respAcid) {
+      primary = 'Asidosis Respiratorik — pH masih normal (kompensasi/onset dini), cek Langkah 3';
+    } else if (respAlk) {
+      primary = 'Alkalosis Respiratorik — pH masih normal (kompensasi/onset dini), cek Langkah 3';
+    } else if (metAcid) {
+      primary = 'Asidosis Metabolik — pH masih normal (kompensasi/onset dini), cek Langkah 3';
+    } else if (metAlk) {
+      primary = 'Alkalosis Metabolik — pH masih normal (kompensasi/onset dini), cek Langkah 3';
+    } else {
+      primary = 'pH Normal dengan kompensasi atau mixed disorder';
+    }
   }
   html += `<div class="abg-result abg-blue" style="margin-top:6px">
     <div class="abg-label" style="color:var(--blue)">Langkah 2 — Gangguan Primer</div>
     <div class="abg-interp">${primary}</div>
-    <div class="abg-detail">PaCO₂ = ${pco2.toFixed(0)} mmHg (N:35–45) · HCO₃⁻ = ${hco3} mmol/L (N:22–26) · BE = ${be}</div>
+    <div class="abg-detail">pH ${pH < 7.40 ? '<7.40 (condong asam)' : pH > 7.40 ? '>7.40 (condong basa)' : '= 7.40'} · PaCO₂ = ${pco2.toFixed(0)} mmHg (N:35–45) · HCO₃⁻ = ${hco3} mmol/L (N:22–26) · BE = ${be}</div>
   </div>`;
 
   // LANGKAH 3: KOMPENSASI
