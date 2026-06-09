@@ -14,6 +14,9 @@ import { Renal } from './pages/Renal'
 import { Elektro } from './pages/Elektro'
 import { Sedasi } from './pages/Sedasi'
 import { DrugRef } from './pages/DrugRef'
+import { Setting } from './pages/Setting'
+import { Monitoring } from './pages/Monitoring'
+import { Weaning } from './pages/Weaning'
 import { NotFound } from './pages/NotFound'
 
 export default function App() {
@@ -32,6 +35,9 @@ export default function App() {
         <Route path="kalkulator/elektro" element={<Elektro />} />
         <Route path="kalkulator/sedasi" element={<Sedasi />} />
         <Route path="drug-ref" element={<DrugRef />} />
+        <Route path="setting" element={<Setting />} />
+        <Route path="monitoring" element={<Monitoring />} />
+        <Route path="weaning" element={<Weaning />} />
         <Route path="abg" element={<Abg />} />
         <Route path="skoring" element={<Skoring />} />
         <Route path="skoring/:sub" element={<Skoring />} />

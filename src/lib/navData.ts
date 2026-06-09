@@ -92,19 +92,19 @@ export const PAGES: NavItem[] = [
     ],
   },
   {
-    id: 'weaning', icon: 'arrow-down-circle', label: 'Weaning', href: '/pages/weaning.html',
+    id: 'weaning', icon: 'arrow-down-circle', label: 'Weaning', to: '/weaning',
     title: 'Weaning & Ekstubasi',
     subtitle: 'Protokol SAT+SBT · Kriteria Ekstubasi · RSBI · HACOR · HFNC/NIV',
     subs: [],
   },
   {
-    id: 'monitoring', icon: 'monitor', label: 'Monitoring', href: '/pages/monitoring.html',
+    id: 'monitoring', icon: 'monitor', label: 'Monitoring', to: '/monitoring',
     title: 'Monitoring',
     subtitle: 'Monitoring, Troubleshooting & Komplikasi',
     subs: [],
   },
   {
-    id: 'setting', icon: 'settings', label: 'Setting', href: '/pages/setting.html',
+    id: 'setting', icon: 'settings', label: 'Setting', to: '/setting',
     title: 'Setting Ventilator',
     subtitle: 'Setting per Kondisi Klinis · ARDS · PPOK · Asma · Sepsis',
     subs: [],
