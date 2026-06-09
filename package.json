@@ -20,7 +20,6 @@
     "workbox-window": "^7.3.0"
   },
   "dependencies": {
-    "@google/genai": "^2.8.0",
     "vite-plugin-static-copy": "^4.1.0"
   }
 }
