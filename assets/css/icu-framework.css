@@ -3760,34 +3760,35 @@ body.sb-collapsed .sb-feedback { margin: 10px auto 4px; padding: 0; width: 34px;
   .bn-icon { width: 22px; height: 22px; }
   .bn-label { line-height: 1; white-space: nowrap; }
 
-  /* Hide toggle button — sits at right edge, always visible */
-  #bn-hide-btn {
-    position: absolute;
-    top: -28px;
+  /* Hidden state — slide nav off screen */
+  #icu-bottom-nav.bn-hidden {
+    transform: translateY(100%);
+  }
+
+  /* Toggle button — separate fixed element, always on screen */
+  #bn-toggle {
+    position: fixed;
+    bottom: calc(4px + env(safe-area-inset-bottom, 0px));
     right: 12px;
-    width: 36px;
-    height: 28px;
+    z-index: 901;
+    width: 32px;
+    height: 22px;
     background: var(--card);
     border: 1px solid var(--border);
-    border-bottom: none;
-    border-radius: 8px 8px 0 0;
+    border-radius: 6px 6px 0 0;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     color: var(--muted);
-    box-shadow: 0 -2px 6px rgba(0,0,0,0.08);
-    transition: color 0.15s;
+    box-shadow: 0 -2px 6px rgba(0,0,0,0.10);
+    transition: bottom 0.25s ease, color 0.15s;
   }
-  #bn-hide-btn:hover { color: var(--text); }
+  #bn-toggle:hover { color: var(--text); }
 
-  /* Hidden state — slide nav off screen */
-  #icu-bottom-nav.bn-hidden {
-    transform: translateY(100%);
-  }
-  /* Keep the toggle tab visible even when hidden */
-  #icu-bottom-nav.bn-hidden #bn-hide-btn {
-    box-shadow: 0 -2px 8px rgba(0,0,0,0.15);
+  /* When nav is visible, push the toggle button up above it */
+  body:not(.bn-nav-hidden) #bn-toggle {
+    bottom: calc(60px + env(safe-area-inset-bottom, 0px));
   }
 
   /* Body padding */
@@ -3796,7 +3797,7 @@ body.sb-collapsed .sb-feedback { margin: 10px auto 4px; padding: 0; width: 34px;
     padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px));
   }
   body.has-sidebar.bn-nav-hidden {
-    padding-bottom: 0;
+    padding-bottom: calc(4px + env(safe-area-inset-bottom, 0px));
   }
 
   #back-to-top {

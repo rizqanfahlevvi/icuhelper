@@ -348,33 +348,37 @@
     track.innerHTML = html;
     el.appendChild(track);
 
-    /* Hide toggle button */
-    var hideBtn = document.createElement('button');
-    hideBtn.id = 'bn-hide-btn';
-    hideBtn.setAttribute('aria-label', 'Sembunyikan navigasi');
-    hideBtn.innerHTML = '<i data-lucide="chevron-down" style="width:16px;height:16px"></i>';
-    hideBtn.addEventListener('click', toggleBottomNav);
-    el.appendChild(hideBtn);
-
     /* Restore hidden state */
     if (localStorage.getItem(BN_HIDDEN_KEY) === '1') {
       el.classList.add('bn-hidden');
-      hideBtn.setAttribute('aria-label', 'Tampilkan navigasi');
     }
 
     return el;
   }
 
+  /* Toggle button is a SEPARATE fixed element so it stays visible even when nav is hidden */
+  function buildBnToggle() {
+    var btn = document.createElement('button');
+    btn.id = 'bn-toggle';
+    btn.setAttribute('aria-label', 'Sembunyikan navigasi');
+    var hidden = localStorage.getItem(BN_HIDDEN_KEY) === '1';
+    btn.innerHTML = hidden
+      ? '<i data-lucide="chevron-up" style="width:14px;height:14px"></i>'
+      : '<i data-lucide="chevron-down" style="width:14px;height:14px"></i>';
+    btn.addEventListener('click', toggleBottomNav);
+    return btn;
+  }
+
   function toggleBottomNav() {
     var nav = document.getElementById('icu-bottom-nav');
-    var btn = document.getElementById('bn-hide-btn');
+    var btn = document.getElementById('bn-toggle');
     if (!nav) return;
     var hiding = !nav.classList.contains('bn-hidden');
     nav.classList.toggle('bn-hidden', hiding);
+    document.body.classList.toggle('bn-nav-hidden', hiding);
     localStorage.setItem(BN_HIDDEN_KEY, hiding ? '1' : '0');
     if (btn) {
       btn.setAttribute('aria-label', hiding ? 'Tampilkan navigasi' : 'Sembunyikan navigasi');
-      /* Rotate icon */
       var icon = btn.querySelector('i');
       if (icon) icon.setAttribute('data-lucide', hiding ? 'chevron-up' : 'chevron-down');
       if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -425,6 +429,12 @@
   /* Bottom nav — append to body so it stacks at bottom */
   var bottomNav = buildBottomNav();
   document.body.appendChild(bottomNav);
+
+  var bnToggle = buildBnToggle();
+  document.body.appendChild(bnToggle);
+  if (localStorage.getItem(BN_HIDDEN_KEY) === '1') {
+    document.body.classList.add('bn-nav-hidden');
+  }
 
   /* Index page has its own hero section — skip generic page header */
   if (activePage.id !== 'index') {
