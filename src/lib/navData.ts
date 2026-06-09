@@ -48,7 +48,7 @@ export const PAGES: NavItem[] = [
     subtitle: 'IBW · Sedasi & RSI · Syringe Pump · P/F & OI · Renal · Pulmo · ElektroCorr · NLR · Transfusi · Cairan',
     subs: [
       { label: 'IBW & Ventilator', to: '/kalkulator/ibw' },
-      { label: 'Sedasi & RSI', href: '/pages/kalkulator/kalkulator-drug.html' },
+      { label: 'Sedasi & RSI', to: '/kalkulator/sedasi' },
       { label: 'Syringe Pump', to: '/kalkulator/pump' },
       { label: 'P/F & OI', to: '/kalkulator/pf' },
       { label: 'Renal', to: '/kalkulator/renal' },
