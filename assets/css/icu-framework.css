@@ -498,6 +498,14 @@
 
   /* Button foreground */
   --btn-fg: #FFFFFF;
+
+  /* Aliases — used in carousel, overlay, and component styles */
+  --surface-card:   var(--card);
+  --border-light:   var(--border);
+  --text-main:      var(--text);
+  --text-muted:     var(--muted);
+  --fill-secondary: var(--color-fill-secondary);
+  --overlay-bg:     rgba(0, 0, 0, 0.40);
 }
 
 [data-theme="dark"] {
@@ -576,6 +584,14 @@
   --sb-cw:  var(--sidebar-width-icon);
 
   --btn-fg: #FFFFFF;
+
+  /* Aliases — used in carousel, overlay, and component styles */
+  --surface-card:   var(--card);
+  --border-light:   var(--border);
+  --text-main:      var(--text);
+  --text-muted:     var(--muted);
+  --fill-secondary: var(--color-fill-secondary);
+  --overlay-bg:     rgba(0, 0, 0, 0.60);
 }
 
 @media (prefers-color-scheme: dark) {
