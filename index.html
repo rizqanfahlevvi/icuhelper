@@ -3,6 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+/* SELF-HEAL: index.html hanya boleh berada di root ("/").
+   Jika ia tersaji di URL /pages/... berarti service worker lama
+   (SPA-fallback) salah mengarahkan navigasi — yang memicu URL
+   menumpuk (/pages/pages/...) dan halaman freeze. Bersihkan SW +
+   cache lalu kembalikan ke root agar SW baru terpasang. */
+(function(){
+  try {
+    if (/\/pages\//.test(location.pathname)) {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(rs){
+          rs.forEach(function(r){ r.unregister(); });
+        }).catch(function(){});
+      }
+      if (window.caches && caches.keys) {
+        caches.keys().then(function(ks){ ks.forEach(function(k){ caches.delete(k); }); }).catch(function(){});
+      }
+      location.replace('/');
+    }
+  } catch (e) {}
+})();
+</script>
 <title>ICU Helper — Cheatsheet Ventilator Dewasa ICU/IGD</title><link rel="stylesheet" href="assets/css/icu-framework.css">
 <link rel="stylesheet" href="assets/css/styles.css">
 <style>
