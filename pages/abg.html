@@ -488,16 +488,6 @@
 </div>
 
 <script src="../assets/js/scripts-abg.js"></script>
-<script>
-/* Auto-open kalkulator dropdowns on load */
-document.addEventListener('DOMContentLoaded', function () {
-  ['abg-interpreter', 'abg-koreksi'].forEach(function (id) {
-    var btn = document.querySelector('[onclick="toggleTheory('' + id + '')"]');
-    var content = document.getElementById('theory-' + id);
-    if (btn && content) { btn.classList.add('open'); content.classList.add('visible'); }
-  });
-});
-</script>
 <script type="module">
   import { initValidation } from '../assets/ts/form-validator.ts'
   initValidation(['abgPH','abgCO2','abgHCO3','abgO2','abgBE','abgNa','abgCl','abgAlb','abgLaktat','abgSpO2','abgRR'])
