@@ -1,5 +1,5 @@
 ﻿/* ============================================================
-   ICU Helper — Feedback Widget  ·  feedback.js  ·  v1
+   MD Kit — Feedback Widget  ·  feedback.js  ·  v2
    Floating button + modal form → Google Apps Script webhook
    Self-contained: injects own CSS, reads CSS vars from styles.css
    ============================================================ */
@@ -19,7 +19,30 @@
     { id: 'comment', svg: SVG_COMMENT, label: 'Komentar Bebas'            }
   ];
 
+  /* Produk MD Kit yang dapat diberi feedback */
+  var PRODUCTS = [
+    { id: 'mdkit',  label: 'MD Kit (Keseluruhan)' },
+    { id: 'icu',    label: 'ICU Helper' },
+    { id: 'acls',   label: 'ACLS Helper' },
+    { id: 'resneo', label: 'ResNeo Helper' },
+    { id: 'picnic', label: 'PICNIC Helper' }
+  ];
+
+  /* Dari mana menemukan MD Kit */
+  var SOURCES = [
+    'Teman / Sejawat',
+    'Media Sosial (IG/WA/dll)',
+    'Google / Pencarian',
+    'Seminar / Workshop / Pelatihan',
+    'Rumah Sakit / Tempat Kerja',
+    'Lainnya'
+  ];
+
+  /* Platform kontak */
+  var CONTACTS = ['WhatsApp', 'Instagram', 'LinkedIn'];
+
   var _selectedType = 'bug';
+  var _rating       = 0;
   var _isOpen       = false;
 
   /* ── CSS ─────────────────────────────────────────────────────── */
@@ -139,6 +162,41 @@
       '}',
       '#fb-name:focus{border-color:var(--accent2);background:var(--bg2);}',
       '#fb-name::placeholder{color:var(--text3);}',
+
+      /* Generic select + text input shared with name */
+      '.fb-select,.fb-input{',
+        'width:100%;box-sizing:border-box;',
+        'background:var(--bg);border:1px solid var(--border);border-radius:7px;',
+        'padding:.55rem .8rem;margin-bottom:.95rem;',
+        'font-family:"DM Sans",sans-serif;font-size:12.5px;',
+        'color:var(--text);outline:none;',
+        'transition:border-color .15s,background .15s;',
+      '}',
+      '.fb-select:focus,.fb-input:focus{border-color:var(--accent2);background:var(--bg2);}',
+      '.fb-input::placeholder{color:var(--text3);}',
+      '.fb-select option{background:var(--card);color:var(--text);}',
+
+      /* Required asterisk */
+      '.fb-req{color:var(--danger);font-weight:700;margin-left:2px;}',
+
+      /* Rating stars */
+      '#fb-rating{display:flex;gap:.35rem;margin-bottom:.95rem;align-items:center;}',
+      '.fb-star{',
+        'cursor:pointer;font-size:24px;line-height:1;',
+        'color:var(--border-hi);transition:color .12s,transform .1s;',
+        'user-select:none;',
+      '}',
+      '.fb-star:hover{transform:scale(1.15);}',
+      '.fb-star.fb-star-on{color:#f5b301;}',
+      '#fb-rating-val{',
+        'font-family:"JetBrains Mono",monospace;font-size:10px;',
+        'color:var(--text3);margin-left:.4rem;',
+      '}',
+
+      /* Contact row: platform select + handle input */
+      '#fb-contact-row{display:flex;gap:.5rem;margin-bottom:.95rem;}',
+      '#fb-contact-platform{flex:0 0 38%;margin-bottom:0;}',
+      '#fb-contact-value{flex:1;margin-bottom:0;}',
 
       /* Page chip */
       '#fb-page-chip{',
@@ -296,6 +354,23 @@
         '</button>';
     }).join('');
 
+    var productOpts = PRODUCTS.map(function (p) {
+      return '<option value="' + p.label + '"' + (p.id === 'mdkit' ? ' selected' : '') + '>' + p.label + '</option>';
+    }).join('');
+
+    var sourceOpts = '<option value="" selected disabled>Pilih salah satu…</option>' +
+      SOURCES.map(function (s) { return '<option value="' + s + '">' + s + '</option>'; }).join('');
+
+    var contactOpts = CONTACTS.map(function (c) {
+      return '<option value="' + c + '">' + c + '</option>';
+    }).join('');
+
+    var starsHtml = '';
+    for (var i = 1; i <= 5; i++) {
+      starsHtml += '<span class="fb-star" data-val="' + i + '">★</span>';
+    }
+    starsHtml += '<span id="fb-rating-val">belum dinilai</span>';
+
     root.innerHTML =
       /* FAB — hidden (trigger is in sidebar) */
       '<span id="fb-fab" aria-hidden="true"></span>' +
@@ -319,7 +394,7 @@
 
           /* Header */
           '<div id="fb-hdr">' +
-            '<div id="fb-title"><span class="fb-dot"></span>Feedback</div>' +
+            '<div id="fb-title"><span class="fb-dot"></span>Feedback MD Kit</div>' +
             '<button id="fb-close-btn" type="button"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="vertical-align:middle;margin-right:4px;margin-top:-2px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Tutup</button>' +
           '</div>' +
 
@@ -328,9 +403,10 @@
 
             /* Intro message */
             '<div id="fb-intro">' +
-              'Web ini dibuat berdasarkan pengalaman dan bantuan dari AI, namun dalam penyempurnaannya, ' +
-              'saya sangat memerlukan bantuan rekan-rekan sekalian terutama dalam hal pengembangan. ' +
-              'Berikan kritik, saran, dan saran fitur lainnya :)' +
+              'MD Kit dibuat berdasarkan pengalaman dan bantuan dari AI, namun dalam penyempurnaannya, ' +
+              'saya sangat memerlukan bantuan rekan-rekan sejawat terutama dalam hal pengembangan. ' +
+              'Berikan kritik, saran, dan saran fitur untuk ICU Helper, ACLS Helper, ResNeo Helper, ' +
+              'PICNIC Helper, maupun MD Kit secara keseluruhan :)' +
               '<span class="fb-intro-sig">— Rizqan</span>' +
             '</div>' +
 
@@ -340,16 +416,35 @@
               '<span id="fb-page-name"></span>' +
             '</div>' +
 
-            /* Name */
-            '<div class="fb-lbl">Nama <span style="font-weight:400;opacity:.6">(opsional)</span></div>' +
+            /* Produk */
+            '<div class="fb-lbl">Feedback untuk<span class="fb-req">*</span></div>' +
+            '<select id="fb-product" class="fb-select">' + productOpts + '</select>' +
+
+            /* Name (required) */
+            '<div class="fb-lbl">Nama<span class="fb-req">*</span></div>' +
             '<input id="fb-name" type="text" maxlength="80" placeholder="Nama kamu..." autocomplete="name">' +
+
+            /* Kontak */
+            '<div class="fb-lbl">Kontak <span style="font-weight:400;opacity:.6">(opsional)</span></div>' +
+            '<div id="fb-contact-row">' +
+              '<select id="fb-contact-platform" class="fb-select">' + contactOpts + '</select>' +
+              '<input id="fb-contact-value" class="fb-input" type="text" maxlength="80" placeholder="No. WA / username IG / LinkedIn">' +
+            '</div>' +
+
+            /* Rating */
+            '<div class="fb-lbl">Beri Rating <span style="font-weight:400;opacity:.6">(opsional)</span></div>' +
+            '<div id="fb-rating">' + starsHtml + '</div>' +
 
             /* Type */
             '<div class="fb-lbl">Jenis Feedback</div>' +
             '<div id="fb-types">' + typeBtns + '</div>' +
 
+            /* Sumber */
+            '<div class="fb-lbl">Dari mana Anda menemukan MD Kit? <span style="font-weight:400;opacity:.6">(opsional)</span></div>' +
+            '<select id="fb-source" class="fb-select">' + sourceOpts + '</select>' +
+
             /* Message */
-            '<div class="fb-lbl">Pesan</div>' +
+            '<div class="fb-lbl">Pesan<span class="fb-req">*</span></div>' +
             '<textarea id="fb-msg" maxlength="' + MAX_CHARS + '" ' +
               'placeholder="Deskripsikan feedback kamu..."></textarea>' +
 
@@ -400,13 +495,39 @@
       });
     });
 
-    /* Char counter */
+    /* Rating stars */
+    var ratingVal = document.getElementById('fb-rating-val');
+    document.querySelectorAll('.fb-star').forEach(function (star) {
+      star.addEventListener('click', function () {
+        _rating = parseInt(star.dataset.val, 10);
+        paintStars(_rating);
+        if (ratingVal) ratingVal.textContent = _rating + ' / 5';
+      });
+      star.addEventListener('mouseenter', function () {
+        paintStars(parseInt(star.dataset.val, 10));
+      });
+    });
+    var ratingWrap = document.getElementById('fb-rating');
+    if (ratingWrap) ratingWrap.addEventListener('mouseleave', function () {
+      paintStars(_rating);
+    });
+
+    /* Validation: Nama + Pesan wajib */
+    var nameEl = document.getElementById('fb-name');
+    function refreshSubmit() {
+      var hasMsg  = (msgEl.value || '').trim().length > 0;
+      var hasName = nameEl && (nameEl.value || '').trim().length > 0;
+      submitBtn.disabled = !(hasMsg && hasName);
+    }
+
+    /* Char counter + validation */
     msgEl.addEventListener('input', function () {
       var len = msgEl.value.length;
       charEl.textContent = len + ' / ' + MAX_CHARS;
       charEl.classList.toggle('fb-over', len >= MAX_CHARS * 0.9);
-      submitBtn.disabled = len === 0;
+      refreshSubmit();
     });
+    if (nameEl) nameEl.addEventListener('input', refreshSubmit);
 
     /* Submit */
     submitBtn.addEventListener('click', submitFeedback);
@@ -443,6 +564,13 @@
     document.body.style.overflow = '';
   }
 
+  /* ── Rating helper ───────────────────────────────────────────── */
+  function paintStars(n) {
+    document.querySelectorAll('.fb-star').forEach(function (s) {
+      s.classList.toggle('fb-star-on', parseInt(s.dataset.val, 10) <= n);
+    });
+  }
+
   /* ── Submit ──────────────────────────────────────────────────── */
   function submitFeedback() {
     var msgEl     = document.getElementById('fb-msg');
@@ -453,7 +581,18 @@
 
     var nameEl  = document.getElementById('fb-name');
     var nama    = nameEl ? (nameEl.value || '').trim() : '';
-    var typeObj = TYPES.filter(function (t) { return t.id === _selectedType; })[0] || TYPES[0];
+    if (!nama) return; /* Nama wajib */
+
+    var typeObj    = TYPES.filter(function (t) { return t.id === _selectedType; })[0] || TYPES[0];
+    var productEl  = document.getElementById('fb-product');
+    var produk     = productEl ? productEl.value : '-';
+    var sourceEl   = document.getElementById('fb-source');
+    var sumber     = sourceEl && sourceEl.value ? sourceEl.value : '-';
+    var cPlatEl    = document.getElementById('fb-contact-platform');
+    var cValEl     = document.getElementById('fb-contact-value');
+    var cVal       = cValEl ? (cValEl.value || '').trim() : '';
+    var kontak     = cVal ? ((cPlatEl ? cPlatEl.value : '') + ': ' + cVal) : '-';
+    var rating     = _rating > 0 ? String(_rating) : '-';
 
     /* Loading */
     submitBtn.disabled = true;
@@ -467,8 +606,12 @@
        tidak punya masalah ini — params tetap ada setelah redirect.
     ─────────────────────────────────────────────────────────────── */
     var qs = [
+      'produk='    + encodeURIComponent(produk),
       'type='      + encodeURIComponent(typeObj.label),
-      'nama='      + encodeURIComponent(nama || '-'),
+      'rating='    + encodeURIComponent(rating),
+      'nama='      + encodeURIComponent(nama),
+      'kontak='    + encodeURIComponent(kontak),
+      'sumber='    + encodeURIComponent(sumber),
       'page='      + encodeURIComponent(document.title),
       'url='       + encodeURIComponent(location.href),
       'message='   + encodeURIComponent(message),
@@ -503,6 +646,23 @@
     if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Kirim →'; }
     var charEl = document.getElementById('fb-char');
     if (charEl) charEl.textContent = '0 / ' + MAX_CHARS;
+
+    /* Reset produk, sumber, kontak */
+    var productEl = document.getElementById('fb-product');
+    if (productEl) productEl.selectedIndex = 0;
+    var sourceEl  = document.getElementById('fb-source');
+    if (sourceEl)  sourceEl.selectedIndex = 0;
+    var cPlatEl   = document.getElementById('fb-contact-platform');
+    if (cPlatEl)   cPlatEl.selectedIndex = 0;
+    var cValEl    = document.getElementById('fb-contact-value');
+    if (cValEl)    cValEl.value = '';
+
+    /* Reset rating */
+    _rating = 0;
+    paintStars(0);
+    var ratingVal = document.getElementById('fb-rating-val');
+    if (ratingVal) ratingVal.textContent = 'belum dinilai';
+
     _selectedType = 'bug';
     document.querySelectorAll('.fb-type-btn').forEach(function (b) {
       b.classList.toggle('fb-active', b.dataset.type === 'bug');
