@@ -1559,6 +1559,7 @@ body.sb-collapsed .sb-item:hover .sb-pop {
   align-items: center;
   justify-content: center;
 }
+#back-to-top svg { display: block; }
 #back-to-top.visible {
   opacity: 1;
   transform: none;
