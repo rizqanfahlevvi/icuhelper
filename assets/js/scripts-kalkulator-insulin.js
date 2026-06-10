@@ -10,25 +10,54 @@ function setInsMode(mode) {
   _insMode = mode;
   document.getElementById('mode-btn-bbc').classList.toggle('active', mode === 'bbc');
   document.getElementById('mode-btn-ss').classList.toggle('active', mode === 'ss');
-  var extra = document.getElementById('bbc-extra-inputs');
-  if (extra) extra.style.display = mode === 'bbc' ? '' : 'none';
+  document.getElementById('mode-btn-hipo').classList.toggle('active', mode === 'hipo');
+
+  var mainInputs = document.getElementById('ins-main-inputs');
+  var hipoInputs = document.getElementById('ins-hipo-inputs');
+  var extra      = document.getElementById('bbc-extra-inputs');
+
+  if (mode === 'hipo') {
+    if (mainInputs) mainInputs.style.display = 'none';
+    if (hipoInputs) hipoInputs.style.display = '';
+  } else {
+    if (mainInputs) mainInputs.style.display = '';
+    if (hipoInputs) hipoInputs.style.display = 'none';
+    if (extra) extra.style.display = mode === 'bbc' ? '' : 'none';
+  }
+
+  var resDiv = document.getElementById('ins-result');
+  if (resDiv) { resDiv.style.display = 'none'; resDiv.innerHTML = ''; }
   calcInsulin();
 }
 
 function calcInsulin() {
-  var bb     = parseFloat(document.getElementById('ins-bb').value);
-  var gds    = parseFloat(document.getElementById('ins-gds').value);
-  var target = parseFloat(document.getElementById('ins-target').value) || 150;
   var resDiv = document.getElementById('ins-result');
   if (!resDiv) return;
 
-  /* ---- Hypoglycemia guard ---- */
+  /* ---- Hipo correction mode ---- */
+  if (_insMode === 'hipo') {
+    var hGds  = parseFloat(document.getElementById('hipo-gds').value);
+    var hBb   = parseFloat(document.getElementById('hipo-bb').value);
+    var hTgt  = parseFloat(document.getElementById('hipo-target').value) || 150;
+    var hKes  = document.getElementById('hipo-kesadaran').value;
+    var hRoute= document.getElementById('hipo-route').value;
+    if (isNaN(hGds) || isNaN(hBb)) { resDiv.style.display = 'none'; return; }
+    resDiv.style.display = 'block';
+    renderHipoCorrection(hGds, hBb, hTgt, hKes, hRoute, resDiv);
+    return;
+  }
+
+  var bb     = parseFloat(document.getElementById('ins-bb').value);
+  var gds    = parseFloat(document.getElementById('ins-gds').value);
+  var target = parseFloat(document.getElementById('ins-target').value) || 150;
+
+  /* ---- Hypoglycemia guard (BBC/SS mode) ---- */
   if (!isNaN(gds) && gds < 70) {
     resDiv.style.display = 'block';
     resDiv.innerHTML =
       '<div class="ins-hipo">⛔ GDS ' + gds + ' mg/dL — HIPOGLIKEMIA!' +
         '<div style="font-size:12px;font-weight:400;margin-top:4px">Tatalaksana hipo dulu: D40% 25 mL IV bolus (atau D10% 150 mL). ' +
-        'STOP semua insulin. Cek ulang GDS 15 menit. Jangan hitung dosis insulin saat hipo aktif.</div>' +
+        'STOP semua insulin. Cek ulang GDS 15 menit. Gunakan tab <strong>Koreksi Hipoglikemia</strong> untuk kalkulasi lengkap.</div>' +
       '</div>';
     return;
   }
@@ -217,4 +246,163 @@ function resCard(label, value, sub, highlight) {
     '<div class="ins-res-value">' + value + '</div>' +
     '<div class="ins-res-sub">' + sub + '</div>' +
     '</div>';
+}
+
+/* ============================================================
+   HIPO CORRECTION
+   Formula: glucose(g) = ΔGlucose(mg/dL) × 0.2 × BB(kg) / 100
+   ADA Standards of Care 2025 · Endocrine Society 2024 · JBDS
+   ============================================================ */
+function renderHipoCorrection(gds, bb, target, kesadaran, route, resDiv) {
+  /* Severity classification — ADA 2025 */
+  var level, levelLabel, levelCls, levelDesc;
+  if (kesadaran === 'tidak-sadar') {
+    level = 3; levelLabel = 'Level 3 — Berat'; levelCls = 'hipo-level-3';
+    levelDesc = 'Penurunan kesadaran / tidak bisa menelan → butuh bantuan orang lain';
+  } else if (gds < 54) {
+    level = 2; levelLabel = 'Level 2 — Klinis Signifikan'; levelCls = 'hipo-level-2';
+    levelDesc = 'GDS &lt;54 mg/dL — tanda neuroglikopenia kemungkinan ada';
+  } else {
+    level = 1; levelLabel = 'Level 1 — Alert'; levelCls = 'hipo-level-1';
+    levelDesc = 'GDS 54–70 mg/dL — gejala ringan, biasanya masih bisa dikoreksi oral';
+  }
+
+  /* Glucose needed (g) */
+  var delta    = Math.max(target - gds, 30);   /* minimum raise 30 mg/dL */
+  var glucoseG = Math.round(delta * 0.2 * bb / 100 * 10) / 10;
+
+  /* Solution volumes */
+  var volD40  = Math.round(glucoseG / 0.4 * 10) / 10;   /* D40% = 400 mg/mL = 0.4 g/mL */
+  var volD20  = Math.round(glucoseG / 0.2 * 10) / 10;   /* D20% = 200 mg/mL = 0.2 g/mL */
+  var volD10  = Math.round(glucoseG / 0.1 * 10) / 10;   /* D10% = 100 mg/mL = 0.1 g/mL */
+
+  /* D40% standard bolus protocol */
+  var d40Bolus = volD40 <= 25 ? '25 mL' : Math.ceil(volD40 / 25) * 25 + ' mL';
+
+  var html = '';
+
+  /* Level badge */
+  html += '<div style="margin-bottom:10px">';
+  html += '<span class="hipo-level ' + levelCls + '">' + levelLabel + '</span>';
+  html += '<div style="font-size:12px;color:var(--text2);margin-top:4px">' + levelDesc + '</div>';
+  html += '</div>';
+
+  /* Glucose requirement card */
+  html += '<div class="hipo-sol-card" style="border-color:var(--accent)">';
+  html += '<div class="hipo-sol-title">Kebutuhan Glukosa</div>';
+  html += '<div class="hipo-sol-row">';
+  html += '<span class="hipo-sol-label">Kenaikan target (Δ)</span>';
+  html += '<span class="hipo-sol-value">' + delta + ' mg/dL</span>';
+  html += '</div>';
+  html += '<div class="hipo-sol-row">';
+  html += '<span class="hipo-sol-label">Glukosa dibutuhkan</span>';
+  html += '<span class="hipo-sol-value">' + glucoseG + ' g</span>';
+  html += '</div>';
+  html += '<div class="hipo-sol-note">Formula: Δ × 0.2 × BB / 100 · BB ' + bb + ' kg · GDS ' + gds + ' → target ' + target + ' mg/dL</div>';
+  html += '</div>';
+
+  /* IV solutions */
+  if (route === 'iv') {
+    html += '<div style="font-size:12px;font-weight:700;color:var(--text2);margin:12px 0 6px">💉 Pilihan Larutan IV</div>';
+
+    html += '<div class="hipo-sol-card">';
+    html += '<div class="hipo-sol-title">D40% (Dextrose 40%) ★ Pilihan utama IV</div>';
+    html += '<div class="hipo-sol-row"><span class="hipo-sol-label">Volume kalkulasi</span><span class="hipo-sol-value">' + volD40 + ' mL</span></div>';
+    html += '<div class="hipo-sol-row"><span class="hipo-sol-label">Protokol standar</span><span class="hipo-sol-value">' + d40Bolus + ' IV bolus pelan</span></div>';
+    html += '<div class="hipo-sol-note">0.4 g/mL · berikan pelan 1–3 menit via vena besar · flush NaCl setelahnya · cek GDS 15 menit</div>';
+    html += '</div>';
+
+    html += '<div class="hipo-sol-card">';
+    html += '<div class="hipo-sol-title">D20% (Dextrose 20%) — jika tidak ada D40%</div>';
+    html += '<div class="hipo-sol-row"><span class="hipo-sol-label">Volume</span><span class="hipo-sol-value">' + volD20 + ' mL</span></div>';
+    html += '<div class="hipo-sol-note">0.2 g/mL · dapat diberikan via vena perifer · lebih aman dari D40% untuk vena perifer kecil</div>';
+    html += '</div>';
+
+    html += '<div class="hipo-sol-card">';
+    html += '<div class="hipo-sol-title">D10% (Dextrose 10%) — alternatif / drip</div>';
+    html += '<div class="hipo-sol-row"><span class="hipo-sol-label">Volume</span><span class="hipo-sol-value">' + volD10 + ' mL</span></div>';
+    html += '<div class="hipo-sol-note">0.1 g/mL · cocok untuk infus rumatan pasca koreksi · atau bila tidak ada D20%/D40%</div>';
+    html += '</div>';
+  }
+
+  /* Oral / NGT route */
+  if (route === 'oral') {
+    html += '<div style="font-size:12px;font-weight:700;color:var(--text2);margin:12px 0 6px">🥤 Rule of 15 — Oral / NGT</div>';
+    html += '<div class="hipo-sol-card">';
+    html += '<div class="hipo-sol-title">Rule of 15 (ADA 2025)</div>';
+    html += '<div style="font-size:13px;color:var(--text);line-height:1.6">';
+    html += '1. Berikan <strong>15 g</strong> karbohidrat cepat:<br>';
+    html += '&nbsp;&nbsp;• 150 mL jus buah / minuman manis<br>';
+    html += '&nbsp;&nbsp;• 3–4 tablet glukosa (@ 5 g)<br>';
+    html += '&nbsp;&nbsp;• 30 mL madu / sirup gula<br>';
+    html += '&nbsp;&nbsp;• Via NGT: D10% 150 mL atau D20% 75 mL<br>';
+    html += '2. Tunggu <strong>15 menit</strong>, cek ulang GDS<br>';
+    html += '3. Ulangi bila GDS masih &lt;70 mg/dL<br>';
+    html += '4. Setelah GDS ≥70: makan camilan (snack) untuk mencegah rebound hipo';
+    html += '</div>';
+    html += '<div class="hipo-sol-note" style="margin-top:8px">Untuk pasien sadar + bisa menelan · Jangan berikan oral bila ada risiko aspirasi</div>';
+    html += '</div>';
+
+    html += '<div style="font-size:12px;font-weight:700;color:var(--text2);margin:10px 0 6px">💉 Volume Larutan via NGT / IV Cadangan</div>';
+    html += '<div class="hipo-sol-card">';
+    html += '<div class="hipo-sol-row"><span class="hipo-sol-label">D10% via NGT/IV</span><span class="hipo-sol-value">' + volD10 + ' mL</span></div>';
+    html += '<div class="hipo-sol-row"><span class="hipo-sol-label">D20% via NGT</span><span class="hipo-sol-value">' + volD20 + ' mL</span></div>';
+    html += '<div class="hipo-sol-note">Ekuivalen ' + glucoseG + ' g glukosa untuk Δ ' + delta + ' mg/dL</div>';
+    html += '</div>';
+  }
+
+  /* IM glucagon */
+  if (route === 'im') {
+    html += '<div style="font-size:12px;font-weight:700;color:var(--text2);margin:12px 0 6px">💉 Glucagon — Tidak Ada Akses IV</div>';
+    html += '<div class="hipo-sol-card">';
+    html += '<div class="hipo-sol-title">Glucagon IM / SC (Endocrine Society 2024)</div>';
+    html += '<div style="font-size:13px;color:var(--text);line-height:1.6">';
+    html += '• Dewasa/anak &gt;25 kg: <strong>Glucagon 1 mg IM atau SC</strong><br>';
+    html += '• Anak &lt;25 kg: 0.5 mg IM/SC<br>';
+    html += '• Efek: GDS naik dalam 10–15 menit<br>';
+    html += '• Setelah sadar: segera berikan makanan/minuman karbohidrat oral<br>';
+    html += '• Bila tidak ada respons dalam 15 menit: ulangi 1 dosis';
+    html += '</div>';
+    html += '<div class="hipo-sol-note" style="margin-top:8px">Jika tersedia: Nasal glucagon (Baqsimi) 3 mg intranasal — non-inferior dengan IM (FDA-approved)</div>';
+    html += '</div>';
+
+    html += '<div class="ins-warn"><strong>⚠️ Pasang akses IV segera</strong> setelah pasien sadar untuk monitoring dan kemungkinan pemberian D40% lanjutan jika GDS kembali turun.</div>';
+  }
+
+  /* Monitoring plan */
+  html += '<div style="font-size:12px;font-weight:700;color:var(--text2);margin:12px 0 6px">📊 Monitoring & Tindak Lanjut</div>';
+  html += '<div class="hipo-sol-card">';
+  html += '<div style="font-size:12px;color:var(--text);line-height:1.8">';
+  html += '• Cek GDS <strong>15 menit</strong> setelah koreksi — ulangi koreksi bila GDS masih &lt;70<br>';
+  html += '• Setelah GDS ≥70: cek ulang tiap <strong>30–60 menit</strong> × 2–3 kali<br>';
+  html += '• <strong>STOP semua insulin</strong> aktif · identifikasi penyebab hipoglikemia<br>';
+  html += '• Infus rumatan: D5% atau D10% untuk cegah rebound bila penyebab belum teratasi<br>';
+  html += '• Jika hipo berulang: pertimbangkan <strong>insulin infus titrasi ketat</strong> (ICU)<br>';
+  html += '• Dokumentasi episode hipo di rekam medis — lapor DPJP';
+  html += '</div>';
+  html += '</div>';
+
+  /* Cause checklist */
+  html += '<div class="ins-warn">';
+  html += '<strong>🔍 Cari Penyebab Hipoglikemia:</strong>';
+  html += '<ul style="margin:6px 0 0;padding-left:18px;font-size:12px;line-height:1.7">';
+  html += '<li>Dosis insulin terlalu tinggi atau tidak disesuaikan kondisi</li>';
+  html += '<li>Pasien tidak makan / asupan turun tiba-tiba setelah dosis bolus</li>';
+  html += '<li>Steroid diturunkan / distop tanpa penyesuaian insulin</li>';
+  html += '<li>Perbaikan kondisi akut (resolusi infeksi/kritis) → kebutuhan insulin turun</li>';
+  html += '<li>Fungsi ginjal memburuk → klirens insulin melambat</li>';
+  html += '<li>Interaksi obat (quinilon, sulfonil urea, dll)</li>';
+  html += '</ul>';
+  html += '</div>';
+
+  resDiv.innerHTML = html;
+
+  if (typeof window.saveCalcHistory === 'function') {
+    window.saveCalcHistory(
+      'insulin',
+      'Hipo Koreksi — GDS ' + gds + ' mg/dL, BB ' + bb + ' kg',
+      { gds: gds, bb: bb, target: target, kesadaran: kesadaran, route: route },
+      levelLabel + ' · butuh ' + glucoseG + 'g glukosa · D40% ' + volD40 + ' mL'
+    );
+  }
 }

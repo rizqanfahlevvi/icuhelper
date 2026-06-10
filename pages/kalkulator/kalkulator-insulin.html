@@ -40,6 +40,16 @@
 .ins-warn strong { color:#f59e0b; }
 .ins-hipo { background:rgba(255,60,60,.1); border:1px solid rgba(255,60,60,.3);
   border-radius:10px; padding:10px 14px; margin-top:10px; font-size:13px; font-weight:600; color:#ef4444; }
+.hipo-level { display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:700; letter-spacing:.04em; margin-bottom:8px; }
+.hipo-level-1 { background:rgba(251,191,36,.15); color:#f59e0b; border:1px solid rgba(251,191,36,.4); }
+.hipo-level-2 { background:rgba(249,115,22,.15); color:#f97316; border:1px solid rgba(249,115,22,.4); }
+.hipo-level-3 { background:rgba(239,68,68,.18); color:#ef4444; border:1px solid rgba(239,68,68,.45); }
+.hipo-sol-card { background:var(--bg); border:1.5px solid var(--border); border-radius:12px; padding:12px 14px; margin-bottom:8px; }
+.hipo-sol-title { font-size:12px; font-weight:700; color:var(--text2); margin-bottom:6px; text-transform:uppercase; letter-spacing:.04em; }
+.hipo-sol-row { display:flex; justify-content:space-between; align-items:baseline; gap:8px; margin-bottom:3px; }
+.hipo-sol-label { font-size:12px; color:var(--muted); }
+.hipo-sol-value { font-size:16px; font-weight:700; color:var(--accent); font-family:var(--font-mono); }
+.hipo-sol-note { font-size:11px; color:var(--text2); margin-top:2px; }
 </style>
 </head>
 <body>
@@ -79,9 +89,11 @@
   <div class="ins-mode-bar">
     <button class="ins-mode-btn active" id="mode-btn-bbc" onclick="setInsMode('bbc')">🧮 Basal–Bolus–Koreksi</button>
     <button class="ins-mode-btn" id="mode-btn-ss" onclick="setInsMode('ss')">📋 Sliding Scale Saja</button>
+    <button class="ins-mode-btn" id="mode-btn-hipo" onclick="setInsMode('hipo')">🩺 Koreksi Hipoglikemia</button>
   </div>
 
-  <!-- SHARED INPUTS -->
+  <!-- SHARED INPUTS (BBC + SS) -->
+  <div id="ins-main-inputs">
   <div class="grid2" style="gap:10px">
     <div>
       <div class="input-row">
@@ -119,6 +131,45 @@
           <option value="lansia">Lansia (&gt;70 th) / risiko hipo tinggi</option>
           <option value="kritis">Pasien kritis (ICU)</option>
         </select>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- HIPO INPUTS -->
+  <div id="ins-hipo-inputs" style="display:none">
+    <div class="grid2" style="gap:10px">
+      <div>
+        <div class="input-row">
+          <label>GDS Saat Ini (mg/dL)</label>
+          <input type="number" inputmode="decimal" id="hipo-gds" placeholder="cth: 45" min="10" max="120" oninput="calcInsulin()">
+        </div>
+        <div class="input-row">
+          <label>Berat Badan (kg)</label>
+          <input type="number" inputmode="decimal" id="hipo-bb" placeholder="cth: 60" min="20" max="200" oninput="calcInsulin()">
+        </div>
+        <div class="input-row">
+          <label>Target GDS (mg/dL)</label>
+          <input type="number" inputmode="decimal" id="hipo-target" placeholder="default: 150" min="80" max="200" oninput="calcInsulin()">
+        </div>
+      </div>
+      <div>
+        <div class="input-row">
+          <label>Tingkat Kesadaran</label>
+          <select id="hipo-kesadaran" onchange="calcInsulin()">
+            <option value="sadar">Sadar penuh (GCS 15)</option>
+            <option value="mengantuk">Mengantuk / konfusi (GCS 10–14)</option>
+            <option value="tidak-sadar">Tidak sadar / tidak bisa menelan (GCS &lt;10)</option>
+          </select>
+        </div>
+        <div class="input-row">
+          <label>Akses IV / Route</label>
+          <select id="hipo-route" onchange="calcInsulin()">
+            <option value="iv">Ada akses IV (infus terpasang)</option>
+            <option value="oral">Sadar + bisa menelan (oral/NGT)</option>
+            <option value="im">Tidak ada IV — IM/SC glucagon</option>
+          </select>
+        </div>
       </div>
     </div>
   </div>

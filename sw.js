@@ -12,7 +12,7 @@
    - CSS + images        → Cache-first    (stable, optimise speed)
    ============================================================ */
 
-var CACHE_VERSION = 'icu-helper-v2.0.20260610b';   /* ← bump on each deploy */
+var CACHE_VERSION = 'icu-helper-v2.0.20260610c';   /* ← bump on each deploy */
 var CACHE_NAME    = CACHE_VERSION;
 
 /* Paths that MUST always be fresh from the network.
