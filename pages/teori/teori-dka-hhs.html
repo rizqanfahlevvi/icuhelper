@@ -388,6 +388,92 @@
     </div>
   </div>
 
+  <!-- SLIDING SCALE & BASAL-BOLUS -->
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('hiper-slidingscale')">📖 Sliding Scale (2N/4N/6N/8N) vs Basal-Bolus — Strategi Insulin Praktis <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-hiper-slidingscale">
+
+      <div class="subsec">Apa Itu Sliding Scale "2N / 4N / 6N / 8N"?</div>
+      <p style="margin-bottom:8px">Shorthand yang sangat umum di Indonesia untuk <strong>koreksi insulin cepat berbasis GDS</strong>. "N" = Novorapid (insulin aspart) atau rapid-acting insulin lain (Actrapid, Humalog). Ditulis oleh DPJP sebagai instruksi perawat untuk injeksi SC sesuai hasil GDS.</p>
+      <table>
+        <tr><th>GDS (mg/dL)</th><th>Instruksi</th><th>Dosis</th></tr>
+        <tr><td>140–200</td><td>—</td><td>Tidak perlu koreksi (target tercapai)</td></tr>
+        <tr><td>201–250</td><td><strong>2N</strong></td><td>2 unit rapid-acting SC</td></tr>
+        <tr><td>251–300</td><td><strong>4N</strong></td><td>4 unit rapid-acting SC</td></tr>
+        <tr><td>301–350</td><td><strong>6N</strong></td><td>6 unit rapid-acting SC</td></tr>
+        <tr><td>&gt;350</td><td><strong>8N</strong></td><td>8 unit rapid-acting SC · atau lapor dokter</td></tr>
+        <tr><td>&lt;70</td><td><span class="badge br">HIPO</span></td><td>Stop insulin, beri D40% / tatalaksana hipoglikemia</td></tr>
+      </table>
+      <p style="margin-top:6px;font-size:13px">Kadang ditulis variasi: <strong>"2A/4A"</strong> (Actrapid), atau skala berbeda per institusi. Intinya sama: dosis insulin koreksi naik bertahap sesuai tinggi GDS.</p>
+
+      <div class="cc amber" style="margin:12px 0">
+        <div class="ct">⚠️ Masalah Sliding Scale Murni — Reactive, Bukan Proactive</div>
+        <ul style="margin:6px 0 0;color:var(--text);font-size:13px">
+          <li><strong>Tidak ada insulin basal</strong> — gula naik lagi setelah koreksi karena tidak ada "fondasi" insulin kerja panjang</li>
+          <li><strong>Reactive, bukan preventif</strong> — hanya bereaksi setelah hiperglikemia sudah terjadi, bukan mencegah</li>
+          <li><strong>Dosis tidak individual</strong> — tidak memperhitungkan BB, sensitivitas insulin, ginjal, atau kondisi klinis pasien</li>
+          <li><strong>Fluktuasi gula tinggi</strong> — pola "roller coaster": tinggi → koreksi → turun terlalu jauh → naik lagi</li>
+          <li><strong>Evidence: inferior</strong> — RCT menunjukkan sliding scale saja lebih buruk daripada basal-bolus untuk kontrol gula &amp; outcome</li>
+        </ul>
+      </div>
+
+      <div class="subsec">Strategi Lebih Baik: Basal–Bolus–Koreksi (BBC)</div>
+      <div class="cc teal" style="margin-bottom:10px">
+        <div class="ct">🎯 Prinsip BBC: Tiga Komponen Insulin</div>
+        <p style="color:var(--text);font-size:13px">Sliding scale hanyalah <strong>komponen ketiga (koreksi)</strong> — tidak berdiri sendiri. Efektif hanya bila ada fondasi basal &amp; bolus makan.</p>
+      </div>
+      <table>
+        <tr><th>Komponen</th><th>Jenis Insulin</th><th>Fungsi</th><th>Kapan Diberikan</th></tr>
+        <tr>
+          <td><strong>1. Basal</strong></td>
+          <td>Long-acting: Glargine (Lantus), Detemir (Levemir), Degludec (Tresiba)</td>
+          <td>Menutupi kebutuhan insulin "baseline" sepanjang hari — menekan glukoneogenesis hepatik saat puasa</td>
+          <td>1× sehari (malam atau pagi), konsisten</td>
+        </tr>
+        <tr>
+          <td><strong>2. Bolus makan</strong></td>
+          <td>Rapid-acting: Novorapid, Humalog, Apidra</td>
+          <td>Menutupi kenaikan glukosa post-prandial akibat karbohidrat makanan</td>
+          <td>Langsung sebelum/saat makan (skip bila puasa/tidak makan)</td>
+        </tr>
+        <tr>
+          <td><strong>3. Koreksi</strong></td>
+          <td>Rapid-acting (sama dengan bolus)</td>
+          <td>Mengkoreksi bila GDS masih di atas target meski sudah ada basal+bolus</td>
+          <td>Bersamaan dengan bolus makan, atau tiap 4–6 jam bila puasa</td>
+        </tr>
+      </table>
+
+      <div class="subsec">Rumus Dosis Awal (Pasien Naif Insulin atau Rawat Inap Baru)</div>
+      <table>
+        <tr><th>Langkah</th><th>Formula</th><th>Contoh (BB 60 kg)</th></tr>
+        <tr><td><strong>Total Daily Dose (TDD)</strong></td><td>0.5 unit/kg/hari (mulai konservatif di ICU/lansia/GFR rendah)</td><td>60 × 0.5 = <strong>30 unit/hari</strong></td></tr>
+        <tr><td><strong>Basal</strong></td><td>50% TDD → long-acting 1× malam</td><td><strong>15 unit</strong> Lantus malam</td></tr>
+        <tr><td><strong>Bolus makan</strong></td><td>50% TDD ÷ 3 → tiap makan</td><td><strong>5 unit</strong> Novorapid 3× sehari (skip bila puasa)</td></tr>
+        <tr><td><strong>Faktor koreksi (CF)</strong></td><td>1800 ÷ TDD (untuk regular insulin: gunakan 1500)</td><td>1800 ÷ 30 = 60 → 1 unit turunkan GDS ±60 mg/dL</td></tr>
+        <tr><td><strong>Dosis koreksi</strong></td><td>(GDS aktual − target) ÷ CF</td><td>GDS 300, target 150: (300−150) ÷ 60 = 2.5 → <strong>2–3 unit</strong> koreksi</td></tr>
+      </table>
+
+      <div class="subsec">Kapan Sliding Scale Masih Wajar Digunakan</div>
+      <table>
+        <tr><th>Situasi</th><th>Pendekatan yang Tepat</th></tr>
+        <tr><td>Pasien puasa/NPO total, tidak makan</td><td>Basal saja + koreksi (sliding scale) — tidak perlu bolus makan; sliding scale wajar</td></tr>
+        <tr><td>DM baru diketahui, dosis belum diketahui</td><td>Mulai dengan BBC dosis rendah; sliding scale sebagai "safety net" tambahan sementara dosis dititrasi</td></tr>
+        <tr><td>GDS sekali-sekali sedikit di atas target</td><td>Koreksi tunggal (sliding scale) cukup; tidak perlu BBC penuh bila gula umumnya terkontrol</td></tr>
+        <tr><td>Pasien kritis dengan gula sangat tidak stabil</td><td><strong>Insulin infus IV</strong> lebih unggul dari SC — titrasi lebih presisi, onset lebih cepat</td></tr>
+        <tr><td>Pasien stabil, makan normal, DM terkontrol</td><td>Lanjutkan regimen sebelumnya (OAD/insulin) + koreksi bila perlu</td></tr>
+      </table>
+
+      <div class="cc red" style="margin-top:10px">
+        <div class="ct">🚫 Sliding Scale Murni — Hindari Sebagai Satu-Satunya Strategi</div>
+        <p style="color:var(--text);font-size:13px">Panduan ADA, AACE, dan Endocrine Society <strong>tidak merekomendasikan sliding scale sebagai satu-satunya regimen</strong> pada pasien rawat inap, terutama di ICU. Selalu kombinasikan dengan basal, atau pertimbangkan insulin infus pada pasien kritis.</p>
+        <p style="color:var(--text);font-size:13px;margin-top:4px"><em>Pengecualian: jika pasien puasa total dan kondisi ringan — sliding scale + monitoring cukup sebagai jembatan jangka pendek.</em></p>
+      </div>
+
+      <p style="margin-top:8px;font-size:12px"><em>📚 Umpierrez GE et al. Diabetes Care 2007;30:2181 (RCT Basal-Bolus vs SSI) · ADA Standards of Care 2025 §"Diabetes in Hospital" · Moghissi ES et al. Endocr Pract 2009 (AACE/ADA Inpatient Glycemia) · Umpierrez GE &amp; Korytkowski M. Nat Rev Endocrinol 2016</em></p>
+    </div>
+  </div>
+
   <!-- REFERENSI -->
   <div class="card" style="margin-top:16px">
     <div class="subsec">📚 Referensi Utama — Guideline Terbaru</div>
@@ -402,6 +488,8 @@
       <tr><td><strong>Van den Berghe G, et al. NEJM 2001;345:1359</strong></td><td>Insulin intensif ICU bedah</td><td>Target ketat ↓ mortalitas di ICU bedah — namun efek tidak direplikasi di ICU medis; studi historis penting.</td></tr>
       <tr><td><strong>Singer P, et al. Clin Nutr 2023 (ESPEN ICU)</strong></td><td>Nutrisi ICU &amp; glukosa</td><td>Target glukosa 140–180; hindari overfeeding; NPT bertahap; enteral lebih baik.</td></tr>
       <tr><td><strong>Evans L, et al. Intensive Care Med 2021 (SSC)</strong></td><td>Surviving Sepsis Campaign 2021</td><td>Mulai insulin bila GDS &gt;180 (2× berturut-turut); target atas 144–180 mg/dL.</td></tr>
+      <tr><td><strong>Umpierrez GE, et al. Diabetes Care 2007;30:2181</strong></td><td>RCT Basal-Bolus vs Sliding Scale (RABBIT 2)</td><td>Basal-bolus secara signifikan lebih baik dari sliding scale murni untuk kontrol gula rawat inap; ↓ komplikasi.</td></tr>
+      <tr><td><strong>Moghissi ES, et al. Endocr Pract 2009;15:353 (AACE/ADA)</strong></td><td>Konsensus manajemen gula rawat inap</td><td>Tidak merekomendasikan sliding scale sebagai satu-satunya regimen; BBC lebih diutamakan.</td></tr>
     </table>
     <p style="margin-top:8px;font-size:12px;color:var(--muted)">Untuk panduan klinis — bukan pengganti penilaian klinis. Selalu sesuaikan dengan protokol institusi &amp; kondisi pasien.</p>
   </div>
