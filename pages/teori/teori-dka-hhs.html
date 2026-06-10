@@ -251,6 +251,143 @@
     </div>
   </div>
 
+  <!-- HIPERGLIKEMIA STRES DI ICU -->
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('hiper-stres')">📖 Hiperglikemia Stres di ICU (Bukan DKA/HHS) <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-hiper-stres">
+      <div class="cc amber" style="margin-bottom:10px">
+        <div class="ct">⚠️ Hiperglikemia adalah hal yang SANGAT UMUM di ICU — tidak selalu DKA atau HHS</div>
+        <p style="color:var(--text);font-size:13px">Hingga <strong>40–80% pasien ICU</strong> mengalami hiperglikemia meski tanpa riwayat diabetes sebelumnya. Penyebab multifaktorial: respons stres, resistensi insulin akut, terapi, nutrisi. Waspada pada <strong>semua pasien kritis</strong> — bukan hanya yang diketahui DM.</p>
+      </div>
+
+      <div class="subsec">Patofisiologi Hiperglikemia Stres</div>
+      <table>
+        <tr><th>Mekanisme</th><th>Penjelasan</th></tr>
+        <tr><td><strong>Hormon stres ↑↑</strong></td><td>Kortisol, katekolamin, glukagon, GH → glukoneogenesis hepatik ↑ + glikogenolisis ↑</td></tr>
+        <tr><td><strong>Resistensi insulin akut</strong></td><td>Sitokin inflamasi (TNF-α, IL-6, IL-1β) menghambat sinyal insulin di otot &amp; hati</td></tr>
+        <tr><td><strong>Sepsis &amp; SIRS</strong></td><td>Aktivasi aksis HPA + simpatis → hiperglikemia sistemik</td></tr>
+        <tr><td><strong>Nutrisi berlebih</strong></td><td>Parenteral/enteral berlebih → beban glukosa melebihi kapasitas metabolisme</td></tr>
+        <tr><td><strong>Obat-obatan</strong></td><td>Kortikosteroid, vasopressor (epinefrin, norepinefrin dosis tinggi), tacrolimus, sirolimus</td></tr>
+        <tr><td><strong>Kurangnya aktivitas fisik</strong></td><td>Imobilisasi → penurunan uptake glukosa otot</td></tr>
+      </table>
+
+      <div class="subsec">Dampak Klinis Hiperglikemia di ICU</div>
+      <ul>
+        <li>↑ Risiko infeksi/sepsis, hambatan penyembuhan luka, disfungsi neutrofil</li>
+        <li>↑ Mortalitas, terutama bila GDS &gt;180–200 mg/dL menetap</li>
+        <li>↑ Durasi ventilasi mekanik &amp; lama rawat ICU</li>
+        <li>Neuropati akut, gangguan fungsi ginjal &amp; jantung</li>
+        <li>Pada pasien non-DM: hiperglikemia stres = <strong>prediktor outcome buruk</strong> yang lebih kuat dibanding pasien DM (karena lebih tidak terkontrol)</li>
+      </ul>
+      <p style="font-size:12px"><em>📚 Van den Berghe G et al. NEJM 2001 · NICE-SUGAR Investigators. NEJM 2009 · Marik PE &amp; Bellomo R. Crit Care 2013 · ADA Standards of Care 2025</em></p>
+    </div>
+  </div>
+
+  <!-- TARGET GLUKOSA ICU -->
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('hiper-target')">📖 Target Glukosa &amp; Protokol Insulin Infus di ICU <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-hiper-target">
+      <div class="cc teal" style="margin-bottom:10px">
+        <div class="ct">🎯 Konsensus Target Glukosa ICU 2024–2025</div>
+        <p style="color:var(--text);font-size:13px">Target glukosa yang direkomendasikan mayoritas guideline terkini: <strong>140–180 mg/dL</strong> (7.8–10 mmol/L). Target lebih ketat (&lt;140) tidak terbukti lebih baik dan meningkatkan risiko hipoglikemia berbahaya. Hindari hipoglikemia (&lt;70 mg/dL) — dikaitkan langsung dengan ↑ mortalitas.</p>
+      </div>
+
+      <div class="subsec">Rekomendasi Berbagai Guideline</div>
+      <table>
+        <tr><th>Guideline</th><th>Target Glukosa ICU</th><th>Catatan</th></tr>
+        <tr><td><strong>ADA Standards of Care 2025</strong></td><td>140–180 mg/dL</td><td>Mayoritas pasien ICU; lebih ketat (110–140) hanya bila risiko hipo rendah &amp; monitoring intensif tersedia</td></tr>
+        <tr><td><strong>SSC (Sepsis) 2021</strong></td><td>≤180 mg/dL</td><td>Mulai insulin bila 2× berturut-turut &gt;180; target 144–180</td></tr>
+        <tr><td><strong>ESPEN ICU Nutrition 2023</strong></td><td>140–180 mg/dL</td><td>Sesuaikan dengan pemberian nutrisi; pantau tiap 1–2 jam saat titrasi</td></tr>
+        <tr><td><strong>NICE-SUGAR (landmark RCT)</strong></td><td>140–180 vs 81–108</td><td>Target ketat ↑ mortalitas 90-hari (hipoglikemia lebih sering)</td></tr>
+      </table>
+
+      <div class="subsec">Kapan Mulai Insulin Infus IV</div>
+      <ul>
+        <li>Glukosa <strong>&gt;180 mg/dL</strong> yang menetap (2× pemeriksaan berturut-turut) pada pasien ICU</li>
+        <li>DKA/HHS (sesuai protokol tersendiri di atas)</li>
+        <li>Pasien bedah jantung/mayor, transplantasi, atau kondisi yang membutuhkan kontrol ketat</li>
+        <li>Hiperglikemia terkait nutrisi parenteral total (NPT)</li>
+      </ul>
+
+      <div class="subsec">Panduan Titrasi Insulin Infus (Simplified)</div>
+      <table>
+        <tr><th>Glukosa (mg/dL)</th><th>Tindakan</th></tr>
+        <tr><td><strong>&lt;70</strong></td><td><span class="badge br">STOP insulin</span> · beri D40% 25 mL IV (atau D10%); cek ulang 15 menit; monitor ketat</td></tr>
+        <tr><td><strong>70–109</strong></td><td>Kurangi laju insulin 50%; cek ulang 1 jam</td></tr>
+        <tr><td><strong>110–140</strong></td><td>Kurangi laju insulin 25%; cek ulang 1–2 jam</td></tr>
+        <tr><td><strong>141–180</strong></td><td>Target tercapai — pertahankan laju; cek tiap 1–2 jam</td></tr>
+        <tr><td><strong>181–240</strong></td><td>Naikkan laju insulin 1–2 unit/jam; cek ulang 1 jam</td></tr>
+        <tr><td><strong>&gt;240</strong></td><td>Naikkan laju 2–4 unit/jam; pertimbangkan bolus kecil; cek ulang 1 jam</td></tr>
+      </table>
+      <p style="margin-top:6px"><strong>Monitoring:</strong> tiap 1 jam saat titrasi aktif; tiap 2–4 jam setelah stabil. Lebih sering bila gula tidak stabil, perubahan status klinis, atau perubahan laju nutrisi.</p>
+      <p style="font-size:12px"><em>📚 NICE-SUGAR Investigators. NEJM 2009;360:1283 · ADA Standards of Care 2025 · SSC 2021 · ESPEN Critical Care 2023</em></p>
+    </div>
+  </div>
+
+  <!-- HIPERGLIKEMIA STEROID -->
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('hiper-steroid')">📖 Hiperglikemia Akibat Kortikosteroid <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-hiper-steroid">
+      <p style="margin-bottom:8px">Kortikosteroid adalah penyebab tersering hiperglikemia iatrogenik di ICU (deksametason, metilprednisolon, hidrokortison). <strong>Pola khas: glukosa post-makan/pagi tinggi, malam cenderung lebih rendah</strong> (tergantung waktu pemberian steroid).</p>
+
+      <div class="subsec">Mekanisme</div>
+      <ul>
+        <li>↑ Glukoneogenesis hepatik (efek langsung kortisol)</li>
+        <li>↓ Uptake glukosa perifer — resistensi insulin di otot &amp; lemak</li>
+        <li>↑ Glikogenolisis</li>
+        <li>Pada dosis tinggi: juga menekan sekresi insulin dari sel β pankreas</li>
+      </ul>
+
+      <div class="subsec">Faktor Risiko &amp; Besaran Efek</div>
+      <table>
+        <tr><th>Steroid</th><th>Durasi Kerja</th><th>Pola Hiperglikemia</th></tr>
+        <tr><td>Prednisolon/Metilprednisolon pagi</td><td>Intermediate</td><td>Glukosa naik post-makan siang–sore; malam relatif normal</td></tr>
+        <tr><td>Deksametason</td><td>Panjang (36–54 jam)</td><td>Hiperglikemia sepanjang hari, bahkan malam</td></tr>
+        <tr><td>Hidrokortison infus kontinu</td><td>Singkat tapi kontinu</td><td>Hiperglikemia relatif merata; sering pada syok septik</td></tr>
+      </table>
+
+      <div class="subsec">Manajemen</div>
+      <ul>
+        <li><strong>Monitor glukosa</strong> tiap 4–6 jam pada semua pasien yang mendapat steroid dosis sedang–tinggi</li>
+        <li>Bila GDS &gt;180 secara berulang: mulai insulin (SC atau infus tergantung beratnya)</li>
+        <li><strong>Insulin NPH pagi hari</strong> efektif untuk hiperglikemia pola siang-sore akibat prednisolon pagi (sesuai pola onset NPH)</li>
+        <li>Insulin basal-bolus SC lebih fleksibel untuk pola tidak menentu atau deksametason</li>
+        <li>Waspada <strong>rebound hipoglikemia</strong> saat steroid diturunkan/dihentikan — kurangi insulin secara paralel</li>
+      </ul>
+      <p style="font-size:12px"><em>📚 Radhakutty A &amp; Burt MG. Curr Diab Rep 2018 · ADA Standards of Care 2025 § "Diabetes in Hospital" · Umpierrez GE et al. J Clin Endocrinol Metab 2012</em></p>
+    </div>
+  </div>
+
+  <!-- HIPERGLIKEMIA & NUTRISI -->
+  <div class="theory-dropdown" style="margin-bottom:10px">
+    <button class="theory-btn" onclick="toggleTheory('hiper-nutrisi')">📖 Hiperglikemia pada Nutrisi Parenteral &amp; Enteral <span class="chevron">▼</span></button>
+    <div class="theory-content" id="theory-hiper-nutrisi">
+      <div class="subsec">Nutrisi Parenteral Total (NPT)</div>
+      <ul>
+        <li>NPT adalah faktor risiko independen hiperglikemia — dextrose dalam NPT diserap langsung ke sirkulasi tanpa first-pass</li>
+        <li><strong>Target kecepatan glukosa NPT:</strong> ≤4–5 mg/kg/menit (lebih rendah pada pasien kritis)</li>
+        <li>Mulai NPT dengan laju rendah, naikkan bertahap; pantau glukosa tiap 4–6 jam saat titrasi</li>
+        <li>Bila hiperglikemia persisten: kurangi konsentrasi/laju dextrose, tambahkan insulin ke dalam bag NPT (regular insulin), atau gunakan insulin infus terpisah</li>
+        <li><strong>Insulin dalam bag NPT:</strong> bisa digunakan (regular insulin), namun laju infus terpisah lebih fleksibel untuk titrasi</li>
+      </ul>
+
+      <div class="subsec">Nutrisi Enteral</div>
+      <ul>
+        <li>Lebih jarang menyebabkan hiperglikemia berat dibanding NPT, namun tetap perlu pemantauan</li>
+        <li>Formula khusus DM (karbohidrat rendah/lambat absorpsi) tersedia namun manfaatnya pada outcome ICU belum konsisten</li>
+        <li>Bila hiperglikemia terjadi: pertimbangkan formula rendah karbohidrat, kurangi laju, atau insulin SC/infus</li>
+      </ul>
+
+      <div class="subsec">Prinsip Umum Nutrisi pada Hiperglikemia ICU</div>
+      <ul>
+        <li>Hindari overfeeding — kontrol kalori total mencegah hiperglikemia lebih baik daripada hanya titrasi insulin</li>
+        <li>Target kalori: 20–25 kcal/kg/hari fase akut (hindari overfeeding awal ICU)</li>
+        <li>Saat NPT dihentikan mendadak → kurangi insulin proporsional (risiko hipoglikemia)</li>
+      </ul>
+      <p style="font-size:12px"><em>📚 ESPEN Critical Care Guidelines 2023 · Singer P et al. Clin Nutr 2023 · ASPEN/SCCM 2022</em></p>
+    </div>
+  </div>
+
   <!-- REFERENSI -->
   <div class="card" style="margin-top:16px">
     <div class="subsec">📚 Referensi Utama — Guideline Terbaru</div>
@@ -261,6 +398,10 @@
       <tr><td><strong>JBDS-IP (UK). Management of HHS in Adults, 2022</strong></td><td>Protokol HHS Inggris</td><td>Rehidrasi bertahap, target penurunan osm/Na terkendali, insulin rendah/belakangan, profilaksis VTE.</td></tr>
       <tr><td><strong>ADA. Standards of Care in Diabetes, 2025</strong></td><td>Standar perawatan diabetes</td><td>Diadopsi kriteria &amp; alur konsensus 2024 untuk krisis hiperglikemia.</td></tr>
       <tr><td><strong>Kitabchi AE, et al. Diabetes Care 2009;32:1335</strong></td><td>Konsensus ADA klasik (rujukan historis)</td><td>Dasar protokol cairan-kalium-insulin; ambang diagnostik lama (glukosa &gt;250, HCO₃⁻ &lt;18/15).</td></tr>
+      <tr><td><strong>NICE-SUGAR Investigators. NEJM 2009;360:1283</strong></td><td>RCT target glukosa ICU</td><td>Target ketat (81–108) ↑ mortalitas vs target konvensional (140–180); hipoglikemia lebih berbahaya dari hiperglikemia moderat.</td></tr>
+      <tr><td><strong>Van den Berghe G, et al. NEJM 2001;345:1359</strong></td><td>Insulin intensif ICU bedah</td><td>Target ketat ↓ mortalitas di ICU bedah — namun efek tidak direplikasi di ICU medis; studi historis penting.</td></tr>
+      <tr><td><strong>Singer P, et al. Clin Nutr 2023 (ESPEN ICU)</strong></td><td>Nutrisi ICU &amp; glukosa</td><td>Target glukosa 140–180; hindari overfeeding; NPT bertahap; enteral lebih baik.</td></tr>
+      <tr><td><strong>Evans L, et al. Intensive Care Med 2021 (SSC)</strong></td><td>Surviving Sepsis Campaign 2021</td><td>Mulai insulin bila GDS &gt;180 (2× berturut-turut); target atas 144–180 mg/dL.</td></tr>
     </table>
     <p style="margin-top:8px;font-size:12px;color:var(--muted)">Untuk panduan klinis — bukan pengganti penilaian klinis. Selalu sesuaikan dengan protokol institusi &amp; kondisi pasien.</p>
   </div>
