@@ -12,7 +12,7 @@
    - CSS + images        → Cache-first    (stable, optimise speed)
    ============================================================ */
 
-var CACHE_VERSION = 'icu-helper-v2.0.20260610c';   /* ← bump on each deploy */
+var CACHE_VERSION = 'icu-helper-v2.0.20260610d';   /* ← bump on each deploy */
 var CACHE_NAME    = CACHE_VERSION;
 
 /* Paths that MUST always be fresh from the network.
@@ -57,6 +57,8 @@ var STATIC_ASSETS = [
   './pages/kalkulator/kalkulator-transfusi.html',
   './pages/kalkulator/kalkulator-cairan.html',
   './pages/kalkulator/kalkulator-insulin.html',
+  './pages/kalkulator/kalkulator-nutrisi.html',
+  './pages/kalkulator/kalkulator-ventilator-adv.html',
 
   /* Pages — skoring */
   './pages/skoring/skoring-apache.html',
@@ -76,6 +78,9 @@ var STATIC_ASSETS = [
   './pages/teori/teori-airway.html',
   './pages/teori/teori-sat-sbt-vap.html',
   './pages/teori/teori-dka-hhs.html',
+  './pages/teori/teori-syok.html',
+  './pages/teori/teori-nutrisi.html',
+  './pages/teori/teori-aki-crrt.html',
 
   /* Icons */
   './assets/img/icon-192.png',

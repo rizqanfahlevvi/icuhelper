@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nutrisi ICU — Teori & Tatalaksana — ICU Helper</title>
+<link rel="stylesheet" href="../../assets/css/icu-framework.css">
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<script>
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn" href="../kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🔽 Weaning</a>
+  <a class="tab-btn active" href="../teori.html">📖 Teori</a>
+  <a class="tab-btn" href="../skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+
+<nav class="subtab-bar">
+  <a class="subtab-btn" href="teori-impending.html">⚠️ Impending</a>
+  <a class="subtab-btn" href="teori-gagalnapas.html">🫁 Gagal Napas</a>
+  <a class="subtab-btn" href="teori-fisiologi.html">🔬 Fisiologi</a>
+  <a class="subtab-btn" href="teori-sepsis.html">🦠 Sepsis</a>
+  <a class="subtab-btn" href="teori-syok.html">💔 Syok</a>
+  <a class="subtab-btn" href="teori-b1b6.html">📋 B1–B6</a>
+  <a class="subtab-btn" href="teori-airway.html">🩺 Airway</a>
+  <a class="subtab-btn" href="teori-sat-sbt-vap.html">🔄 SAT/SBT</a>
+  <a class="subtab-btn" href="teori-dka-hhs.html">🩸 DKA/HHS</a>
+  <a class="subtab-btn active" href="teori-nutrisi.html">🥗 Nutrisi</a>
+</nav>
+
+<!-- FILE 2: teori-nutrisi.html CONTENT -->
+
+<div class="sec">Nutrisi ICU — Strategi, Target & Monitoring</div>
+
+<!-- BOX UTAMA -->
+<div class="cc orange">
+  <div class="ct">🥗 Konsep Dasar Nutrisi ICU — Hindari Under- DAN Over-Feeding</div>
+  <div class="grid2" style="margin-top:8px">
+    <div>
+      <p><strong>Mengapa nutrisi kritis penting?</strong></p>
+      <ul style="font-size:13px">
+        <li>Muscle wasting ICU: <strong>1–2%/hari</strong> tanpa nutrisi adekuat → kelemahan otot berminggu–bulan pasca ICU</li>
+        <li><strong>PICS</strong> (Post-Intensive Care Syndrome): gangguan fisik (kelemahan), kognitif (memori), dan psikologis (PTSD, depresi) setelah rawat ICU</li>
+        <li>Under-feeding: katabolisme tak terkendali, infeksi ↑, penyembuhan terlambat, weaning sulit</li>
+        <li>Over-feeding: hiperkarbia (sulit weaning), hiperglikemia, hipertrigliseridemia, NAFLD</li>
+      </ul>
+    </div>
+    <div>
+      <p><strong>Fase Metabolik di ICU:</strong></p>
+      <table style="font-size:12px">
+        <tr><th>Fase</th><th>Waktu</th><th>Metabolisme</th><th>Target Kalori</th></tr>
+        <tr><td><strong>Acute Early</strong></td><td>0–48 jam</td><td>Hipometabolik, katabolik, endogenous fuel mobilisasi</td><td>50–70% target (trophic feeding)</td></tr>
+        <tr><td><strong>Acute Late</strong></td><td>48 jam–7 hari</td><td>Hipermetabolik, kebutuhan mulai ↑</td><td>70–100% target</td></tr>
+        <tr><td><strong>Recovery</strong></td><td>&gt;7 hari / pasca ICU</td><td>Anabolik, sintesis protein ↑</td><td>100–125% target + protein ↑</td></tr>
+      </table>
+      <p style="margin-top:6px;font-size:12px"><em>📚 ESPEN Critically Ill Nutrition Guidelines 2023 · ASPEN/SCCM 2022 · Singer P et al. Clin Nutr 2019</em></p>
+    </div>
+  </div>
+</div>
+
+<!-- ACCORDION 1: TARGET KALORI & PROTEIN -->
+<div class="theory-dropdown" style="margin-bottom:10px">
+  <button class="theory-btn" onclick="toggleTheory('nut-kalori')">📖 Target Kalori & Protein — Perhitungan & Kondisi Khusus <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-nut-kalori">
+
+    <div class="subsec">Target Kalori Harian</div>
+    <table>
+      <tr><th>Kondisi / Waktu</th><th>Target Kalori</th><th>Keterangan</th></tr>
+      <tr><td>Fase akut 0–48 jam</td><td>50–70% target (10–15 kkal/kg/hari)</td><td>Avoid over-feeding; endogenous catabolism masih bermakna</td></tr>
+      <tr><td>Setelah 48 jam (stabil)</td><td><strong>25–30 kkal/kg IBW/hari</strong></td><td>Gunakan IBW (Ideal Body Weight), bukan actual BW pada obese</td></tr>
+      <tr><td>Obesitas (BMI ≥30)</td><td>11–14 kkal/kg actual BW, atau 22–25 kkal/kg IBW</td><td>Hypocaloric high-protein feeding — hindari overfeeding</td></tr>
+      <tr><td>Malnutrisi berat / risiko refeeding</td><td>Mulai 10–20 kkal/kg/hari, naik bertahap 3–5 hari</td><td>Pantau fosfat/K/Mg ketat</td></tr>
+      <tr><td>Indirect calorimetry tersedia</td><td>Sesuai measured REE (Resting Energy Expenditure)</td><td>Gold standard; hindari prediksi formula pada pasien ekstrem</td></tr>
+    </table>
+    <p style="margin-top:6px"><strong>Formula estimasi (jika tidak ada indirect calorimetry):</strong> Harris-Benedict dengan faktor stress, atau Penn State University equation untuk ventilated ICU patients. Hindari Mifflin-St Jeor pada kondisi kritis — overestimasi.</p>
+
+    <div class="subsec">Target Protein Harian</div>
+    <table>
+      <tr><th>Kondisi</th><th>Target Protein</th><th>Keterangan</th></tr>
+      <tr><td>ICU umum (non-obese)</td><td><strong>1.2–2.0 g/kg IBW/hari</strong></td><td>Mulai 1.2, eskalasi bertahap sesuai toleransi</td></tr>
+      <tr><td>Obesitas (BMI ≥30)</td><td><strong>2.0–2.5 g/kg IBW/hari</strong></td><td>Protein tinggi untuk preservasi lean mass</td></tr>
+      <tr><td>Luka bakar (&gt;30% BSA)</td><td>2.0–2.5 g/kg/hari</td><td>Hiperkatabolisme ekstrem, kehilangan protein via luka</td></tr>
+      <tr><td>Trauma berat / politrauma</td><td>2.0–2.5 g/kg/hari</td><td>Kebutuhan repair jaringan tinggi</td></tr>
+      <tr><td>AKI tanpa dialisis (GFR 15–29)</td><td><strong>0.8–1.0 g/kg/hari</strong></td><td>Hindari fosfat dan kalium tinggi; batasi protein untuk kurangi uremia</td></tr>
+      <tr><td>AKI dengan IHD</td><td>1.0–1.5 g/kg/hari</td><td>Sesuaikan dengan toleransi uremia dan frekuensi dialisis</td></tr>
+      <tr><td>CRRT (CVVH/CVVHDF)</td><td><strong>1.5–2.0 g/kg/hari</strong></td><td>Kehilangan asam amino via membran effluen ~10–15 g/hari</td></tr>
+      <tr><td>ESRD dengan HD intermiten</td><td>1.2–1.5 g/kg/hari</td><td>Tambahan protein sesuai kehilangan per sesi dialisis</td></tr>
+    </table>
+
+    <div class="subsec">Makronutrien — Karbohidrat & Lemak</div>
+    <div class="grid2">
+      <div>
+        <p><strong>Karbohidrat:</strong></p>
+        <ul>
+          <li>Target: <strong>3–5 g/kg/hari</strong> (maksimum 7 g/kg/hari)</li>
+          <li>Melebihi kapasitas oksidasi glukosa → lipogenesis, CO₂ ↑ (↑ RQ), kesulitan weaning</li>
+          <li>Target glukosa darah: <strong>140–180 mg/dL</strong> (NICE-SUGAR 2009)</li>
+          <li>Glukosa &lt;110 mg/dL (kontrol ketat) → hipoglikemia ↑, mortalitas ↑</li>
+        </ul>
+      </div>
+      <div>
+        <p><strong>Lemak (Lipid):</strong></p>
+        <ul>
+          <li>Target: <strong>0.7–1.5 g/kg/hari</strong></li>
+          <li>Jangan &gt;1.5 g/kg/hari pada pasien kritis (gangguan clearance)</li>
+          <li>Pantau trigliserida: stop lipid emulsi jika TG &gt;400 mg/dL</li>
+          <li>Pilih lipid emulsi generasi ke-3 (SMOFlipid: soybean+MCT+olive+fish oil) → lebih sedikit pro-inflamasi vs soybean murni</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ACCORDION 2: ENTERAL VS PARENTERAL -->
+<div class="theory-dropdown" style="margin-bottom:10px">
+  <button class="theory-btn" onclick="toggleTheory('nut-enteral')">📖 Enteral vs Parenteral — Kapan, Bagaimana & Monitoring <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-nut-enteral">
+
+    <div class="cc green" style="margin-bottom:10px">
+      <div class="ct">🏥 Prinsip Utama: "If the gut works, use it!"</div>
+      <p style="color:var(--text)">Nutrisi enteral mempertahankan integritas mukosa usus, mencegah translokasi bakteri, menjaga GALT (gut-associated lymphoid tissue), dan lebih fisiologis. Parenteral hanya jika enteral tidak mungkin atau tidak mencukupi.</p>
+    </div>
+
+    <div class="subsec">Kapan Mulai Enteral Nutrition (EN)?</div>
+    <table>
+      <tr><th>Kondisi</th><th>Waktu Mulai EN</th><th>Keterangan</th></tr>
+      <tr><td>ICU umum, hemodinamik stabil</td><td><strong>&lt;24–48 jam</strong> setelah masuk ICU</td><td>MAP ≥65 tanpa eskalasi vasopressor → aman mulai EN</td></tr>
+      <tr><td>Pasca operasi GI elektif</td><td>&lt;24 jam pasca op</td><td>Early EN aman meski tidak ada bising usus — ileus parsial bukan kontraindikasi</td></tr>
+      <tr><td>Syok aktif (eskalasi vasopressor)</td><td>Tunda hingga stabil</td><td>Risiko non-occlusive mesenteric ischemia saat dosis NE tinggi (&gt;0.25 mcg/kg/min)</td></tr>
+      <tr><td>Pasca intubasi darurat</td><td>4–6 jam setelah posisi terkonfirmasi</td><td>Konfirmasi posisi NGT dengan foto thoraks atau pH ≤5.5</td></tr>
+    </table>
+
+    <div class="subsec">Kontraindikasi Enteral Nutrition</div>
+    <div class="grid2">
+      <div>
+        <p><strong>Absolut:</strong></p>
+        <ul>
+          <li>Obstruksi usus mekanis total</li>
+          <li>Iskemia/infark usus (mesenteric ischemia)</li>
+          <li>Abdominal compartment syndrome (IAP &gt;20 mmHg)</li>
+          <li>Fistula enterokutan proksimal dengan output &gt;500 mL/hari</li>
+          <li>Syok refrakter dengan dosis vasopressor sangat tinggi</li>
+        </ul>
+      </div>
+      <div>
+        <p><strong>Relatif (pertimbangkan EN lambat/trophic):</strong></p>
+        <ul>
+          <li>Ileus paralitik berat</li>
+          <li>Pankreatitis berat akut (post-pyloric feeding dipertimbangkan)</li>
+          <li>GI bleed aktif tidak terkontrol</li>
+          <li>Disfagia berat + tidak terintubasi (risiko aspirasi masif)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="subsec">Akses Enteral — Pilihan & Indikasi</div>
+    <table>
+      <tr><th>Akses</th><th>Indikasi</th><th>Keunggulan</th><th>Kekurangan</th></tr>
+      <tr><td><strong>NGT (Nasogastric Tube)</strong></td><td>Mayoritas pasien ICU; durasi &lt;4 minggu</td><td>Mudah, cepat, murah; bolus atau kontinu</td><td>Risiko aspirasi lebih tinggi; displacement umum</td></tr>
+      <tr><td><strong>NJT / Post-pyloric (Nasojejunal)</strong></td><td>GRV tinggi, aspirasi berulang, gastroparesis, pankreatitis</td><td>Risiko aspirasi lebih rendah; bypass lambung</td><td>Pemasangan lebih sulit; hanya feeding kontinu</td></tr>
+      <tr><td><strong>PEG (Percutaneous Endoscopic Gastrostomy)</strong></td><td>Kebutuhan EN &gt;4 minggu; obstruksi orofaring/esofagus</td><td>Nyaman jangka panjang, stabil</td><td>Perlu prosedur endoskopi; risiko infeksi stoma</td></tr>
+      <tr><td><strong>PEJ (Percutaneous Endoscopic Jejunostomy)</strong></td><td>Gastroparesis kronik, gastrektomi, risiko aspirasi tinggi + butuh EN jangka panjang</td><td>Bypass lambung + jangka panjang</td><td>Lebih kompleks, risiko obstruksi tube</td></tr>
+    </table>
+    <p><strong>Posisi kepala tempat tidur (HOB):</strong> <strong>30–45°</strong> SELALU saat enteral feeding untuk mencegah aspirasi. Jangan supine datar selama EN.</p>
+
+    <div class="subsec">Monitoring Toleransi Enteral</div>
+    <table>
+      <tr><th>Parameter</th><th>Nilai / Tanda</th><th>Interpretasi & Tindakan</th></tr>
+      <tr>
+        <td><strong>Gastric Residual Volume (GRV)</strong></td>
+        <td>&gt;500 mL/6 jam = intoleransi (ESPEN 2023 update)</td>
+        <td>Bukan 200 mL (guideline lama). GRV 200–500 mL: monitor ketat tapi tidak hentikan EN. GRV &gt;500 mL: pause 1–2 jam, coba prokinetik.</td>
+      </tr>
+      <tr>
+        <td><strong>Prokinetik</strong></td>
+        <td>GRV 200–500 mL berulang atau gastroparesis</td>
+        <td>Metoklopramid 10 mg IV tiap 6 jam, atau Eritromisin 100–250 mg IV tiap 8 jam (lebih efektif). Maksimal 5–7 hari (toleransi ↓).</td>
+      </tr>
+      <tr>
+        <td><strong>Distensi abdomen</strong></td>
+        <td>Lingkar perut ↑, timpani, nyeri</td>
+        <td>Pause EN, singkirkan ileus/obstruksi, periksa IAP jika curiga ACS</td>
+      </tr>
+      <tr>
+        <td><strong>Diare</strong></td>
+        <td>&gt;3 defekasi cair/hari atau &gt;250 g/hari</td>
+        <td>Singkirkan C. difficile, infeksi, atau sorbitol. Pertimbangkan formula dengan serat atau elemental. Kurangi kecepatan infus.</td>
+      </tr>
+      <tr>
+        <td><strong>Regurgitasi / Aspirasi</strong></td>
+        <td>Batuk, desaturasi, material lambung di ETT</td>
+        <td>Stop EN sementara, suction, pindah ke NJT, tingkatkan HOB, pertimbangkan prokinetik</td>
+      </tr>
+    </table>
+
+    <div class="subsec">Kapan Mulai Parenteral Nutrition (PN)?</div>
+    <table>
+      <tr><th>Situasi</th><th>Rekomendasi</th><th>Keterangan ESPEN 2023</th></tr>
+      <tr>
+        <td>EN tidak mungkin sama sekali</td>
+        <td>Mulai PN setelah 24–48 jam (pasien tidak malnutrisi) atau segera (malnutrisi berat/risiko tinggi)</td>
+        <td>Hindari PN terlalu dini pada pasien well-nourished — EPaNIC trial: PN dini tidak superior</td>
+      </tr>
+      <tr>
+        <td>EN mencapai &lt;60% target di hari ke-3–5</td>
+        <td><strong>SPN (Supplemental PN)</strong>: tambah PN untuk tutup defisit</td>
+        <td>Jangan tunggu sampai hari ke-7 jika pasien malnutrisi atau katabolisme berat</td>
+      </tr>
+      <tr>
+        <td>Pasien malnutrisi berat masuk ICU</td>
+        <td>Mulai PN segera jika EN tidak bisa; target rendah (refeeding protocol)</td>
+        <td>Risiko refeeding syndrome — monitor elektrolit ketat</td>
+      </tr>
+    </table>
+    <p><strong>Akses PN:</strong> Central venous catheter (CVC) untuk osmolaritas &gt;900 mOsm/L. Peripheral PN (PPN) hanya jika osmolaritas &lt;800 mOsm/L dan durasi &lt;10 hari — sering tidak mencukupi kebutuhan.</p>
+  </div>
+</div>
+
+<!-- ACCORDION 3: REFEEDING SYNDROME -->
+<div class="theory-dropdown" style="margin-bottom:10px">
+  <button class="theory-btn" onclick="toggleTheory('nut-refeeding')">📖 Refeeding Syndrome — Risiko, Patofisiologi & Pencegahan <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-nut-refeeding">
+
+    <div class="cc red" style="margin-bottom:10px">
+      <div class="ct">⚠️ Refeeding Syndrome — Komplikasi Fatal yang Dapat Dicegah</div>
+      <p style="color:var(--text)">Terjadi ketika pemberian nutrisi (terutama karbohidrat) terlalu cepat setelah periode puasa panjang atau malnutrisi. Insulin surge → perpindahan fosfor, kalium, dan magnesium ke intrasel → defisiensi akut → gagal organ.</p>
+    </div>
+
+    <div class="subsec">Faktor Risiko Refeeding Syndrome (NICE Criteria)</div>
+    <div class="grid2">
+      <div>
+        <p><strong>Risiko TINGGI (≥1 kriteria berikut):</strong></p>
+        <ul>
+          <li>BMI &lt;16 kg/m² atau penurunan BB &gt;15% dalam 3–6 bulan</li>
+          <li>Sedikit/tidak ada asupan oral &gt;10 hari</li>
+          <li>Kadar fosfat, kalium, atau magnesium rendah sebelum nutrisi dimulai</li>
+        </ul>
+        <p><strong>Risiko SEDANG (≥2 kriteria berikut):</strong></p>
+        <ul>
+          <li>BMI &lt;18.5 kg/m²</li>
+          <li>Penurunan BB tidak disengaja &gt;10% dalam 3–6 bulan</li>
+          <li>Asupan oral sedikit &gt;5 hari</li>
+          <li>Riwayat alkohol berlebihan atau obat (insulin, kemoterapi, antasid, diuretik)</li>
+        </ul>
+      </div>
+      <div>
+        <p><strong>Populasi berisiko di ICU:</strong></p>
+        <ul>
+          <li>Malnutrisi kronik (kanker, sirosis, TB, anoreksia nervosa)</li>
+          <li>Alkohol kronis — defisiensi tiamin + hipofosfatemia</li>
+          <li>NPO &gt;5–7 hari (pasca operasi besar, pankreatitis)</li>
+          <li>Turun berat badan &gt;15% dalam waktu singkat</li>
+          <li>Kelaparan berkepanjangan / kondisi bencana</li>
+          <li>Post-bariatric surgery dengan malabsorpsi</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="subsec">Patofisiologi — Cascade Elektrolit</div>
+    <table>
+      <tr><th>Langkah</th><th>Proses</th><th>Konsekuensi Klinis</th></tr>
+      <tr>
+        <td>1. Pemberian karbohidrat</td>
+        <td>Insulin surge → aktivasi Na-K-ATPase dan uptake seluler fosfat, K, Mg</td>
+        <td>Hipofosfatemia, hipokalemia, hipomagnesemia akut</td>
+      </tr>
+      <tr>
+        <td>2. Hipofosfatemia (&lt;0.5 mmol/L)</td>
+        <td>↓ ATP dan 2,3-DPG → gangguan fungsi sel, kurva disosiasi Hb bergeser kiri</td>
+        <td>Gagal jantung (↓ kontraktilitas), gagal napas (respiratory muscle weakness), rhabdomiolisis</td>
+      </tr>
+      <tr>
+        <td>3. Defisiensi Tiamin (B1)</td>
+        <td>Karbohidrat → ↑ kebutuhan tiamin untuk metabolisme piruvat</td>
+        <td>Wernicke encephalopathy (confusion, ataksia, oftalmoplegia), Korsakoff psychosis, wet beriberi</td>
+      </tr>
+      <tr>
+        <td>4. Hipokalemia + Hipomagnesemia</td>
+        <td>Defisiensi kofaktor enzim, gangguan eksitabilitas membran</td>
+        <td>Aritmia, ileus, kelemahan otot berat, hiporefleksia</td>
+      </tr>
+    </table>
+
+    <div class="subsec">Tatalaksana & Pencegahan Refeeding Syndrome</div>
+    <table>
+      <tr><th>Langkah</th><th>Tindakan</th><th>Detail</th></tr>
+      <tr>
+        <td><strong>1. Identifikasi risiko</strong></td>
+        <td>Nilai risiko sebelum mulai nutrisi</td>
+        <td>Cek riwayat, BB, lab awal: fosfat, K, Mg, Na, glukosa, thiamin</td>
+      </tr>
+      <tr>
+        <td><strong>2. Tiamin profilaksis</strong></td>
+        <td>Thiamin 100–300 mg IV/IM SEBELUM pemberian karbohidrat</td>
+        <td>Terutama penting pada alkoholik dan malnutrisi berat. Jangan tunggu gejala Wernicke.</td>
+      </tr>
+      <tr>
+        <td><strong>3. Mulai lambat</strong></td>
+        <td>10–20 kkal/kg/hari pada 2–3 hari pertama</td>
+        <td>Tingkatkan bertahap 33%/hari jika elektrolit stabil. Target penuh dicapai dalam 4–7 hari.</td>
+      </tr>
+      <tr>
+        <td><strong>4. Monitor elektrolit ketat</strong></td>
+        <td>Fosfat, K, Mg setiap 12–24 jam selama 3–5 hari pertama</td>
+        <td>Nilai sebelum makan, 6 jam setelah mulai, lalu harian</td>
+      </tr>
+      <tr>
+        <td><strong>5. Koreksi elektrolit pro-aktif</strong></td>
+        <td>Fosfat &lt;0.6 mmol/L: suplementasi IV 20–30 mmol dalam 6 jam; K &lt;3 → koreksi KCl</td>
+        <td>Koreksi oral jika mampu minum dan GI fungsi; IV jika &lt;0.5 mmol/L atau simtomatik</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- ACCORDION 4: MONITORING NUTRISI ICU -->
+<div class="theory-dropdown" style="margin-bottom:10px">
+  <button class="theory-btn" onclick="toggleTheory('nut-monitoring')">📖 Monitoring Nutrisi ICU — Parameter & Pitfall <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-nut-monitoring">
+
+    <div class="subsec">Estimasi Kebutuhan Energi — Metode Tersedia</div>
+    <table>
+      <tr><th>Metode</th><th>Akurasi</th><th>Keterbatasan</th></tr>
+      <tr>
+        <td><strong>Indirect Calorimetry (IC)</strong></td>
+        <td>Gold standard — ukur VO₂ dan VCO₂ langsung dari gas ekspirasi</td>
+        <td>Alat mahal/jarang tersedia; kontraindikasi: kebocoran sirkuit, FiO₂ &gt;0.6, HFNC tanpa khusus masker</td>
+      </tr>
+      <tr>
+        <td><strong>VCO₂-based prediction (Weir equation)</strong></td>
+        <td>Cukup baik jika IC tidak tersedia; REE = VCO₂ × 8.19</td>
+        <td>Hanya butuh CO₂ expired dari ventilator — lebih mudah dari IC penuh</td>
+      </tr>
+      <tr>
+        <td><strong>Formula prediksi (Harris-Benedict, Penn State)</strong></td>
+        <td>Akurasi 40–70% pada individual pasien ICU</td>
+        <td>Sering overestimasi saat fase akut; underestimasi pada recovery; tidak rekomendasikan untuk extreme BMI</td>
+      </tr>
+    </table>
+
+    <div class="subsec">Protein Monitoring — Nitrogen Balance</div>
+    <table>
+      <tr><th>Parameter</th><th>Cara Hitung</th><th>Target</th><th>Interpretasi</th></tr>
+      <tr>
+        <td><strong>Urinary Urea Nitrogen (UUN)</strong></td>
+        <td>Kumpul urin 24 jam → ukur kadar urea nitrogen</td>
+        <td>—</td>
+        <td>Cerminkan katabolisme protein; meningkat pada sepsis, trauma, steroid dosis tinggi</td>
+      </tr>
+      <tr>
+        <td><strong>Nitrogen Balance (NB)</strong></td>
+        <td>NB = Protein intake (g/hari) ÷ 6.25 − (UUN + 4)</td>
+        <td>NB ≥0 (netral atau positif)</td>
+        <td>Negatif = katabolisme &gt; anabolisme; gunakan untuk titrasi dosis protein</td>
+      </tr>
+      <tr>
+        <td><strong>Albumin / Prealbumin</strong></td>
+        <td>Albumin &lt;3.5 g/dL; Prealbumin &lt;15 mg/dL</td>
+        <td>⚠️ BUKAN marker status nutrisi di ICU</td>
+        <td>Negative acute phase reactant — turun saat inflamasi, bukan karena malnutrisi. Jangan jadikan target nutisi.</td>
+      </tr>
+    </table>
+
+    <div class="subsec">Kontrol Glukosa di ICU</div>
+    <table>
+      <tr><th>Target</th><th>Rekomendasi</th><th>Dasar Bukti</th></tr>
+      <tr>
+        <td><strong>140–180 mg/dL</strong></td>
+        <td>Target utama ICU (ESPEN 2023, ASPEN 2022)</td>
+        <td>NICE-SUGAR 2009: glukosa 81–108 mg/dL → mortalitas ↑, hipoglikemia berat ↑</td>
+      </tr>
+      <tr>
+        <td>Hindari &lt;110 mg/dL</td>
+        <td>Kontrol ketat tidak direkomendasikan</td>
+        <td>NICE-SUGAR: kontrol intensif meningkatkan mortalitas 2.6%</td>
+      </tr>
+      <tr>
+        <td>Monitor tiap 1–2 jam saat titrasi insulin</td>
+        <td>Protokol insulin sliding scale atau infus kontinu</td>
+        <td>Konsentrasi glukosa &gt;180 lebih dari 2 pengukuran → mulai insulin</td>
+      </tr>
+    </table>
+
+    <div class="subsec">Tanda Over-Feeding — Jangan Diabaikan</div>
+    <div class="cc orange" style="margin-bottom:0">
+      <div class="ct">⚠️ Tanda Over-Feeding di ICU</div>
+      <div class="grid2">
+        <ul>
+          <li><strong>Hiperkarbia (PaCO₂ ↑ atau RQ &gt;1.0):</strong> Karbohidrat berlebihan → CO₂ produksi ↑ → kesulitan weaning ventilator</li>
+          <li><strong>Hiperglikemia persisten &gt;180 mg/dL</strong> meski sudah insulin — curigai overfeeding karbohidrat</li>
+          <li><strong>Hipertrigliseridemia &gt;400 mg/dL</strong> → stop atau kurangi lipid emulsi</li>
+        </ul>
+        <ul>
+          <li><strong>Hepatic steatosis:</strong> ALAT/ASAT ↑, hati echogenic di USG — over-feeding karbohidrat + lipid</li>
+          <li><strong>Hiperventilasi tanpa sebab jelas</strong> + CO₂ tinggi → cek total kalori yang masuk</li>
+          <li><strong>Respiratory Quotient (RQ):</strong> Normal 0.7–1.0. RQ &gt;1.0 = lipogenesis aktif dari karbohidrat berlebih</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ACCORDION 5: FORMULA ENTERAL -->
+<div class="theory-dropdown" style="margin-bottom:10px">
+  <button class="theory-btn" onclick="toggleTheory('nut-formula')">📖 Pilihan Formula Enteral — Indikasi & Pemilihan <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-nut-formula">
+
+    <div class="subsec">Panduan Pemilihan Formula Enteral</div>
+    <table>
+      <tr><th>Tipe Formula</th><th>Komposisi</th><th>Indikasi</th><th>Contoh</th></tr>
+      <tr>
+        <td><strong>Polimerik Standard</strong></td>
+        <td>Protein utuh, karbohidrat kompleks, trigliserida rantai panjang; 1–1.5 kkal/mL</td>
+        <td>Mayoritas pasien ICU dengan fungsi GI normal; pilihan pertama</td>
+        <td>Ensure, Isocal, Nutrison Standard</td>
+      </tr>
+      <tr>
+        <td><strong>High-Protein Formula</strong></td>
+        <td>Protein &gt;20% total kalori; 1–1.5 kkal/mL</td>
+        <td>ARDS, luka bakar luas, trauma berat, pasien dengan protein losses tinggi</td>
+        <td>Ensure High Protein, Nutrison Protein Plus</td>
+      </tr>
+      <tr>
+        <td><strong>High-Density / Calorie Concentrated</strong></td>
+        <td>1.5–2.0 kkal/mL (volume lebih kecil)</td>
+        <td>Fluid restriction (gagal jantung, gagal ginjal, SIADH), intoleransi volume tinggi</td>
+        <td>Ensure Plus, Nutrison Energy</td>
+      </tr>
+      <tr>
+        <td><strong>Elemental / Peptide-Based</strong></td>
+        <td>Asam amino bebas atau dipeptida/tripeptida, MCT dominan</td>
+        <td>Malabsorpsi berat, fistula enterokutan proksimal, pasca operasi GI mayor, pankreatitis (post-pyloric)</td>
+        <td>Peptamen, Vital, Tolerex</td>
+      </tr>
+      <tr>
+        <td><strong>Diabetes Formula</strong></td>
+        <td>Karbohidrat rendah/modifikasi (monounsaturated fatty acid ↑), serat tinggi</td>
+        <td>DM tipe 2 + hiperglikemia persisten, tidak untuk menggantikan insulin manajemen</td>
+        <td>Glucerna, Nutrison Diabetes</td>
+      </tr>
+      <tr>
+        <td><strong>Renal Formula</strong></td>
+        <td>Protein rendah/sedang, rendah K/P/Na, kalori padat</td>
+        <td>AKI pre-dialisis (GFR &lt;30), ESRD tanpa dialisis adekuat — pertimbangkan hati-hati</td>
+        <td>Nepro, Suplena, Renilon</td>
+      </tr>
+      <tr>
+        <td><strong>Hepatic Formula</strong></td>
+        <td>BCAA tinggi (valin, leusin, isoleusin), AAA rendah</td>
+        <td>Ensefalopati hepatik — data terbatas, umumnya tidak lagi direkomendasikan rutin (ESPEN 2023)</td>
+        <td>Heparon, Aminoleban Enteral</td>
+      </tr>
+    </table>
+
+    <div class="subsec">Formula Imunomodulasi — Bukti Terkini ESPEN 2023</div>
+    <div class="grid2">
+      <div>
+        <p><strong>Omega-3 Fatty Acids (EPA/DHA):</strong></p>
+        <ul>
+          <li>Efek anti-inflamasi pada ARDS — beberapa studi positif</li>
+          <li>ESPEN 2023: <em>tidak direkomendasikan rutin</em> pada semua pasien kritis</li>
+          <li>Pertimbangkan pada ARDS dengan komponen inflamasi tinggi (weak recommendation)</li>
+        </ul>
+        <p><strong>Arginin:</strong></p>
+        <ul>
+          <li>Prekursor NO → bisa memperburuk vasodilatasi pada syok septik</li>
+          <li>⚠️ <strong>Kontraindikasi pada sepsis berat/syok septik</strong></li>
+          <li>Mungkin bermanfaat pasca operasi elektif, luka bakar</li>
+        </ul>
+      </div>
+      <div>
+        <p><strong>Glutamin:</strong></p>
+        <ul>
+          <li>Dahulu direkomendasikan untuk ICU (fuel enterosit, antioksidan)</li>
+          <li>REDOXS trial (2013): glutamin IV dosis tinggi ↑ mortalitas pada MOF</li>
+          <li>ESPEN 2023: <strong>jangan berikan glutamin IV pada MOF atau gagal ginjal/hati</strong></li>
+          <li>Enteral glutamin masih mungkin pada luka bakar, tapi tidak rutin</li>
+        </ul>
+        <p><strong>Serat (Fiber):</strong></p>
+        <ul>
+          <li>Prebiotik + modifikasi motilitas usus → kurangi diare</li>
+          <li>Gunakan pada diare terkait formula; hindari pada ileus atau obstruksi</li>
+          <li>Mixed fiber (soluble + insoluble) lebih baik dari hanya satu jenis</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ACCORDION 6: PICS & REHABILITASI -->
+<div class="theory-dropdown" style="margin-bottom:10px">
+  <button class="theory-btn" onclick="toggleTheory('nut-pics')">📖 PICS & Rehabilitasi Nutrisi Pasca ICU <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-nut-pics">
+
+    <div class="cc teal" style="margin-bottom:10px">
+      <div class="ct">🔄 PICS — Post-Intensive Care Syndrome</div>
+      <p style="color:var(--text)">Gangguan baru atau memburuk pada fungsi fisik, kognitif, atau kesehatan mental yang muncul setelah rawat di ICU dan berlanjut setelah keluar rumah sakit. Terjadi pada 25–50% survivor ICU.</p>
+      <div class="grid2" style="margin-top:8px">
+        <ul>
+          <li><strong>Fisik:</strong> ICU-acquired weakness (ICUAW), wasting otot, neuropati, fatigue kronik, kesulitan ADL</li>
+          <li><strong>Kognitif:</strong> Gangguan memori, konsentrasi, kecepatan proses informasi — mirip demensia ringan</li>
+        </ul>
+        <ul>
+          <li><strong>Psikologis:</strong> PTSD (20–30%), depresi (30%), ansietas (30%) pada survivor ICU</li>
+          <li><strong>PICS-F:</strong> Dampak pada keluarga pasien — kelelahan caregiver, depresi, complicated grief</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="subsec">Faktor Risiko PICS</div>
+    <table>
+      <tr><th>Domain</th><th>Faktor Risiko</th></tr>
+      <tr><td>ICU-related</td><td>Durasi ventilasi mekanis panjang, sedasi dalam berkepanjangan, imobilisasi, delirium ICU, hipoglikemia berat</td></tr>
+      <tr><td>Penyakit</td><td>Sepsis, ARDS, syok kardiogenik, trauma multipel, luka bakar, operasi besar</td></tr>
+      <tr><td>Pre-existing</td><td>Usia tua, malnutrisi pre-ICU, penyakit kronik, komorbid psikiatri sebelumnya</td></tr>
+      <tr><td>Nutrisi</td><td>Defisit kalori kumulatif besar selama ICU, protein intake tidak adekuat</td></tr>
+    </table>
+
+    <div class="subsec">Strategi Nutrisi untuk Cegah & Pulihkan PICS</div>
+    <div class="grid2">
+      <div>
+        <p><strong>Selama ICU:</strong></p>
+        <ul>
+          <li>Hindari defisit kalori kumulatif besar (ukur setiap hari, dokumentasikan)</li>
+          <li>Protein adekuat: 1.2–2.0 g/kg/hari sejak hari ke-2 (jangan delay protein)</li>
+          <li>Early mobilization: duduk, latihan pasif aktif — sinergis dengan nutrisi untuk protein synthesis</li>
+          <li>Minimalkan sedasi → lebih banyak aktivitas fisik → kurangi muscle wasting</li>
+        </ul>
+      </div>
+      <div>
+        <p><strong>Pasca ICU / Pasca RS (Recovery Phase):</strong></p>
+        <ul>
+          <li>Target protein meningkat: <strong>1.5–2.0 g/kg/hari</strong> di fase recovery</li>
+          <li>Total kalori naik 100–125% dari kebutuhan estimasi</li>
+          <li>Suplemen oral tinggi protein (ONS — Oral Nutritional Supplements): 2× sehari jika intake tidak mencukupi</li>
+          <li>Fisioterapi intensif + latihan resistensi: protein synthesis hanya optimal jika ada stimulus mekanikal</li>
+          <li>Follow-up nutrisi di klinik pasca ICU atau follow-up clinic 1–3 bulan</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="subsec">Checklist Nutrisi ICU — Harian</div>
+    <table>
+      <tr><th>Waktu</th><th>Yang Harus Dicek</th></tr>
+      <tr><td>Setiap pagi</td><td>Total kalori yang masuk kemarin vs target · Protein intake (g/hari) · GRV (jika EN gastrik) · Glukosa — rerata 24 jam · Berat badan (jika kondisi memungkinkan)</td></tr>
+      <tr><td>Tiap 12–24 jam (fase akut/refeeding)</td><td>Fosfat, K, Mg, Na · Glukosa · Trigliserida (jika PN atau lipid dosis tinggi) · Tanda toleransi GI</td></tr>
+      <tr><td>Tiap 2–3 hari</td><td>Elektrolit lengkap · Fungsi hati (jika PN) · Albumin (sebagai marker inflamasi, bukan nutrisi) · Evaluasi formulasi — apakah perlu ganti formula atau ubah kecepatan</td></tr>
+    </table>
+
+    <p style="margin-top:10px;font-size:12px"><em>📚 Referensi: ESPEN Guidelines on Clinical Nutrition in the ICU 2023 · ASPEN/SCCM Critical Care Nutrition Guidelines 2022 · NICE-SUGAR Study Investigators. NEJM 2009 · Singer P et al. Clin Nutr 2019 · EPaNIC Trial, NEJM 2011 · REDOXS Trial, NEJM 2013 · Harvey SE et al. (CALORIES trial), NEJM 2014 · Needham DM et al. PICS Review 2012</em></p>
+  </div>
+</div>
+
+<script>
+function toggleTheory(id) {
+  const content = document.getElementById('theory-' + id);
+  const btn = content ? content.previousElementSibling : null;
+  if (!content) return;
+  const isOpen = content.classList.contains('open');
+  content.classList.toggle('open', !isOpen);
+  if (btn) {
+    const chevron = btn.querySelector('.chevron');
+    if (chevron) chevron.style.transform = isOpen ? '' : 'rotate(180deg)';
+  }
+}
+</script>
+
+</body>
+</html>

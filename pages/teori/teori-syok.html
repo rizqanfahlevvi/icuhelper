@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Syok — Teori & Tatalaksana — ICU Helper</title>
+<link rel="stylesheet" href="../../assets/css/icu-framework.css">
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<script>
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn" href="../kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🔽 Weaning</a>
+  <a class="tab-btn active" href="../teori.html">📖 Teori</a>
+  <a class="tab-btn" href="../skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+
+<nav class="subtab-bar">
+  <a class="subtab-btn" href="teori-impending.html">⚠️ Impending</a>
+  <a class="subtab-btn" href="teori-gagalnapas.html">🫁 Gagal Napas</a>
+  <a class="subtab-btn" href="teori-fisiologi.html">🔬 Fisiologi</a>
+  <a class="subtab-btn" href="teori-sepsis.html">🦠 Sepsis</a>
+  <a class="subtab-btn active" href="teori-syok.html">💔 Syok</a>
+  <a class="subtab-btn" href="teori-b1b6.html">📋 B1–B6</a>
+  <a class="subtab-btn" href="teori-airway.html">🩺 Airway</a>
+  <a class="subtab-btn" href="teori-sat-sbt-vap.html">🔄 SAT/SBT</a>
+  <a class="subtab-btn" href="teori-dka-hhs.html">🩸 DKA/HHS</a>
+  <a class="subtab-btn" href="teori-nutrisi.html">🥗 Nutrisi</a>
+</nav>
+
+<!-- FILE 1: teori-syok.html CONTENT -->
+
+<div class="sec">Syok — Klasifikasi, Diagnosis & Resusitasi Hemodinamik</div>
+
+<!-- DEFINISI BOX -->
+<div class="cc teal">
+  <div class="ct">💔 Definisi Syok — Ketidaksesuaian Supply-Demand O₂</div>
+  <div class="grid2" style="margin-top:8px">
+    <div>
+      <p><strong>Syok</strong> adalah kondisi di mana terjadi ketidaksesuaian antara <em>supply</em> (DO₂) dan <em>demand</em> (VO₂) oksigen ke jaringan, mengakibatkan hipoperfusi dan disfungsi sel → kematian sel jika tidak ditangani.</p>
+      <p style="margin-top:8px"><strong>Formula DO₂ (Oxygen Delivery):</strong></p>
+      <p style="font-size:15px;color:var(--accent);font-family:monospace"><strong>DO₂ = CO × CaO₂ × 10</strong></p>
+      <ul style="margin-top:6px;font-size:13px">
+        <li><strong>CO</strong> = Cardiac Output (L/min)</li>
+        <li><strong>CaO₂</strong> = Hb × 1.34 × SaO₂ + (0.003 × PaO₂)</li>
+        <li>Normal DO₂: <strong>950–1150 mL/min</strong></li>
+        <li>Kritis: DO₂ &lt;300 mL/min → anaerobic metabolism</li>
+      </ul>
+    </div>
+    <div>
+      <p><strong>4 Mekanisme Utama Syok:</strong></p>
+      <table>
+        <tr><th>Mekanisme</th><th>Defek Utama</th></tr>
+        <tr><td>🔴 <strong>Distributif</strong></td><td>Maldistribusi aliran → SVR ↓↓, CO ↑</td></tr>
+        <tr><td>🔵 <strong>Hipovolemik</strong></td><td>Volume intravaskular ↓ → preload ↓ → CO ↓</td></tr>
+        <tr><td>🟡 <strong>Kardiogenik</strong></td><td>Kegagalan pompa → CO ↓, afterload ↑</td></tr>
+        <tr><td>🟠 <strong>Obstruktif</strong></td><td>Hambatan mekanik aliran → CO ↓</td></tr>
+      </table>
+      <p style="margin-top:8px;font-size:12px"><em>📚 Vincent JL & De Backer D. Circulatory Shock. NEJM 2013;369:1726–34 · ACCCM Hemodynamic Monitoring Consensus 2022</em></p>
+    </div>
+  </div>
+</div>
+
+<!-- ACCORDION 1: KLASIFIKASI & DIAGNOSIS BANDING -->
+<div class="theory-dropdown" style="margin-bottom:10px">
+  <button class="theory-btn" onclick="toggleTheory('syok-klasifikasi')">📖 Klasifikasi Syok & Diagnosis Banding <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-syok-klasifikasi">
+
+    <div class="subsec">Tabel Klasifikasi 4 Tipe Syok</div>
+    <table>
+      <tr><th>Tipe</th><th>Etiologi Utama</th><th>Patofisiologi</th><th>Tampilan Klinis</th></tr>
+      <tr>
+        <td><strong>Distributif</strong></td>
+        <td>Sepsis, anafilaksis, neurogenik, insufisiensi adrenal, toksik</td>
+        <td>Vasodilatasi masif → SVR ↓↓ → maldistribusi mikrosirkulasi</td>
+        <td>Kulit hangat/merah (warm shock), takikardia, demam/hipotermi</td>
+      </tr>
+      <tr>
+        <td><strong>Hipovolemik</strong></td>
+        <td>Hemoragik (trauma, GI bleed), non-hemoragik (dehidrasi, luka bakar, third-spacing)</td>
+        <td>Volume intravaskular ↓ → preload ↓ → SV ↓ → CO ↓</td>
+        <td>Kulit pucat/dingin, vena kolaps, takikardia, oliguria</td>
+      </tr>
+      <tr>
+        <td><strong>Kardiogenik</strong></td>
+        <td>AMI (LV/RV failure), miokarditis akut, kardiomiopati, tamponade, aritmia maligna, komplikasi mekanik (VSD, MR akut)</td>
+        <td>Kegagalan pompa → CO ↓ → backward failure → edema paru</td>
+        <td>Ronki paru, JVP ↑, S3, edema, kulit dingin/lembab</td>
+      </tr>
+      <tr>
+        <td><strong>Obstruktif</strong></td>
+        <td>PE masif, tension pneumothorax, tamponade kardiak, sindrom vena kava superior, auto-PEEP</td>
+        <td>Hambatan mekanis aliran darah → RV afterload ↑ → CO ↓</td>
+        <td>JVP ↑, trakea deviasi (tension PTX), pulsus paradoksus (tamponade)</td>
+      </tr>
+    </table>
+
+    <div class="subsec">Profil Hemodinamik Invasif Tiap Tipe Syok</div>
+    <table>
+      <tr><th>Parameter</th><th>Distributif</th><th>Hipovolemik</th><th>Kardiogenik</th><th>Obstruktif</th></tr>
+      <tr><td><strong>CVP / RAP</strong></td><td>↓ atau N</td><td>↓↓</td><td>↑↑</td><td>↑↑</td></tr>
+      <tr><td><strong>PAOP / PCWP</strong></td><td>↓ atau N</td><td>↓↓</td><td>↑↑ (&gt;18)</td><td>↓ atau N</td></tr>
+      <tr><td><strong>CO / CI</strong></td><td>↑↑ (hiperdinamik)</td><td>↓↓</td><td>↓↓ (&lt;2.2)</td><td>↓</td></tr>
+      <tr><td><strong>SVR</strong></td><td>↓↓↓</td><td>↑↑</td><td>↑↑</td><td>↑</td></tr>
+      <tr><td><strong>SvO₂ / ScvO₂</strong></td><td>↑ (shunting) atau ↓</td><td>↓↓</td><td>↓↓</td><td>↓</td></tr>
+      <tr><td><strong>Laktat</strong></td><td>↑↑</td><td>↑↑</td><td>↑↑</td><td>↑</td></tr>
+    </table>
+
+    <div class="subsec">Red Flags Tiap Tipe — Jangan Terlewat</div>
+    <div class="grid2">
+      <div>
+        <p><strong>🔴 Distributif:</strong></p>
+        <ul>
+          <li>Laktat ≥4 mmol/L meski MAP terkontrol → cytopathic hypoxia</li>
+          <li>Suhu &lt;36°C pada sepsis → prognosis buruk</li>
+          <li>Anafilaksis: timbul dalam detik-menit setelah paparan alergen</li>
+          <li>Syok neurogenik: bradikardia + hipotensi (bukan takikardia)</li>
+        </ul>
+        <p><strong>🔵 Hipovolemik:</strong></p>
+        <ul>
+          <li>Shock Index (HR/SBP) &gt;1.0 → perdarahan signifikan</li>
+          <li>Base deficit &lt;-6 atau laktat &gt;4 → kelas III–IV hemoragik</li>
+          <li>Hb drop &gt;2 g/dL dalam 6 jam tanpa sebab jelas</li>
+        </ul>
+      </div>
+      <div>
+        <p><strong>🟡 Kardiogenik:</strong></p>
+        <ul>
+          <li>New loud murmur → VSD/MR akut pasca AMI</li>
+          <li>STEMI inferior + syok → curigai RV infarct</li>
+          <li>Beck's triad (hipotensi + JVP ↑ + suara jantung redup) → tamponade</li>
+        </ul>
+        <p><strong>🟠 Obstruktif:</strong></p>
+        <ul>
+          <li>Tension PTX: suara napas ↓ unilateral + trakea deviasi → jarum dekompresi sebelum foto thoraks</li>
+          <li>PE masif: S1Q3T3, RV strain, D-dimer ↑↑, CTPA</li>
+          <li>Auto-PEEP: pasien ventilasi mekanik tiba-tiba hipotensi → hentikan ventilator sejenak</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ACCORDION 2: RUSH EXAM -->
+<div class="theory-dropdown" style="margin-bottom:10px">
+  <button class="theory-btn" onclick="toggleTheory('syok-rush')">📖 Pendekatan Bedside: RUSH Exam (Point-of-Care Ultrasound) <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-syok-rush">
+
+    <div class="subsec">RUSH = Rapid Ultrasound in Shock — 3 Komponen Utama</div>
+    <p>RUSH dilakukan dalam &lt;5 menit di bedside untuk menentukan tipe syok sebelum terapi definitif.</p>
+
+    <div class="grid2">
+      <div>
+        <p><strong>❤️ R — Pump (Jantung)</strong></p>
+        <ul>
+          <li><strong>Window: parasternal/subkostal/apikal</strong></li>
+          <li>EF visual: hiperdinamik (distributif/hipovolemik) vs depresi (kardiogenik)</li>
+          <li>Tamponade: efusi perikardium + RV collapse saat diastole</li>
+          <li>RV dilatasi: curigai PE masif atau RV infarct</li>
+          <li>Kissing ventricle: ventrikel kiri hiperdinamik + kolaps = hipovolemia berat</li>
+        </ul>
+        <p><strong>🚰 U — Tank (Volume Status)</strong></p>
+        <ul>
+          <li><strong>IVC diameter dan kolapsibilitas</strong></li>
+          <li>IVC &lt;2 cm + kolaps &gt;50% dengan inspirasi → hipovolemia (CVP ~0–5)</li>
+          <li>IVC &gt;2.5 cm + tidak kolaps → overload / obstruktif / kardiogenik</li>
+          <li>Pleura: efusi bilateral → kardiogenik/overload; unilateral → infeksi/trauma</li>
+          <li>B-lines bilateral (≥3/window) → edema paru kardiogenik</li>
+        </ul>
+      </div>
+      <div>
+        <p><strong>🩸 S — Pipes (Pembuluh Darah)</strong></p>
+        <ul>
+          <li><strong>Aorta abdominal:</strong> AAA — diameter &gt;3 cm, khususnya jika diseksi/ruptur</li>
+          <li><strong>Vena femoralis/poplitea:</strong> DVT — tidak kompresibel, trombus echogenik</li>
+          <li>DVT + RV dilatasi → tinggi curiga PE masif</li>
+        </ul>
+        <p><strong>Interpretasi cepat:</strong></p>
+        <ul>
+          <li>EF ↓ + B-lines + IVC besar → <strong>Kardiogenik</strong></li>
+          <li>IVC kolaps + EF hiperdinamik + tidak ada cairan → <strong>Hipovolemik</strong></li>
+          <li>EF hiperdinamik + IVC variabel → <strong>Distributif</strong></li>
+          <li>RV membesar + DVT atau tidak ada B-lines → <strong>Obstruktif (PE)</strong></li>
+          <li>Efusi perikardium + RV collapse → <strong>Tamponade</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="subsec">Tabel Temuan USG per Tipe Syok</div>
+    <table>
+      <tr><th>Temuan USG</th><th>Distributif</th><th>Hipovolemik</th><th>Kardiogenik</th><th>Obstruktif</th></tr>
+      <tr><td>Fungsi LV (EF)</td><td>Hiperdinamik</td><td>Hiperdinamik</td><td>↓↓ (depresi)</td><td>Normal/↓ (RV)</td></tr>
+      <tr><td>RV dilatasi</td><td>–</td><td>–</td><td>+/– (LHF)</td><td>++ (PE/tension)</td></tr>
+      <tr><td>IVC kolaps &gt;50%</td><td>+/–</td><td>++ (kolaps total)</td><td>– (IVC besar)</td><td>– (IVC besar)</td></tr>
+      <tr><td>Efusi perikardium</td><td>–</td><td>–</td><td>+/–</td><td>++ (tamponade)</td></tr>
+      <tr><td>B-lines paru</td><td>–</td><td>–</td><td>++ bilateral</td><td>– (PE)</td></tr>
+      <tr><td>Pneumothorax (A-lines + no sliding)</td><td>–</td><td>–</td><td>–</td><td>++ (tension PTX)</td></tr>
+      <tr><td>DVT</td><td>–</td><td>–</td><td>–</td><td>+ (PE masif)</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ACCORDION 3: RESUSITASI HEMODINAMIK -->
+<div class="theory-dropdown" style="margin-bottom:10px">
+  <button class="theory-btn" onclick="toggleTheory('syok-resusitasi')">📖 Resusitasi Hemodinamik — Target, Cairan & Vasopressor <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-syok-resusitasi">
+
+    <div class="cc blue" style="margin-bottom:10px">
+      <div class="ct">🎯 Target Resusitasi Awal (SSC 2024)</div>
+      <div class="grid2">
+        <ul>
+          <li><strong>MAP ≥65 mmHg</strong> (target ≥80 pada hipertensi kronik / aterosklerosis berat)</li>
+          <li><strong>Laktat clearing ≥10%/2 jam</strong> → lebih bermakna dari nilai absolut</li>
+          <li><strong>Laktat target &lt;2 mmol/L dalam 6 jam</strong> pertama resusitasi</li>
+        </ul>
+        <ul>
+          <li><strong>Urin output ≥0.5 mL/kg/jam</strong></li>
+          <li><strong>ScvO₂ ≥70%</strong> (atau SvO₂ ≥65%)</li>
+          <li><strong>Capillary refill time &lt;3 detik</strong> (peripheral perfusion index)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="subsec">Fluid Responsiveness — Sebelum Bolus Cairan</div>
+    <p>Hanya 50% pasien syok yang benar-benar fluid-responsive. Pemberian cairan berlebihan meningkatkan risiko ARDS dan abdominal compartment syndrome.</p>
+    <table>
+      <tr><th>Metode</th><th>Cara</th><th>Positif Jika</th><th>Syarat</th></tr>
+      <tr>
+        <td><strong>Passive Leg Raising (PLR)</strong></td>
+        <td>Angkat kaki 45° selama 1 menit, ukur perubahan CO/SV via USG atau arterial line</td>
+        <td>ΔCO ≥10% atau ΔVTI ≥12%</td>
+        <td>Tidak ada kontraindikasi (fraktur pelvis, hipertensi intrakranial)</td>
+      </tr>
+      <tr>
+        <td><strong>Pulse Pressure Variation (PPV)</strong></td>
+        <td>Hitung (PPmax–PPmin)/PPmean dari arterial waveform</td>
+        <td>PPV &gt;13%</td>
+        <td>Ventilasi mekanik terkontrol, TV ≥8 mL/kg, tidak ada aritmia, tidak ada RSVD</td>
+      </tr>
+      <tr>
+        <td><strong>Stroke Volume Variation (SVV)</strong></td>
+        <td>Dari monitor CO continuous (PiCCO, FloTrac)</td>
+        <td>SVV &gt;13%</td>
+        <td>Sama dengan PPV</td>
+      </tr>
+      <tr>
+        <td><strong>End-Expiratory Occlusion Test</strong></td>
+        <td>Tutup sirkuit ventilator 15 detik saat akhir ekspirasi</td>
+        <td>ΔVTI ≥5% atau ΔPP ≥5%</td>
+        <td>Ventilasi mekanik, pasien tidak spontan bernapas</td>
+      </tr>
+    </table>
+    <p><strong>Cairan resusitasi pilihan:</strong> Normal Saline 0.9% atau Ringer Laktat. Hindari koloid (albumin dipertimbangkan pada sepsis berat). Hindari starch (hydroxyethyl starch) → nefrotoksik.</p>
+
+    <div class="subsec">Tabel Vasopressor — Pilihan & Dosis</div>
+    <table>
+      <tr><th>Vasopressor</th><th>Mekanisme</th><th>Dosis</th><th>Indikasi</th><th>Keterangan</th></tr>
+      <tr>
+        <td><strong>Norepinefrin</strong></td>
+        <td>α₁ &gt;&gt; β₁ → vasokonstriksi + inotropik ringan</td>
+        <td>0.01–3.0 mcg/kg/min</td>
+        <td>⭐ First-line semua syok distributif</td>
+        <td>Pilihan utama SSC 2024 — kurangi aritmia vs dopamin</td>
+      </tr>
+      <tr>
+        <td><strong>Vasopressin</strong></td>
+        <td>V1R → vasokonstriksi langsung, tidak tergantung adrenergik</td>
+        <td>0.03 unit/min (fixed dose)</td>
+        <td>Adjunct NE, untuk hemat dosis NE; efektif pada relative vasopressin deficiency</td>
+        <td>Tidak titrasi; jangan &gt;0.04 unit/min (iskemia usus/jantung)</td>
+      </tr>
+      <tr>
+        <td><strong>Epinefrin</strong></td>
+        <td>α₁ + β₁ + β₂ — vasokonstriksi + inotropik + bronkodilasi</td>
+        <td>0.01–1.0 mcg/kg/min</td>
+        <td>⭐ First-line anafilaksis (IM 0.5 mg), kardiogenik refrakter</td>
+        <td>Meningkatkan laktat (glukoneogenesis) — jangan salah interpretasi</td>
+      </tr>
+      <tr>
+        <td><strong>Dobutamin</strong></td>
+        <td>β₁ &gt;&gt; β₂ → inotropik + kronotropik + vasodilasi ringan</td>
+        <td>2–20 mcg/kg/min</td>
+        <td>Syok kardiogenik + afterload sudah terkontrol</td>
+        <td>Bisa memperburuk hipotensi jika volume kurang; hindari dosis &gt;20</td>
+      </tr>
+      <tr>
+        <td><strong>Dopamin</strong></td>
+        <td>Dosis tergantung: D1 (renal) &lt;3, β₁ 3–10, α₁ &gt;10 mcg/kg/min</td>
+        <td>Tidak direkomendasikan rutin</td>
+        <td>Alternatif NE pada bradikardia relatif; tidak digunakan sebagai renal-protective</td>
+        <td>⚠️ Lebih banyak aritmia vs NE (SOAP II trial) — hindari first-line</td>
+      </tr>
+      <tr>
+        <td><strong>Fenilefrin</strong></td>
+        <td>α₁ murni → vasokonstriksi tanpa efek jantung</td>
+        <td>0.5–9 mcg/kg/min</td>
+        <td>Takikardia refrakter + hipotensi (jika NE tidak tersedia)</td>
+        <td>Menurunkan CO pada disfungsi jantung; gunakan hati-hati</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- ACCORDION 4: SYOK KARDIOGENIK -->
+<div class="theory-dropdown" style="margin-bottom:10px">
+  <button class="theory-btn" onclick="toggleTheory('syok-kardiogenik')">📖 Syok Kardiogenik — Diagnosis, Staging & Terapi <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-syok-kardiogenik">
+
+    <div class="cc red" style="margin-bottom:10px">
+      <div class="ct">❤️‍🔥 Definisi Syok Kardiogenik (ESC 2024)</div>
+      <div class="grid2">
+        <ul>
+          <li><strong>SBP &lt;90 mmHg</strong> &gt;30 menit ATAU membutuhkan vasopresor/inotropik untuk SBP ≥90</li>
+          <li><strong>CI &lt;2.2 L/min/m²</strong> (cardiac index rendah)</li>
+          <li><strong>PCWP/PAOP &gt;18 mmHg</strong> (kongesti paru)</li>
+        </ul>
+        <ul>
+          <li>Tanda hipoperfusi: extremitas dingin, oliguria, altered mental status, laktat ↑</li>
+          <li>Mortalitas RS masih 30–50% meski dengan terapi modern (ESC 2024)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="subsec">Penyebab Utama Syok Kardiogenik</div>
+    <table>
+      <tr><th>Penyebab</th><th>Prevalensi</th><th>Kunci Diagnosis</th><th>Intervensi Spesifik</th></tr>
+      <tr><td>AMI dengan LV failure</td><td>~80%</td><td>STEMI/NSTEMI + tanda syok</td><td>PCI segera (&lt;90 menit), revaskularisasi</td></tr>
+      <tr><td>RV Infarct</td><td>~5%</td><td>AMI inferior + JVP ↑ + paru bersih + hipotensi</td><td>Volume loading hati-hati, hindari nitrogliserin/diuretik</td></tr>
+      <tr><td>Komplikasi Mekanik AMI</td><td>~5%</td><td>Murmur baru, VSD (step-up O₂ di RV), MR akut (papillary rupture)</td><td>Operasi/TEER cito</td></tr>
+      <tr><td>Miokarditis Fulminan</td><td>&lt;5%</td><td>Muda, viral prodrome, Troponin ↑, CMR/biopsi</td><td>Imunosupresi selektif, MCS bridge</td></tr>
+      <tr><td>Tamponade Kardiak</td><td>Variabel</td><td>Beck's triad, pulsus paradoksus, RUSH (+)</td><td>Perikardiosentesis cito</td></tr>
+      <tr><td>Krisis Kardiomiopati</td><td>Variabel</td><td>Riwayat gagal jantung, dilatasi LV</td><td>Inotropik, diuretik, MCS</td></tr>
+    </table>
+
+    <div class="subsec">SCAI Staging Syok Kardiogenik (A–E)</div>
+    <table>
+      <tr><th>Stage</th><th>Nama</th><th>Karakteristik</th><th>Mortalitas 30 hari</th></tr>
+      <tr><td><strong>A</strong></td><td>At Risk</td><td>Risiko tinggi tapi belum ada syok — AMI luas, EF rendah, tidak ada tanda hipoperfusi</td><td>~3%</td></tr>
+      <tr><td><strong>B</strong></td><td>Beginning</td><td>Hipotensi atau takikardia tanpa hipoperfusi — "pre-shock"</td><td>~7%</td></tr>
+      <tr><td><strong>C</strong></td><td>Classic</td><td>Hipoperfusi jaringan, butuh vasopresor/inotropik untuk MAP ≥65, laktat &gt;2</td><td>~12–18%</td></tr>
+      <tr><td><strong>D</strong></td><td>Deteriorating</td><td>Tidak respons terapi awal, eskalasi vasopressor, perburukan</td><td>~40%</td></tr>
+      <tr><td><strong>E</strong></td><td>Extremis</td><td>Kolaps sirkulasi, CPR aktif atau butuh multiple vasopressor dosis tinggi</td><td>~60–80%</td></tr>
+    </table>
+
+    <div class="subsec">Terapi Farmakologis — Inotropik</div>
+    <table>
+      <tr><th>Inotropik</th><th>Dosis</th><th>Mekanisme</th><th>Kelebihan</th><th>Kekurangan</th></tr>
+      <tr>
+        <td><strong>Dobutamin</strong></td>
+        <td>2–20 mcg/kg/min IV (titrasi)</td>
+        <td>β₁ agonist → ↑ kontraktilitas, ↑ HR, vasodilasi ringan</td>
+        <td>Onset cepat, titrasi mudah, tersedia luas</td>
+        <td>Takikardia, aritmia, desensitisasi β₁ dalam 72 jam</td>
+      </tr>
+      <tr>
+        <td><strong>Milrinon</strong></td>
+        <td>Loading 50 mcg/kg, maintenance 0.25–0.75 mcg/kg/min</td>
+        <td>PDE-3 inhibitor → ↑ cAMP → inotropik + vasodilasi paru/sistemik</td>
+        <td>Efektif pada β-blocker overdose, vasodilasi paru</td>
+        <td>Hipotensi, eliminasi renal (hati-hati AKI), aritmia</td>
+      </tr>
+      <tr>
+        <td><strong>Levosimendan</strong></td>
+        <td>Loading 12 mcg/kg/10 menit, maintenance 0.1–0.2 mcg/kg/min selama 24 jam</td>
+        <td>Calcium sensitizer + PDE inhibitor → ↑ kontraktilitas tanpa ↑ Ca²⁺ intrasel</td>
+        <td>Tidak meningkatkan O₂ demand, efek 7–10 hari pasca infus</td>
+        <td>Harga mahal, hipotensi, aritmia; belum terbukti ↓ mortalitas</td>
+      </tr>
+    </table>
+
+    <div class="subsec">Mechanical Circulatory Support (MCS)</div>
+    <div class="grid2">
+      <div>
+        <p><strong>🔵 IABP (Intra-Aortic Balloon Pump)</strong></p>
+        <ul>
+          <li>Mekanisme: inflasi diastole → ↑ perfusi koroner; deflasi sistole → ↓ afterload</li>
+          <li>Peningkatan CO: ~0.5 L/min</li>
+          <li>⚠️ IABP-SHOCK II trial: tidak menurunkan mortalitas pada syok kardiogenik post-AMI</li>
+          <li>Masih digunakan untuk bridge ke PCI atau MCS yang lebih kuat</li>
+        </ul>
+        <p><strong>🟡 Impella</strong></p>
+        <ul>
+          <li>Jenis: Impella 2.5 (~2.5 L/min), CP (~4.3 L/min), 5.0 (~5 L/min)</li>
+          <li>Mekanisme: pompa aksial LV ke aorta, unloading LV langsung</li>
+          <li>Indikasi: SCAI C–D, bridge ke keputusan/transplantasi</li>
+        </ul>
+      </div>
+      <div>
+        <p><strong>🔴 VA-ECMO (Extracorporeal Membrane Oxygenation — Veno-Arterial)</strong></p>
+        <ul>
+          <li>Dukungan terkuat: CO hingga 4–7 L/min + oksigenasi</li>
+          <li>Meningkatkan afterload LV → pertimbangkan kombinasi Impella + ECMO (ECPELLA)</li>
+          <li>Indikasi: SCAI D–E, refrakter semua terapi lain</li>
+          <li>Komplikasi: limb ischemia, stroke, perdarahan, LV distension</li>
+          <li>⚠️ ECMO-CS trial (2023): tidak ada manfaat survival vs terapi konvensional pada syok kardiogenik non-selektif → seleksi pasien kunci</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ACCORDION 5: SYOK DISTRIBUTIF NON-SEPSIS -->
+<div class="theory-dropdown" style="margin-bottom:10px">
+  <button class="theory-btn" onclick="toggleTheory('syok-distributif')">📖 Syok Distributif Non-Sepsis — Anafilaksis & Neurogenik <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-syok-distributif">
+
+    <div class="subsec">Anafilaksis — Tatalaksana 4 Langkah</div>
+    <div class="cc red" style="margin-bottom:10px">
+      <div class="ct">🚨 Anafilaksis — Kenali & Tindak dalam Menit Pertama</div>
+      <p style="color:var(--text)"><strong>Diagnosis:</strong> Onset akut &lt;1 jam setelah paparan alergen + salah satu: (1) gejala kulit/mukosa + gejala respirasi/kardiovaskular; (2) hipotensi akut atau bronkospasme setelah paparan alergen yang diketahui.</p>
+    </div>
+    <table>
+      <tr><th>Langkah</th><th>Tindakan</th><th>Detail</th><th>Waktu</th></tr>
+      <tr>
+        <td><strong>1. Epinefrin — SEGERA</strong></td>
+        <td>Injeksi IM epinefrin 1:1000</td>
+        <td><strong>0.5 mg IM paha lateral (anterolateral)</strong> — dewasa. Anak: 0.01 mg/kg. Dapat diulang setiap 5–15 menit. Jangan tunda karena tunggu IV line.</td>
+        <td>0–3 menit</td>
+      </tr>
+      <tr>
+        <td><strong>2. Posisi & O₂</strong></td>
+        <td>Posisi supine + elevasi kaki; O₂ 10–15 L/min via NRM</td>
+        <td>Jangan dudukkan pasien tiba-tiba (empty ventricle syndrome). Jika bronkospasme dominan: duduk tegak.</td>
+        <td>Bersamaan</td>
+      </tr>
+      <tr>
+        <td><strong>3. IV Access & Cairan</strong></td>
+        <td>IV line besar × 2; kristaloid 1–2 L bolus</td>
+        <td>Epinefrin IV 0.1–0.5 mcg/kg/min jika refrakter IM. Hindari koloid pada anafilaksis (bisa memperburuk).</td>
+        <td>3–10 menit</td>
+      </tr>
+      <tr>
+        <td><strong>4. Adjuvan</strong></td>
+        <td>Antihistamin + steroid</td>
+        <td>Diphenhydramine 25–50 mg IV (anti-H1). Ranitidin/famotidin (anti-H2). Metilprednisolon 125 mg IV (cegah reaksi bifasik — onset &gt;4 jam). Salbutamol nebulisasi untuk bronkospasme.</td>
+        <td>Setelah epinefrin</td>
+      </tr>
+    </table>
+    <p style="margin-top:8px"><strong>⚠️ Reaksi bifasik:</strong> 5–20% pasien → gejala kembali dalam 1–72 jam. Observasi minimal 4–6 jam di RS. Pertimbangkan 24 jam jika reaksi berat atau riwayat bifasik.</p>
+
+    <div class="subsec">Syok Neurogenik — Karakteristik & Tatalaksana</div>
+    <table>
+      <tr><th>Aspek</th><th>Detail</th></tr>
+      <tr><td><strong>Mekanisme</strong></td><td>Cedera medula spinalis ≥T6 → hilangnya tonus simpatis di bawah lesi → vasodilatasi + bradikardia (bukan takikardia seperti syok lain)</td></tr>
+      <tr><td><strong>Temuan Klinis</strong></td><td>Hipotensi + bradikardia (triad neurogenik) + kulit hangat + priapismus (tanda cedera spinal)</td></tr>
+      <tr><td><strong>Perbedaan dari Syok Spinal</strong></td><td>Syok spinal: flasid sementara pasca cedera. Syok neurogenik: gangguan hemodinamik yang berlangsung hari–minggu.</td></tr>
+      <tr><td><strong>Target MAP</strong></td><td>MAP ≥85 mmHg untuk 7 hari pertama (spinal cord perfusion pressure)</td></tr>
+      <tr><td><strong>Vasopresor pilihan</strong></td><td>Norepinefrin (first-line) atau Dopamin (jika bradikardia signifikan). Vasopressin dapat digunakan sebagai adjunct.</td></tr>
+      <tr><td><strong>Bradikardia</strong></td><td>Atropin 0.5–1 mg IV; jika refrakter → pacu jantung transvenosa sementara</td></tr>
+      <tr><td><strong>Hindari</strong></td><td>Overloading cairan → pneumonia, pressure ulcer, syok distributif berlangsung &gt;72 jam jika tidak ada sebab lain</td></tr>
+    </table>
+
+    <div class="subsec">Insufisiensi Adrenal Akut (Addisonian Crisis)</div>
+    <p>Seringkali rancu dengan syok septik atau distributif lain. Curigai pada: riwayat steroid kronik dihentikan tiba-tiba, hiperpigmentasi kulit, hiponatremia + hiperkalemia, eosinofilia, hipoglikemia.</p>
+    <ul>
+      <li><strong>Hidrokortison 100 mg IV</strong> bolus → 200–300 mg/hari infus kontinu atau dosis terbagi tiap 6–8 jam</li>
+      <li>Penggantian kortisol — dapat dicoba tanpa menunggu hasil lab jika klinis kuat</li>
+      <li>Kortisol acak &lt;18 mcg/dL saat krisis mendukung diagnosis; ACTH stimulation test tidak selalu diperlukan saat kritis</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ACCORDION 6: MONITORING & END-POINT -->
+<div class="theory-dropdown" style="margin-bottom:10px">
+  <button class="theory-btn" onclick="toggleTheory('syok-monitoring')">📖 Monitoring Resusitasi & Target End-Point <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-syok-monitoring">
+
+    <div class="subsec">Marker Perfusi Jaringan — Target dalam Resusitasi</div>
+    <table>
+      <tr><th>Parameter</th><th>Target</th><th>Makna Abnormal</th><th>Catatan</th></tr>
+      <tr>
+        <td><strong>Laktat serum</strong></td>
+        <td>&lt;2 mmol/L dalam 6 jam; clearing ≥10%/2 jam</td>
+        <td>↑ = hipoperfusi, cytopathic hypoxia, atau excess adrenergic (epinefrin)</td>
+        <td>Serial tiap 1–2 jam saat resusitasi aktif; single value kurang informatif</td>
+      </tr>
+      <tr>
+        <td><strong>ScvO₂ (vena sentral)</strong></td>
+        <td>≥70%</td>
+        <td>↓ = VO₂ ↑ atau DO₂ ↓ (hipoksia/anemia/low CO)</td>
+        <td>Ambil dari kateter vena sentral. Lebih mudah dari SvO₂ PA catheter.</td>
+      </tr>
+      <tr>
+        <td><strong>SvO₂ (PA catheter)</strong></td>
+        <td>≥65%</td>
+        <td>↓ = sama dengan ScvO₂; ↑↑ = shunting (sepsis fase hiperdinamik, sirosis)</td>
+        <td>Gold standard tapi invasif, penggunaan menurun dengan RUSH exam</td>
+      </tr>
+      <tr>
+        <td><strong>Urin output</strong></td>
+        <td>≥0.5 mL/kg/jam</td>
+        <td>Oliguria = hipoperfusi renal atau AKI</td>
+        <td>Tidak spesifik — dapat rendah meski perfusi baik (ADH, AKI intrinsik)</td>
+      </tr>
+      <tr>
+        <td><strong>MAP</strong></td>
+        <td>≥65 mmHg (≥80 jika HTN kronik)</td>
+        <td>MAP &lt;50 → cerebral dan renal perfusion kritis</td>
+        <td>Tidak selalu mencerminkan microcirculation</td>
+      </tr>
+      <tr>
+        <td><strong>Capillary Refill Time (CRT)</strong></td>
+        <td>&lt;3 detik</td>
+        <td>≥4 detik = hipoperfusi perifer signifikan</td>
+        <td>ANDROMEDA-SHOCK: CRT-guided resusitasi sama baiknya dengan laktat-guided</td>
+      </tr>
+      <tr>
+        <td><strong>Mottling Score</strong></td>
+        <td>0 (tidak ada)</td>
+        <td>Score 3–4 = mortalitas &gt;50% dalam 14 hari</td>
+        <td>Nilai dari lutut: 0=tidak ada, 1–5 sesuai luas area mottling</td>
+      </tr>
+    </table>
+
+    <div class="subsec">Interpretasi ScvO₂ — Rendah vs Tinggi</div>
+    <table>
+      <tr><th>Kondisi</th><th>ScvO₂</th><th>Interpretasi</th><th>Tindakan</th></tr>
+      <tr>
+        <td>ScvO₂ rendah (&lt;65%)</td>
+        <td>↓↓</td>
+        <td>Ekstraksi O₂ berlebihan → DO₂ tidak adekuat. Kemungkinan: CO ↓, Hb ↓, SaO₂ ↓, atau VO₂ ↑</td>
+        <td>Cek: CO/preload → cairan/inotropik; Hb &lt;7 → transfusi; SaO₂ → oksigenasi; jika demam → antipiretik</td>
+      </tr>
+      <tr>
+        <td>ScvO₂ normal/tinggi (&gt;75%)</td>
+        <td>↑ atau N</td>
+        <td>Tidak selalu baik! Bisa karena: shunting arteriovenosa (sepsis), mitochondrial dysfunction (cytopathic hypoxia), atau over-resusitasi</td>
+        <td>Correlate dengan laktat dan klinis — ScvO₂ tinggi + laktat tinggi = distributif/cytopathic</td>
+      </tr>
+    </table>
+
+    <div class="subsec">Pitfall Over-Resusitasi Cairan</div>
+    <div class="cc orange" style="margin-bottom:0">
+      <div class="ct">⚠️ Bahaya Fluid Overload dalam Resusitasi Syok</div>
+      <div class="grid2">
+        <ul>
+          <li><strong>ARDS/Edema paru:</strong> Fluid overload → ↑ extravascular lung water → P/F turun</li>
+          <li><strong>Abdominal Compartment Syndrome:</strong> Tekanan intra-abdomen &gt;20 mmHg + disfungsi organ baru → dekompresi bedah darurat</li>
+          <li><strong>AKI dilatusi:</strong> Edema interstisial ginjal → oliguria paradoksal</li>
+        </ul>
+        <ul>
+          <li><strong>Hiponatremia dilusional:</strong> Terutama dengan NaCl 0.9% volume besar</li>
+          <li><strong>Koagulopati:</strong> Hemodilusi faktor koagulasi → perdarahan</li>
+          <li><strong>Strategi ROSE:</strong> Resuscitation → Optimization → Stabilization → Evacuation (de-resuscitation dengan diuretik/CRRT)</li>
+        </ul>
+      </div>
+    </div>
+
+    <p style="margin-top:10px;font-size:12px"><em>📚 Referensi: Vincent JL & De Backer D. NEJM 2013 · Surviving Sepsis Campaign 2024 Guidelines · ACCCM Hemodynamic Monitoring Consensus 2022 · ESC Cardiogenic Shock 2024 · SCAI Shock Classification 2022 · Annane D et al. (Anafilaksis) · ANDROMEDA-SHOCK Trial 2019</em></p>
+  </div>
+</div>
+
+<script>
+function toggleTheory(id) {
+  const content = document.getElementById('theory-' + id);
+  const btn = content ? content.previousElementSibling : null;
+  if (!content) return;
+  const isOpen = content.classList.contains('open');
+  content.classList.toggle('open', !isOpen);
+  if (btn) {
+    const chevron = btn.querySelector('.chevron');
+    if (chevron) chevron.style.transform = isOpen ? '' : 'rotate(180deg)';
+  }
+}
+</script>
+
+</body>
+</html>

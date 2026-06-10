@@ -225,7 +225,9 @@
     nlr:      { label: 'NLR & Biomarker',  icon: '🔬', href: 'pages/kalkulator/kalkulator-nlr.html' },
     transfusi:{ label: 'Transfusi',        icon: '🩺', href: 'pages/kalkulator/kalkulator-transfusi.html' },
     cairan:   { label: 'Cairan Harian',    icon: '💧', href: 'pages/kalkulator/kalkulator-cairan.html' },
-    insulin:  { label: 'Insulin',          icon: '💉', href: 'pages/kalkulator/kalkulator-insulin.html' }
+    insulin:  { label: 'Insulin',          icon: '💉', href: 'pages/kalkulator/kalkulator-insulin.html' },
+    nutrisi:         { label: 'Nutrisi ICU',      icon: '🥗', href: 'pages/kalkulator/kalkulator-nutrisi.html' },
+    'ventilator-adv':{ label: 'Ventilator Adv',   icon: '⚙️', href: 'pages/kalkulator/kalkulator-ventilator-adv.html' }
   };
   window.calcHistoryModuleMeta = MODULE_META;
 

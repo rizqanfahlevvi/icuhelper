@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ventilator Lanjutan — ICU Helper</title>
+<link rel="stylesheet" href="../../assets/css/icu-framework.css">
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<script>
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+<style>
+.vent-result-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; }
+@media(max-width:480px){ .vent-result-grid{ grid-template-columns:1fr; } }
+.vent-res-card { background:var(--bg); border:1.5px solid var(--border); border-radius:12px; padding:12px 14px; }
+.vent-res-label { font-size:11px; color:var(--muted); font-weight:600; margin-bottom:4px; text-transform:uppercase; letter-spacing:.04em; }
+.vent-res-value { font-size:22px; font-weight:700; color:var(--accent); font-family:var(--font-mono); }
+.vent-res-target { font-size:11px; color:var(--text2); margin-top:2px; }
+.vent-res-card.warn { border-color:#f59e0b; }
+.vent-res-card.warn .vent-res-value { color:#f59e0b; }
+.vent-res-card.danger { border-color:#ef4444; }
+.vent-res-card.danger .vent-res-value { color:#ef4444; }
+.vent-res-card.ok { border-color:#30d158; }
+.vent-res-card.ok .vent-res-value { color:#30d158; }
+.vent-warn-box { background:rgba(255,180,0,.1); border:1px solid rgba(255,180,0,.3);
+  border-radius:10px; padding:10px 14px; margin-top:10px; font-size:12px; color:var(--text); }
+.vent-warn-box.danger { background:rgba(239,68,68,.1); border-color:rgba(239,68,68,.3); }
+.peep-table { width:100%; border-collapse:collapse; font-size:12px; margin-top:8px; }
+.peep-table th { background:var(--card); color:var(--muted); padding:6px 8px; text-align:center; font-weight:600; text-transform:uppercase; font-size:10px; letter-spacing:.04em; }
+.peep-table td { padding:5px 8px; text-align:center; border-top:1px solid var(--border); color:var(--text2); }
+.peep-table tr.active-peep td { background:rgba(var(--accent-rgb,10,132,255),.1); color:var(--accent); font-weight:700; }
+</style>
+</head>
+<body>
+
+<div class="hbar"></div>
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn active" href="../kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="../ekg.html">📈 EKG</a>
+  <a class="tab-btn" href="../teori.html">📖 Teori</a>
+  <a class="tab-btn" href="../skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+
+<nav class="subtab-bar">
+  <a class="subtab-btn" href="kalkulator-ibw.html">⚖️ IBW & Parameter</a>
+  <a class="subtab-btn active" href="kalkulator-ventilator-adv.html">⚙️ Ventilator Adv</a>
+  <a class="subtab-btn" href="kalkulator-drug.html">💊 Sedasi & Paralitik</a>
+  <a class="subtab-btn" href="kalkulator-pump.html">🔬 Syringe Pump</a>
+  <a class="subtab-btn" href="kalkulator-pf.html">📈 P/F & OI</a>
+  <a class="subtab-btn" href="kalkulator-renal.html">🫘 Renal</a>
+  <a class="subtab-btn" href="kalkulator-pulmo.html">🫁 Pulmo</a>
+  <a class="subtab-btn" href="kalkulator-electro.html">⚡ ElektroCorr</a>
+  <a class="subtab-btn" href="kalkulator-nlr.html">🧫 NLR</a>
+  <a class="subtab-btn" href="kalkulator-transfusi.html">🩸 Transfusi</a>
+  <a class="subtab-btn" href="kalkulator-cairan.html">💧 Cairan</a>
+  <a class="subtab-btn" href="kalkulator-insulin.html">💉 Insulin</a>
+  <a class="subtab-btn" href="kalkulator-nutrisi.html">🥗 Nutrisi</a>
+</nav>
+
+<div class="calc-box">
+  <div class="calc-title"><span>⚙️</span> Ventilator Lanjutan — Compliance · Driving P · Mechanical Power</div>
+
+  <div class="grid2" style="gap:10px">
+    <div>
+      <div class="input-row">
+        <label>Kondisi / Mode</label>
+        <select id="vl-kondisi" onchange="calcVentAdv()">
+          <option value="ards">ARDS</option>
+          <option value="normal" selected>Normal / Post-op</option>
+          <option value="copd">PPOK / Obstruktif</option>
+          <option value="neuro">Neuro / TBI</option>
+        </select>
+      </div>
+      <div class="input-row">
+        <label>IBW (kg)</label>
+        <input type="number" inputmode="decimal" id="vl-ibw" placeholder="cth: 60" min="30" max="120" oninput="calcVentAdv()">
+      </div>
+      <div class="input-row">
+        <label>Tidal Volume — VT (mL)</label>
+        <input type="number" inputmode="decimal" id="vl-vt" placeholder="cth: 420" min="100" max="900" oninput="calcVentAdv()">
+      </div>
+      <div class="input-row">
+        <label>Respiratory Rate (x/mnt)</label>
+        <input type="number" inputmode="decimal" id="vl-rr" placeholder="cth: 18" min="4" max="40" oninput="calcVentAdv()">
+      </div>
+      <div class="input-row">
+        <label>FiO₂ (%)</label>
+        <input type="number" inputmode="decimal" id="vl-fio2" placeholder="cth: 50" min="21" max="100" oninput="calcVentAdv()">
+      </div>
+    </div>
+    <div>
+      <div class="input-row">
+        <label>Ppeak (cmH₂O)</label>
+        <input type="number" inputmode="decimal" id="vl-ppeak" placeholder="cth: 28" min="5" max="80" oninput="calcVentAdv()">
+      </div>
+      <div class="input-row">
+        <label>Pplat (cmH₂O) — inspiratory hold 0.5 dtk</label>
+        <input type="number" inputmode="decimal" id="vl-pplat" placeholder="cth: 22" min="5" max="70" oninput="calcVentAdv()">
+      </div>
+      <div class="input-row">
+        <label>PEEP (cmH₂O)</label>
+        <input type="number" inputmode="decimal" id="vl-peep" placeholder="cth: 8" min="0" max="30" oninput="calcVentAdv()">
+      </div>
+      <div class="input-row">
+        <label>SpO₂ (%) <em style="font-weight:400">— atau isi PaO₂</em></label>
+        <input type="number" inputmode="decimal" id="vl-spo2" placeholder="cth: 95" min="70" max="100" oninput="calcVentAdv()">
+      </div>
+      <div class="input-row">
+        <label>PaO₂ (mmHg) — opsional, prioritas dari ABG</label>
+        <input type="number" inputmode="decimal" id="vl-pao2" placeholder="kosongkan jika pakai SpO₂" min="40" max="600" oninput="calcVentAdv()">
+      </div>
+    </div>
+  </div>
+
+  <button class="calc-btn" onclick="calcVentAdv()">Hitung Parameter Ventilator</button>
+
+  <div id="vl-result" style="display:none; margin-top:16px"></div>
+</div>
+
+<!-- REFERENSI -->
+<div class="card" style="margin-top:12px">
+  <div class="subsec" style="margin-bottom:8px">📌 Formula & Target Klinis</div>
+  <div class="grid2">
+    <ul style="font-size:12px; color:var(--text2); margin:0; padding-left:18px; line-height:1.8">
+      <li><strong>Compliance statis</strong> = VT ÷ (Pplat − PEEP) · Target &gt;50 mL/cmH₂O</li>
+      <li><strong>Driving Pressure</strong> = Pplat − PEEP · Target ≤15 cmH₂O</li>
+      <li><strong>Mechanical Power</strong> = 0.098 × RR × VT × (Ppeak − ΔP/2) ÷ 1000 · Target &lt;17 J/min</li>
+      <li><strong>Resistensi</strong> = (Ppeak − Pplat) × Ti ÷ VT · Ti estimasi = 60 / (RR × 3)</li>
+    </ul>
+    <ul style="font-size:12px; color:var(--text2); margin:0; padding-left:18px; line-height:1.8">
+      <li><strong>VT target</strong>: ARDS 4–6, PPOK 7–8, Normal 6–8 mL/kg IBW</li>
+      <li><strong>Pplat target</strong>: ≤30 cmH₂O (ARDS), ≤35 (non-ARDS)</li>
+      <li><strong>PEEP</strong>: ARDSNet lower/higher PEEP-FiO₂ table</li>
+      <li><em>Inspiratory hold 0.5 dtk untuk ukur Pplat (di VC-AC mode)</em></li>
+    </ul>
+  </div>
+</div>
+
+<script src="../../assets/js/calc-history.js"></script>
+<script src="../../assets/js/scripts-kalkulator-ventilator-adv.js"></script>
+<script src="../../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../../assets/js/feedback.js"></script>
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+<script src="../../assets/data/references.js"></script>
+<script src="../../assets/js/scripts-citations.js"></script>
+</body>
+</html>

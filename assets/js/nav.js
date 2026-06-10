@@ -54,16 +54,20 @@
         { label: 'B1–B6 Bedside Assessment', href: 'pages/teori/teori-b1b6.html' },
         { label: 'Airway & Intubasi',        href: 'pages/teori/teori-airway.html' },
         { label: 'SAT · SBT · VAP Bundle',   href: 'pages/teori/teori-sat-sbt-vap.html' },
-        { label: 'Hiperglikemia Krisis',      href: 'pages/teori/teori-dka-hhs.html' }
+        { label: 'Hiperglikemia Krisis',     href: 'pages/teori/teori-dka-hhs.html' },
+        { label: 'Syok',                     href: 'pages/teori/teori-syok.html' },
+        { label: 'Nutrisi ICU',              href: 'pages/teori/teori-nutrisi.html' },
+        { label: 'AKI & CRRT',              href: 'pages/teori/teori-aki-crrt.html' }
       ]
     },
     {
       id: 'kalkulator', icon: 'calculator', label: 'Kalkulator',
       href: 'pages/kalkulator.html',
       title: 'Kalkulator Klinis',
-      subtitle: 'IBW · Sedasi & RSI · Syringe Pump · P/F & OI · Renal · Pulmo · ElektroCorr · NLR · Transfusi · Cairan · Insulin',
+      subtitle: 'IBW · Sedasi & RSI · Syringe Pump · P/F & OI · Renal · Pulmo · ElektroCorr · NLR · Transfusi · Cairan · Insulin · Nutrisi · Ventilator Adv',
       subs: [
         { label: 'IBW & Ventilator',        href: 'pages/kalkulator/kalkulator-ibw.html' },
+        { label: 'Ventilator Lanjutan',     href: 'pages/kalkulator/kalkulator-ventilator-adv.html' },
         { label: 'Sedasi & RSI',            href: 'pages/kalkulator/kalkulator-drug.html' },
         { label: 'Syringe Pump',            href: 'pages/kalkulator/kalkulator-pump.html' },
         { label: 'P/F & OI',               href: 'pages/kalkulator/kalkulator-pf.html' },
@@ -73,7 +77,8 @@
         { label: 'NLR & Biomarker',         href: 'pages/kalkulator/kalkulator-nlr.html' },
         { label: 'Transfusi',               href: 'pages/kalkulator/kalkulator-transfusi.html' },
         { label: 'Cairan Harian',           href: 'pages/kalkulator/kalkulator-cairan.html' },
-        { label: 'Insulin',                 href: 'pages/kalkulator/kalkulator-insulin.html' }
+        { label: 'Insulin',                 href: 'pages/kalkulator/kalkulator-insulin.html' },
+        { label: 'Nutrisi ICU',             href: 'pages/kalkulator/kalkulator-nutrisi.html' }
       ]
     },
     {

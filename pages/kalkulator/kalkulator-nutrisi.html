@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nutrisi ICU — ICU Helper</title>
+<link rel="stylesheet" href="../../assets/css/icu-framework.css">
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<script>
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+<style>
+.nut-result-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; }
+@media(max-width:480px){ .nut-result-grid{ grid-template-columns:1fr; } }
+.nut-res-card { background:var(--bg); border:1.5px solid var(--border); border-radius:12px; padding:12px 14px; }
+.nut-res-card.highlight { border-color:var(--accent); background:rgba(var(--accent-rgb,10,132,255),.07); }
+.nut-res-label { font-size:11px; color:var(--muted); font-weight:600; margin-bottom:4px; text-transform:uppercase; letter-spacing:.04em; }
+.nut-res-value { font-size:22px; font-weight:700; color:var(--accent); font-family:var(--font-mono); }
+.nut-res-sub { font-size:11px; color:var(--text2); margin-top:3px; }
+.nut-warn { background:rgba(255,180,0,.1); border:1px solid rgba(255,180,0,.3);
+  border-radius:10px; padding:10px 14px; margin-top:10px; font-size:12px; color:var(--text); }
+.nut-warn strong { color:#f59e0b; }
+.nut-rf-badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:700;
+  margin-bottom:8px; letter-spacing:.04em; }
+.rf-low { background:rgba(34,197,94,.12); color:#22c55e; border:1px solid rgba(34,197,94,.3); }
+.rf-med { background:rgba(251,191,36,.12); color:#f59e0b; border:1px solid rgba(251,191,36,.3); }
+.rf-high { background:rgba(239,68,68,.12); color:#ef4444; border:1px solid rgba(239,68,68,.3); }
+</style>
+</head>
+<body>
+
+<div class="hbar"></div>
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn active" href="../kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="../ekg.html">📈 EKG</a>
+  <a class="tab-btn" href="../teori.html">📖 Teori</a>
+  <a class="tab-btn" href="../skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+
+<nav class="subtab-bar">
+  <a class="subtab-btn" href="kalkulator-ibw.html">⚖️ IBW & Parameter</a>
+  <a class="subtab-btn" href="kalkulator-ventilator-adv.html">⚙️ Ventilator Adv</a>
+  <a class="subtab-btn" href="kalkulator-drug.html">💊 Sedasi & Paralitik</a>
+  <a class="subtab-btn" href="kalkulator-pump.html">🔬 Syringe Pump</a>
+  <a class="subtab-btn" href="kalkulator-pf.html">📈 P/F & OI</a>
+  <a class="subtab-btn" href="kalkulator-renal.html">🫘 Renal</a>
+  <a class="subtab-btn" href="kalkulator-pulmo.html">🫁 Pulmo</a>
+  <a class="subtab-btn" href="kalkulator-electro.html">⚡ ElektroCorr</a>
+  <a class="subtab-btn" href="kalkulator-nlr.html">🧫 NLR</a>
+  <a class="subtab-btn" href="kalkulator-transfusi.html">🩸 Transfusi</a>
+  <a class="subtab-btn" href="kalkulator-cairan.html">💧 Cairan</a>
+  <a class="subtab-btn" href="kalkulator-insulin.html">💉 Insulin</a>
+  <a class="subtab-btn active" href="kalkulator-nutrisi.html">🥗 Nutrisi</a>
+</nav>
+
+<div class="calc-box">
+  <div class="calc-title"><span>🥗</span> Kalkulator Nutrisi ICU — Target Kalori & Protein</div>
+
+  <div class="grid2" style="gap:10px">
+    <div>
+      <div class="input-row">
+        <label>Berat Badan Aktual (kg)</label>
+        <input type="number" inputmode="decimal" id="nut-bb" placeholder="cth: 65" min="30" max="200" oninput="calcNutrisi()">
+      </div>
+      <div class="input-row">
+        <label>IBW (kg) — atau kosongkan bila sama</label>
+        <input type="number" inputmode="decimal" id="nut-ibw" placeholder="sama dengan BB bila non-obese" min="30" max="120" oninput="calcNutrisi()">
+      </div>
+      <div class="input-row">
+        <label>Tinggi Badan (cm)</label>
+        <input type="number" inputmode="decimal" id="nut-tb" placeholder="cth: 165" min="130" max="210" oninput="calcNutrisi()">
+      </div>
+      <div class="input-row">
+        <label>Fase Perawatan</label>
+        <select id="nut-fase" onchange="calcNutrisi()">
+          <option value="akut-awal">Akut awal (0–48 jam) — hipometabolik</option>
+          <option value="akut-lanjut" selected>Akut lanjut (48 jam – 7 hari)</option>
+          <option value="recovery">Recovery / Rehabilitasi (>7 hari)</option>
+        </select>
+      </div>
+    </div>
+    <div>
+      <div class="input-row">
+        <label>Kondisi Klinis</label>
+        <select id="nut-kondisi" onchange="calcNutrisi()">
+          <option value="kritis">Kritis umum (ICU)</option>
+          <option value="ards">ARDS berat</option>
+          <option value="sepsis">Sepsis / Syok Septik</option>
+          <option value="trauma">Trauma / Luka Bakar</option>
+          <option value="obese">Obesitas (BMI >30)</option>
+          <option value="renal-pre">AKI / CKD pre-dialisis</option>
+          <option value="crrt">AKI dengan CRRT</option>
+        </select>
+      </div>
+      <div class="input-row">
+        <label>Route Nutrisi</label>
+        <select id="nut-route" onchange="calcNutrisi()">
+          <option value="en">Enteral (NGT/NJT/oral)</option>
+          <option value="pn">Parenteral (TPN/PPN)</option>
+          <option value="mixed">Kombinasi EN + PN</option>
+        </select>
+      </div>
+      <div class="input-row">
+        <label>Faktor Risiko Refeeding</label>
+        <select id="nut-refeeding" onchange="calcNutrisi()">
+          <option value="rendah">Rendah — tidak ada faktor risiko</option>
+          <option value="sedang">Sedang — 1 faktor risiko</option>
+          <option value="tinggi">Tinggi — ≥2 faktor atau NPO >5 hari</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <button class="calc-btn" onclick="calcNutrisi()">Hitung Target Nutrisi</button>
+
+  <div id="nut-result" style="display:none; margin-top:16px"></div>
+</div>
+
+<!-- CATATAN KLINIS -->
+<div class="card" style="margin-top:12px">
+  <div class="subsec" style="margin-bottom:8px">📌 Prinsip Nutrisi ICU (ESPEN 2023)</div>
+  <ul style="font-size:12px; color:var(--text2); margin:0; padding-left:18px; line-height:1.8">
+    <li>Fase akut (0–48 jam): mulai EN dini tapi <strong>jangan over-feed</strong> — 50–70% target cukup</li>
+    <li>Enteral first: mulai dalam <strong>24–48 jam</strong> setelah stabil hemodinamik (MAP ≥65 tanpa eskalasi vasopressor)</li>
+    <li>HOB <strong>30–45°</strong> selalu saat EN aktif — cegah aspirasi</li>
+    <li>GRV >500 mL/6 jam = intoleransi (bukan 200 mL — ESPEN update 2023)</li>
+    <li>Albumin/prealbumin bukan marker status nutrisi di ICU — ini marker inflamasi</li>
+    <li>Target glukosa <strong>140–180 mg/dL</strong> (NICE-SUGAR trial)</li>
+    <li><em>Dosis estimasi — sesuaikan dengan indirect calorimetry jika tersedia</em></li>
+  </ul>
+</div>
+
+<script src="../../assets/js/calc-history.js"></script>
+<script src="../../assets/js/scripts-kalkulator-nutrisi.js"></script>
+<script src="../../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../../assets/js/feedback.js"></script>
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+<script src="../../assets/data/references.js"></script>
+<script src="../../assets/js/scripts-citations.js"></script>
+</body>
+</html>

@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AKI & CRRT — Teori & Tatalaksana — ICU Helper</title>
+<link rel="stylesheet" href="../../assets/css/icu-framework.css">
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<script>
+/* Anti-FOUC: apply saved theme before paint */
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+</head>
+<body>
+
+<div class="hbar"></div>
+
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn" href="../kalkulator.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="../ekg.html">📈 EKG</a>
+  <a class="tab-btn active" href="teori-impending.html">📖 Teori</a>
+  <a class="tab-btn" href="../skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+
+<nav class="subtab-bar">
+  <a class="subtab-btn" href="teori-impending.html">⚠️ Impending Gagal Napas</a>
+  <a class="subtab-btn" href="teori-gagalnapas.html">🫁 Gagal Napas</a>
+  <a class="subtab-btn" href="teori-fisiologi.html">🔬 Fisiologi Ventilasi</a>
+  <a class="subtab-btn" href="teori-sepsis.html">🦠 Sepsis</a>
+  <a class="subtab-btn" href="teori-b1b6.html">📋 B1–B6</a>
+  <a class="subtab-btn" href="teori-airway.html">🩺 Airway &amp; Intubasi</a>
+  <a class="subtab-btn" href="teori-sat-sbt-vap.html">🔄 SAT/SBT/VAP</a>
+  <a class="subtab-btn" href="teori-dka-hhs.html">🩸 Hiperglikemia Krisis</a>
+  <a class="subtab-btn active" href="teori-aki-crrt.html">🫘 AKI &amp; CRRT</a>
+</nav>
+
+<div class="sec">AKI & CRRT — Teori, Staging & Tatalaksana Komprehensif</div>
+
+<!-- DEFINISI BOX -->
+<div class="cc blue">
+  <div class="ct">🫘 Definisi AKI (KDIGO 2024 Update)</div>
+  <div class="grid2" style="margin-top:8px">
+    <div>
+      <p><strong>Kriteria Diagnosis AKI</strong> (salah satu):</p>
+      <p style="color:var(--text);font-size:13px">
+        • Kreatinin serum ↑ <strong>≥0.3 mg/dL</strong> dalam <strong>48 jam</strong><br>
+        • Kreatinin ↑ <strong>≥1.5× baseline</strong> dalam <strong>7 hari</strong><br>
+        • Urine output <strong>&lt;0.5 mL/kg/jam</strong> selama <strong>≥6 jam</strong>
+      </p>
+    </div>
+    <div>
+      <p><strong>Epidemiologi ICU</strong></p>
+      <p style="color:var(--text);font-size:13px">
+        • Insidensi AKI di ICU: <strong>40–60%</strong> dari seluruh pasien<br>
+        • Mortalitas AKI stage 3 di ICU: <strong>50–70%</strong><br>
+        • AKI adalah prediktor independen mortalitas dan morbiditas jangka panjang
+      </p>
+    </div>
+  </div>
+  <p style="margin-top:8px;color:var(--text);font-size:13px"><strong>⚠️ Penting:</strong> Diagnosis AKI adalah <em>sindrom klinis</em> — selalu cari etiologi dan fenotip spesifik untuk tatalaksana yang tepat. Nilai kreatinin dapat falsely normal pada malnutrisi berat atau edema masif.</p>
+  <p style="margin-top:6px;font-size:12px"><em>📚 KDIGO AKI Guidelines 2024 Update · ADQI Consensus Report 2022 · ESICM CRRT 2023</em></p>
+</div>
+
+<!-- ACCORDION 1: STAGING & SUBFENOTIP -->
+<div class="theory-dropdown" style="margin-bottom:10px">
+  <button class="theory-btn" onclick="toggleTheory('aki-staging')">🫘 Staging KDIGO & Subfenotip AKI <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-aki-staging">
+    <div class="subsec">Staging KDIGO 2012 (berlaku di update 2024)</div>
+    <table>
+      <tr><th>Stage</th><th>Kreatinin Serum</th><th>Urine Output</th><th>Mortalitas ICU</th></tr>
+      <tr>
+        <td><strong>Stage 1</strong></td>
+        <td>↑ ≥0.3 mg/dL dalam 48 jam, atau ↑ 1.5–1.9× baseline</td>
+        <td>&lt;0.5 mL/kg/jam selama 6–12 jam</td>
+        <td>~20–25%</td>
+      </tr>
+      <tr>
+        <td><strong>Stage 2</strong></td>
+        <td>↑ 2.0–2.9× baseline</td>
+        <td>&lt;0.5 mL/kg/jam selama ≥12 jam</td>
+        <td>~35–45%</td>
+      </tr>
+      <tr>
+        <td><strong>Stage 3</strong></td>
+        <td>↑ ≥3× baseline, atau kreatinin ≥4 mg/dL (dengan kenaikan akut ≥0.5 mg/dL), atau inisiasi RRT</td>
+        <td>&lt;0.3 mL/kg/jam ≥24 jam, atau anuria ≥12 jam</td>
+        <td>50–70%</td>
+      </tr>
+    </table>
+    <p style="margin-top:8px;font-size:12px"><em>Gunakan staging yang paling berat berdasarkan kriteria kreatinin ATAU urine output.</em></p>
+
+    <div class="subsec" style="margin-top:14px">MAKE-30 (Major Adverse Kidney Events at 30 days)</div>
+    <p>Endpoint komposit yang digunakan pada banyak RCT AKI modern:</p>
+    <div class="grid2" style="gap:8px;margin-top:6px">
+      <div class="cc teal" style="padding:10px 14px">
+        <p style="margin:0;font-size:13px">Komponen MAKE-30:<br>
+        1. <strong>Ketergantungan dialisis</strong> (RRT) pada hari ke-30<br>
+        2. Penurunan eGFR <strong>≥25%</strong> dari baseline pada hari ke-30<br>
+        3. <strong>Kematian</strong> dalam 30 hari</p>
+      </div>
+      <div>
+        <p style="font-size:13px;color:var(--text2)">MAKE-30 digunakan karena kreatinin saja pada 30 hari tidak cukup mencerminkan pemulihan ginjal jangka panjang. Studi STARRT-AKI, AKIKI, IDEAL-ICU menggunakan endpoint ini.</p>
+      </div>
+    </div>
+
+    <div class="subsec" style="margin-top:14px">Subfenotip AKI — Penting untuk Tatalaksana</div>
+    <table>
+      <tr><th>Subfenotip</th><th>Mekanisme</th><th>Penanda</th><th>Tatalaksana Kunci</th></tr>
+      <tr>
+        <td><strong>Pre-renal</strong></td>
+        <td>Hipoperfusi ginjal, hipovolemia, disfungsi jantung</td>
+        <td>BUN/Cr &gt;20, FENa &lt;1%, FEUrea &lt;35%, UO responsif terhadap cairan</td>
+        <td>Optimalisasi perfusi: resusitasi cairan, koreksi MAP, hentikan nefrotoksin</td>
+      </tr>
+      <tr>
+        <td><strong>Intrinsik — ATN</strong></td>
+        <td>Iskemia tubular, nefrotoksin (aminoglikosida, contrast, mioglobin)</td>
+        <td>FENa &gt;2%, granular cast pada urinalisis, tubular debris</td>
+        <td>Eliminasi nefrotoksin, hidrasi, hindari overload, support ginjal</td>
+      </tr>
+      <tr>
+        <td><strong>Intrinsik — GN/Interstitial</strong></td>
+        <td>Glomerulonefritis, nefritis interstitial (obat, infeksi)</td>
+        <td>Hematuria, proteinuria signifikan, eosinofil urin, rise kreatinin cepat</td>
+        <td>Konsul nefrologi, pertimbangkan biopsi, steroid untuk nefritis interstitial</td>
+      </tr>
+      <tr>
+        <td><strong>Post-renal</strong></td>
+        <td>Obstruksi saluran kemih (BPH, batu, tumor, kateter tersumbat)</td>
+        <td>Anuria tiba-tiba, hidronefrosis pada USG, residual urin pasca-void tinggi</td>
+        <td>Kateterisasi, drainase, urologi jika perlu (PCN, JJ stent)</td>
+      </tr>
+    </table>
+
+    <div class="subsec" style="margin-top:14px">Keterbatasan FENa & Alternatif</div>
+    <div class="cc orange" style="padding:10px 14px">
+      <div class="ct">⚠️ FENa &lt;1% Bukan Selalu Pre-renal!</div>
+      <ul style="margin:6px 0 0;padding-left:18px;font-size:13px">
+        <li><strong>ATN akibat contrast nephropathy</strong> → FENa bisa &lt;1% (vasokonstriksi aferen dominan)</li>
+        <li><strong>Rhabdomiolisis / pigment nephropathy</strong> → FENa rendah meski ATN</li>
+        <li><strong>Pasien terapi diuretik aktif</strong> → FENa tidak valid; gunakan <strong>FEUrea &lt;35%</strong> sebagai alternatif lebih akurat</li>
+        <li>Konteks klinis, USG ginjal, dan urinalisis tetap lebih penting dari FENa saja</li>
+      </ul>
+    </div>
+
+    <div class="subsec" style="margin-top:14px">Biomarker AKI Baru (Risk Prediction)</div>
+    <table>
+      <tr><th>Biomarker</th><th>Lokasi</th><th>Peran Klinis</th><th>Catatan</th></tr>
+      <tr>
+        <td><strong>NGAL</strong> (Neutrophil Gelatinase-Associated Lipocalin)</td>
+        <td>Urin & plasma</td>
+        <td>Prediksi AKI 24–48 jam sebelum kreatinin naik; deteksi kerusakan tubular dini</td>
+        <td>Bisa ↑ palsu pada infeksi saluran kemih, sepsis tanpa AKI</td>
+      </tr>
+      <tr>
+        <td><strong>Cystatin C</strong></td>
+        <td>Serum</td>
+        <td>Estimasi GFR lebih akurat dari kreatinin, terutama pada massa otot rendah</td>
+        <td>Lebih sensitif untuk deteksi AKI stage 1–2 dini</td>
+      </tr>
+      <tr>
+        <td><strong>[TIMP-2] × [IGFBP7]</strong> (NephroCheck®)</td>
+        <td>Urin</td>
+        <td>Prediksi AKI stage 2–3 dalam 12 jam pada pasien ICU (FDA-cleared)</td>
+        <td>Nilai &gt;0.3 (ng/mL)²/1000 = risiko tinggi AKI berat; ketersediaan terbatas di Indonesia</td>
+      </tr>
+    </table>
+    <sup class="cite-ref" data-refs="kdigo2012,bellomo2012,fan2022,hoste2018"></sup>
+  </div>
+</div>
+
+<!-- ACCORDION 2: PENYEBAB & PENCEGAHAN -->
+<div class="theory-dropdown" style="margin-bottom:10px">
+  <button class="theory-btn" onclick="toggleTheory('aki-etio')">🔍 Penyebab AKI di ICU & Strategi Pencegahan <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-aki-etio">
+    <div class="subsec">Penyebab Utama AKI di ICU</div>
+    <table>
+      <tr><th>Penyebab</th><th>Frekuensi</th><th>Mekanisme</th><th>Pencegahan Kunci</th></tr>
+      <tr>
+        <td><strong>Sepsis / Syok Septik</strong></td>
+        <td>#1 — 40–50% AKI di ICU</td>
+        <td>Hipoperfusi + inflamasi + vasokonstriksi aferen + disfungsi mitokondria tubular</td>
+        <td>Resusitasi cepat, antibiotik segera, hindari fluid overload &gt;10% BB</td>
+      </tr>
+      <tr>
+        <td><strong>Contrast-Induced AKI (CI-AKI)</strong></td>
+        <td>~10–15%</td>
+        <td>Vasokonstriksi ginjal + toksisitas tubular langsung oleh iodinated contrast</td>
+        <td>Hidrasi NaCl 0.9% atau NaHCO₃, hindari NSAID/metformin 48 jam, batasi volume contrast</td>
+      </tr>
+      <tr>
+        <td><strong>Aminoglikosida (gentamisin, amikasin)</strong></td>
+        <td>~5–10%</td>
+        <td>Akumulasi dalam sel tubulus proksimal → nekrosis tubular</td>
+        <td>Single daily dosing lebih aman. Monitor trough level. Durasi &lt;5 hari bila mungkin.</td>
+      </tr>
+      <tr>
+        <td><strong>NSAID / Inhibitor COX</strong></td>
+        <td>Sering dikombinasi</td>
+        <td>Inhibisi prostaglandin vasodilator → vasokonstriksi aferen</td>
+        <td>Hindari pada hipovolemia, CKD, usia lanjut, kombinasi ACE-I/ARB</td>
+      </tr>
+      <tr>
+        <td><strong>ACE-I / ARB</strong></td>
+        <td>Konteks hipovolemia</td>
+        <td>Dilatasi arteriol eferen → ↓ GFR pada perfusi rendah</td>
+        <td>Tahan sementara saat hipovolemia akut atau syok. Restart setelah stabil.</td>
+      </tr>
+      <tr>
+        <td><strong>Rhabdomiolisis</strong></td>
+        <td>~5–8%</td>
+        <td>Pigment nephropathy: mioglobin obstruksi tubulus + toksisitas langsung + vasokonstriksi</td>
+        <td>Lihat protokol rhabdomiolisis di bawah</td>
+      </tr>
+      <tr>
+        <td><strong>Cardiac Surgery / Cardiopulmonary Bypass</strong></td>
+        <td>~10–30% pasca operasi</td>
+        <td>Iskemia reperfusi, emboli, hemodilusi, hipotermia, inflamasi CPB</td>
+        <td>Optimasi perfusi intraoperatif, hindari hipotermia berat, minimize CPB time</td>
+      </tr>
+      <tr>
+        <td><strong>Obstruksi (Post-renal)</strong></td>
+        <td>~5%</td>
+        <td>Peningkatan tekanan intratubular → ↓ GFR</td>
+        <td>Kateterisasi, evaluasi USG ginjal pada anuria tiba-tiba</td>
+      </tr>
+    </table>
+
+    <div class="subsec" style="margin-top:14px">Pencegahan Contrast-AKI — Protokol Praktis</div>
+    <div class="grid2" style="gap:8px">
+      <div>
+        <p style="font-size:13px;font-weight:700">Hidrasi Pre-Prosedur:</p>
+        <ul style="font-size:13px">
+          <li>NaCl 0.9% 1 mL/kg/jam selama 6–12 jam sebelum dan 6–12 jam setelah prosedur</li>
+          <li>Alternatif: NaHCO₃ 1.26% (atau 154 mEq/L) dengan protokol serupa — tidak terbukti lebih superior dari NaCl (PRESERVE trial 2018)</li>
+          <li>Pada pasien ICU yang sudah terpasang akses IV: mulai hidrasi segera, sesuaikan rate dengan status volume</li>
+        </ul>
+      </div>
+      <div>
+        <p style="font-size:13px;font-weight:700">Tindakan Tambahan:</p>
+        <ul style="font-size:13px">
+          <li>Gunakan contrast iso-osmolar atau low-osmolar, volume minimal yang cukup untuk diagnostik</li>
+          <li>Tahan NSAID 48 jam sebelum dan sesudah</li>
+          <li>Tahan metformin 48 jam sesudah (risiko laktat asidosis jika AKI terjadi)</li>
+          <li>N-Acetylcysteine (NAC): <strong>tidak terbukti efektif</strong> (PRESERVE trial) — tidak direkomendasikan rutin</li>
+          <li>Tahan ACE-I/ARB pada hari prosedur pada pasien berisiko tinggi</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="subsec" style="margin-top:14px">Protokol Rhabdomiolisis</div>
+    <div class="cc orange" style="padding:10px 14px">
+      <div class="ct">🦴 Rhabdomiolisis — Target UO Agresif</div>
+      <ul style="margin:6px 0 0;padding-left:18px;font-size:13px">
+        <li><strong>CK &gt;5000 U/L:</strong> mulai agresive IV fluid → target UO <strong>200–300 mL/jam</strong> (3 mL/kg/jam) hingga CK &lt;1000</li>
+        <li>Pilihan cairan: NaCl 0.9% atau RL → 1–1.5 L/jam pada 2 jam pertama, lalu titrasi sesuai UO</li>
+        <li><strong>NaHCO₃:</strong> Pertimbangkan jika pH urin &lt;6.5 (mioglobin lebih larut di urin alkalis). Tambahkan 50–100 mEq NaHCO₃ ke 1 L D5W. Target pH urin 6.5–7.0. Hati-hati: hipokalemia, hipokalsemia.</li>
+        <li>Monitor: elektrolit setiap 4–6 jam, EKG (hiperkalemia), kalsium (bisa turun pada fase akut rhabdo)</li>
+        <li>Dialisis: jika oliguria refrakter meski hidrasi agresif, atau hiperkalemia refrakter</li>
+      </ul>
+    </div>
+
+    <div class="subsec" style="margin-top:14px">Fluid Management pada AKI — Fase Penting</div>
+    <table>
+      <tr><th>Fase</th><th>Strategi Cairan</th><th>Bukti</th></tr>
+      <tr>
+        <td><strong>Fase Resusitasi Awal</strong> (syok, oliguria akut)</td>
+        <td>Bolus cairan untuk target MAP dan perfusi — kristaloid seimbang (RL/PlasmaLyte) lebih disukai dari NaCl 0.9%</td>
+        <td>SMART trial: NaCl 0.9% → lebih banyak AKI dan CRRT vs RL/PlasmaLyte</td>
+      </tr>
+      <tr>
+        <td><strong>AKI Established</strong> (setelah stabilisasi)</td>
+        <td><strong>De-resusitasi:</strong> target fluid balance negatif — cairan berlebih merusak ginjal (venous congestion, edema interstisial)</td>
+        <td>Fluid overload &gt;10% BB → MAKE30 lebih buruk, mortalitas ↑ (ADQI 2022)</td>
+      </tr>
+      <tr>
+        <td><strong>Oliguria refrakter pada AKI</strong></td>
+        <td>Furosemid 1–2 mg/kg bolus IV — jika responsif (UO &gt;200 mL dalam 2 jam): lanjut drip. Jika tidak responsif: TIDAK menunda CRRT.</td>
+        <td>Furosemide Stress Test: NPV tinggi untuk prediksi AKI berat (PMID 25558899)</td>
+      </tr>
+    </table>
+
+    <div class="subsec" style="margin-top:14px">Penyesuaian Dosis Obat pada Gangguan Ginjal di ICU</div>
+    <table>
+      <tr><th>Obat</th><th>Penyesuaian GFR</th><th>Catatan Klinis</th></tr>
+      <tr><td><strong>Vancomycin</strong></td><td>Perpanjang interval berdasarkan GFR / monitor AUC 400–600 mg·h/L</td><td>Saat CRRT: dosis maintenance + supplement tiap sesi (500–1000 mg)</td></tr>
+      <tr><td><strong>Piperacillin-Tazobactam</strong></td><td>GFR 20–40: 2.25 g/6 jam; GFR &lt;20: 2.25 g/8 jam</td><td>Extended infusion (4 jam) dipertahankan untuk PK/PD target</td></tr>
+      <tr><td><strong>Meropenem</strong></td><td>GFR 26–50: 1 g/12 jam; GFR 10–25: 500 mg/12 jam; GFR &lt;10: 500 mg/24 jam</td><td>Saat CRRT: 1 g/8–12 jam (clearance oleh CRRT signifikan)</td></tr>
+      <tr><td><strong>Gentamisin / Amikasin</strong></td><td>Perpanjang interval secara signifikan, monitor trough ketat (&lt;1 µg/mL)</td><td>Hindari jika AKI sudah ada — ganti antibiotik jika mungkin</td></tr>
+      <tr><td><strong>Imipenem</strong></td><td>GFR &lt;50: turunkan dosis, risiko seizure meningkat</td><td>Meropenem lebih aman untuk SSP</td></tr>
+      <tr><td><strong>Ciprofloxacin</strong></td><td>GFR &lt;30: 200–400 mg/12 jam</td><td>Oral bioavailability tinggi — bisa switch oral</td></tr>
+      <tr><td><strong>Metronidazole</strong></td><td>Tidak perlu penyesuaian dosis utama</td><td>Akumulasi metabolit pada GFR &lt;10 — monitor toksisitas SSP</td></tr>
+      <tr><td><strong>Enoxaparin (LMWH)</strong></td><td>GFR &lt;30: gunakan UFH atau pantau anti-Xa 4 jam pasca dosis</td><td>UFH lebih aman pada AKI berat</td></tr>
+      <tr><td><strong>Digoksin</strong></td><td>GFR &lt;50: turunkan dosis 50%, monitor level</td><td>Mudah toksik pada gangguan ginjal</td></tr>
+      <tr><td><strong>Gabapentin / Pregabalin</strong></td><td>GFR &lt;60: turunkan dosis bertahap</td><td>Risiko sedasi berlebihan pada GFR rendah</td></tr>
+    </table>
+    <sup class="cite-ref" data-refs="kdigo2012,semler2018,gaudry2021"></sup>
+  </div>
+</div>
+
+<!-- ACCORDION 3: INDIKASI CRRT -->
+<div class="theory-dropdown" style="margin-bottom:10px">
+  <button class="theory-btn" onclick="toggleTheory('aki-rrt-ind')">⏱️ Indikasi CRRT — Kapan Mulai & Kapan Stop RRT <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-aki-rrt-ind">
+    <div class="subsec">Indikasi EMERGENSI — Mulai RRT Segera</div>
+    <div class="cc red" style="padding:12px 14px;margin-bottom:10px">
+      <div class="ct">🚨 Indikasi EMERGENSI RRT (Tidak Perlu Menunggu)</div>
+      <table style="margin-top:8px">
+        <tr><th>Indikasi</th><th>Definisi / Threshold</th><th>Keterangan</th></tr>
+        <tr>
+          <td><strong>Hiperkalemia Refrakter</strong></td>
+          <td>K⁺ &gt;6.5 mEq/L + perubahan EKG (peak T, QRS lebar, sine wave)</td>
+          <td>Sambil tunggu CRRT: Ca glukonat IV, NaHCO₃, insulin-glukosa, kayexalate</td>
+        </tr>
+        <tr>
+          <td><strong>Asidosis Metabolik Refrakter</strong></td>
+          <td>pH &lt;7.1 refrakter terhadap NaHCO₃ IV atau tidak bisa diberikan</td>
+          <td>Terutama pada anuria; bikarbonat IV terbatas efektivitasnya pada AKI anuria</td>
+        </tr>
+        <tr>
+          <td><strong>Fluid Overload Refrakter</strong></td>
+          <td>Overload &gt;10% berat badan, tidak responsif terhadap furosemid dosis tinggi</td>
+          <td>Pertimbangkan SCUF atau CVVHDF dengan target ultrafiltrat negatif</td>
+        </tr>
+        <tr>
+          <td><strong>Uremic Emergency</strong></td>
+          <td>Perikarditis uremik (gesekan perikard + efusi), ensefalopati uremik (koma, seizure)</td>
+          <td>Urea &gt;200 mg/dL (&gt;33 mmol/L) biasanya menyertai; tapi bukan threshold tunggal</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="subsec">Indikasi ELEKTIF / Profilaktik</div>
+    <table>
+      <tr><th>Kondisi</th><th>Pertimbangan Mulai RRT</th><th>Bukti</th></tr>
+      <tr>
+        <td>KDIGO Stage 3 + oliguria &gt;12 jam</td>
+        <td>Anuria berkepanjangan meski resusitasi adekuat, terutama jika MODS</td>
+        <td>ADQI 2022: pertimbangkan RRT; tunggu konfirmasi tidak ada recovery spontan</td>
+      </tr>
+      <tr>
+        <td>Azotemia progresif</td>
+        <td>Urea &gt;150 mg/dL (atau BUN &gt;70) atau &gt;35 mmol/L, dengan tren terus naik</td>
+        <td>Threshold bervariasi antar pusat — konteks klinis lebih penting dari angka saja</td>
+      </tr>
+      <tr>
+        <td>AKI + MODS</td>
+        <td>AKI stage 2–3 + minimal 2 disfungsi organ lain (paru, jantung, hepar)</td>
+        <td>Sinergi MODS memperburuk AKI — RRT untuk homeostasis solut dan cairan</td>
+      </tr>
+      <tr>
+        <td>Hipotermia refrakter</td>
+        <td>Suhu &lt;32°C refrakter terhadap penghangatan konvensional</td>
+        <td>CRRT dengan penghangatan darah dapat digunakan sebagai rewarming</td>
+      </tr>
+    </table>
+
+    <div class="subsec" style="margin-top:14px">Bukti Klinis — Timing RRT</div>
+    <div class="cc teal" style="padding:10px 14px">
+      <div class="ct">📊 STARRT-AKI Trial (NEJM 2020) — Kunci!</div>
+      <p style="color:var(--text);font-size:13px;margin-top:6px">
+        <strong>Pertanyaan:</strong> Apakah RRT "akselerasi" (mulai lebih cepat pada AKI stage 2+) lebih baik dari RRT "standard"?<br>
+        <strong>Hasil:</strong> <em>Tidak ada perbedaan</em> 90-hari mortalitas (38.5% vs 35%). Kelompok akselerasi lebih banyak yang tergantung dialisis pada 90 hari (10.4% vs 6%).<br>
+        <strong>Implikasi:</strong> Jangan rush memulai CRRT tanpa indikasi kuat. RRT dini bisa mencegah recovery ginjal spontan dan meningkatkan ketergantungan dialisis jangka panjang.
+      </p>
+    </div>
+    <p style="margin-top:8px;font-size:13px">Studi AKIKI (NEJM 2016) dan IDEAL-ICU (NEJM 2018) menunjukkan hasil serupa: strategi menunggu indikasi kuat tidak meningkatkan mortalitas dibanding RRT dini.</p>
+
+    <div class="subsec" style="margin-top:14px">Kapan STOP CRRT?</div>
+    <div class="cc green" style="padding:10px 14px">
+      <div class="ct">✅ Kriteria Stop CRRT / Pertimbangkan Weaning</div>
+      <ul style="margin:6px 0 0;padding-left:18px;font-size:13px">
+        <li><strong>Diuresis spontan ≥500 mL/hari</strong> (atau &gt;200 mL/hari pada 2 hari berturut-turut dengan furosemid minimal)</li>
+        <li>Kreatinin stabil atau menurun ≥1 hari tanpa CRRT sementara (uji stop)</li>
+        <li>Tidak ada lagi indikasi emergensi (hiperkalemia, asidosis, fluid overload)</li>
+        <li>Hemodinamik stabil — bisa toleransi tanpa vasopressor signifikan</li>
+        <li>Pertimbangkan transisi ke IHD (intermittent HD) jika hemodinamik stabil</li>
+      </ul>
+    </div>
+    <sup class="cite-ref" data-refs="gaudry2021,barbar2018,bellomo2020"></sup>
+  </div>
+</div>
+
+<!-- ACCORDION 4: MODE CRRT -->
+<div class="theory-dropdown" style="margin-bottom:10px">
+  <button class="theory-btn" onclick="toggleTheory('aki-crrt-mode')">⚙️ Mode CRRT — Pilihan, Dosis & Teknis <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-aki-crrt-mode">
+    <div class="subsec">Empat Mode Utama CRRT</div>
+    <table>
+      <tr><th>Mode</th><th>Singkatan</th><th>Mekanisme</th><th>Kelebihan</th><th>Kekurangan</th><th>Indikasi Utama</th></tr>
+      <tr>
+        <td><strong>CVVH</strong></td>
+        <td>Continuous Veno-Venous Hemofiltration</td>
+        <td>Konveksi murni — ultrafiltrasi besar dengan replacement fluid</td>
+        <td>Baik untuk molekul besar (sitokin sepsis), tidak butuh dialisat</td>
+        <td>Kehilangan elektrolit lebih besar</td>
+        <td>Sepsis dengan sitokinemia, fluid overload</td>
+      </tr>
+      <tr>
+        <td><strong>CVVHD</strong></td>
+        <td>Continuous Veno-Venous Hemodialysis</td>
+        <td>Difusi murni — dialisis dengan dialisat</td>
+        <td>Baik untuk solut kecil (urea, kreatinin, kalium)</td>
+        <td>Kurang efektif untuk molekul besar</td>
+        <td>Uremia dominan tanpa fluid overload berat</td>
+      </tr>
+      <tr>
+        <td><strong>CVVHDF</strong></td>
+        <td>Continuous Veno-Venous Hemodiafiltration</td>
+        <td>Kombinasi konveksi + difusi — pakai replacement fluid DAN dialisat</td>
+        <td>Clearance terbaik untuk semua ukuran molekul; fleksibel</td>
+        <td>Lebih kompleks, lebih banyak solusi cairan yang diperlukan</td>
+        <td><strong>Paling umum di ICU</strong> — pilihan default CRRT</td>
+      </tr>
+      <tr>
+        <td><strong>SCUF</strong></td>
+        <td>Slow Continuous Ultrafiltration</td>
+        <td>Ultrafiltrasi lambat — tidak ada replacement fluid atau dialisat</td>
+        <td>Sangat selektif untuk dekongesti — removal fluid murni</td>
+        <td>Tidak ada clearance solut bermakna</td>
+        <td>Fluid overload refrakter tanpa azotemia signifikan (gagal jantung, ARDS)</td>
+      </tr>
+    </table>
+
+    <div class="subsec" style="margin-top:14px">Dosis CRRT</div>
+    <div class="cc blue" style="padding:10px 14px">
+      <div class="ct">📐 Target Dosis Effluent CRRT</div>
+      <div class="grid2" style="margin-top:6px;gap:8px">
+        <div>
+          <p style="font-size:13px"><strong>Minimum (KDIGO rekomendasi):</strong><br>
+          <span style="font-size:18px;font-weight:700;color:var(--accent)">20–25 mL/kg/jam</span><br>
+          effluent rate (kombinasi ultrafiltrat + dialisat)</p>
+        </div>
+        <div>
+          <p style="font-size:13px"><strong>Pada Sepsis / MODS:</strong><br>
+          <span style="font-size:16px;font-weight:700;color:var(--accent)">25–30 mL/kg/jam</span><br>
+          untuk clearance sitokin lebih baik (kontroversial, namun banyak pusat menggunakan)</p>
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--text2);margin-top:8px">⚠️ Dosis yang "diberikan" seringkali 15–20% lebih rendah dari "diresepkan" akibat downtime CRRT (penggantian set, coagulasi, dll). Pertimbangkan set dosis 25 mL/kg/jam untuk delivered dose 20 mL/kg/jam.</p>
+    </div>
+
+    <div class="subsec" style="margin-top:14px">Predilusi vs Postdilusi</div>
+    <table>
+      <tr><th>Metode</th><th>Lokasi Replacement Fluid</th><th>Kelebihan</th><th>Kekurangan</th></tr>
+      <tr>
+        <td><strong>Predilusi</strong></td>
+        <td>Sebelum filter (pre-filter)</td>
+        <td>Darah lebih encer → filter lebih awet (lifetime lebih panjang), cocok untuk hematokrit tinggi</td>
+        <td>Clearance solut per mL effluent sedikit berkurang (~15%) karena darah terdiluisi</td>
+      </tr>
+      <tr>
+        <td><strong>Postdilusi</strong></td>
+        <td>Setelah filter (post-filter)</td>
+        <td>Clearance solut lebih efisien (tidak ada dilusi sebelum filter)</td>
+        <td>Hemokonsentrasi post-filter → filter lebih cepat clot; filtration fraction harus &lt;25%</td>
+      </tr>
+    </table>
+    <p style="font-size:12px;color:var(--text2);margin-top:4px">Praktik: banyak pusat menggunakan <strong>kombinasi</strong> predilusi + postdilusi untuk keseimbangan clearance dan filter lifetime.</p>
+
+    <div class="subsec" style="margin-top:14px">Pengaturan Suhu Darah</div>
+    <p style="font-size:13px">Set suhu darah yang kembali ke pasien <strong>36.5–37°C</strong> menggunakan blood warmer / heater pada mesin CRRT. Tanpa penghangatan: risiko hipotermia signifikan (kehilangan panas 1–3°C saat darah sirkuit di luar tubuh).</p>
+    <sup class="cite-ref" data-refs="kdigo2012,ronco2015,uchino2006"></sup>
+  </div>
+</div>
+
+<!-- ACCORDION 5: ANTIKOAGULASI CRRT -->
+<div class="theory-dropdown" style="margin-bottom:10px">
+  <button class="theory-btn" onclick="toggleTheory('aki-anticoag')">🩸 Antikoagulasi CRRT — RCA, Heparin & Tanpa Antikoagulan <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-aki-anticoag">
+
+    <div class="cc teal" style="margin-bottom:12px;padding:12px 14px">
+      <div class="ct">✅ Regional Citrate Anticoagulation (RCA) — PILIHAN UTAMA (KDIGO 2024)</div>
+      <div class="subsec" style="margin-top:8px">Mekanisme RCA</div>
+      <p style="font-size:13px;color:var(--text)">Sitrat mengkelat (chelates) kalsium ionisasi (Ca²⁺) di sirkuit CRRT → koagulasi terhambat secara lokal di sirkuit → darah yang kembali ke sistemik sudah tidak ada sitrat efektif → Ca²⁺ diinfus kembali ke sirkulasi sistemik untuk mempertahankan kalsium normal.</p>
+      <div class="subsec" style="margin-top:10px">Protokol RCA — Standar Umum</div>
+      <table style="margin-top:6px">
+        <tr><th>Komponen</th><th>Detail</th><th>Monitoring</th></tr>
+        <tr>
+          <td>Sitrat 4%</td>
+          <td>Infus <em>pre-filter</em> 130–180 mmol/jam (sesuaikan dengan blood flow rate — biasanya 2.5–3× blood flow rate dalam mL/jam)</td>
+          <td>iCa sirkuit (post-filter) target: <strong>0.25–0.35 mmol/L</strong></td>
+        </tr>
+        <tr>
+          <td>Ca Glukonat 10% atau CaCl₂ 10%</td>
+          <td>Infus <em>post-filter</em> (atau akses terpisah) — dosis berdasarkan protokol lokal (biasanya 0.5–1.5 mmol/jam, titrasi)</td>
+          <td>iCa sistemik target: <strong>1.0–1.2 mmol/L</strong></td>
+        </tr>
+      </table>
+      <div class="subsec" style="margin-top:10px">Citrate Toxicity — Kenali Tanda-Tandanya!</div>
+      <p style="font-size:13px;color:var(--text)">Terjadi ketika hepar tidak dapat memetabolisme sitrat (gagal hepar berat) atau ketika delivery sitrat berlebihan:</p>
+      <ul style="font-size:13px;margin:4px 0;padding-left:18px">
+        <li><strong>Rasio Ca total / iCa &gt;2.5</strong> = tanda akumulasi sitrat (sitrat mengikat Ca total tapi iCa turun)</li>
+        <li>Manifestasi: hipotensi, aritmia, hipokalsemia sistemik refrakter</li>
+        <li>Tatalaksana: turunkan/stop sitrat, ganti ke antikoagulasi alternatif, pertimbangkan RCA pada setting yang berbeda</li>
+        <li><strong>Kontraindikasi relatif RCA:</strong> gagal hepar berat (Child-Pugh C / ALT &gt;10× normal), asidosis laktat berat</li>
+      </ul>
+    </div>
+
+    <div class="subsec">Unfractionated Heparin (UFH) — Alternatif</div>
+    <table>
+      <tr><th>Parameter</th><th>Detail</th></tr>
+      <tr><td>Dosis loading</td><td>Tidak selalu diperlukan; bila pakai: 500–2000 IU bolus pre-filter</td></tr>
+      <tr><td>Dosis maintenance</td><td><strong>5–10 IU/kg/jam</strong> infus pre-filter (lebih rendah dari heparinisasi sistemik)</td></tr>
+      <tr><td>Target aPTT sirkuit</td><td>60–80 detik (atau aPTT sistemik 40–60 detik)</td></tr>
+      <tr><td>Kontraindikasi</td><td>HIT (Heparin-Induced Thrombocytopenia), perdarahan aktif, trombositopenia berat (&lt;60.000), koagulopati berat (INR &gt;2.5)</td></tr>
+      <tr><td>Monitoring</td><td>aPTT tiap 6 jam, hitung trombosit tiap hari (waspada HIT 4–14 hari)</td></tr>
+    </table>
+
+    <div class="subsec" style="margin-top:14px">Tanpa Antikoagulasi</div>
+    <p style="font-size:13px">Indikasi: INR &gt;2.5, trombosit &lt;60.000, perdarahan aktif, koagulopati DIC berat, pasca prosedur bedah dalam 24 jam. Strategi:</p>
+    <ul style="font-size:13px">
+      <li>Saline flush <strong>tiap 30 menit</strong> (150–200 mL NaCl 0.9% melalui set) untuk mencegah clot filter</li>
+      <li>Blood flow rate yang lebih tinggi jika toleransi hemodinamik memungkinkan (&gt;150–200 mL/menit)</li>
+      <li>Terima filter lifetime yang lebih pendek (~6–10 jam vs 24–72 jam dengan antikoagulasi)</li>
+      <li>Predilusi dapat membantu memperpanjang filter sedikit</li>
+    </ul>
+
+    <div class="subsec" style="margin-top:14px">Perbandingan Metode Antikoagulasi CRRT</div>
+    <table>
+      <tr><th>Parameter</th><th>RCA</th><th>UFH</th><th>Tanpa Antikoagulasi</th></tr>
+      <tr><td>Filter lifetime</td><td>72+ jam</td><td>24–48 jam</td><td>6–12 jam</td></tr>
+      <tr><td>Risiko perdarahan sistemik</td><td>Sangat rendah (regional)</td><td>Sedang</td><td>Tidak ada</td></tr>
+      <tr><td>Kebutuhan monitoring</td><td>iCa sirkuit + sistemik tiap 6 jam</td><td>aPTT tiap 6 jam</td><td>Minimal</td></tr>
+      <tr><td>Kontraindikasi utama</td><td>Gagal hepar berat</td><td>HIT, perdarahan aktif</td><td>—</td></tr>
+      <tr><td>Rekomendasi KDIGO 2024</td><td><span class="badge bg">PILIHAN UTAMA</span></td><td>Alternatif</td><td>Jika antikoagulasi terkontraindikasi</td></tr>
+    </table>
+    <sup class="cite-ref" data-refs="kdigo2012,gattas2014,oudemans2020"></sup>
+  </div>
+</div>
+
+<!-- ACCORDION 6: KOMPLIKASI & MONITORING -->
+<div class="theory-dropdown" style="margin-bottom:10px">
+  <button class="theory-btn" onclick="toggleTheory('aki-komplikasi')">📊 Komplikasi CRRT, Monitoring Harian & Drug Clearance <span class="chevron">▼</span></button>
+  <div class="theory-content" id="theory-aki-komplikasi">
+    <div class="subsec">Komplikasi CRRT — Pengenalan & Tatalaksana</div>
+    <table>
+      <tr><th>Komplikasi</th><th>Frekuensi</th><th>Tanda</th><th>Tatalaksana</th></tr>
+      <tr>
+        <td><strong>Filter Clotting</strong></td>
+        <td>Paling sering (~30–50% per 24 jam tanpa antikoagulasi)</td>
+        <td>Alarm TMP ↑, flow ↓, warna filter gelap</td>
+        <td>Ganti filter set, evaluasi antikoagulasi. Predilusi jika sering clot.</td>
+      </tr>
+      <tr>
+        <td><strong>Hipotermia</strong></td>
+        <td>Sering jika tidak ada blood warmer</td>
+        <td>Suhu &lt;36°C, menggigil</td>
+        <td>Aktifkan blood warmer/heater. Target suhu kembali 37°C.</td>
+      </tr>
+      <tr>
+        <td><strong>Hypofosfatemia</strong></td>
+        <td>Sangat sering (&gt;50% pasien CRRT)</td>
+        <td>Fosfat &lt;0.8 mmol/L, kelemahan otot, gagal weaning ventilator</td>
+        <td>Suplementasi fosfat IV (KH₂PO₄ atau Na-fosfat). Beberapa pusat menambahkan fosfat ke replacement fluid.</td>
+      </tr>
+      <tr>
+        <td><strong>Hypomagnesemia</strong></td>
+        <td>Sering (&gt;30%)</td>
+        <td>Mg &lt;0.7 mmol/L, aritmia, tremor</td>
+        <td>MgSO₄ 2–4 g IV perlahan atau infus</td>
+      </tr>
+      <tr>
+        <td><strong>Hypokalemia</strong></td>
+        <td>Tergantung replacement fluid</td>
+        <td>K &lt;3.0 mEq/L, aritmia</td>
+        <td>Tambahkan KCl ke replacement fluid atau suplementasi terpisah</td>
+      </tr>
+      <tr>
+        <td><strong>Citrate Toxicity</strong></td>
+        <td>Pada pasien gagal hepar yang pakai RCA</td>
+        <td>Rasio Ca total/iCa &gt;2.5, hipokalsemia refrakter</td>
+        <td>Turunkan/stop sitrat, ganti ke UFH atau tanpa antikoagulasi</td>
+      </tr>
+      <tr>
+        <td><strong>Kehilangan Obat via CRRT</strong></td>
+        <td>Bergantung karakteristik obat</td>
+        <td>Konsentrasi obat subterapi, kegagalan terapi</td>
+        <td>Lihat tabel drug clearance di bawah</td>
+      </tr>
+      <tr>
+        <td><strong>Hipotonia / Hipotensi saat Koneksi</strong></td>
+        <td>~10–15%</td>
+        <td>MAP ↓ saat priming darah ke sirkuit (volume ~150–200 mL)</td>
+        <td>Pre-prime dengan NaCl 0.9%, mulai blood flow perlahan, siapkan vasopresor</td>
+      </tr>
+    </table>
+
+    <div class="subsec" style="margin-top:14px">Monitoring Harian CRRT — Checklist ICU</div>
+    <div class="grid2" style="gap:8px">
+      <div>
+        <p style="font-size:12px;font-weight:700;color:var(--text2)">LAB (Tiap 6–12 jam):</p>
+        <ul style="font-size:12px">
+          <li>Elektrolit lengkap: Na, K, Ca (total + iCa), Mg, Fosfat</li>
+          <li>Bikarbonat / pH (AGD)</li>
+          <li>Glukosa darah (CRRT dapat menurunkan atau menaikkan)</li>
+          <li>iCa sirkuit (jika RCA) tiap 6 jam</li>
+          <li>aPTT sistemik (jika UFH) tiap 6 jam</li>
+        </ul>
+      </div>
+      <div>
+        <p style="font-size:12px;font-weight:700;color:var(--text2)">CRRT PARAMETERS (Tiap shift):</p>
+        <ul style="font-size:12px">
+          <li>Effluent volume aktual vs yang diresepkan (downtime %)</li>
+          <li>Filter lifetime / jam sejak ganti set</li>
+          <li>Fluid balance aktual vs target (mL/jam dan kumulatif)</li>
+          <li>TMP (transmembrane pressure) — ↑ = filter mulai clot</li>
+          <li>Blood flow rate, suhu darah kembali</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="subsec" style="margin-top:14px">Drug Clearance via CRRT — Penyesuaian Dosis</div>
+    <table>
+      <tr><th>Obat</th><th>Clearance oleh CRRT</th><th>Rekomendasi Dosis</th><th>Catatan</th></tr>
+      <tr>
+        <td><strong>Vancomycin</strong></td>
+        <td>Signifikan (CVVHDF clearance ~25–30 mL/menit)</td>
+        <td>Loading 25–30 mg/kg, maintenance 15–20 mg/kg tiap 24–48 jam (titrasi AUC 400–600)</td>
+        <td>Supplement 500–1000 mg setelah setiap sesi 24 jam atau saat level subterapi</td>
+      </tr>
+      <tr>
+        <td><strong>Piperacillin-Tazobactam</strong></td>
+        <td>Tinggi (hidrofilik, protein binding rendah)</td>
+        <td>4.5 g tiap 6–8 jam extended infusion (4 jam)</td>
+        <td>Gunakan dosis penuh — CRRT menggantikan clearance ginjal yang hilang</td>
+      </tr>
+      <tr>
+        <td><strong>Meropenem</strong></td>
+        <td>Tinggi</td>
+        <td>1 g tiap 8 jam extended infusion — jangan turunkan dosis saat CRRT</td>
+        <td>CRRT menyebabkan clearance yang mirip fungsi ginjal normal — hindari underdosing</td>
+      </tr>
+      <tr>
+        <td><strong>Ciprofloxacin</strong></td>
+        <td>Moderat</td>
+        <td>400 mg IV tiap 12 jam (tidak perlu reduksi signifikan)</td>
+        <td>Volume distribusi besar — CRRT tidak menghilangkan banyak</td>
+      </tr>
+      <tr>
+        <td><strong>Flukonazol</strong></td>
+        <td>Tinggi (hidrofilik)</td>
+        <td>400–800 mg/hari — tidak kurangi dosis saat CRRT</td>
+        <td>CRRT clearance signifikan; dosis normal dipertahankan</td>
+      </tr>
+      <tr>
+        <td><strong>Phenytoin / Fenitoin</strong></td>
+        <td>Rendah (protein binding tinggi ~90%)</td>
+        <td>Dosis normal; monitor level</td>
+        <td>Protein binding tinggi = tidak banyak terdialisis</td>
+      </tr>
+    </table>
+
+    <div class="subsec" style="margin-top:14px">Transisi CRRT ke Intermittent HD (IHD)</div>
+    <p style="font-size:13px">Pertimbangkan transisi ketika:</p>
+    <ul style="font-size:13px">
+      <li>Pasien lebih stabil hemodinamik: MAP ≥65 tanpa vasopressor atau vasopressor dosis rendah (NE &lt;0.1 µg/kg/menit)</li>
+      <li>Dapat toleransi removal cairan 2–4 L dalam 3–4 jam sesi IHD tanpa hipotensi</li>
+      <li>Pertimbangkan IHD 3–4× seminggu (Kt/V ≥1.2 per sesi) sebagai step-down dari CRRT kontinu</li>
+      <li>SLED (Sustained Low-Efficiency Dialysis) dapat menjadi jembatan antara CRRT dan IHD konvensional</li>
+    </ul>
+    <sup class="cite-ref" data-refs="kdigo2012,gattas2014,uchino2006,ronco2015"></sup>
+  </div>
+</div>
+
+<!-- REFERENSI -->
+<div class="card" style="margin-top:16px">
+  <div class="subsec">📚 Referensi Utama AKI & CRRT — v1 2026</div>
+  <table>
+    <tr><th>Publikasi</th><th>Topik</th><th>Poin Kunci</th></tr>
+    <tr><td><strong>KDIGO AKI Guidelines 2024 Update</strong></td><td>Definisi, staging, tatalaksana AKI</td><td>Update rekomendasi RCA sebagai pilihan utama antikoagulasi CRRT; biomarker baru [TIMP-2]×[IGFBP7]</td></tr>
+    <tr><td><strong>Gaudry S (STARRT-AKI). NEJM 2020;383:240</strong></td><td>Timing RRT — akselerasi vs standar</td><td>RRT dini tidak ↓ mortalitas; kelompok akselerasi lebih banyak tergantung dialisis. Jangan rush.</td></tr>
+    <tr><td><strong>Gaudry S (AKIKI). NEJM 2016;375:122</strong></td><td>Timing RRT pada AKI berat</td><td>Strategi delayed RRT tidak memperburuk mortalitas dibanding strategi early. Banyak pasien recover tanpa RRT.</td></tr>
+    <tr><td><strong>Barbar SD (IDEAL-ICU). NEJM 2018;379:1431</strong></td><td>Timing RRT pada syok septik + AKI</td><td>Delayed RRT (tunggu 48 jam) vs early: mortalitas tidak berbeda. 51% kelompok delayed tidak perlu RRT.</td></tr>
+    <tr><td><strong>Semler MW (SMART). NEJM 2018;378:819</strong></td><td>Balanced vs saline pada ICU</td><td>Balanced crystalloids (RL/PlasmaLyte) → lebih sedikit MAKE-30 dan AKI dibanding NaCl 0.9%</td></tr>
+    <tr><td><strong>Oudemans-van Straaten HM. ICM 2020</strong></td><td>RCA vs UFH pada CRRT</td><td>RCA: filter lifetime lebih panjang, perdarahan lebih sedikit, direkomendasikan KDIGO 2024</td></tr>
+    <tr><td><strong>ADQI Consensus 2022</strong></td><td>Fluid management & AKI</td><td>Fluid overload &gt;10% BB → MAKE-30 lebih buruk. De-resusitasi aktif pada AKI established.</td></tr>
+    <tr><td><strong>ESICM CRRT Recommendations 2023</strong></td><td>Teknis CRRT di ICU</td><td>CVVHDF sebagai default; dosis 25 mL/kg/jam delivered; RCA preferred; monitor elektrolit tiap 6 jam</td></tr>
+  </table>
+</div>
+
+<script src="../../assets/js/scripts-teori.js"></script>
+<script src="../../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../../assets/js/feedback.js"></script>
+<!-- Saweria Donation Bar -->
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+<script src="../../assets/data/references.js"></script>
+<script src="../../assets/js/scripts-citations.js"></script>
+</body>
+</html>
