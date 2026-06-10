@@ -61,7 +61,7 @@
       id: 'kalkulator', icon: 'calculator', label: 'Kalkulator',
       href: 'pages/kalkulator.html',
       title: 'Kalkulator Klinis',
-      subtitle: 'IBW · Sedasi & RSI · Syringe Pump · P/F & OI · Renal · Pulmo · ElektroCorr · NLR · Transfusi · Cairan',
+      subtitle: 'IBW · Sedasi & RSI · Syringe Pump · P/F & OI · Renal · Pulmo · ElektroCorr · NLR · Transfusi · Cairan · Insulin',
       subs: [
         { label: 'IBW & Ventilator',        href: 'pages/kalkulator/kalkulator-ibw.html' },
         { label: 'Sedasi & RSI',            href: 'pages/kalkulator/kalkulator-drug.html' },
@@ -72,7 +72,8 @@
         { label: 'ElektroCorr',             href: 'pages/kalkulator/kalkulator-electro.html' },
         { label: 'NLR & Biomarker',         href: 'pages/kalkulator/kalkulator-nlr.html' },
         { label: 'Transfusi',               href: 'pages/kalkulator/kalkulator-transfusi.html' },
-        { label: 'Cairan Harian',           href: 'pages/kalkulator/kalkulator-cairan.html' }
+        { label: 'Cairan Harian',           href: 'pages/kalkulator/kalkulator-cairan.html' },
+        { label: 'Insulin',                 href: 'pages/kalkulator/kalkulator-insulin.html' }
       ]
     },
     {

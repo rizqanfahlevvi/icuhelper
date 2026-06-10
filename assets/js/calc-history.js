@@ -207,4 +207,37 @@
     wrap.appendChild(body);
     container.appendChild(wrap);
   };
+
+  /* ── Module metadata ─────────────────────────────────────── */
+  var MODULE_META = {
+    abg:      { label: 'ABG',              icon: '🫁', href: 'pages/abg.html' },
+    egfr:     { label: 'eGFR / CKD',       icon: '🫘', href: 'pages/kalkulator/kalkulator-renal.html' },
+    aki:      { label: 'AKI Staging',      icon: '💧', href: 'pages/kalkulator/kalkulator-renal.html' },
+    fena:     { label: 'FENa',             icon: '🧪', href: 'pages/kalkulator/kalkulator-renal.html' },
+    osm:      { label: 'Osmolalitas',      icon: '⚗️', href: 'pages/kalkulator/kalkulator-renal.html' },
+    buncr:    { label: 'BUN:Cr Ratio',     icon: '🩸', href: 'pages/kalkulator/kalkulator-renal.html' },
+    ibw:      { label: 'IBW & Ventilator', icon: '⚖️', href: 'pages/kalkulator/kalkulator-ibw.html' },
+    drug:     { label: 'Sedasi & RSI',     icon: '💊', href: 'pages/kalkulator/kalkulator-drug.html' },
+    pump:     { label: 'Syringe Pump',     icon: '💉', href: 'pages/kalkulator/kalkulator-pump.html' },
+    pf:       { label: 'P/F & OI',         icon: '📊', href: 'pages/kalkulator/kalkulator-pf.html' },
+    pulmo:    { label: 'Pulmo',            icon: '🌬️', href: 'pages/kalkulator/kalkulator-pulmo.html' },
+    electro:  { label: 'ElektroCorr',      icon: '⚡', href: 'pages/kalkulator/kalkulator-electro.html' },
+    nlr:      { label: 'NLR & Biomarker',  icon: '🔬', href: 'pages/kalkulator/kalkulator-nlr.html' },
+    transfusi:{ label: 'Transfusi',        icon: '🩺', href: 'pages/kalkulator/kalkulator-transfusi.html' },
+    cairan:   { label: 'Cairan Harian',    icon: '💧', href: 'pages/kalkulator/kalkulator-cairan.html' },
+    insulin:  { label: 'Insulin',          icon: '💉', href: 'pages/kalkulator/kalkulator-insulin.html' }
+  };
+  window.calcHistoryModuleMeta = MODULE_META;
+
+  window.deleteCalcHistoryEntry = function (id) {
+    writeStorage(readStorage().filter(function (e) { return e.id !== id; }));
+  };
+
+  window.clearCalcHistory = function (module) {
+    if (!module) { writeStorage([]); return; }
+    writeStorage(readStorage().filter(function (e) { return e.module !== module; }));
+  };
+
+  window.formatCalcHistoryTime = formatTime;
+
 })();

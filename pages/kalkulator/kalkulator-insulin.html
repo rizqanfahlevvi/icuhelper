@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator Insulin Rawat Inap — ICU Helper</title>
+<link rel="stylesheet" href="../../assets/css/icu-framework.css">
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<script>
+(function(){
+  var t=localStorage.getItem('vent-theme');
+  if(!t)t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+<script src="../../assets/js/scripts-theme.js"></script>
+<style>
+.ins-mode-bar { display:flex; gap:6px; margin-bottom:10px; flex-wrap:wrap; }
+.ins-mode-btn { flex:1; min-width:120px; padding:8px 10px; border-radius:10px;
+  border:1.5px solid var(--border); background:var(--card); color:var(--text2);
+  font-size:12px; font-weight:600; cursor:pointer; transition:all .15s; }
+.ins-mode-btn.active { background:var(--accent); color:var(--btn-fg); border-color:var(--accent); }
+.ins-result-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; }
+@media(max-width:480px){ .ins-result-grid{ grid-template-columns:1fr; } }
+.ins-res-card { background:var(--bg); border:1.5px solid var(--border); border-radius:12px;
+  padding:12px 14px; }
+.ins-res-label { font-size:11px; color:var(--muted); font-weight:600; margin-bottom:4px; text-transform:uppercase; letter-spacing:.04em; }
+.ins-res-value { font-size:22px; font-weight:700; color:var(--accent); font-family:var(--font-mono); }
+.ins-res-sub { font-size:11px; color:var(--text2); margin-top:3px; }
+.ins-res-card.highlight { border-color:var(--accent); background:rgba(var(--accent-rgb,10,132,255),.07); }
+.ss-row { display:flex; align-items:center; gap:10px; padding:8px 12px;
+  border-radius:8px; border:1px solid var(--border); margin-bottom:6px; }
+.ss-range { font-size:12px; color:var(--text2); min-width:100px; font-family:var(--font-mono); }
+.ss-dose { font-size:14px; font-weight:700; color:var(--text); min-width:36px; }
+.ss-arrow { font-size:11px; color:var(--muted); flex:1; }
+.ss-row.active-row { border-color:var(--accent); background:rgba(var(--accent-rgb,10,132,255),.08); }
+.ss-row.active-row .ss-dose { color:var(--accent); }
+.ins-warn { background:rgba(255,180,0,.1); border:1px solid rgba(255,180,0,.3);
+  border-radius:10px; padding:10px 14px; margin-top:10px; font-size:12px; color:var(--text); }
+.ins-warn strong { color:#f59e0b; }
+.ins-hipo { background:rgba(255,60,60,.1); border:1px solid rgba(255,60,60,.3);
+  border-radius:10px; padding:10px 14px; margin-top:10px; font-size:13px; font-weight:600; color:#ef4444; }
+</style>
+</head>
+<body>
+
+<div class="hbar"></div>
+<nav class="tab-bar">
+  <a class="tab-btn" href="../../index.html">🏠 Home</a>
+  <a class="tab-btn active" href="kalkulator-ibw.html">🧮 Kalkulator</a>
+  <a class="tab-btn" href="../setting.html">🫁 Setting</a>
+  <a class="tab-btn" href="../monitoring.html">📊 Monitoring</a>
+  <a class="tab-btn" href="../abg.html">🩸 ABG</a>
+  <a class="tab-btn" href="../weaning.html">🔽 Weaning</a>
+  <a class="tab-btn" href="../ekg.html">📈 EKG</a>
+  <a class="tab-btn" href="../teori.html">📖 Teori</a>
+  <a class="tab-btn" href="../skoring.html">📋 Skoring</a>
+  <a class="tab-btn" href="../../referensi.html">📚 Referensi</a>
+</nav>
+
+<nav class="subtab-bar">
+  <a class="subtab-btn" href="kalkulator-ibw.html">⚖️ IBW & Parameter</a>
+  <a class="subtab-btn" href="kalkulator-drug.html">💊 Sedasi & Paralitik</a>
+  <a class="subtab-btn" href="kalkulator-pump.html">🔬 Syringe Pump</a>
+  <a class="subtab-btn" href="kalkulator-pf.html">📈 P/F & OI</a>
+  <a class="subtab-btn" href="kalkulator-renal.html">🫘 Renal</a>
+  <a class="subtab-btn" href="kalkulator-pulmo.html">🫁 Pulmo</a>
+  <a class="subtab-btn" href="kalkulator-electro.html">⚡ ElektroCorr</a>
+  <a class="subtab-btn" href="kalkulator-nlr.html">🧫 NLR</a>
+  <a class="subtab-btn" href="kalkulator-transfusi.html">🩸 Transfusi</a>
+  <a class="subtab-btn" href="kalkulator-cairan.html">💧 Cairan</a>
+  <a class="subtab-btn active" href="kalkulator-insulin.html">💉 Insulin</a>
+</nav>
+
+<div class="calc-box">
+  <div class="calc-title"><span>💉</span> Kalkulator Insulin Rawat Inap — BBC & Sliding Scale</div>
+
+  <!-- MODE SELECTOR -->
+  <div class="ins-mode-bar">
+    <button class="ins-mode-btn active" id="mode-btn-bbc" onclick="setInsMode('bbc')">🧮 Basal–Bolus–Koreksi</button>
+    <button class="ins-mode-btn" id="mode-btn-ss" onclick="setInsMode('ss')">📋 Sliding Scale Saja</button>
+  </div>
+
+  <!-- SHARED INPUTS -->
+  <div class="grid2" style="gap:10px">
+    <div>
+      <div class="input-row">
+        <label>Berat Badan (kg)</label>
+        <input type="number" inputmode="decimal" id="ins-bb" placeholder="cth: 60" min="20" max="200" oninput="calcInsulin()">
+      </div>
+      <div class="input-row">
+        <label>GDS Saat Ini (mg/dL)</label>
+        <input type="number" inputmode="decimal" id="ins-gds" placeholder="cth: 280" min="40" max="700" oninput="calcInsulin()">
+      </div>
+      <div class="input-row">
+        <label>Target GDS (mg/dL)</label>
+        <input type="number" inputmode="decimal" id="ins-target" placeholder="default: 150" min="80" max="200" oninput="calcInsulin()">
+      </div>
+    </div>
+    <div id="bbc-extra-inputs">
+      <div class="input-row">
+        <label>TDD sebelumnya (unit) — opsional</label>
+        <input type="number" inputmode="decimal" id="ins-tdd-prev" placeholder="kosongkan bila naïf" min="0" max="300" oninput="calcInsulin()">
+      </div>
+      <div class="input-row">
+        <label>Status Makan</label>
+        <select id="ins-makan" onchange="calcInsulin()">
+          <option value="makan">Makan normal (3×/hari)</option>
+          <option value="sebagian">Makan sebagian (1–2×/hari)</option>
+          <option value="puasa">Puasa / NPO</option>
+        </select>
+      </div>
+      <div class="input-row">
+        <label>Kondisi Khusus</label>
+        <select id="ins-kondisi" onchange="calcInsulin()">
+          <option value="normal">Tidak ada</option>
+          <option value="steroid">Terapi kortikosteroid</option>
+          <option value="ginjal">GFR &lt;30 / Hemodialisis</option>
+          <option value="lansia">Lansia (&gt;70 th) / risiko hipo tinggi</option>
+          <option value="kritis">Pasien kritis (ICU)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <button class="calc-btn" onclick="calcInsulin()">Hitung</button>
+
+  <div id="ins-result" style="display:none; margin-top:16px"></div>
+</div>
+
+<!-- REFERENSI SINGKAT -->
+<div class="card" style="margin-top:12px">
+  <div class="subsec" style="margin-bottom:8px">📌 Catatan Klinis</div>
+  <ul style="font-size:12px; color:var(--text2); margin:0; padding-left:18px; line-height:1.7">
+    <li>Dosis merupakan <strong>estimasi awal</strong> — selalu titrasi berdasarkan respons GDS harian</li>
+    <li>Pada GFR &lt;30 atau HD: risiko akumulasi insulin ↑ — mulai dengan <strong>0.3 unit/kg/hari</strong></li>
+    <li>Pada lansia/risiko tinggi: mulai <strong>0.2–0.3 unit/kg/hari</strong>, titrasi pelan</li>
+    <li>Pasien kritis (ICU): lebih disarankan <strong>insulin infus IV</strong> untuk kontrol lebih presisi</li>
+    <li>Waspada <strong>hipoglikemia</strong> (&lt;70 mg/dL) — turunkan dosis basal 10–20% bila terjadi</li>
+    <li>Saat steroid diturunkan/stop: <strong>kurangi insulin proporsional</strong> (hindari rebound hipo)</li>
+    <li><em>Bukan pengganti penilaian klinis — sesuaikan dengan kondisi pasien &amp; protokol institusi</em></li>
+  </ul>
+</div>
+
+<script src="../../assets/js/calc-history.js"></script>
+<script src="../../assets/js/scripts-kalkulator-insulin.js"></script>
+<script src="../../assets/js/nav.js"></script>
+<div id="feedback-root"></div>
+<script src="../../assets/js/feedback.js"></script>
+<div class="saweria-bar">
+  <span class="saweria-bar-text">Jika bermanfaat, boleh dukung pengembangannya ya dok ☕</span>
+  <a class="saweria-bar-btn" href="https://saweria.co/rizqanfahlevvi" target="_blank" rel="noopener noreferrer">☕ Support</a>
+</div>
+<footer class="ix-footer">
+  <span class="ix-footer-text">ICU Helper · v2.0 · 2026 · Untuk panduan klinis — bukan pengganti penilaian klinis</span>
+  <span class="ix-footer-ver">Rizqanfahlevvi</span>
+</footer>
+<script src="../../assets/data/references.js"></script>
+<script src="../../assets/js/scripts-citations.js"></script>
+</body>
+</html>

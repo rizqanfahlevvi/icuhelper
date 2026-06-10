@@ -12,7 +12,7 @@
    - CSS + images        → Cache-first    (stable, optimise speed)
    ============================================================ */
 
-var CACHE_VERSION = 'icu-helper-v2.0.20260609h';   /* ← bump on each deploy */
+var CACHE_VERSION = 'icu-helper-v2.0.20260610b';   /* ← bump on each deploy */
 var CACHE_NAME    = CACHE_VERSION;
 
 /* Paths that MUST always be fresh from the network.
@@ -56,6 +56,7 @@ var STATIC_ASSETS = [
   './pages/kalkulator/kalkulator-renal.html',
   './pages/kalkulator/kalkulator-transfusi.html',
   './pages/kalkulator/kalkulator-cairan.html',
+  './pages/kalkulator/kalkulator-insulin.html',
 
   /* Pages — skoring */
   './pages/skoring/skoring-apache.html',
